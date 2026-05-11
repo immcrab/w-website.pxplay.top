@@ -1,370 +1,332 @@
-html
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Makerlee | Elite Hub</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Shrikhand&display=swap">
+  <title>W-Website | The Vault</title>
   
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Shrikhand&display=swap" rel="stylesheet">
+
   <style>
-      :root {
-          --bg-main: #121212;
-          --text-main: #fdfbf7;
-          --card-cream: #222222;
-          --card-yellow: #4a4110;
-          --card-blue: #153859;
-          --card-pink: #591b2c;
-          --neon-yellow: #ffeb85;
-          --executive-gold: #ffd700;
-      }
+    /* --- CSS CORE --- */
+    :root {
+      --bg-main: #121212;
+      --text-main: #fdfbf7;
+      --card-cream: #222222;
+      --card-yellow: #4a4110;
+      --card-blue: #153859;
+      --card-pink: #591b2c;
+      --neon-yellow: #ffeb85;
+    }
 
-      * {
-          margin: 0;
-          padding: 0;
-          box-sizing: border-box;
-          cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M7 2l12 11.2-5.8.5 3.3 7.3-2.2.9-3.2-7.4-4.4 4.7z" fill="%23fdfbf7"/></svg>'), auto;
-      }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-      body {
-          background-color: var(--bg-main);
-          color: var(--text-main);
-          font-family: 'Comic Neue', cursive;
-          background-image: radial-gradient(rgba(253, 251, 247, 0.15) 1.5px, transparent 1.5px);
-          background-size: 40px 40px;
-          min-height: 100vh;
-          display: flex;
-          flex-direction: column;
-      }
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      font-family: 'Comic Neue', cursive;
+      background-image: radial-gradient(rgba(253, 251, 247, 0.15) 1.5px, transparent 1.5px);
+      background-size: 40px 40px;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
 
-      h1, h2, h3 { font-family: 'Shrikhand', cursive; letter-spacing: 2px; }
+    /* Navigation */
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      padding: 20px;
+      flex-wrap: wrap;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(18, 18, 18, 0.8);
+      backdrop-filter: blur(5px);
+    }
 
-      /* Navigation */
-      nav {
-          display: flex;
-          justify-content: center;
-          gap: 15px;
-          padding: 20px;
-          flex-wrap: wrap;
-          position: sticky;
-          top: 0;
-          background: rgba(18, 18, 18, 0.9);
-          z-index: 100;
-          backdrop-filter: blur(10px);
-      }
+    nav button {
+      background: var(--bg-main);
+      color: var(--text-main);
+      border: 2px solid var(--text-main);
+      padding: 8px 15px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-family: 'Comic Neue';
+      font-weight: bold;
+      box-shadow: 3px 3px 0px var(--text-main);
+      transition: 0.2s;
+    }
 
-      nav a {
-          text-decoration: none;
-          color: var(--text-main);
-          font-size: 1rem;
-          font-weight: bold;
-          padding: 8px 15px;
-          border: 2px solid var(--text-main);
-          border-radius: 10px 20px 5px 15px;
-          box-shadow: 3px 3px 0px var(--text-main);
-          transition: all 0.2s ease;
-      }
+    nav button:hover {
+      background: var(--neon-yellow);
+      color: black;
+      transform: rotate(-3deg) scale(1.1);
+    }
 
-      nav a:hover {
-          color: var(--neon-yellow);
-          border-color: var(--neon-yellow);
-          transform: rotate(-3deg) scale(1.05);
-      }
+    /* Page Visibility Logic */
+    .page { display: none; padding: 20px; max-width: 900px; margin: 0 auto; text-align: center; }
+    .page.active { display: block; animation: fadeIn 0.4s ease; }
 
-      /* Hero & Status */
-      .hero-logo {
-          font-size: 80px;
-          color: var(--text-main);
-          text-shadow: 0 0 20px rgba(255, 235, 133, 0.3);
-          animation: pulse 3s infinite ease-in-out;
-          margin: 20px 0;
-      }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-      @keyframes pulse {
-          0%, 100% { transform: scale(1); filter: drop-shadow(0 0 5px var(--text-main)); }
-          50% { transform: scale(1.05); filter: drop-shadow(0 0 20px var(--neon-yellow)); }
-      }
+    /* Cards & Components */
+    .card {
+      border: 3px solid var(--text-main);
+      border-radius: 15px;
+      box-shadow: 6px 6px 0px var(--text-main);
+      padding: 30px;
+      margin: 20px auto;
+      position: relative;
+    }
 
-      .status-bar {
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          background: #000;
-          padding: 5px 15px;
-          border-radius: 20px;
-          font-size: 0.9rem;
-          border: 1px solid #333;
-      }
+    .bg-yellow { background: var(--card-yellow); }
+    .bg-blue { background: var(--card-blue); }
+    .bg-pink { background: var(--card-pink); }
+    .bg-cream { background: var(--card-cream); }
 
-      .dot { width: 10px; height: 10px; border-radius: 50%; background: #00ff00; box-shadow: 0 0 10px #00ff00; }
+    .w-logo {
+      font-family: 'Shrikhand';
+      font-size: 5rem;
+      color: var(--neon-yellow);
+      text-shadow: 0 0 20px var(--neon-yellow);
+      animation: pulse 2s infinite;
+    }
 
-      /* Content Views */
-      .view { display: none; max-width: 900px; margin: 0 auto; padding: 20px; width: 100%; }
-      .view.active { display: block; animation: fadeIn 0.4s ease; }
+    @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.05); opacity: 1; } }
 
-      @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    /* Chat Hub */
+    #chat-messages {
+      height: 400px;
+      overflow-y: auto;
+      background: rgba(0,0,0,0.3);
+      border-radius: 10px;
+      padding: 15px;
+      text-align: left;
+      margin-bottom: 15px;
+      border: 1px solid #444;
+    }
 
-      /* Chat System */
-      #chat-box {
-          height: 400px;
-          overflow-y: auto;
-          border: 3px solid var(--text-main);
-          background: #1a1a1a;
-          padding: 15px;
-          border-radius: 10px;
-          margin-bottom: 15px;
-          display: flex;
-          flex-direction: column;
-          gap: 10px;
-      }
+    .message {
+      margin-bottom: 10px;
+      padding: 8px;
+      border-radius: 5px;
+      background: rgba(255,255,255,0.05);
+    }
 
-      .msg {
-          padding: 10px 15px;
-          border-radius: 15px;
-          max-width: 80%;
-          position: relative;
-          background: var(--card-cream);
-      }
+    .message strong { color: var(--neon-yellow); }
 
-      .msg-meta { font-size: 0.7rem; color: #888; margin-bottom: 4px; display: flex; align-items: center; gap: 5px; }
-      .badge { font-size: 1rem; }
+    /* Forms */
+    input, textarea {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      background: #1a1a1a;
+      color: white;
+      border: 2px solid var(--text-main);
+      border-radius: 8px;
+    }
 
-      /* Cards & UI */
-      .card {
-          border: 3px solid var(--text-main);
-          border-radius: 15px 5px 25px 10px;
-          box-shadow: 6px 6px 0px var(--text-main);
-          padding: 25px;
-          margin: 20px 0;
-          background: var(--card-cream);
-      }
+    .btn {
+      display: inline-block;
+      padding: 12px 25px;
+      background: var(--text-main);
+      color: var(--bg-main);
+      border: none;
+      border-radius: 10px;
+      font-weight: bold;
+      cursor: pointer;
+      text-decoration: none;
+    }
 
-      .btn {
-          background: var(--card-cream);
-          border: 2px solid var(--text-main);
-          padding: 10px 20px;
-          color: var(--text-main);
-          font-weight: bold;
-          text-decoration: none;
-          display: inline-block;
-          margin: 5px;
-          border-radius: 5px;
-          box-shadow: 3px 3px 0px var(--text-main);
-      }
+    .doodle { position: fixed; z-index: -1; pointer-events: none; opacity: 0.5; font-size: 1.5rem; }
 
-      .btn:hover { background: var(--text-main); color: var(--bg-main); cursor: pointer; }
-
-      #auth-overlay {
-          position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-          background: var(--bg-main); z-index: 1000; display: flex;
-          flex-direction: column; justify-content: center; align-items: center;
-      }
-
-      .hidden { display: none !important; }
-      
-      /* Subscription Tiers */
-      .tier-scroller { display: flex; gap: 20px; overflow-x: auto; padding: 20px 0; }
-      .tier-card { min-width: 250px; background: #222; border: 2px solid var(--text-main); padding: 20px; border-radius: 15px; }
+    .tape {
+      position: absolute; width: 100px; height: 30px;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px dashed rgba(255, 255, 255, 0.3);
+      top: -15px; left: 50%; transform: translateX(-50%) rotate(-3deg);
+    }
   </style>
 </head>
 <body>
 
-  <div id="auth-overlay">
-      <h1 class="hero-logo">W</h1>
-      <p>Restricted Access - Protocol 195 Active</p><br>
-      <button class="btn" onclick="login()">Authenticate with Google</button>
-  </div>
-
   <nav>
-      <a href="#" onclick="showView('home')">HOME</a>
-      <a href="#" onclick="showView('chat')">GLOBAL HUB</a>
-      <a href="#" onclick="showView('elite')">ELITE</a>
-      <a href="#" onclick="showView('admin')" id="admin-link" class="hidden">VAULT</a>
-      <a href="#" onclick="logout()" style="border-color: #ff4444; box-shadow: 3px 3px 0px #ff4444;">LOGOUT</a>
+    <button onclick="showPage('home')">🏠 Home</button>
+    <button onclick="showPage('chat')">💬 Global Hub</button>
+    <button onclick="showPage('socials')">📱 Socials</button>
+    <button onclick="showPage('devs')">💻 Devs</button>
+    <button onclick="showPage('apply')">📝 Apply</button>
   </nav>
 
-  <div id="announcement-bar" class="hidden" style="background: var(--card-yellow); text-align: center; padding: 10px; font-weight: bold; border-bottom: 2px solid var(--text-main);"></div>
-
-  <div id="home" class="view active">
-      <div style="text-align: center;">
-          <div class="hero-logo">W</div>
-          <div class="status-bar"><span class="dot"></span> Systems: Operational</div>
-          
-          <div class="card" style="margin-top: 40px;">
-              <h2>Welcome to the Interior</h2>
-              <p>High-performance communication for the elite.</p>
-              <div class="tier-scroller">
-                  <div class="tier-card"><h3>PRO</h3><p>$0/mo</p><button class="btn">Active</button></div>
-                  <div class="tier-card" style="border-color: var(--executive-gold);"><h3>ELITE</h3><p>$10/mo</p><button class="btn">Upgrade</button></div>
-                  <div class="tier-card" style="border-color: #a333ff;"><h3>COSMOS</h3><p>$25/mo</p><button class="btn">Upgrade</button></div>
-              </div>
-          </div>
-
-          <div style="margin-top: 20px;">
-              <a href="#" class="btn btn-discord">Discord</a>
-              <a href="#" class="btn">Staff Registry</a>
-          </div>
+  <section id="home" class="page active">
+    <div id="status-box" style="font-size: 0.8rem; margin-bottom: 10px;">
+      SYSTEMS: <span id="system-status" style="color: #00ff00;">● OPERATIONAL</span>
+    </div>
+    <header class="card bg-yellow">
+      <div class="tape"></div>
+      <div class="w-logo">W</div>
+      <h1 style="font-size: 3rem; font-family: 'Shrikhand';">W-Website</h1>
+      <p>"We workin on somethin"</p>
+      
+      <div id="auth-ui" style="margin-top: 20px;">
+        <button id="login-btn" class="btn">🔑 Login with Google</button>
+        <div id="user-profile" style="display:none;">
+          <p>Welcome, <span id="display-name">Agent</span></p>
+          <button id="logout-btn" style="background:none; border:none; color:red; cursor:pointer;">[Sign Out]</button>
+        </div>
       </div>
-  </div>
+    </header>
 
-  <div id="chat" class="view">
-      <div class="card">
-          <h3>The Global Hub</h3>
-          <p class="tiny-text">Encrypted End-to-End (ish)</p>
-          <div id="chat-box"></div>
-          <div style="display: flex; gap: 10px;">
-              <input type="text" id="chat-input" placeholder="Enter message..." onkeydown="if(event.key==='Enter') sendMessage()">
-              <button class="btn" onclick="sendMessage()">SEND</button>
-          </div>
+    <div class="card bg-cream">
+      <h3>Elite Tiers</h3>
+      <div style="display:flex; gap:10px; justify-content:center; margin-top:15px;">
+        <div style="border:1px solid #555; padding:10px; border-radius:5px;">PRO<br>$0</div>
+        <div style="border:1px solid gold; padding:10px; border-radius:5px;">ELITE<br>TBD</div>
+        <div style="border:1px solid cyan; padding:10px; border-radius:5px;">COSMOS<br>TBD</div>
       </div>
-  </div>
+    </div>
+  </section>
 
-  <div id="elite" class="view">
-      <div class="card bg-blue">
-          <h2>Elite Exclusives</h2>
-          <p>Your current status: <span id="user-tier">Standard</span></p>
-          <hr style="margin: 20px 0; opacity: 0.2;">
-          <div style="text-align: left;">
-              <p>✨ Custom Gold Themes</p>
-              <p>⚡ Priority Support Tickets</p>
-              <p>🖼️ Animated GIF Avatars</p>
-          </div>
-          <button class="btn" style="margin-top: 20px;">Contact Manager</button>
+  <section id="chat" class="page">
+    <div class="card bg-cream">
+      <div class="tape"></div>
+      <h2 style="font-family: 'Shrikhand';">GLOBAL HUB</h2>
+      <p style="font-size:0.8rem; margin-bottom:10px;">End-to-end encrypted (mostly)</p>
+      
+      <div id="chat-messages">
+        <p style="text-align:center; color:#666;">Login to view encrypted transmissions...</p>
       </div>
-  </div>
 
-  <div id="admin" class="view">
-      <div class="card bg-pink">
-          <h2>The Vault</h2>
-          <p>Administrative Controls</p>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px;">
-              <button class="btn" onclick="setAnnouncement()">Set Alert</button>
-              <button class="btn" onclick="purgeChat()">Purge Hub</button>
-              <button class="btn" style="background: #000; border-color: red;">Ban IP</button>
-              <button class="btn">Log 195 Data</button>
-          </div>
+      <div style="display:flex; gap:10px;">
+        <input type="text" id="chat-input" placeholder="Enter message...">
+        <button id="send-btn" class="btn">SEND</button>
       </div>
-  </div>
+    </div>
+  </section>
+
+  <section id="socials" class="page">
+    <h1 style="font-family: 'Shrikhand'; margin-bottom:20px;">Stalk Us</h1>
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
+      <div class="card bg-pink"><h3>TikTok</h3><p>@W_Website_Real</p></div>
+      <div class="card bg-blue"><h3>YouTube</h3><p>@W-Website</p></div>
+    </div>
+  </section>
+
+  <section id="devs" class="page">
+    <div class="card bg-blue">
+      <h2>Owen Lee</h2>
+      <p>Role: Leader of Development</p>
+    </div>
+    <div class="card bg-pink">
+      <h2>Brody Williams</h2>
+      <p>Role: Idea Man</p>
+    </div>
+  </section>
+
+  <section id="apply" class="page">
+    <div class="card bg-cream">
+      <h2>Join the work</h2>
+      <input type="text" placeholder="Name">
+      <textarea placeholder="Why should we let you in?"></textarea>
+      <button class="btn">Submit Application</button>
+    </div>
+  </section>
 
   <footer>
-      <p>&copy; 2024 Makerlee Infrastructure. All systems logged.</p>
-      <p class="tiny-text">Developer: Owen | Security: Brayden</p>
+    <p style="text-align:center; padding:40px; color:#666;">whos owen? © 2026</p>
   </footer>
 
   <script type="module">
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-      import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-      import { getDatabase, ref, push, onValue, set, remove, query, limitToLast } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import { getDatabase, ref, push, onValue, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-      const firebaseConfig = {
-          apiKey: "AIzaSyDgQRvvNbr8tY4OP0Ky-6Uy6LI1gWFlAXM",
-          authDomain: "makerlee.firebaseapp.com",
-          databaseURL: "https://makerlee-default-rtdb.firebaseio.com",
-          projectId: "makerlee",
-          storageBucket: "makerlee.firebasestorage.app",
-          messagingSenderId: "730881046345",
-          appId: "1:730881046345:web:bf0fb8862db08de7604c98"
-      };
+    // Your Config
+    const firebaseConfig = {
+      apiKey: "AIzaSyDgQRvvNbr8tY4OP0Ky-6Uy6LI1gWFlAXM",
+      authDomain: "makerlee.firebaseapp.com",
+      databaseURL: "https://makerlee-default-rtdb.firebaseio.com",
+      projectId: "makerlee",
+      storageBucket: "makerlee.firebasestorage.app",
+      messagingSenderId: "730881046345",
+      appId: "1:730881046345:web:bf0fb8862db08de7604c98"
+    };
 
-      const app = initializeApp(firebaseConfig);
-      const auth = getAuth(app);
-      const db = getDatabase(app);
-      const provider = new GoogleAuthProvider();
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getDatabase(app);
+    const provider = new GoogleAuthProvider();
 
-      let currentUser = null;
+    // SPA Navigation Logic
+    window.showPage = (pageId) => {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById(pageId).classList.add('active');
+    };
 
-      // AUTHENTICATION
-      window.login = () => {
-          signInWithPopup(auth, provider).catch(err => {
-              console.error(err);
-              // Protocol 195 Logic: Log failed attempt
-              push(ref(db, 'logs/failed'), { time: Date.now(), error: err.message });
-          });
-      };
+    // Auth Logic
+    const loginBtn = document.getElementById('login-btn');
+    const logoutBtn = document.getElementById('logout-btn');
+    const userProfile = document.getElementById('user-profile');
+    const displayName = document.getElementById('display-name');
 
-      window.logout = () => signOut(auth);
+    loginBtn.onclick = () => signInWithPopup(auth, provider);
+    logoutBtn.onclick = () => signOut(auth);
 
-      onAuthStateChanged(auth, (user) => {
-          if (user) {
-              currentUser = user;
-              document.getElementById('auth-overlay').classList.add('hidden');
-              initChat();
-              checkAdmin(user.email);
-          } else {
-              document.getElementById('auth-overlay').classList.remove('hidden');
-          }
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        loginBtn.style.display = 'none';
+        userProfile.style.display = 'block';
+        displayName.innerText = user.displayName;
+        loadChat();
+      } else {
+        loginBtn.style.display = 'block';
+        userProfile.style.display = 'none';
+        document.getElementById('chat-messages').innerHTML = "Login to view messages.";
+      }
+    });
+
+    // Chat Logic
+    const sendBtn = document.getElementById('send-btn');
+    const chatInput = document.getElementById('chat-input');
+    const chatBox = document.getElementById('chat-messages');
+
+    sendBtn.onclick = () => {
+      if (!auth.currentUser) return alert("Sign in first!");
+      if (chatInput.value.trim() === "") return;
+      
+      push(ref(db, 'messages'), {
+        name: auth.currentUser.displayName,
+        text: chatInput.value,
+        timestamp: serverTimestamp()
       });
+      chatInput.value = "";
+    };
 
-      // NAVIGATION
-      window.showView = (id) => {
-          document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-          document.getElementById(id).classList.add('active');
-      };
+    function loadChat() {
+      onValue(ref(db, 'messages'), (snapshot) => {
+        chatBox.innerHTML = "";
+        snapshot.forEach((child) => {
+          const data = child.val();
+          const div = document.createElement('div');
+          div.className = 'message';
+          div.innerHTML = `<strong>${data.name}:</strong> ${data.text}`;
+          chatBox.appendChild(div);
+        });
+        chatBox.scrollTop = chatBox.scrollHeight;
+      });
+    }
 
-      function checkAdmin(email) {
-          const admins = ['admin@makerlee.com', 'owen@example.com']; // Add real admin emails
-          if(admins.includes(email)) {
-              document.getElementById('admin-link').classList.remove('hidden');
-          }
-      }
-
-      // CHAT LOGIC
-      function initChat() {
-          const chatRef = query(ref(db, 'messages'), limitToLast(50));
-          onValue(chatRef, (snapshot) => {
-              const chatBox = document.getElementById('chat-box');
-              chatBox.innerHTML = '';
-              snapshot.forEach(child => {
-                  const data = child.val();
-                  const msgDiv = document.createElement('div');
-                  msgDiv.className = 'msg';
-                  msgDiv.innerHTML = `
-                      <div class="msg-meta">
-                          <span class="badge">👑</span> <strong>${data.name}</strong>
-                      </div>
-                      <div>${data.text}</div>
-                  `;
-                  chatBox.appendChild(msgDiv);
-              });
-              chatBox.scrollTop = chatBox.scrollHeight;
-          });
-
-          // Listen for Global Announcements
-          onValue(ref(db, 'announcement'), (snap) => {
-              const bar = document.getElementById('announcement-bar');
-              if(snap.val()) {
-                  bar.textContent = snap.val();
-                  bar.classList.remove('hidden');
-              } else {
-                  bar.classList.add('hidden');
-              }
-          });
-      }
-
-      window.sendMessage = () => {
-          const input = document.getElementById('chat-input');
-          if(!input.value.trim()) return;
-          
-          push(ref(db, 'messages'), {
-              name: currentUser.displayName,
-              text: input.value,
-              uid: currentUser.uid,
-              timestamp: Date.now()
-          });
-          input.value = '';
-      };
-
-      // ADMIN FUNCTIONS
-      window.setAnnouncement = () => {
-          const msg = prompt("Enter announcement (leave blank to clear):");
-          set(ref(db, 'announcement'), msg);
-      };
-
-      window.purgeChat = () => {
-          if(confirm("Purge all messages?")) {
-              remove(ref(db, 'messages'));
-          }
-      };
+    // Doodles
+    const emojis = ['⭐', '🌀', '✨', '🔥', '⚡️'];
+    for(let i=0; i<15; i++) {
+      const d = document.createElement('div');
+      d.className = 'doodle';
+      d.innerText = emojis[Math.floor(Math.random()*emojis.length)];
+      d.style.left = Math.random()*90 + 'vw';
+      d.style.top = Math.random()*90 + 'vh';
+      document.body.appendChild(d);
+    }
   </script>
 </body>
 </html>
