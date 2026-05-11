@@ -1,179 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WebCraft Studio | Premium Web Solutions</title>
-    <style>
-        /* Basic Reset & Typography */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            line-height: 1.6;
-            color: #333;
-            background-color: #f4f7f6;
-        }
-
-        /* Header & Nav */
-        header {
-            background: #2c3e50;
-            color: #fff;
-            padding: 1rem 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        nav ul {
-            display: flex;
-            list-style: none;
-        }
-
-        nav ul li {
-            margin-left: 20px;
-        }
-
-        nav ul li a {
-            color: #fff;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-
-        nav ul li a:hover {
-            color: #3498db;
-        }
-
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(44, 62, 80, 0.8)), 
-                        url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
-            background-size: cover;
-            background-position: center;
-            height: 60vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            text-align: center;
-            padding: 0 20px;
-        }
-
-        .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 10px;
-        }
-
-        .cta-button {
-            background: #3498db;
-            color: white;
-            padding: 12px 25px;
-            text-decoration: none;
-            border-radius: 5px;
-            margin-top: 20px;
-            font-weight: bold;
-        }
-
-        /* Services Section */
-        .services {
-            padding: 50px 5%;
-            text-align: center;
-        }
-
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-top: 30px;
-        }
-
-        .service-card {
-            background: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-
-        /* Contact Section */
-        .contact {
-            background: #ecf0f1;
-            padding: 50px 5%;
-            text-align: center;
-        }
-
-        /* Footer */
-        footer {
-            background: #2c3e50;
-            color: white;
-            text-align: center;
-            padding: 20px;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 2rem; }
-            header { flex-direction: column; }
-            nav ul { margin-top: 15px; }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>W-Website | Home</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <header>
-        <div class="logo">
-            <h2>WebCraft</h2>
-        </div>
-        <nav>
-            <ul>
-                <li><a href="#home">Home</a></li>
-                <li><a href="#services">Services</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
+  <nav>
+    <a href="index.html">🏠 Home</a>
+    <a href="socials.html">📱 Socials</a>
+    <a href="developers.html">💻 The Devs</a>
+    <a href="apply.html">📝 Apply</a>
+  </nav>
+
+  <div class="container">
+    <header class="card bg-yellow tilt-left">
+      <div class="tape"></div>
+      <h1 style="font-size: 4rem; margin-bottom: 10px;">W-Website</h1>
+      <p style="font-size: 1.5rem; font-weight: bold;">"We workin on somethin"</p>
+      <span class="tiny-text" style="position: absolute; right: 20px; top: 20px;">NOT ai made fr</span>
     </header>
 
-    <section class="hero" id="home">
-        <h1>Building the Future of the Web</h1>
-        <p>High-performance websites designed to grow your business.</p>
-        <a href="#contact" class="cta-button">Get a Quote</a>
-    </section>
+    <div style="margin: 40px 0;">
+      <a href="https://discord.gg/zxUfqF7btN" class="btn btn-discord" target="_blank">🎮 Join Discord</a>
+      <a href="developers.html" class="btn bg-pink">Who made this?</a>
+      <a href="socials.html" class="btn bg-blue">Socials</a>
+    </div>
 
-    <section class="services" id="services">
-        <h2>Our Expert Services</h2>
-        <div class="services-grid">
-            <div class="service-card">
-                <h3>Web Design</h3>
-                <p>Beautiful, modern interfaces that keep users engaged and clicking.</p>
-            </div>
-            <div class="service-card">
-                <h3>Development</h3>
-                <p>Clean code and fast loading speeds built with the latest tech.</p>
-            </div>
-            <div class="service-card">
-                <h3>SEO Optimization</h3>
-                <p>We make sure your target audience actually finds you on Google.</p>
-            </div>
-        </div>
-    </section>
+    <div class="card bg-cream tilt-right" style="max-width: 600px;">
+      <div class="tape" style="transform: rotate(4deg);"></div>
+      <h2>Features:</h2>
+      <br>
+      <ul style="list-style-type: '👉 '; text-align: left; padding-left: 20px; font-size: 1.2rem;">
+        <li>"I ❤️ gooning" -Brody</li>
+        <li>"Brody's weird" -Owen"</li>
+        <li>We kidan do stuff</li>
+        <li>"Brody is bald asf" -Owen</li>
+      </ul>
+      <p class="tiny-text" style="margin-top: 20px;">do not press maybe</p>
+    </div>
+  </div>
 
-    <section class="contact" id="contact">
-        <h2>Ready to start your project?</h2>
-        <p>Email us at: <strong>hello@webcraftstudio.com</strong></p>
-        <p>Or call: <strong>(555) 123-4567</strong></p>
-    </section>
+  <footer>
+    <p>whos owen? © 2026</p>
+  </footer>
 
-    <footer>
-        <p>&copy; 2026 WebCraft Studio. All rights reserved.</p>
-    </footer>
-
+  <script src="script.js"></script>
 </body>
 </html>

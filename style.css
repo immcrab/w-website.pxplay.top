@@ -1,0 +1,214 @@
+@import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Shrikhand&display=swap');
+
+:root {
+  /* Dark mode palette */
+  --bg-main: #121212;
+  --text-main: #fdfbf7; /* Off-white for text/lines */
+  --card-cream: #222222;
+  --card-yellow: #4a4110; /* Dark murky yellow */
+  --card-blue: #153859; /* Dark murky blue */
+  --card-pink: #591b2c; /* Dark murky pink */
+  --neon-yellow: #ffeb85; /* For hovers */
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  /* Cursor changed to off-white so it shows up on dark backgrounds */
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M7 2l12 11.2-5.8.5 3.3 7.3-2.2.9-3.2-7.4-4.4 4.7z" fill="%23fdfbf7"/></svg>'), auto;
+}
+
+body {
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  font-family: 'Comic Neue', cursive;
+  overflow-x: hidden;
+  /* White dots instead of black */
+  background-image: radial-gradient(rgba(253, 251, 247, 0.15) 1.5px, transparent 1.5px);
+  background-size: 40px 40px;
+  background-position: 0 0;
+  opacity: 0; 
+  animation: fadeIn 0.5s forwards;
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+h1, h2, h3 {
+  font-family: 'Shrikhand', cursive;
+  letter-spacing: 2px;
+}
+
+/* Nav */
+nav {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+  flex-wrap: wrap;
+}
+
+nav a {
+  text-decoration: none;
+  color: var(--text-main);
+  font-size: 1.2rem;
+  font-weight: bold;
+  background: var(--bg-main);
+  padding: 5px 15px;
+  border: 2px solid var(--text-main);
+  border-radius: 10px 20px 5px 15px;
+  box-shadow: 3px 3px 0px var(--text-main);
+  transition: all 0.2s ease;
+}
+
+nav a:hover {
+  background: var(--card-cream);
+  color: var(--neon-yellow);
+  border-color: var(--neon-yellow);
+  box-shadow: 3px 3px 0px var(--neon-yellow);
+  transform: rotate(-3deg) scale(1.1);
+}
+
+/* Containers & Cards */
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.card {
+  border: 3px solid var(--text-main);
+  border-radius: 15px 5px 25px 10px; 
+  box-shadow: 6px 6px 0px var(--text-main);
+  padding: 30px;
+  margin: 20px auto;
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: rotate(1deg) translateY(-5px);
+}
+
+/* Re-mapped background classes to dark mode colors */
+.bg-yellow { background: var(--card-yellow); }
+.bg-blue { background: var(--card-blue); }
+.bg-pink { background: var(--card-pink); }
+.bg-cream { background: var(--card-cream); }
+
+/* The Tape Effect - Dark Mode Version */
+.tape {
+  position: absolute;
+  width: 100px;
+  height: 30px;
+  background: rgba(255, 255, 255, 0.15); /* Ghostly tape */
+  border: 1px dashed rgba(255, 255, 255, 0.3);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-3deg);
+  z-index: 10;
+  backdrop-filter: blur(2px); /* Makes it look frosted over dark colors */
+}
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  background: var(--card-cream);
+  border: 3px solid var(--text-main);
+  border-radius: 20px 5px 15px 5px;
+  box-shadow: 5px 5px 0px var(--text-main);
+  padding: 15px 30px;
+  font-family: 'Comic Neue', cursive;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-decoration: none;
+  color: var(--text-main);
+  margin: 10px;
+  transition: all 0.2s ease;
+}
+
+.btn:hover {
+  transform: translate(-2px, -2px) rotate(2deg);
+  box-shadow: 7px 7px 0px var(--text-main);
+  animation: wobble 0.4s infinite alternate;
+  background: var(--text-main);
+  color: var(--bg-main);
+}
+
+.btn:active {
+  transform: translate(3px, 3px);
+  box-shadow: 2px 2px 0px var(--text-main);
+}
+
+/* Specific button overrides */
+.btn-discord { background: #5865F2; color: white; border-color: #5865F2; box-shadow: 5px 5px 0px rgba(88, 101, 242, 0.5); }
+.btn-discord:hover { background: white; color: #5865F2; border-color: white; box-shadow: 7px 7px 0px rgba(255, 255, 255, 0.5); }
+
+/* Rotations */
+.tilt-left { transform: rotate(-2deg); }
+.tilt-right { transform: rotate(3deg); }
+
+/* Doodles & Floating */
+.doodle {
+  position: absolute;
+  font-size: 2rem;
+  z-index: -1;
+  animation: float 4s ease-in-out infinite;
+  opacity: 0.7; /* Slightly dimmed for dark mode */
+}
+
+.tiny-text {
+  font-size: 0.8rem;
+  color: #a0a0a0; /* Lighter gray for readability */
+  transform: rotate(-5deg);
+  display: inline-block;
+}
+
+/* Animations */
+@keyframes wobble {
+  0% { transform: rotate(0deg); }
+  50% { transform: rotate(-3deg) scale(1.05); }
+  100% { transform: rotate(3deg) scale(1.05); }
+}
+
+@keyframes float {
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-15px) rotate(5deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+
+/* Forms */
+input, textarea {
+  width: 100%;
+  padding: 15px;
+  margin: 10px 0;
+  background: var(--bg-main);
+  color: var(--text-main);
+  border: 2px solid var(--text-main);
+  border-radius: 5px 15px 5px 15px;
+  font-family: 'Comic Neue', cursive;
+  font-size: 1rem;
+  box-shadow: inset 2px 2px 0px rgba(0,0,0,0.5);
+}
+
+input::placeholder, textarea::placeholder {
+  color: #666;
+}
+
+input:focus, textarea:focus {
+  outline: none;
+  border-color: var(--neon-yellow);
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 40px;
+  font-weight: bold;
+  margin-top: 50px;
+  color: #888;
+}
