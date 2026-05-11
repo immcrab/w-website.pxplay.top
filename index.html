@@ -1,52 +1,370 @@
+html
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>W-Website | Home</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Makerlee | Elite Hub</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Shrikhand&display=swap">
+  
+  <style>
+      :root {
+          --bg-main: #121212;
+          --text-main: #fdfbf7;
+          --card-cream: #222222;
+          --card-yellow: #4a4110;
+          --card-blue: #153859;
+          --card-pink: #591b2c;
+          --neon-yellow: #ffeb85;
+          --executive-gold: #ffd700;
+      }
+
+      * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+          cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M7 2l12 11.2-5.8.5 3.3 7.3-2.2.9-3.2-7.4-4.4 4.7z" fill="%23fdfbf7"/></svg>'), auto;
+      }
+
+      body {
+          background-color: var(--bg-main);
+          color: var(--text-main);
+          font-family: 'Comic Neue', cursive;
+          background-image: radial-gradient(rgba(253, 251, 247, 0.15) 1.5px, transparent 1.5px);
+          background-size: 40px 40px;
+          min-height: 100vh;
+          display: flex;
+          flex-direction: column;
+      }
+
+      h1, h2, h3 { font-family: 'Shrikhand', cursive; letter-spacing: 2px; }
+
+      /* Navigation */
+      nav {
+          display: flex;
+          justify-content: center;
+          gap: 15px;
+          padding: 20px;
+          flex-wrap: wrap;
+          position: sticky;
+          top: 0;
+          background: rgba(18, 18, 18, 0.9);
+          z-index: 100;
+          backdrop-filter: blur(10px);
+      }
+
+      nav a {
+          text-decoration: none;
+          color: var(--text-main);
+          font-size: 1rem;
+          font-weight: bold;
+          padding: 8px 15px;
+          border: 2px solid var(--text-main);
+          border-radius: 10px 20px 5px 15px;
+          box-shadow: 3px 3px 0px var(--text-main);
+          transition: all 0.2s ease;
+      }
+
+      nav a:hover {
+          color: var(--neon-yellow);
+          border-color: var(--neon-yellow);
+          transform: rotate(-3deg) scale(1.05);
+      }
+
+      /* Hero & Status */
+      .hero-logo {
+          font-size: 80px;
+          color: var(--text-main);
+          text-shadow: 0 0 20px rgba(255, 235, 133, 0.3);
+          animation: pulse 3s infinite ease-in-out;
+          margin: 20px 0;
+      }
+
+      @keyframes pulse {
+          0%, 100% { transform: scale(1); filter: drop-shadow(0 0 5px var(--text-main)); }
+          50% { transform: scale(1.05); filter: drop-shadow(0 0 20px var(--neon-yellow)); }
+      }
+
+      .status-bar {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          background: #000;
+          padding: 5px 15px;
+          border-radius: 20px;
+          font-size: 0.9rem;
+          border: 1px solid #333;
+      }
+
+      .dot { width: 10px; height: 10px; border-radius: 50%; background: #00ff00; box-shadow: 0 0 10px #00ff00; }
+
+      /* Content Views */
+      .view { display: none; max-width: 900px; margin: 0 auto; padding: 20px; width: 100%; }
+      .view.active { display: block; animation: fadeIn 0.4s ease; }
+
+      @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+      /* Chat System */
+      #chat-box {
+          height: 400px;
+          overflow-y: auto;
+          border: 3px solid var(--text-main);
+          background: #1a1a1a;
+          padding: 15px;
+          border-radius: 10px;
+          margin-bottom: 15px;
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+      }
+
+      .msg {
+          padding: 10px 15px;
+          border-radius: 15px;
+          max-width: 80%;
+          position: relative;
+          background: var(--card-cream);
+      }
+
+      .msg-meta { font-size: 0.7rem; color: #888; margin-bottom: 4px; display: flex; align-items: center; gap: 5px; }
+      .badge { font-size: 1rem; }
+
+      /* Cards & UI */
+      .card {
+          border: 3px solid var(--text-main);
+          border-radius: 15px 5px 25px 10px;
+          box-shadow: 6px 6px 0px var(--text-main);
+          padding: 25px;
+          margin: 20px 0;
+          background: var(--card-cream);
+      }
+
+      .btn {
+          background: var(--card-cream);
+          border: 2px solid var(--text-main);
+          padding: 10px 20px;
+          color: var(--text-main);
+          font-weight: bold;
+          text-decoration: none;
+          display: inline-block;
+          margin: 5px;
+          border-radius: 5px;
+          box-shadow: 3px 3px 0px var(--text-main);
+      }
+
+      .btn:hover { background: var(--text-main); color: var(--bg-main); cursor: pointer; }
+
+      #auth-overlay {
+          position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+          background: var(--bg-main); z-index: 1000; display: flex;
+          flex-direction: column; justify-content: center; align-items: center;
+      }
+
+      .hidden { display: none !important; }
+      
+      /* Subscription Tiers */
+      .tier-scroller { display: flex; gap: 20px; overflow-x: auto; padding: 20px 0; }
+      .tier-card { min-width: 250px; background: #222; border: 2px solid var(--text-main); padding: 20px; border-radius: 15px; }
+  </style>
 </head>
 <body>
 
+  <div id="auth-overlay">
+      <h1 class="hero-logo">W</h1>
+      <p>Restricted Access - Protocol 195 Active</p><br>
+      <button class="btn" onclick="login()">Authenticate with Google</button>
+  </div>
+
   <nav>
-    <a href="index.html">🏠 Home</a>
-    <a href="socials.html">📱 Socials</a>
-    <a href="developers.html">💻 The Devs</a>
-    <a href="apply.html">📝 Apply</a>
+      <a href="#" onclick="showView('home')">HOME</a>
+      <a href="#" onclick="showView('chat')">GLOBAL HUB</a>
+      <a href="#" onclick="showView('elite')">ELITE</a>
+      <a href="#" onclick="showView('admin')" id="admin-link" class="hidden">VAULT</a>
+      <a href="#" onclick="logout()" style="border-color: #ff4444; box-shadow: 3px 3px 0px #ff4444;">LOGOUT</a>
   </nav>
 
-  <div class="container">
-    <header class="card bg-yellow tilt-left">
-      <div class="tape"></div>
-      <h1 style="font-size: 4rem; margin-bottom: 10px;">W-Website</h1>
-      <p style="font-size: 1.5rem; font-weight: bold;">"We workin on somethin"</p>
-      <span class="tiny-text" style="position: absolute; right: 20px; top: 20px;">NOT ai made fr</span>
-    </header>
+  <div id="announcement-bar" class="hidden" style="background: var(--card-yellow); text-align: center; padding: 10px; font-weight: bold; border-bottom: 2px solid var(--text-main);"></div>
 
-    <div style="margin: 40px 0;">
-      <a href="https://discord.gg/zxUfqF7btN" class="btn btn-discord" target="_blank">🎮 Join Discord</a>
-      <a href="developers.html" class="btn bg-pink">Who made this?</a>
-      <a href="socials.html" class="btn bg-blue">Socials</a>
-    </div>
+  <div id="home" class="view active">
+      <div style="text-align: center;">
+          <div class="hero-logo">W</div>
+          <div class="status-bar"><span class="dot"></span> Systems: Operational</div>
+          
+          <div class="card" style="margin-top: 40px;">
+              <h2>Welcome to the Interior</h2>
+              <p>High-performance communication for the elite.</p>
+              <div class="tier-scroller">
+                  <div class="tier-card"><h3>PRO</h3><p>$0/mo</p><button class="btn">Active</button></div>
+                  <div class="tier-card" style="border-color: var(--executive-gold);"><h3>ELITE</h3><p>$10/mo</p><button class="btn">Upgrade</button></div>
+                  <div class="tier-card" style="border-color: #a333ff;"><h3>COSMOS</h3><p>$25/mo</p><button class="btn">Upgrade</button></div>
+              </div>
+          </div>
 
-    <div class="card bg-cream tilt-right" style="max-width: 600px;">
-      <div class="tape" style="transform: rotate(4deg);"></div>
-      <h2>Features:</h2>
-      <br>
-      <ul style="list-style-type: '👉 '; text-align: left; padding-left: 20px; font-size: 1.2rem;">
-        <li>"I ❤️ gooning" -Brody</li>
-        <li>"Brody's weird" -Owen"</li>
-        <li>We kidan do stuff</li>
-        <li>"Brody is bald asf" -Owen</li>
-      </ul>
-      <p class="tiny-text" style="margin-top: 20px;">do not press maybe</p>
-    </div>
+          <div style="margin-top: 20px;">
+              <a href="#" class="btn btn-discord">Discord</a>
+              <a href="#" class="btn">Staff Registry</a>
+          </div>
+      </div>
+  </div>
+
+  <div id="chat" class="view">
+      <div class="card">
+          <h3>The Global Hub</h3>
+          <p class="tiny-text">Encrypted End-to-End (ish)</p>
+          <div id="chat-box"></div>
+          <div style="display: flex; gap: 10px;">
+              <input type="text" id="chat-input" placeholder="Enter message..." onkeydown="if(event.key==='Enter') sendMessage()">
+              <button class="btn" onclick="sendMessage()">SEND</button>
+          </div>
+      </div>
+  </div>
+
+  <div id="elite" class="view">
+      <div class="card bg-blue">
+          <h2>Elite Exclusives</h2>
+          <p>Your current status: <span id="user-tier">Standard</span></p>
+          <hr style="margin: 20px 0; opacity: 0.2;">
+          <div style="text-align: left;">
+              <p>✨ Custom Gold Themes</p>
+              <p>⚡ Priority Support Tickets</p>
+              <p>🖼️ Animated GIF Avatars</p>
+          </div>
+          <button class="btn" style="margin-top: 20px;">Contact Manager</button>
+      </div>
+  </div>
+
+  <div id="admin" class="view">
+      <div class="card bg-pink">
+          <h2>The Vault</h2>
+          <p>Administrative Controls</p>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px;">
+              <button class="btn" onclick="setAnnouncement()">Set Alert</button>
+              <button class="btn" onclick="purgeChat()">Purge Hub</button>
+              <button class="btn" style="background: #000; border-color: red;">Ban IP</button>
+              <button class="btn">Log 195 Data</button>
+          </div>
+      </div>
   </div>
 
   <footer>
-    <p>whos owen? © 2026</p>
+      <p>&copy; 2024 Makerlee Infrastructure. All systems logged.</p>
+      <p class="tiny-text">Developer: Owen | Security: Brayden</p>
   </footer>
 
-  <script src="script.js"></script>
+  <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+      import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+      import { getDatabase, ref, push, onValue, set, remove, query, limitToLast } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+      const firebaseConfig = {
+          apiKey: "AIzaSyDgQRvvNbr8tY4OP0Ky-6Uy6LI1gWFlAXM",
+          authDomain: "makerlee.firebaseapp.com",
+          databaseURL: "https://makerlee-default-rtdb.firebaseio.com",
+          projectId: "makerlee",
+          storageBucket: "makerlee.firebasestorage.app",
+          messagingSenderId: "730881046345",
+          appId: "1:730881046345:web:bf0fb8862db08de7604c98"
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+      const db = getDatabase(app);
+      const provider = new GoogleAuthProvider();
+
+      let currentUser = null;
+
+      // AUTHENTICATION
+      window.login = () => {
+          signInWithPopup(auth, provider).catch(err => {
+              console.error(err);
+              // Protocol 195 Logic: Log failed attempt
+              push(ref(db, 'logs/failed'), { time: Date.now(), error: err.message });
+          });
+      };
+
+      window.logout = () => signOut(auth);
+
+      onAuthStateChanged(auth, (user) => {
+          if (user) {
+              currentUser = user;
+              document.getElementById('auth-overlay').classList.add('hidden');
+              initChat();
+              checkAdmin(user.email);
+          } else {
+              document.getElementById('auth-overlay').classList.remove('hidden');
+          }
+      });
+
+      // NAVIGATION
+      window.showView = (id) => {
+          document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+          document.getElementById(id).classList.add('active');
+      };
+
+      function checkAdmin(email) {
+          const admins = ['admin@makerlee.com', 'owen@example.com']; // Add real admin emails
+          if(admins.includes(email)) {
+              document.getElementById('admin-link').classList.remove('hidden');
+          }
+      }
+
+      // CHAT LOGIC
+      function initChat() {
+          const chatRef = query(ref(db, 'messages'), limitToLast(50));
+          onValue(chatRef, (snapshot) => {
+              const chatBox = document.getElementById('chat-box');
+              chatBox.innerHTML = '';
+              snapshot.forEach(child => {
+                  const data = child.val();
+                  const msgDiv = document.createElement('div');
+                  msgDiv.className = 'msg';
+                  msgDiv.innerHTML = `
+                      <div class="msg-meta">
+                          <span class="badge">👑</span> <strong>${data.name}</strong>
+                      </div>
+                      <div>${data.text}</div>
+                  `;
+                  chatBox.appendChild(msgDiv);
+              });
+              chatBox.scrollTop = chatBox.scrollHeight;
+          });
+
+          // Listen for Global Announcements
+          onValue(ref(db, 'announcement'), (snap) => {
+              const bar = document.getElementById('announcement-bar');
+              if(snap.val()) {
+                  bar.textContent = snap.val();
+                  bar.classList.remove('hidden');
+              } else {
+                  bar.classList.add('hidden');
+              }
+          });
+      }
+
+      window.sendMessage = () => {
+          const input = document.getElementById('chat-input');
+          if(!input.value.trim()) return;
+          
+          push(ref(db, 'messages'), {
+              name: currentUser.displayName,
+              text: input.value,
+              uid: currentUser.uid,
+              timestamp: Date.now()
+          });
+          input.value = '';
+      };
+
+      // ADMIN FUNCTIONS
+      window.setAnnouncement = () => {
+          const msg = prompt("Enter announcement (leave blank to clear):");
+          set(ref(db, 'announcement'), msg);
+      };
+
+      window.purgeChat = () => {
+          if(confirm("Purge all messages?")) {
+              remove(ref(db, 'messages'));
+          }
+      };
+  </script>
 </body>
 </html>
