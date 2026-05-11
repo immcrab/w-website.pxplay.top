@@ -17,6 +17,7 @@
       --card-blue: #153859;
       --card-pink: #591b2c;
       --neon-yellow: #ffeb85;
+      --owner-purple: #3b1b59;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -64,6 +65,9 @@
       transform: rotate(-3deg) scale(1.1);
     }
 
+    /* Hidden Nav Item */
+    #nav-owner { display: none; border-color: #a855f7; color: #a855f7; }
+
     /* Page Visibility Logic */
     .page { display: none; padding: 20px; max-width: 900px; margin: 0 auto; text-align: center; }
     .page.active { display: block; animation: fadeIn 0.4s ease; }
@@ -84,6 +88,7 @@
     .bg-blue { background: var(--card-blue); }
     .bg-pink { background: var(--card-pink); }
     .bg-cream { background: var(--card-cream); }
+    .bg-owner { background: var(--owner-purple); border-color: #a855f7; }
 
     .w-logo {
       font-family: 'Shrikhand';
@@ -116,8 +121,20 @@
 
     .message strong { color: var(--neon-yellow); }
 
+    /* Admin List */
+    .admin-item {
+        background: rgba(0,0,0,0.4);
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 8px;
+        text-align: left;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
     /* Forms */
-    input, textarea {
+    input, textarea, select {
       width: 100%;
       padding: 12px;
       margin: 10px 0;
@@ -157,6 +174,7 @@
     <button onclick="showPage('socials')">📱 Socials</button>
     <button onclick="showPage('devs')">💻 Devs</button>
     <button onclick="showPage('apply')">📝 Apply</button>
+    <button id="nav-owner" onclick="showPage('ownerpage123')">👑 OWNER PANEL</button>
   </nav>
 
   <section id="home" class="page active">
@@ -172,18 +190,43 @@
       <div id="auth-ui" style="margin-top: 20px;">
         <button id="login-btn" class="btn">🔑 Login with Google</button>
         <div id="user-profile" style="display:none;">
-          <p>Welcome, <span id="display-name">Agent</span></p>
+          <p>Welcome, <span id="display-name">Agent</span> <span id="user-rank" style="font-weight:bold; color:var(--neon-yellow)"></span></p>
           <button id="logout-btn" style="background:none; border:none; color:red; cursor:pointer;">[Sign Out]</button>
         </div>
       </div>
     </header>
+  </section>
 
-    <div class="card bg-cream">
-      <h3>Elite Tiers</h3>
-      <div style="display:flex; gap:10px; justify-content:center; margin-top:15px;">
-        <div style="border:1px solid #555; padding:10px; border-radius:5px;">PRO<br>$0</div>
-        <div style="border:1px solid gold; padding:10px; border-radius:5px;">ELITE<br>TBD</div>
-        <div style="border:1px solid cyan; padding:10px; border-radius:5px;">COSMOS<br>TBD</div>
+  <section id="ownerpage123" class="page">
+    <div class="card bg-owner">
+      <h1 style="font-family: 'Shrikhand'; color: #a855f7;">COMMAND CENTER</h1>
+      <p>Authorized access only.</p>
+      
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px;">
+        <div class="card bg-cream" style="margin:0;">
+            <h3>Staff Management</h3>
+            <div id="staff-list">
+                <div class="admin-item">
+                    <span>Owen (Owner)</span>
+                    <small>ALL POWERS</small>
+                </div>
+            </div>
+            <hr style="margin: 10px 0; opacity: 0.2;">
+            <input type="text" id="new-staff-email" placeholder="User Email">
+            <select id="staff-power">
+                <option value="moderator">Moderator (Chats)</option>
+                <option value="admin">Admin (Apps + Chats)</option>
+                <option value="owner">Owner (Full Access)</option>
+            </select>
+            <button class="btn" style="width:100%">Add Staff</button>
+        </div>
+
+        <div class="card bg-cream" style="margin:0;">
+            <h3>Pending Applications</h3>
+            <div id="owner-apps-list" style="text-align: left; font-size: 0.8rem;">
+                <p style="color:#666;">No applications yet...</p>
+            </div>
+        </div>
       </div>
     </div>
   </section>
@@ -192,7 +235,7 @@
     <div class="card bg-cream">
       <div class="tape"></div>
       <h2 style="font-family: 'Shrikhand';">GLOBAL HUB</h2>
-      <p style="font-size:0.8rem; margin-bottom:10px;">End-to-end encrypted (mostly)</p>
+      <p id="mod-status" style="font-size:0.7rem; color:cyan; display:none;">MODERATOR VIEW ENABLED</p>
       
       <div id="chat-messages">
         <p style="text-align:center; color:#666;">Login to view encrypted transmissions...</p>
@@ -227,9 +270,9 @@
   <section id="apply" class="page">
     <div class="card bg-cream">
       <h2>Join the work</h2>
-      <input type="text" placeholder="Name">
-      <textarea placeholder="Why should we let you in?"></textarea>
-      <button class="btn">Submit Application</button>
+      <input type="text" id="app-name" placeholder="Name">
+      <textarea id="app-reason" placeholder="Why should we let you in?"></textarea>
+      <button id="submit-app-btn" class="btn">Submit Application</button>
     </div>
   </section>
 
@@ -240,9 +283,8 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-    import { getDatabase, ref, push, onValue, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+    import { getDatabase, ref, push, onValue, serverTimestamp, set } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-    // Your Config
     const firebaseConfig = {
       apiKey: "AIzaSyDgQRvvNbr8tY4OP0Ky-6Uy6LI1gWFlAXM",
       authDomain: "makerlee.firebaseapp.com",
@@ -258,30 +300,46 @@
     const db = getDatabase(app);
     const provider = new GoogleAuthProvider();
 
-    // SPA Navigation Logic
+    // The Secret List
+    const OWNERS = ["imcrabfr@gmail.com", "bwilliams043@stpaul.k12.mn.us"];
+
     window.showPage = (pageId) => {
       document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
       document.getElementById(pageId).classList.add('active');
     };
 
-    // Auth Logic
     const loginBtn = document.getElementById('login-btn');
     const logoutBtn = document.getElementById('logout-btn');
     const userProfile = document.getElementById('user-profile');
     const displayName = document.getElementById('display-name');
+    const ownerNav = document.getElementById('nav-owner');
+    const userRank = document.getElementById('user-rank');
 
     loginBtn.onclick = () => signInWithPopup(auth, provider);
-    logoutBtn.onclick = () => signOut(auth);
+    logoutBtn.onclick = () => {
+        signOut(auth);
+        location.reload(); // Refresh to clear owner states
+    };
 
     onAuthStateChanged(auth, (user) => {
       if (user) {
         loginBtn.style.display = 'none';
         userProfile.style.display = 'block';
         displayName.innerText = user.displayName;
+        
+        // CHECK IF OWNER
+        if (OWNERS.includes(user.email)) {
+            ownerNav.style.display = 'block';
+            userRank.innerText = "[OWNER]";
+            document.getElementById('mod-status').style.display = 'block';
+            loadOwnerData();
+        }
+
         loadChat();
       } else {
         loginBtn.style.display = 'block';
         userProfile.style.display = 'none';
+        ownerNav.style.display = 'none';
         document.getElementById('chat-messages').innerHTML = "Login to view messages.";
       }
     });
@@ -297,6 +355,7 @@
       
       push(ref(db, 'messages'), {
         name: auth.currentUser.displayName,
+        email: auth.currentUser.email,
         text: chatInput.value,
         timestamp: serverTimestamp()
       });
@@ -310,11 +369,44 @@
           const data = child.val();
           const div = document.createElement('div');
           div.className = 'message';
-          div.innerHTML = `<strong>${data.name}:</strong> ${data.text}`;
+          // Owners get a special tag in chat
+          const tag = OWNERS.includes(data.email) ? '👑 ' : '';
+          div.innerHTML = `<strong>${tag}${data.name}:</strong> ${data.text}`;
           chatBox.appendChild(div);
         });
         chatBox.scrollTop = chatBox.scrollHeight;
       });
+    }
+
+    // Application Logic
+    document.getElementById('submit-app-btn').onclick = () => {
+        if (!auth.currentUser) return alert("Login to apply!");
+        const name = document.getElementById('app-name').value;
+        const reason = document.getElementById('app-reason').value;
+        
+        push(ref(db, 'applications'), {
+            applicant: name,
+            email: auth.currentUser.email,
+            reason: reason,
+            time: serverTimestamp()
+        });
+        alert("Applied! Owners will review it.");
+    };
+
+    // Owner Data Loading
+    function loadOwnerData() {
+        // Load Applications
+        onValue(ref(db, 'applications'), (snapshot) => {
+            const list = document.getElementById('owner-apps-list');
+            list.innerHTML = "";
+            snapshot.forEach(child => {
+                const app = child.val();
+                list.innerHTML += `<div style="border-bottom:1px solid #444; padding:5px;">
+                    <b>${app.applicant}</b> (${app.email})<br>
+                    <i>"${app.reason}"</i>
+                </div>`;
+            });
+        });
     }
 
     // Doodles
