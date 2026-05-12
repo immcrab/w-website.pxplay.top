@@ -5,181 +5,63 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>W WEBSITE 2.0 | THE HUB</title>
     <style>
-        /* --- THE CORE THEME --- */
-        body {
-            background-color: #000;
-            color: #fff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            overflow: hidden;
-        }
+        :root { --neon-green: #deff9a; --dark-bg: #0a0a0a; }
+        body { background: var(--dark-bg); color: white; font-family: sans-serif; margin: 0; }
+        
+        /* HEADER AREA */
+        header { display: flex; align-items: center; padding: 20px; gap: 20px; }
+        h1 { font-size: 3rem; margin: 0; }
+        .logo { width: 60px; height: 60px; background: var(--neon-green); color: black; 
+                display: flex; align-items: center; justify-content: center; 
+                font-weight: bold; border-radius: 12px; cursor: pointer; }
 
-        /* --- THE UNIFIED DASHBOARD --- */
-        #main-hub {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            flex-grow: 1;
-            text-align: center;
-        }
+        /* MODES */
+        #maintenance-overlay { display: none; position: fixed; inset: 0; background: black; 
+                               z-index: 1000; flex-direction: column; align-items: center; justify-content: center; }
 
-        .logo {
-            font-size: 80px;
-            font-weight: 900;
-            color: #deff9a; /* Lime Green */
-            text-shadow: 0 0 20px rgba(222, 255, 154, 0.5);
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .logo:hover { transform: scale(1.1); }
-
-        nav {
-            margin-top: 20px;
-        }
-
-        nav button {
-            background: transparent;
-            border: 1px solid #333;
-            color: #888;
-            padding: 10px 20px;
-            margin: 5px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-
-        nav button.active {
-            border-color: #deff9a;
-            color: #fff;
-        }
-
-        /* --- MESSAGING & JOIN SYSTEM --- */
-        #chat-sector {
-            display: none; /* Hidden until clicked */
-            width: 80%;
-            max-width: 600px;
-            margin-top: 30px;
-        }
-
-        input {
-            background: #111;
-            border: 1px solid #deff9a;
-            color: #fff;
-            padding: 15px;
-            width: 70%;
-            border-radius: 5px;
-            outline: none;
-        }
-
-        .join-btn {
-            background: #deff9a;
-            color: #000;
-            border: none;
-            padding: 15px 25px;
-            font-weight: bold;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-
-        /* --- THE W-BOT AI --- */
-        #w-bot {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: rgba(20, 20, 20, 0.9);
-            border: 1px solid #deff9a;
-            padding: 15px;
-            border-radius: 10px;
-            font-size: 12px;
-            display: none;
-            max-width: 200px;
-            box-shadow: 0 0 15px rgba(222, 255, 154, 0.2);
-        }
-
-        /* --- COMING SOON OVERLAYS --- */
-        .coming-soon { color: #444; font-size: 10px; margin-top: 10px; text-transform: uppercase; letter-spacing: 2px;}
+        /* OWNER PANEL (GOD MODE) */
+        #owner-panel { display: none; background: #111; border: 2px solid var(--neon-green); 
+                       padding: 20px; position: fixed; top: 10%; left: 10%; width: 80%; z-index: 2000; }
+        
+        /* W-BOT */
+        #w-bot { position: fixed; bottom: 20px; right: 20px; background: #222; 
+                 border: 1px solid var(--neon-green); padding: 15px; border-radius: 50px; display: none; }
     </style>
 </head>
 <body>
 
-    <div id="main-hub">
-        <div class="logo" onclick="executiveTrigger()">W</div>
-        
-        <nav>
-            <button onclick="showSector('chat')" class="active">MESSAGES</button>
-            <button disabled>GAMES</button>
-            <button disabled>SOCIALS</button>
-            <button disabled>CREDITS</button>
-        </nav>
-        
-        <div class="coming-soon">Advanced Sectors Locked • Redoing Everything</div>
-
-        <div id="chat-sector">
-            <input type="text" id="groupCode" placeholder="Enter 6-Digit Code...">
-            <button class="join-btn" onclick="joinGroup()">JOIN GROUP</button>
-        </div>
+    <div id="maintenance-overlay">
+        <h1 style="color: var(--neon-green)">W-BOT: SYSTEM UPGRADE</h1>
+        <p>AI Scrapers recalibrating... We are redoing everything.</p>
     </div>
 
-    <div id="w-bot">
-        <strong style="color:#deff9a">W-BOT:</strong><br>
-        <span id="bot-msg">Initializing...</span>
+    <header>
+        <div class="logo" onclick="handleLogoClick()">W</div>
+        <h1>W Website</h1>
+    </header>
+
+    <main id="site-content">
+        <div style="text-align: center; margin-top: 50px;">
+            <input type="text" id="group-code" placeholder="ENTER 6-DIGIT CODE" 
+                   style="padding: 20px; font-size: 1.5rem; border-radius: 10px;">
+        </div>
+    </main>
+
+    <div id="owner-panel">
+        <h2>CORE COMMAND CENTER (LEVEL 10)</h2>
+        <button onclick="toggleMode('live')">LIVE MODE</button>
+        <button onclick="toggleMode('update')">UPDATING MODE</button>
+        <button onclick="globalRefresh()">GLOBAL REFRESH</button>
+        <hr>
+        <input type="text" id="bot-broadcast" placeholder="Message to all users...">
+        <button onclick="broadcastBot()">BROADCAST VIA W-BOT</button>
+        <hr>
+        <button onclick="window.location.reload()">CLOSE PANEL</button>
+    </div>
+
+    <div id="w-bot" id="bot-bubble">
+        <span id="bot-text">Welcome, Executive Chairman.</span>
     </div>
 
     <script>
-        // SECTOR TOGGLING
-        function showSector(sector) {
-            document.getElementById('chat-sector').style.display = 'block';
-        }
-
-        // GROUP JOIN LOGIC
-        function joinGroup() {
-            const code = document.getElementById('groupCode').value;
-            if(code.length === 6) {
-                alert("Searching for Hub " + code + "...");
-                // Owen will add the actual database connection here
-            } else {
-                alert("Invalid Code. Must be 6 digits.");
-            }
-        }
-
-        // AI W-BOT SCRIPT
-        const phrases = [
-            "Infrastructure Wipe Complete.",
-            "AI Scrapers active on Socials...",
-            "Welcome, Executive Chairman.",
-            "Vault Encryption at 100%.",
-            "Owner Panel Standby."
-        ];
-
-        function startWBot() {
-            const bot = document.getElementById('w-bot');
-            const msg = document.getElementById('bot-msg');
-            
-            setInterval(() => {
-                msg.innerText = phrases[Math.floor(Math.random() * phrases.length)];
-                bot.style.display = 'block';
-                setTimeout(() => { bot.style.display = 'none'; }, 6000);
-            }, 20000); // Pops up every 20 seconds for testing (change to 5m later)
-        }
-
-        // HIDDEN OWNER PANEL TRIGGER
-        let clicks = 0;
-        function executiveTrigger() {
-            clicks++;
-            if(clicks === 5) {
-                const pass = prompt("PROTOCOL 195: ENTER EXECUTIVE KEY");
-                if(pass === "W-OWNER-2026") {
-                    alert("ACCESS GRANTED. Redirecting to Command Center...");
-                    // This can lead to a hidden powerful panel
-                }
-            }
-        }
-
-        startWBot();
-    </script>
-</body>
-</html>
+        // 1. OWNER BACKDOOR
