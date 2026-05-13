@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encrypted Comms | W Website</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-zinc-950 text-zinc-100 h-screen flex flex-col overflow-hidden">
+
+    <nav class="glass border-b border-white/10 px-6 py-4 flex justify-between items-center">
+        <div class="flex items-center gap-4">
+            <a href="index.html" class="text-xl font-black italic uppercase">W COMMS</a>
+            <div class="h-4 w-[1px] bg-white/20"></div>
+            <span id="chat-channel-label" class="text-yellow-500 font-black text-xs uppercase tracking-widest">Global Channel</span>
+        </div>
+        <div class="flex items-center gap-4">
+             <button onclick="joinGroup()" class="bg-zinc-800 hover:bg-zinc-700 text-[10px] font-black px-3 py-1 rounded-lg transition uppercase">Join Group Code</button>
+             <a href="index.html" class="text-zinc-500 hover:text-white transition"><i data-lucide="home" class="w-5 h-5"></i></a>
+        </div>
+    </nav>
+
+    <div id="chat-container" class="flex-1 overflow-y-auto p-6 space-y-4">
+        <div class="text-center py-10 opacity-20 font-black uppercase text-sm tracking-[0.5em]">Establishing Connection...</div>
+    </div>
+
+    <div class="p-6 glass border-t border-white/10">
+        <form id="chat-form" class="max-w-5xl mx-auto flex gap-4">
+            <input type="text" id="message-input" autocomplete="off" placeholder="Type a message..." class="flex-1 bg-zinc-900 border-2 border-zinc-800 rounded-2xl px-6 py-4 outline-none focus:border-yellow-500 transition font-bold">
+            <button type="submit" class="bg-yellow-500 text-black px-8 rounded-2xl font-black uppercase hover:scale-105 active:scale-95 transition shadow-lg shadow-yellow-500/20">
+                <i data-lucide="send"></i>
+            </button>
+        </form>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+        const firebaseConfig = { /* USE YOUR PREVIOUS CONFIG HERE */ };
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        let currentChannel = "global";
+        const chatContainer = document.getElementById('chat-container');
+
+        // Check for #group= in URL
+        const checkHash = () => {
+            const hash = window.location.hash;
+            if (hash.startsWith('#group=')) {
+                currentChannel = hash.split('=')[1];
+                document.getElementById('chat-channel-label').innerText = `Group: ${currentChannel}`;
+            } else {
+                currentChannel = "global";
+                document.getElementById('chat-channel-label').innerText = `Global Channel`;
+            }
+            listenForMessages();
+        };
+
+        window.joinGroup = () => {
+            const code = prompt("Enter 6-digit Group Code:");
+            if(code) window.location.hash = `#group=${code}`;
+        };
+
+        window.addEventListener('hashchange', () => location.reload());
+
+        function listenForMessages() {
+            const q = query(
+                collection(db, "chats", currentChannel, "messages"),
+                orderBy("timestamp", "asc")
+            );
+
+            onSnapshot(q, (snapshot) => {
+                chatContainer.innerHTML = "";
+                snapshot.forEach((doc) => {
+                    const data = doc.data();
+                    const isMe = auth.currentUser && data.uid === auth.currentUser.uid;
+                    
+                    chatContainer.innerHTML += `
+                        <div class="flex flex-col ${isMe ? 'items-end' : 'items-start'}">
+                            <div class="flex items-center gap-2 mb-1">
+                                ${!isMe ? `<span class="text-[9px] font-black uppercase text-zinc-500">${data.userName}</span>` : ''}
+                            </div>
+                            <div class="${isMe ? 'bg-yellow-500 text-black' : 'bg-zinc-800 text-white'} px-4 py-3 rounded-2xl max-w-md font-bold text-sm shadow-xl">
+                                ${data.text}
+                            </div>
+                        </div>
+                    `;
+                });
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            });
+        }
+
+        document.getElementById('chat-form').onsubmit = async (e) => {
+            e.preventDefault();
+            const input = document.getElementById('message-input');
+            if (!input.value.trim() || !auth.currentUser) return;
+
+            await addDoc(collection(db, "chats", currentChannel, "messages"), {
+                text: input.value,
+                uid: auth.currentUser.uid,
+                userName: auth.currentUser.displayName,
+                timestamp: serverTimestamp()
+            });
+
+            input.value = "";
+        };
+
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                alert("You must be logged in to access comms.");
+                window.location.href = "index.html";
+            } else {
+                checkHash();
+            }
+        });
+
+        lucide.createIcons();
+    </script>
+</body>
+</html>
