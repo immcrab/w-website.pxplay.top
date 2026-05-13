@@ -1,1 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>W Website | Community Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .glass { background: rgba(24, 24, 27, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.1); }
+        .thick-border { border-width: 3px; }
+        .font-black { font-weight: 900; }
+        /* Custom scrollbar for dark mode */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #09090b; }
+        ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #3f3f46; }
+    </style>
+</head>
+<body class="bg-zinc-950 text-zinc-100 min-h-screen">
 
+    <div id="marquee-container" class="bg-yellow-500 text-black py-1 overflow-hidden whitespace-nowrap border-b-2 border-black">
+        <div id="marquee-text" class="inline-block font-bold uppercase tracking-tighter animate-marquee">
+            WELCOME TO W WEBSITE — CHECK OUT THE NEW STAFF PORTAL — STAY TUNED FOR UPDATES — 
+        </div>
+    </div>
+
+    <nav class="sticky top-0 z-40 glass border-b border-white/10 px-6 py-4 flex justify-between items-center">
+        <div class="flex items-center gap-4">
+            <h1 class="text-2xl font-black tracking-tighter italic uppercase">W WEBSITE</h1>
+            <span class="bg-green-500/20 text-green-400 text-xs px-2 py-1 rounded-full border border-green-500/50 font-bold">
+                LIVE: <span id="user-count">0</span>
+            </span>
+        </div>
+        <div class="hidden md:flex items-center gap-8 font-bold text-sm uppercase tracking-widest">
+            <a href="#" onclick="showSection('home')" class="hover:text-yellow-500 transition">Home</a>
+            <a href="https://wwebsite.sell.app" target="_blank" class="hover:text-yellow-500 transition">Store</a>
+            <a href="#" onclick="showSection('profile')" class="hover:text-yellow-500 transition">Dashboard</a>
+            <a href="#" onclick="showSection('staff')" class="text-zinc-500 hover:text-white transition">Staff</a>
+            <a href="#" onclick="showSection('owner')" class="text-zinc-500 hover:text-white transition"><i data-lucide="shield"></i></a>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto p-6">
+
+        <section id="view-home" class="view-section">
+            <h2 class="text-5xl font-black mb-8 uppercase tracking-tighter">Active Hubs</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4" id="hubs-grid">
+                </div>
+        </section>
+
+        <section id="view-profile" class="view-section hidden">
+            <h2 class="text-5xl font-black mb-8 uppercase tracking-tighter">Your Profile</h2>
+            <div class="glass p-8 rounded-3xl max-w-2xl border-white/10">
+                <div class="flex items-center gap-6 mb-8">
+                    <div class="w-20 h-20 bg-zinc-800 rounded-full flex items-center justify-center border-4 border-zinc-700">
+                        <i data-lucide="user" class="w-10 h-10"></i>
+                    </div>
+                    <div>
+                        <p class="text-zinc-400 font-bold uppercase text-xs tracking-widest">User Status</p>
+                        <h3 class="text-3xl font-black" id="profile-username">GUEST_USER</h3>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center p-4 bg-white/5 rounded-xl border border-white/5">
+                        <span class="font-bold">Media Consent Status</span>
+                        <span id="consent-badge" class="px-3 py-1 rounded-full text-xs font-black uppercase bg-red-500/20 text-red-500 border border-red-500/50">Missing</span>
+                    </div>
+                    <div class="flex justify-between items-center p-4 bg-white/5 rounded-xl border border-white/5">
+                        <span class="font-bold">Account Role</span>
+                        <span class="text-zinc-400 font-bold uppercase">Member</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="view-staff" class="view-section hidden">
+            <h2 class="text-5xl font-black mb-8 uppercase tracking-tighter text-blue-500">Staff Hub</h2>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="md:col-span-2 glass p-6 rounded-3xl border-blue-500/30">
+                    <h3 class="text-xl font-black mb-4 uppercase flex items-center gap-2">
+                        <i data-lucide="activity"></i> Global Monitor
+                    </h3>
+                    <div id="staff-log" class="h-96 overflow-y-auto space-y-2 text-sm font-mono bg-black/40 p-4 rounded-xl border border-white/5">
+                        <div class="text-zinc-500">[14:02:11] System initialized...</div>
+                    </div>
+                </div>
+                <div class="glass p-6 rounded-3xl border-blue-500/30">
+                    <h3 class="text-xl font-black mb-4 uppercase">Hub Management</h3>
+                    <div id="staff-active-rooms" class="space-y-3">
+                        </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="view-owner" class="view-section hidden">
+            <h2 class="text-5xl font-black mb-8 uppercase tracking-tighter text-red-500">Owner Control</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="glass p-8 rounded-3xl border-red-500/30">
+                    <h3 class="text-xl font-black mb-6 uppercase">Site Controls</h3>
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block text-xs font-black uppercase text-zinc-500 mb-2">Marquee News Text</label>
+                            <input type="text" id="marquee-input" placeholder="Enter site-wide news..." class="w-full bg-zinc-900 border-2 border-zinc-800 rounded-xl px-4 py-3 focus:border-red-500 outline-none transition font-bold">
+                            <button onclick="updateMarquee()" class="mt-2 w-full bg-red-600 hover:bg-red-500 text-white font-black py-3 rounded-xl transition uppercase text-sm">Update Marquee</button>
+                        </div>
+                        <div class="p-4 bg-red-950/20 border-2 border-red-900/50 rounded-2xl flex justify-between items-center">
+                            <div>
+                                <h4 class="font-black uppercase">Site Kill-Switch</h4>
+                                <p class="text-xs text-zinc-500 font-bold">Locks site for non-staff</p>
+                            </div>
+                            <button onclick="toggleKillSwitch()" id="kill-switch-btn" class="bg-red-600 px-6 py-2 rounded-lg font-black uppercase text-xs hover:bg-red-500 transition">Off</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="glass p-8 rounded-3xl border-red-500/30">
+                    <h3 class="text-xl font-black mb-4 uppercase">User Ledger</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm">
+                            <thead class="text-zinc-500 font-black uppercase text-xs border-b border-white/10">
+                                <tr>
+                                    <th class="pb-3">User</th>
+                                    <th class="pb-3 text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="user-ledger-body">
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <div id="consent-modal" class="fixed inset-0 z-50 flex items-center justify-center p-6 bg-black/90 backdrop-blur-xl hidden">
+        <div class="glass max-w-lg w-full p-10 rounded-[2.5rem] border-yellow-500/50 shadow-2xl shadow-yellow-500/10">
+            <h2 class="text-4xl font-black mb-2 uppercase tracking-tighter">Safety Protocol</h2>
+            <p class="text-zinc-400 font-bold mb-8 text-sm uppercase tracking-wide">Agreement required to proceed</p>
+            
+            <div class="space-y-4 mb-10">
+                <label class="flex items-start gap-4 p-4 rounded-2xl hover:bg-white/5 transition cursor-pointer border border-transparent hover:border-white/10">
+                    <input type="checkbox" class="w-6 h-6 mt-1 accent-yellow-500 rounded" id="consent-1">
+                    <span class="text-sm font-bold">I confirm I have explicit permission to share any photos I upload to this hub.</span>
+                </label>
+                <label class="flex items-start gap-4 p-4 rounded-2xl hover:bg-white/5 transition cursor-pointer border border-transparent hover:border-white/10">
+                    <input type="checkbox" class="w-6 h-6 mt-1 accent-yellow-500 rounded" id="consent-2">
+                    <span class="text-sm font-bold">I understand that Staff can remove any content that violates community standards.</span>
+                </label>
+                <label class="flex items-start gap-4 p-4 rounded-2xl hover:bg-white/5 transition cursor-pointer border border-transparent hover:border-white/10">
+                    <input type="checkbox" class="w-6 h-6 mt-1 accent-yellow-500 rounded" id="consent-3">
+                    <span class="text-sm font-bold">I agree to the W Website Privacy Protocol and data handling terms.</span>
+                </label>
+            </div>
+
+            <button onclick="submitConsent()" id="consent-submit-btn" class="w-full bg-zinc-100 text-zinc-950 font-black py-5 rounded-2xl uppercase tracking-widest hover:bg-yellow-500 transition disabled:opacity-30 disabled:cursor-not-allowed">
+                Accept and Continue
+            </button>
+        </div>
+    </div>
+
+    <footer class="mt-20 border-t border-white/5 py-10 px-6 opacity-40 hover:opacity-100 transition">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            <p class="font-black text-xs uppercase tracking-tighter">© 2026 W WEBSITE PROTOCOL</p>
+            <button onclick="clearSiteCache()" class="bg-zinc-900 border border-zinc-800 px-4 py-2 rounded font-bold text-xs uppercase hover:bg-white hover:text-black transition">
+                Clear Local Storage Cache
+            </button>
+        </div>
+    </footer>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
+
+        // CONFIG
+        const firebaseConfig = {
+            apiKey: "AIzaSyDgQRvvNbr8tY4OP0Ky-6Uy6LI1gWFlAXM",
+            authDomain: "makerlee.firebaseapp.com",
+            databaseURL: "https://makerlee-default-rtdb.firebaseio.com",
+            projectId: "makerlee",
+            storageBucket: "makerlee.firebasestorage.app",
+            messagingSenderId: "730881046345",
+            appId: "1:730881046345:web:bf0fb8862db08de7604c98",
+            measurementId: "G-GRQ0L4H0Y6"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const analytics = getAnalytics(app);
+
+        // STATE
+        let currentUser = { id: 'test_user_123', name: 'User_4402', consent: false, role: 'owner' };
+
+        // INITIALIZE ICONS
+        lucide.createIcons();
+
+        // ROUTING LOGIC
+        window.showSection = (id) => {
+            document.querySelectorAll('.view-section').forEach(s => s.classList.add('hidden'));
+            document.getElementById(`view-${id}`).classList.remove('hidden');
+        };
+
+        // CONSENT LOGIC
+        const checkConsent = () => {
+            const hasConsent = localStorage.getItem('w_website_consent');
+            if(!hasConsent) {
+                document.getElementById('consent-modal').classList.remove('hidden');
+            } else {
+                updateConsentBadge(true);
+            }
+        }
+
+        window.submitConsent = () => {
+            const c1 = document.getElementById('consent-1').checked;
+            const c2 = document.getElementById('consent-2').checked;
+            const c3 = document.getElementById('consent-3').checked;
+
+            if(c1 && c2 && c3) {
+                localStorage.setItem('w_website_consent', 'true');
+                document.getElementById('consent-modal').classList.add('hidden');
+                updateConsentBadge(true);
+                // In production: Save to Firestore here
+                console.log("Consent Handshake Recorded: " + new Date().toISOString());
+            }
+        }
+
+        const updateConsentBadge = (status) => {
+            const badge = document.getElementById('consent-badge');
+            if(status) {
+                badge.innerText = "Verified";
+                badge.classList.remove('bg-red-500/20', 'text-red-500', 'border-red-500/50');
+                badge.classList.add('bg-green-500/20', 'text-green-400', 'border-green-500/50');
+            }
+        }
+
+        // GRID GENERATION (6-Digit Hubs)
+        const generateHubs = () => {
+            const grid = document.getElementById('hubs-grid');
+            for(let i=0; i<16; i++) {
+                const code = Math.floor(100000 + Math.random() * 900000);
+                const activeUsers = Math.floor(Math.random() * 50);
+                grid.innerHTML += `
+                    <div class="glass p-6 rounded-3xl border-white/5 hover:border-yellow-500/50 transition cursor-pointer group">
+                        <p class="text-zinc-500 font-black text-xs mb-1 group-hover:text-yellow-500">HUB CODE</p>
+                        <h4 class="text-2xl font-black italic tracking-tighter">${code}</h4>
+                        <div class="mt-4 flex items-center gap-2">
+                            <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                            <span class="text-[10px] font-black text-zinc-400">${activeUsers} USERS</span>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        // OWNER TOOLS
+        window.updateMarquee = () => {
+            const text = document.getElementById('marquee-input').value;
+            if(text) {
+                document.getElementById('marquee-text').innerText = text.toUpperCase() + " — ";
+            }
+        }
+
+        window.toggleKillSwitch = () => {
+            const btn = document.getElementById('kill-switch-btn');
+            const isActive = btn.innerText === "Off";
+            btn.innerText = isActive ? "Active" : "Off";
+            btn.classList.toggle('bg-red-600');
+            btn.classList.toggle('bg-zinc-100');
+            btn.classList.toggle('text-zinc-950');
+        }
+
+        window.clearSiteCache = () => {
+            localStorage.clear();
+            location.reload();
+        }
+
+        // INIT
+        checkConsent();
+        generateHubs();
+        document.getElementById('user-count').innerText = Math.floor(Math.random() * 1200);
+
+    </script>
+
+    <style>
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        .animate-marquee {
+            animation: marquee 25s linear infinite;
+        }
+    </style>
+</body>
+</html>
