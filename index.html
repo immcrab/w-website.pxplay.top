@@ -13,13 +13,13 @@
 
     <div id="marquee-container" class="bg-yellow-500 text-black py-1 overflow-hidden whitespace-nowrap border-b-2 border-black">
         <div id="marquee-text" class="inline-block font-bold uppercase tracking-tighter animate-marquee">
-            LOADING SYSTEM BROADCAST... — 
+            ESTABLISHING CONNECTION TO W_PROTOCOL... — 
         </div>
     </div>
 
     <nav class="sticky top-0 z-40 glass border-b border-white/10 px-6 py-4 flex justify-between items-center">
         <div class="flex items-center gap-4">
-            <h1 class="text-2xl font-black tracking-tighter italic uppercase">W WEBSITE</h1>
+            <h1 class="text-2xl font-black tracking-tighter italic uppercase cursor-pointer" onclick="showSection('home')">W WEBSITE</h1>
             <span class="bg-green-500/20 text-green-400 text-xs px-2 py-1 rounded-full border border-green-500/50 font-bold">
                 LIVE: <span id="user-count">0</span>
             </span>
@@ -27,84 +27,180 @@
         
         <div class="hidden md:flex items-center gap-8 font-bold text-sm uppercase tracking-widest">
             <a href="#" onclick="showSection('home')" class="hover:text-yellow-500 transition">Home</a>
-            <a href="https://wwebsite.sell.app" target="_blank" class="hover:text-yellow-500 transition">Store</a>
+            <a href="#" onclick="showSection('search')" class="hover:text-yellow-500 transition">Search</a>
+            <a href="text.html" class="hover:text-yellow-500 transition">Comms</a>
             <a href="#" onclick="showSection('profile')" class="hover:text-yellow-500 transition">Dashboard</a>
-            <a href="#" onclick="showSection('staff')" class="text-zinc-500 hover:text-white transition">Staff</a>
             <button id="auth-btn" class="bg-white text-black px-4 py-1 rounded-full text-xs font-black hover:bg-yellow-500 transition">LOGIN</button>
         </div>
     </nav>
 
     <main class="max-w-7xl mx-auto p-6">
+        
         <section id="view-home" class="view-section">
-            <h2 class="text-5xl font-black mb-8 uppercase tracking-tighter">Active Hubs</h2>
-            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4" id="hubs-grid"></div>
+            <div class="grid lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-2">
+                    <h2 class="text-5xl font-black mb-8 uppercase tracking-tighter">Active Hubs</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="hubs-grid"></div>
+                </div>
+
+                <div class="glass rounded-[2rem] border-white/5 flex flex-col h-[600px]">
+                    <div class="p-6 border-b border-white/10 flex justify-between items-center">
+                        <h3 class="font-black uppercase italic">Global Feed</h3>
+                        <span class="w-2 h-2 bg-yellow-500 rounded-full animate-pulse"></span>
+                    </div>
+                    <div id="mini-chat-feed" class="flex-1 overflow-y-auto p-4 space-y-4 text-sm">
+                        </div>
+                    <div class="p-4">
+                        <a href="text.html" class="block text-center bg-zinc-800 hover:bg-zinc-700 py-3 rounded-xl font-black uppercase text-[10px] tracking-widest transition">Open Full Comms</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="view-search" class="view-section hidden">
+            <h2 class="text-5xl font-black mb-8 uppercase tracking-tighter">User Discovery</h2>
+            <div class="glass p-6 rounded-[2rem] mb-8">
+                <div class="relative">
+                    <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500"></i>
+                    <input type="text" id="user-search-input" placeholder="Search by name (e.g. 'Admin' or 'User')..." 
+                        class="w-full bg-zinc-900 border-2 border-zinc-800 rounded-2xl py-4 pl-12 pr-4 outline-none focus:border-yellow-500 transition font-bold">
+                </div>
+            </div>
+            
+            <div id="search-results" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                </div>
         </section>
 
         <section id="view-profile" class="view-section hidden">
             <h2 class="text-5xl font-black mb-8 uppercase tracking-tighter">Your Profile</h2>
-            <div class="glass p-8 rounded-3xl max-w-2xl border-white/10">
-                <div class="flex items-center gap-6 mb-8">
-                    <img id="profile-img" src="" class="w-20 h-20 rounded-full border-4 border-zinc-700 hidden">
-                    <div id="profile-icon-placeholder" class="w-20 h-20 bg-zinc-800 rounded-full flex items-center justify-center border-4 border-zinc-700">
-                        <i data-lucide="user" class="w-10 h-10"></i>
-                    </div>
-                    <div>
-                        <p class="text-zinc-400 font-bold uppercase text-xs tracking-widest">User Identity</p>
-                        <h3 class="text-3xl font-black" id="profile-username">GUEST_USER</h3>
-                        <p id="profile-email" class="text-xs text-zinc-500 font-mono"></p>
-                    </div>
+            <div id="profile-card" class="glass p-8 rounded-3xl max-w-2xl border-white/10">
                 </div>
-                <div class="space-y-4">
-                    <div class="flex justify-between items-center p-4 bg-white/5 rounded-xl border border-white/5">
-                        <span class="font-bold">Media Consent</span>
-                        <span id="consent-badge" class="px-3 py-1 rounded-full text-xs font-black uppercase bg-red-500/20 text-red-500 border border-red-500/50">Missing</span>
-                    </div>
-                </div>
-            </div>
         </section>
 
-        <section id="view-staff" class="view-section hidden">
-            <h2 class="text-5xl font-black mb-8 uppercase tracking-tighter text-blue-500">Staff Hub</h2>
-            <div class="grid md:grid-cols-3 gap-6">
-                <div class="md:col-span-2 glass p-6 rounded-3xl border-blue-500/30">
-                    <h3 class="text-xl font-black mb-4 uppercase flex items-center gap-2"><i data-lucide="users"></i> Registered Members</h3>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left text-sm">
-                            <thead class="text-zinc-500 font-black uppercase text-xs border-b border-white/10">
-                                <tr>
-                                    <th class="pb-3">User</th>
-                                    <th class="pb-3">UID</th>
-                                    <th class="pb-3 text-right">Status</th>
-                                </tr>
-                            </thead>
-                            <tbody id="user-ledger-body">
-                                </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="glass p-6 rounded-3xl border-blue-500/30">
-                    <h3 class="text-xl font-black mb-6 uppercase">Admin Controls</h3>
-                    <label class="block text-xs font-black uppercase text-zinc-500 mb-2">Update Broadcast</label>
-                    <input type="text" id="marquee-input" class="w-full bg-zinc-900 border-2 border-zinc-800 rounded-xl px-4 py-3 mb-2 outline-none focus:border-yellow-500 transition">
-                    <button id="update-marquee-btn" class="w-full bg-blue-600 font-black py-3 rounded-xl uppercase text-sm">Push to Marquee</button>
-                </div>
-            </div>
-        </section>
     </main>
 
-    <div id="consent-modal" class="fixed inset-0 z-50 flex items-center justify-center p-6 bg-black/90 backdrop-blur-xl hidden">
-        <div class="glass max-w-lg w-full p-10 rounded-[2.5rem] border-yellow-500/50">
-            <h2 class="text-4xl font-black mb-2 uppercase tracking-tighter">Safety Protocol</h2>
-            <div class="space-y-4 my-8">
-                <label class="flex items-start gap-4 p-4 rounded-2xl hover:bg-white/5 transition cursor-pointer border border-white/10">
-                    <input type="checkbox" class="w-6 h-6 mt-1 accent-yellow-500" id="consent-check">
-                    <span class="text-sm font-bold">I agree to the W Website data handling and community standards.</span>
-                </label>
-            </div>
-            <button id="submit-consent-btn" class="w-full bg-zinc-100 text-zinc-950 font-black py-5 rounded-2xl uppercase hover:bg-yellow-500 transition">Accept and Continue</button>
-        </div>
-    </div>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, collection, query, where, getDocs, onSnapshot, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-    <script type="module" src="script.js"></script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDgQRvvNbr8tY4OP0Ky-6Uy6LI1gWFlAXM",
+            authDomain: "makerlee.firebaseapp.com",
+            projectId: "makerlee",
+            storageBucket: "makerlee.firebasestorage.app",
+            messagingSenderId: "730881046345",
+            appId: "1:730881046345:web:bf0fb8862db08de7604c98"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const provider = new GoogleAuthProvider();
+
+        // UI ROUTING
+        window.showSection = (id) => {
+            document.querySelectorAll('.view-section').forEach(s => s.classList.add('hidden'));
+            document.getElementById(`view-${id}`).classList.remove('hidden');
+            window.scrollTo(0,0);
+        };
+
+        // AUTH & USER SYNC
+        const authBtn = document.getElementById('auth-btn');
+        authBtn.onclick = () => auth.currentUser ? signOut(auth) : signInWithPopup(auth, provider);
+
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                authBtn.innerText = "LOGOUT";
+                await setDoc(doc(db, "users", user.uid), {
+                    name: user.displayName,
+                    email: user.email,
+                    photo: user.photoURL,
+                    role: "Member",
+                    searchName: user.displayName.toLowerCase() // For partial search
+                }, { merge: true });
+            } else {
+                authBtn.innerText = "LOGIN";
+            }
+        });
+
+        // SEARCH LOGIC (Partial Search)
+        const searchInput = document.getElementById('user-search-input');
+        const resultsContainer = document.getElementById('search-results');
+
+        searchInput.oninput = async (e) => {
+            const val = e.target.value.toLowerCase();
+            if (val.length < 2) {
+                resultsContainer.innerHTML = "";
+                return;
+            }
+
+            // Firebase StartAt/EndAt trick for partial prefix search
+            const q = query(
+                collection(db, "users"),
+                where("searchName", ">=", val),
+                where("searchName", "<=", val + '\uf8ff'),
+                limit(10)
+            );
+
+            const snapshot = await getDocs(q);
+            resultsContainer.innerHTML = "";
+            
+            snapshot.forEach(doc => {
+                const data = doc.data();
+                resultsContainer.innerHTML += `
+                    <div class="glass p-6 rounded-2xl border-white/5 flex flex-col items-center text-center">
+                        <img src="${data.photo}" class="w-16 h-16 rounded-full mb-4 border-2 border-yellow-500">
+                        <h4 class="font-black uppercase tracking-tighter">${data.name}</h4>
+                        <p class="text-[10px] text-zinc-500 mb-4">${data.role}</p>
+                        <div class="flex gap-2 w-full">
+                            <button onclick="window.location.href='profile.html?uid=${doc.id}'" class="flex-1 bg-zinc-800 py-2 rounded-lg text-[10px] font-black uppercase">Profile</button>
+                            <button onclick="startDM('${doc.id}')" class="flex-1 bg-yellow-500 text-black py-2 rounded-lg text-[10px] font-black uppercase">DM</button>
+                        </div>
+                    </div>
+                `;
+            });
+        };
+
+        // LIVE MINI CHAT FEED (Public)
+        const miniFeed = document.getElementById('mini-chat-feed');
+        const qChat = query(collection(db, "chats", "global", "messages"), orderBy("timestamp", "desc"), limit(15));
+        
+        onSnapshot(qChat, (snapshot) => {
+            miniFeed.innerHTML = "";
+            snapshot.docs.reverse().forEach(doc => {
+                const data = doc.data();
+                miniFeed.innerHTML += `
+                    <div class="animate-fadeIn">
+                        <span class="text-yellow-500 font-black uppercase text-[9px] block">${data.userName}</span>
+                        <p class="bg-white/5 p-2 rounded-lg mt-1 border border-white/5">${data.text}</p>
+                    </div>
+                `;
+            });
+            miniFeed.scrollTop = miniFeed.scrollHeight;
+        });
+
+        // DM LOGIC
+        window.startDM = (targetUid) => {
+            if (!auth.currentUser) return alert("Login to start DM");
+            // Create a unique room ID by sorting UIDs alphabetically
+            const dmID = [auth.currentUser.uid, targetUid].sort().join("_");
+            window.location.href = `text.html#group=${dmID}`;
+        };
+
+        // HUB GENERATOR
+        const hubGrid = document.getElementById('hubs-grid');
+        for(let i=0; i<4; i++) {
+            const code = Math.floor(100000 + Math.random() * 900000);
+            hubGrid.innerHTML += `
+                <div class="glass p-8 rounded-3xl border-white/5 hover:border-yellow-500/50 transition cursor-pointer group">
+                    <p class="text-zinc-500 font-black text-xs mb-1">STATION_ID</p>
+                    <h4 class="text-3xl font-black italic tracking-tighter group-hover:text-yellow-500">${code}</h4>
+                </div>
+            `;
+        }
+
+        lucide.createIcons();
+    </script>
 </body>
 </html>
