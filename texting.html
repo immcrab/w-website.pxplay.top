@@ -6,97 +6,37 @@
     <title>W Messenger | Secure</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;900&family=Bungee&display=swap" rel="stylesheet">
-    
+    <link rel="stylesheet" href="style.css">
     <style>
-        :root {
-            --clay-purple: #7c3aed;
-            --bg-dark: #09090b;
-        }
-
-        body {
-            background-color: var(--bg-dark);
-            color: white;
-            font-family: 'Outfit', sans-serif;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            background-image: radial-gradient(circle at 2px 2px, #1e1e24 1px, transparent 0);
-            background-size: 40px 40px;
-        }
-
-        .glass-card {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(25px) saturate(160%);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .message-bubble {
-            max-width: 80%;
-            padding: 12px 18px;
-            border-radius: 20px;
-            margin-bottom: 10px;
-            font-size: 14px;
-            animation: slideIn 0.3s ease;
-        }
-
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .my-message {
-            background: var(--clay-purple);
-            align-self: flex-end;
-            border-bottom-right-radius: 4px;
-        }
-
-        .other-message {
-            background: rgba(255,255,255,0.1);
-            align-self: flex-start;
-            border-bottom-left-radius: 4px;
-        }
-
-        #chat-window {
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-        }
-        #chat-window::-webkit-scrollbar { display: none; }
-
-        .action-btn {
-            background: var(--clay-purple);
-            border-radius: 12px;
-            font-family: 'Bungee', cursive;
-            transition: all 0.2s;
-        }
+        body { height: 100vh; display: flex; flex-direction: column; padding: 20px; box-sizing: border-box; }
+        #chat-container { flex: 1; display: flex; flex-direction: column; max-width: 900px; width: 100%; margin: 0 auto; overflow: hidden; }
+        #chat-window { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; scrollbar-width: none; }
     </style>
 </head>
-<body class="p-4 md:p-8">
+<body>
 
-    <div class="max-w-4xl w-full mx-auto flex flex-col h-full glass-card rounded-[40px] overflow-hidden border border-white/10">
+    <div id="chat-container" class="glass-card border border-white/10">
         <div class="p-6 border-b border-white/10 flex justify-between items-center bg-white/5">
             <div>
-                <h2 class="font-['Bungee'] text-xl tracking-tighter">SECURE COMMS</h2>
-                <p class="text-[10px] text-gray-500 uppercase tracking-widest">End-to-End Encryption Active</p>
+                <h2 class="font-['Bungee'] text-xl tracking-tighter">SECURE CHAT</h2>
+                <p id="display-name" class="text-[10px] text-purple-500 font-bold uppercase tracking-widest">ID: LOADING...</p>
             </div>
-            <a href="index.html" class="text-xs font-bold text-gray-400 hover:text-white transition">EXIT</a>
+            <a href="index.html" class="text-xs font-bold text-gray-500 hover:text-white transition">BACK TO HUB</a>
         </div>
 
-        <div id="chat-window" class="flex-1 overflow-y-auto p-6 flex flex-col">
-            </div>
+        <div id="chat-window"></div>
 
         <div class="p-6 bg-white/5 border-t border-white/10">
             <div class="flex gap-3">
-                <input type="text" id="username" placeholder="Name" class="w-24 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-xs outline-none focus:border-purple-500">
-                <input type="text" id="msg-input" placeholder="Type a message..." class="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm outline-none focus:border-purple-500">
-                <button id="send-btn" class="action-btn px-6 py-3 text-xs">SEND</button>
+                <input type="text" id="msg-input" placeholder="Say something..." class="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-4 text-sm outline-none focus:border-purple-500">
+                <button id="send-btn" class="action-btn px-8 py-4">SEND</button>
             </div>
         </div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getDatabase, ref, push, onValue, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyDgQRvvNbr8tY4OP0Ky-6Uy6LI1gWFlAXM",
@@ -109,55 +49,67 @@
             measurementId: "G-GRQ0L4H0Y6"
         };
 
-        // Init
         const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const messagesCol = collection(db, "messages");
+        const db = getDatabase(app);
+        const chatRef = ref(db, 'messages');
 
-        const chatWindow = document.getElementById('chat-window');
-        const msgInput = document.getElementById('msg-input');
-        const usernameInput = document.getElementById('username');
-        const sendBtn = document.getElementById('send-btn');
+        // Handle Persistent Identity
+        let myId = localStorage.getItem('w_user_id');
+        if (!myId) {
+            myId = 'Guest' + Math.floor(100 + Math.random() * 900);
+            localStorage.setItem('w_user_id', myId);
+        }
+        document.getElementById('display-name').innerText = "ID: " + myId;
 
-        // Load Messages
-        const q = query(messagesCol, orderBy("timestamp", "asc"));
-        onSnapshot(q, (snapshot) => {
+        // Color Generator for other users
+        const getOtherColor = (userId) => {
+            let hash = 0;
+            for (let i = 0; i < userId.length; i++) {
+                hash = userId.charCodeAt(i) + ((hash << 5) - hash);
+            }
+            return `hsl(${Math.abs(hash % 360)}, 60%, 40%)`;
+        };
+
+        // Listen for messages
+        onValue(chatRef, (snapshot) => {
+            const chatWindow = document.getElementById('chat-window');
             chatWindow.innerHTML = '';
-            snapshot.forEach((doc) => {
-                const data = doc.data();
-                const isMe = data.user === usernameInput.value;
+            snapshot.forEach((childSnapshot) => {
+                const data = childSnapshot.val();
+                const isMe = data.user === myId;
                 
-                const div = document.createElement('div');
-                div.className = `message-bubble ${isMe ? 'my-message' : 'other-message'}`;
-                div.innerHTML = `
-                    <div class="text-[10px] opacity-50 font-bold mb-1 uppercase">${data.user || 'Anonymous'}</div>
+                const bubble = document.createElement('div');
+                bubble.className = `message-bubble ${isMe ? 'my-message' : 'other-message'}`;
+                
+                if (!isMe) {
+                    bubble.style.background = getOtherColor(data.user);
+                }
+
+                bubble.innerHTML = `
+                    <div class="text-[9px] font-black uppercase opacity-60 mb-1">${data.user}</div>
                     <div>${data.text}</div>
                 `;
-                chatWindow.appendChild(div);
+                chatWindow.appendChild(bubble);
             });
             chatWindow.scrollTop = chatWindow.scrollHeight;
         });
 
-        // Send Logic
-        async function sendMessage() {
-            const text = msgInput.value.trim();
-            const user = usernameInput.value.trim() || "Guest";
-            
+        // Send message
+        const sendMsg = () => {
+            const input = document.getElementById('msg-input');
+            const text = input.value.trim();
             if (text) {
-                await addDoc(messagesCol, {
+                push(chatRef, {
+                    user: myId,
                     text: text,
-                    user: user,
                     timestamp: serverTimestamp()
                 });
-                msgInput.value = '';
+                input.value = '';
             }
-        }
+        };
 
-        sendBtn.addEventListener('click', sendMessage);
-        msgInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') sendMessage();
-        });
-
+        document.getElementById('send-btn').onclick = sendMsg;
+        document.getElementById('msg-input').onkeydown = (e) => { if(e.key === 'Enter') sendMsg(); };
     </script>
 </body>
 </html>
