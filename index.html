@@ -41,7 +41,6 @@
 
         .hidden-panel { display: none; }
         
-        /* Table Styling */
         th { text-transform: uppercase; font-size: 10px; letter-spacing: 0.2em; color: #4b5563; padding-bottom: 1.5rem; }
         td { padding: 1.2rem 0; border-bottom: 1px solid rgba(255,255,255,0.03); font-size: 13px; }
 
@@ -55,7 +54,6 @@
             outline: none;
         }
 
-        /* Custom Scrollbar */
         .custom-scroll::-webkit-scrollbar { width: 4px; }
         .custom-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
 
@@ -81,7 +79,7 @@
                 <div id="logged-in-view" class="hidden flex items-center gap-4">
                     <div class="h-2 w-2 bg-green-500 rounded-full animate-pulse"></div>
                     <span id="user-display-name" class="text-xs font-black uppercase italic">User</span>
-                    <button onclick="location.reload()" class="text-gray-500 text-[9px] font-bold hover:text-white transition">LOGOUT</button>
+                    <button id="logoutBtn" class="text-gray-500 text-[9px] font-bold hover:text-white transition">LOGOUT</button>
                 </div>
             </div>
         </div>
@@ -202,7 +200,7 @@
         <div class="ultra-glass p-12 w-full max-w-md border-purple-500/20">
             <h2 class="text-4xl font-['Bungee'] mb-8 text-center">W SIGN IN</h2>
             <input type="email" id="loginEmail" placeholder="Work Email" class="w-full bg-white/5 border border-white/10 rounded-2xl p-5 mb-4 outline-none focus:border-purple-500">
-            <input type="password" placeholder="Key Phrase" class="w-full bg-white/5 border border-white/10 rounded-2xl p-5 mb-8 outline-none">
+            <input type="password" id="loginPass" placeholder="Key Phrase" class="w-full bg-white/5 border border-white/10 rounded-2xl p-5 mb-8 outline-none">
             <button id="executeLogin" class="btn-action bg-white text-black w-full py-5 rounded-2xl font-black uppercase text-xs">Enter Network</button>
             <button onclick="toggleModal()" class="w-full mt-6 text-gray-600 text-[10px] font-black uppercase tracking-widest hover:text-white">Cancel</button>
         </div>
@@ -214,13 +212,31 @@
         <p id="lockdown-msg" class="text-gray-500 max-w-lg font-medium"></p>
     </div>
 
-    <script>
-        // --- 1. GLOBAL VARIABLES & ROLE ---
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDgQRvvNbr8tY4OP0Ky-6Uy6LI1gWFlAXM",
+            authDomain: "makerlee.firebaseapp.com",
+            databaseURL: "https://makerlee-default-rtdb.firebaseio.com",
+            projectId: "makerlee",
+            storageBucket: "makerlee.firebasestorage.app",
+            messagingSenderId: "730881046345",
+            appId: "1:730881046345:web:bf0fb8862db08de7604c98",
+            measurementId: "G-GRQ0L4H0Y6"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getDatabase(app);
+
         let currentRole = "Guest";
         let userEmail = "";
         const ownerEmail = "wwebsiteofficial@outlook.com";
 
-        // --- 2. GHOST HANDSHAKE (L+P) ---
+        // Handshake
         let keys = {};
         document.addEventListener('keydown', e => {
             keys[e.key.toLowerCase()] = true;
@@ -235,45 +251,61 @@
         });
         document.addEventListener('keyup', e => delete keys[e.key.toLowerCase()]);
 
-        // --- 3. LOGIN LOGIC ---
-        function toggleModal() { document.getElementById('loginModal').classList.toggle('hidden'); }
+        // Auth Logic
+        window.toggleModal = () => { document.getElementById('loginModal').classList.toggle('hidden'); }
 
         document.getElementById('executeLogin').addEventListener('click', () => {
             const email = document.getElementById('loginEmail').value;
-            if(!email) return;
+            const pass = document.getElementById('loginPass').value;
+            if(!email || !pass) return;
 
-            userEmail = email;
-            currentRole = (email === ownerEmail) ? "Owner" : "Member";
-
-            document.getElementById('guest-view').classList.add('hidden');
-            document.getElementById('logged-in-view').classList.remove('hidden');
-            document.getElementById('user-display-name').innerText = email.split('@')[0];
-            
-            toggleModal();
-            trackActivity("Logged In");
+            signInWithEmailAndPassword(auth, email, pass)
+                .then(() => {
+                    toggleModal();
+                    trackActivity("Logged In");
+                })
+                .catch(error => alert("Authentication Failed: " + error.message));
         });
 
-        // --- 4. SYSTEM STATE CONTROLLER ---
-        function setSystemState(state) {
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            signOut(auth).then(() => location.reload());
+        });
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                userEmail = user.email;
+                currentRole = (userEmail === ownerEmail) ? "Owner" : "Member";
+                document.getElementById('guest-view').classList.add('hidden');
+                document.getElementById('logged-in-view').classList.remove('hidden');
+                document.getElementById('user-display-name').innerText = userEmail.split('@')[0];
+            }
+        });
+
+        // System State with Firebase Sync
+        window.setSystemState = (state) => {
+            if(currentRole !== "Owner") return;
+            set(ref(db, 'system/mode'), state);
+        };
+
+        onValue(ref(db, 'system/mode'), (snapshot) => {
+            const state = snapshot.val() || 'live';
             document.querySelectorAll('.state-btn').forEach(b => b.classList.remove('state-active'));
-            document.getElementById(`state-${state}`).classList.add('state-active');
-            
+            const btn = document.getElementById(`state-${state}`);
+            if(btn) btn.classList.add('state-active');
             applySystemUI(state);
-            // OWEN: Link this to Firebase db.collection('system').doc('config').set({mode: state});
-        }
+        });
 
         function applySystemUI(state) {
             const lockdown = document.getElementById('system-lockdown');
             const title = document.getElementById('lockdown-title');
             const msg = document.getElementById('lockdown-msg');
-
             lockdown.classList.add('hidden');
 
-            if (state === 'testing' && currentRole !== 'Owner' && currentRole !== 'Tester') {
+            if (state === 'testing' && currentRole !== 'Owner') {
                 title.innerText = "Testing Mode";
                 msg.innerText = "W 2.0 is currently under authorized testing by Kurt Falcon and the team.";
                 lockdown.classList.remove('hidden');
-            } else if (state === 'update' && currentRole !== 'Owner' && currentRole !== 'Staff') {
+            } else if (state === 'update' && currentRole !== 'Owner') {
                 title.innerText = "System Update";
                 msg.innerText = "We're pushing new features to the network. Standby for reconnection.";
                 lockdown.classList.remove('hidden');
@@ -284,29 +316,27 @@
             }
         }
 
-        // --- 5. ACTIVITY TRACKING ---
-        function trackActivity(action) {
+        window.trackActivity = (action) => {
             const feed = document.getElementById('activity-feed');
-            const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
             const item = document.createElement('div');
             item.className = "p-4 bg-white/5 rounded-2xl border border-white/5 animate-pulse";
             item.innerHTML = `<p class="text-[10px] font-black text-purple-400">${userEmail || 'GUEST'}</p><p class="text-xs text-gray-300">${action}</p>`;
             feed.prepend(item);
         }
 
-        function triggerBlast() {
+        window.triggerBlast = () => {
             const msg = document.getElementById('blast-msg').value;
             if(msg) alert("BLAST TRANSMITTED: " + msg);
         }
 
-        function banUser(id) {
+        window.banUser = (id) => {
             if(confirm("Permanently deauth this user?")) {
                 document.getElementById(`row-${id}`).style.opacity = "0.2";
                 trackActivity("Banned User ID: " + id);
             }
         }
 
-        // --- 6. SECURITY ---
+        // Security
         document.addEventListener('contextmenu', e => e.preventDefault());
         document.addEventListener('keydown', e => {
             if ((e.ctrlKey || e.metaKey) && ['c','s','p'].includes(e.key.toLowerCase())) e.preventDefault();
