@@ -3,204 +3,193 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>W Website | Community Hub</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <script src="https://unpkg.com/lucide@latest"></script>
-</head>
-<body class="bg-zinc-950 text-zinc-100 min-h-screen">
+    <title>W Website | Official</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0b;
+            --card-bg: #16161a;
+            --accent: #7000ff; /* Playful Purple */
+            --accent-glow: #a35dff;
+            --text: #ffffff;
+            --text-dim: #a0a0a0;
+        }
 
-    <div id="marquee-container" class="bg-yellow-500 text-black py-1 overflow-hidden whitespace-nowrap border-b-2 border-black">
-        <div id="marquee-text" class="inline-block font-bold uppercase tracking-tighter animate-marquee">
-            ESTABLISHING CONNECTION TO W_PROTOCOL... — 
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* --- HEADER --- */
+        header {
+            padding: 20px 5%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 15px;
+        }
+
+        .logo-text { font-size: 2rem; font-weight: 800; letter-spacing: -1px; }
+        .logo-icon {
+            width: 45px; height: 45px;
+            background: linear-gradient(45deg, var(--accent), var(--accent-glow));
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 900; font-size: 1.5rem;
+            box-shadow: 0 0 20px rgba(112, 0, 255, 0.4);
+        }
+
+        /* --- HERO --- */
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .hero h1 { font-size: 3rem; margin-bottom: 10px; }
+        .hero p { color: var(--text-dim); max-width: 600px; margin: 0 auto; }
+
+        /* --- THE GRID --- */
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 40px 5%;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 24px;
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid #222;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent);
+            box-shadow: 0 10px 30px rgba(112, 0, 255, 0.2);
+        }
+
+        .card h3 { margin: 10px 0 5px; font-size: 1.4rem; }
+        .badge {
+            background: #333;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            font-weight: 800;
+        }
+
+        .badge.active { background: var(--accent); }
+
+        /* --- CHAT SECTION --- */
+        .chat-preview {
+            background: var(--card-bg);
+            margin: 40px 5%;
+            padding: 40px;
+            border-radius: 30px;
+            border: 1px dashed #444;
+        }
+
+        .chat-input-area {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        input {
+            flex: 1;
+            background: #222;
+            border: none;
+            padding: 15px;
+            border-radius: 12px;
+            color: white;
+            outline: none;
+        }
+
+        .btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background: #000;
+            padding: 60px 5%;
+            margin-top: 100px;
+        }
+
+        .social-icons { display: flex; gap: 20px; font-size: 1.2rem; margin-bottom: 20px; }
+        .social-icons span { color: var(--text-dim); cursor: pointer; transition: 0.3s; }
+        .social-icons span:hover { color: var(--accent); }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-text">W Website</div>
+        <div class="logo-icon">W</div>
+    </header>
+
+    <div class="hero">
+        <h1>Welcome to the Future.</h1>
+        <p>Your portal for real-time text, exclusive games, and high-tier merchandise.</p>
+    </div>
+
+    <div class="nav-grid">
+        <div class="card">
+            <span class="badge">Coming Soon</span>
+            <h3>Socials</h3>
+        </div>
+        <div class="card">
+            <span class="badge">Coming Soon</span>
+            <h3>Games</h3>
+        </div>
+        <div class="card" onclick="alert('Launching Text Hub...')">
+            <span class="badge active">Live</span>
+            <h3>Text</h3>
+        </div>
+        <div class="card" onclick="window.location.href='https://wwebsite.sell.app'">
+            <span class="badge active">Store</span>
+            <h3>Shop</h3>
         </div>
     </div>
 
-    <nav class="sticky top-0 z-40 glass border-b border-white/10 px-6 py-4 flex justify-between items-center">
-        <div class="flex items-center gap-4">
-            <h1 class="text-2xl font-black tracking-tighter italic uppercase cursor-pointer" onclick="showSection('home')">W WEBSITE</h1>
-            <span class="bg-green-500/20 text-green-400 text-xs px-2 py-1 rounded-full border border-green-500/50 font-bold">
-                LIVE: <span id="user-count">0</span>
-            </span>
+    <div class="chat-preview">
+        <h2>💬 Create Group Chat</h2>
+        <p style="color: var(--text-dim);">Enter a unique group code to start texting your squad.</p>
+        <div class="chat-input-area">
+            <input type="text" placeholder="Enter Group Code (e.g. W-7728)...">
+            <button class="btn">Connect</button>
         </div>
-        
-        <div class="hidden md:flex items-center gap-8 font-bold text-sm uppercase tracking-widest">
-            <a href="#" onclick="showSection('home')" class="hover:text-yellow-500 transition">Home</a>
-            <a href="#" onclick="showSection('search')" class="hover:text-yellow-500 transition">Search</a>
-            <a href="text.html" class="hover:text-yellow-500 transition">Comms</a>
-            <a href="#" onclick="showSection('profile')" class="hover:text-yellow-500 transition">Dashboard</a>
-            <button id="auth-btn" class="bg-white text-black px-4 py-1 rounded-full text-xs font-black hover:bg-yellow-500 transition">LOGIN</button>
+    </div>
+
+    <footer>
+        <div class="social-icons">
+            <span>Twitch</span>
+            <span>TikTok</span>
+            <span>YouTube</span>
         </div>
-    </nav>
+        <p>Email: <b>Wwebsite@outlook.com</b></p>
+        <p>Phone: <span class="badge">Coming Soon</span></p>
+        <p style="margin-top: 40px; font-size: 0.8rem; color: #444;">© 2026 W Website | All Rights Reserved</p>
+    </footer>
 
-    <main class="max-w-7xl mx-auto p-6">
-        
-        <section id="view-home" class="view-section">
-            <div class="grid lg:grid-cols-3 gap-8">
-                <div class="lg:col-span-2">
-                    <h2 class="text-5xl font-black mb-8 uppercase tracking-tighter">Active Hubs</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="hubs-grid"></div>
-                </div>
-
-                <div class="glass rounded-[2rem] border-white/5 flex flex-col h-[600px]">
-                    <div class="p-6 border-b border-white/10 flex justify-between items-center">
-                        <h3 class="font-black uppercase italic">Global Feed</h3>
-                        <span class="w-2 h-2 bg-yellow-500 rounded-full animate-pulse"></span>
-                    </div>
-                    <div id="mini-chat-feed" class="flex-1 overflow-y-auto p-4 space-y-4 text-sm">
-                        </div>
-                    <div class="p-4">
-                        <a href="text.html" class="block text-center bg-zinc-800 hover:bg-zinc-700 py-3 rounded-xl font-black uppercase text-[10px] tracking-widest transition">Open Full Comms</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="view-search" class="view-section hidden">
-            <h2 class="text-5xl font-black mb-8 uppercase tracking-tighter">User Discovery</h2>
-            <div class="glass p-6 rounded-[2rem] mb-8">
-                <div class="relative">
-                    <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500"></i>
-                    <input type="text" id="user-search-input" placeholder="Search by name (e.g. 'Admin' or 'User')..." 
-                        class="w-full bg-zinc-900 border-2 border-zinc-800 rounded-2xl py-4 pl-12 pr-4 outline-none focus:border-yellow-500 transition font-bold">
-                </div>
-            </div>
-            
-            <div id="search-results" class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                </div>
-        </section>
-
-        <section id="view-profile" class="view-section hidden">
-            <h2 class="text-5xl font-black mb-8 uppercase tracking-tighter">Your Profile</h2>
-            <div id="profile-card" class="glass p-8 rounded-3xl max-w-2xl border-white/10">
-                </div>
-        </section>
-
-    </main>
-
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, collection, query, where, getDocs, onSnapshot, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyDgQRvvNbr8tY4OP0Ky-6Uy6LI1gWFlAXM",
-            authDomain: "makerlee.firebaseapp.com",
-            projectId: "makerlee",
-            storageBucket: "makerlee.firebasestorage.app",
-            messagingSenderId: "730881046345",
-            appId: "1:730881046345:web:bf0fb8862db08de7604c98"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-        const provider = new GoogleAuthProvider();
-
-        // UI ROUTING
-        window.showSection = (id) => {
-            document.querySelectorAll('.view-section').forEach(s => s.classList.add('hidden'));
-            document.getElementById(`view-${id}`).classList.remove('hidden');
-            window.scrollTo(0,0);
-        };
-
-        // AUTH & USER SYNC
-        const authBtn = document.getElementById('auth-btn');
-        authBtn.onclick = () => auth.currentUser ? signOut(auth) : signInWithPopup(auth, provider);
-
-        onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                authBtn.innerText = "LOGOUT";
-                await setDoc(doc(db, "users", user.uid), {
-                    name: user.displayName,
-                    email: user.email,
-                    photo: user.photoURL,
-                    role: "Member",
-                    searchName: user.displayName.toLowerCase() // For partial search
-                }, { merge: true });
-            } else {
-                authBtn.innerText = "LOGIN";
-            }
-        });
-
-        // SEARCH LOGIC (Partial Search)
-        const searchInput = document.getElementById('user-search-input');
-        const resultsContainer = document.getElementById('search-results');
-
-        searchInput.oninput = async (e) => {
-            const val = e.target.value.toLowerCase();
-            if (val.length < 2) {
-                resultsContainer.innerHTML = "";
-                return;
-            }
-
-            // Firebase StartAt/EndAt trick for partial prefix search
-            const q = query(
-                collection(db, "users"),
-                where("searchName", ">=", val),
-                where("searchName", "<=", val + '\uf8ff'),
-                limit(10)
-            );
-
-            const snapshot = await getDocs(q);
-            resultsContainer.innerHTML = "";
-            
-            snapshot.forEach(doc => {
-                const data = doc.data();
-                resultsContainer.innerHTML += `
-                    <div class="glass p-6 rounded-2xl border-white/5 flex flex-col items-center text-center">
-                        <img src="${data.photo}" class="w-16 h-16 rounded-full mb-4 border-2 border-yellow-500">
-                        <h4 class="font-black uppercase tracking-tighter">${data.name}</h4>
-                        <p class="text-[10px] text-zinc-500 mb-4">${data.role}</p>
-                        <div class="flex gap-2 w-full">
-                            <button onclick="window.location.href='profile.html?uid=${doc.id}'" class="flex-1 bg-zinc-800 py-2 rounded-lg text-[10px] font-black uppercase">Profile</button>
-                            <button onclick="startDM('${doc.id}')" class="flex-1 bg-yellow-500 text-black py-2 rounded-lg text-[10px] font-black uppercase">DM</button>
-                        </div>
-                    </div>
-                `;
-            });
-        };
-
-        // LIVE MINI CHAT FEED (Public)
-        const miniFeed = document.getElementById('mini-chat-feed');
-        const qChat = query(collection(db, "chats", "global", "messages"), orderBy("timestamp", "desc"), limit(15));
-        
-        onSnapshot(qChat, (snapshot) => {
-            miniFeed.innerHTML = "";
-            snapshot.docs.reverse().forEach(doc => {
-                const data = doc.data();
-                miniFeed.innerHTML += `
-                    <div class="animate-fadeIn">
-                        <span class="text-yellow-500 font-black uppercase text-[9px] block">${data.userName}</span>
-                        <p class="bg-white/5 p-2 rounded-lg mt-1 border border-white/5">${data.text}</p>
-                    </div>
-                `;
-            });
-            miniFeed.scrollTop = miniFeed.scrollHeight;
-        });
-
-        // DM LOGIC
-        window.startDM = (targetUid) => {
-            if (!auth.currentUser) return alert("Login to start DM");
-            // Create a unique room ID by sorting UIDs alphabetically
-            const dmID = [auth.currentUser.uid, targetUid].sort().join("_");
-            window.location.href = `text.html#group=${dmID}`;
-        };
-
-        // HUB GENERATOR
-        const hubGrid = document.getElementById('hubs-grid');
-        for(let i=0; i<4; i++) {
-            const code = Math.floor(100000 + Math.random() * 900000);
-            hubGrid.innerHTML += `
-                <div class="glass p-8 rounded-3xl border-white/5 hover:border-yellow-500/50 transition cursor-pointer group">
-                    <p class="text-zinc-500 font-black text-xs mb-1">STATION_ID</p>
-                    <h4 class="text-3xl font-black italic tracking-tighter group-hover:text-yellow-500">${code}</h4>
-                </div>
-            `;
-        }
-
-        lucide.createIcons();
-    </script>
 </body>
 </html>
