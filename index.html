@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>W Website | Official Network</title>
+    <title>W Website 2.0</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;900&family=Bungee&display=swap" rel="stylesheet">
     
@@ -24,21 +24,21 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
-        window.db = db; // Exporting for other functions
+        window.db = db;
     </script>
 
     <style>
         :root { --accent: #a78bfa; --bg: #050505; }
-        body { background-color: var(--bg); color: white; font-family: 'Outfit', sans-serif; background-image: radial-gradient(at 0% 0%, rgba(124, 58, 237, 0.08) 0px, transparent 50%); background-attachment: fixed; }
-        .ultra-glass { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(40px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 25px; }
-        .btn-main { transition: all 0.2s ease; font-family: 'Bungee', cursive; border-radius: 12px; text-transform: uppercase; }
+        body { background-color: var(--bg); color: white; font-family: 'Outfit', sans-serif; background-image: radial-gradient(at 0% 0%, rgba(124, 58, 237, 0.05) 0px, transparent 50%); background-attachment: fixed; }
+        .ultra-glass { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(40px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 20px; }
+        .btn-main { transition: all 0.2s ease; font-family: 'Bungee', cursive; border-radius: 10px; text-transform: uppercase; }
         .btn-main:hover { transform: translateY(-2px); filter: brightness(1.2); }
         .hidden-panel { display: none !important; }
         input, textarea { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white; padding: 12px; border-radius: 12px; outline: none; width: 100%; }
-        .chat-tab { transition: all 0.3s; cursor: pointer; border-left: 3px solid transparent; }
+        .chat-tab { transition: 0.3s; cursor: pointer; border-left: 3px solid transparent; }
         .chat-tab.active { background: rgba(167, 139, 250, 0.1); border-left-color: var(--accent); }
-        .staff-card { border: 1px solid rgba(255,255,255,0.05); transition: 0.3s; }
-        .staff-card:hover { background: rgba(167, 139, 250, 0.05); border-color: var(--accent); }
+        .custom-scroll::-webkit-scrollbar { width: 3px; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
     </style>
 </head>
 <body class="min-h-screen">
@@ -46,108 +46,70 @@
     <nav class="fixed top-0 left-0 right-0 z-[100] p-6">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <div onclick="goHome()" class="text-4xl font-black italic tracking-tighter cursor-pointer">W<span class="text-purple-500">.</span></div>
-            <div class="ultra-glass px-4 py-2 flex items-center gap-4">
-                <button onclick="toggleLogin()" id="nav-btn" class="btn-main bg-white text-black px-5 py-2 text-[11px]">SIGN IN</button>
-                <div id="master-tag" class="hidden-panel text-[10px] font-black text-purple-400 border border-purple-500/30 px-2 py-1 rounded">BRODY_ADMIN</div>
+            <div class="ultra-glass px-4 py-2">
+                <button onclick="toggleLogin()" id="nav-btn" class="btn-main bg-white text-black px-5 py-2 text-[10px]">SIGN IN</button>
             </div>
         </div>
     </nav>
 
-    <section id="view-home" class="pt-40 pb-20 px-6 max-w-6xl mx-auto">
-        
-        <div class="mb-20 text-center">
-            <h2 class="text-[10px] font-black text-purple-500 uppercase tracking-[0.5em] mb-6">W-COSMOS TRANSMISSION</h2>
-            <div class="ultra-glass p-12 border-purple-500/20 max-w-4xl mx-auto">
-                <h3 id="home-news-title" class="text-5xl font-['Bungee'] mb-4 italic">PROJECT PHANTOM LIVE</h3>
-                <p id="home-news-body" class="text-gray-400 text-lg">Official network for W-Website. Connect with the Hub or upgrade your status at the store.</p>
+    <section id="view-home" class="pt-40 pb-20 px-6 max-w-5xl mx-auto text-center">
+        <div class="mb-20">
+            <h2 class="text-[10px] font-black text-purple-500 uppercase tracking-[0.5em] mb-4">Transmission Center</h2>
+            <div class="ultra-glass p-12 border-purple-500/20 max-w-3xl mx-auto">
+                <h3 id="news-t" class="text-4xl font-['Bungee'] mb-2 italic">NETWORK UPDATES</h3>
+                <p id="news-b" class="text-gray-400 text-sm">System operational. Enter the Hub for group messaging.</p>
             </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-24">
-            <button onclick="goHub()" class="ultra-glass p-16 text-left group hover:border-purple-500/50 transition-all">
-                <div class="text-5xl mb-6">💬</div>
-                <h4 class="text-2xl font-['Bungee'] group-hover:text-purple-400 transition">Messenger Hub</h4>
-                <p class="text-[10px] text-gray-500 font-black uppercase mt-2 italic tracking-widest">Secure Group Comms</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto mb-20">
+            <button onclick="goHub()" class="ultra-glass p-14 text-left group hover:border-purple-500/50 transition-all">
+                <div class="text-4xl mb-4">💬</div>
+                <h4 class="text-xl font-['Bungee'] group-hover:text-purple-400">HUB</h4>
+                <p class="text-[9px] text-gray-500 font-black uppercase mt-2">Join Chat Sessions</p>
             </button>
-            <a href="https://wwebsite.sell.app" target="_blank" class="ultra-glass p-16 text-left group hover:border-cyan-500/50 transition-all">
-                <div class="text-5xl mb-6">💎</div>
-                <h4 class="text-2xl font-['Bungee'] group-hover:text-cyan-400 transition">W Store</h4>
-                <p class="text-[10px] text-gray-500 font-black uppercase mt-2 italic tracking-widest">Subscriptions & Tiers</p>
-            </a>
+            <a href="https://wwebsite.sell.app" target="_blank" class="ultra-glass p-14 text-left group hover:border-cyan-500/50 transition-all">
+                <div class="text-4xl mb-4">💎</div>
+                <h4 class="text-xl font-['Bungee'] group-hover:text-cyan-400">STORE</h4>
+                <p class="text-[9px] text-gray-500 font-black uppercase mt-2">Get Subscriptions</p>
+            </button>
         </div>
 
-        <div class="mb-24">
-            <h3 class="text-center text-[10px] font-black text-gray-500 uppercase tracking-[0.4em] mb-12">The W Development Team</h3>
-            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                <div class="ultra-glass p-6 text-center staff-card">
-                    <p class="text-purple-400 font-black text-xs uppercase mb-1">Brody Williams</p>
-                    <p class="text-[9px] text-gray-500 uppercase font-bold">Owner / Lead Dev</p>
-                </div>
-                <div class="ultra-glass p-6 text-center staff-card">
-                    <p class="text-white font-black text-xs uppercase mb-1">Jase</p>
-                    <p class="text-[9px] text-gray-500 uppercase font-bold">Co-Owner</p>
-                </div>
-                <div class="ultra-glass p-6 text-center staff-card">
-                    <p class="text-white font-black text-xs uppercase mb-1">Owen</p>
-                    <p class="text-[9px] text-gray-500 uppercase font-bold">Systems Coder</p>
-                </div>
-                <div class="ultra-glass p-6 text-center staff-card">
-                    <p class="text-white font-black text-xs uppercase mb-1">Sully</p>
-                    <p class="text-[9px] text-gray-500 uppercase font-bold">Administrator</p>
-                </div>
-                <div class="ultra-glass p-6 text-center staff-card">
-                    <p class="text-white font-black text-xs uppercase mb-1">Andrew</p>
-                    <p class="text-[9px] text-gray-500 uppercase font-bold">Media / Design</p>
-                </div>
-                <div class="ultra-glass p-6 text-center staff-card">
-                    <p class="text-white font-black text-xs uppercase mb-1">DJ</p>
-                    <p class="text-[9px] text-gray-500 uppercase font-bold">Staff Manager</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="max-w-3xl mx-auto ultra-glass p-12 border-white/5">
-            <h3 class="text-2xl font-['Bungee'] mb-8 uppercase text-center">Support Transmission</h3>
-            <div class="space-y-4">
-                <input type="text" id="c-name" placeholder="Name">
-                <textarea id="c-msg" placeholder="Describe your issue or feedback..." class="h-32"></textarea>
-                <button onclick="submitSupport()" class="btn-main bg-white text-black w-full py-5 text-[12px] font-black hover:bg-purple-500 hover:text-white">Submit to Team</button>
-            </div>
+        <div class="max-w-2xl mx-auto ultra-glass p-10 border-white/5">
+            <h3 class="text-xl font-['Bungee'] mb-6 uppercase">Contact Support</h3>
+            <input type="text" id="c-name" placeholder="Name" class="mb-4">
+            <textarea id="c-msg" placeholder="Message..." class="h-24 mb-4"></textarea>
+            <button onclick="submitSupport()" class="btn-main bg-white/5 border border-white/10 w-full py-4 text-[10px] font-black hover:bg-white hover:text-black">Submit</button>
         </div>
     </section>
 
     <section id="view-hub" class="hidden-panel pt-32 pb-10 px-6 max-w-7xl mx-auto h-[90vh]">
         <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 h-full">
-            <div class="lg:col-span-1 ultra-glass p-6 flex flex-col gap-2 overflow-y-auto custom-scroll">
-                <div class="flex justify-between items-center mb-8 px-2">
-                    <span class="text-[10px] font-black text-purple-400 uppercase tracking-widest italic">My Hub</span>
-                    <button onclick="openJoin()" class="h-8 w-8 bg-white/5 rounded-full hover:bg-white/10 text-sm font-bold">+</button>
+            <div class="lg:col-span-1 ultra-glass p-5 flex flex-col gap-2 overflow-y-auto custom-scroll">
+                <div class="flex justify-between items-center mb-6 px-2">
+                    <span class="text-[10px] font-black text-purple-400 uppercase">Sessions</span>
+                    <button onclick="openJoin()" class="h-7 w-7 bg-white/5 rounded-full hover:bg-white/10 text-xs font-bold">+</button>
                 </div>
-                <div id="side-list" class="space-y-2"></div>
+                <div id="side-chats" class="space-y-1"></div>
             </div>
 
             <div class="lg:col-span-3 ultra-glass flex flex-col overflow-hidden relative">
-                <div id="lock-screen" class="absolute inset-0 bg-black/90 backdrop-blur-3xl z-10 flex items-center justify-center text-center p-10">
+                <div id="hub-lock" class="absolute inset-0 bg-black/90 backdrop-blur-2xl z-10 flex items-center justify-center text-center p-10">
+                    <h4 class="text-2xl font-['Bungee'] uppercase italic">Join a session to chat</h4>
+                </div>
+
+                <div class="p-6 border-b border-white/5 flex justify-between items-center bg-white/[0.01]">
                     <div>
-                        <div class="h-16 w-16 border-b-2 border-purple-500 rounded-full animate-spin mx-auto mb-8"></div>
-                        <h4 class="text-3xl font-['Bungee'] uppercase italic">Awaiting Connection</h4>
-                        <p class="text-[10px] text-gray-600 font-black mt-4 uppercase tracking-[0.3em]">Join a code-protected session</p>
+                        <h3 id="cur-title" class="font-black italic text-sm text-gray-500">READY...</h3>
+                        <p id="cur-type" class="text-[9px] text-gray-600 font-bold uppercase italic">OFFLINE</p>
                     </div>
                 </div>
 
-                <div class="p-6 border-b border-white/5 bg-white/[0.01] flex justify-between items-center">
-                    <div>
-                        <h3 id="chat-title" class="font-black italic text-sm text-gray-500">SESSION_ID</h3>
-                        <p id="chat-type" class="text-[9px] text-gray-600 font-bold uppercase italic">OFFLINE</p>
-                    </div>
-                </div>
-
-                <div id="chat-area" class="flex-1 p-8 overflow-y-auto custom-scroll space-y-6"></div>
+                <div id="chat-feed" class="flex-1 p-8 overflow-y-auto custom-scroll space-y-5"></div>
 
                 <div class="p-6 border-t border-white/5 bg-white/[0.01]">
                     <div class="flex gap-4">
-                        <input type="text" id="msg-in" placeholder="Type transmission...">
-                        <button onclick="send()" class="btn-main bg-white text-black px-10 text-[11px] font-black">Send</button>
+                        <input type="text" id="msg-input" placeholder="Type message...">
+                        <button onclick="send()" class="btn-main bg-white text-black px-8 text-[10px] font-black">SEND</button>
                     </div>
                 </div>
             </div>
@@ -155,42 +117,36 @@
     </section>
 
     <section id="view-owner" class="hidden-panel fixed inset-0 z-[200] bg-black p-12 overflow-y-auto">
-        <div class="max-w-5xl mx-auto">
-            <div class="flex justify-between items-center mb-20">
-                <h2 class="text-6xl font-['Bungee'] text-purple-500 italic tracking-tighter">BRODY_CONSOLE</h2>
-                <button onclick="location.reload()" class="bg-white/10 px-8 py-3 rounded-xl text-[10px] font-black uppercase hover:bg-white hover:text-black transition">Logoff</button>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-                <div class="ultra-glass p-10 border-purple-500/20">
-                    <h3 class="text-xs font-black mb-8 text-gray-400 uppercase tracking-[0.2em]">Live News Engine</h3>
-                    <input type="text" id="o-t" placeholder="Headline" class="mb-4">
-                    <textarea id="o-b" placeholder="Content..." class="h-32 mb-6"></textarea>
-                    <button onclick="doUpdate()" class="btn-main bg-purple-600 w-full py-5 text-xs">Push to Network</button>
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-5xl font-['Bungee'] text-purple-500 italic mb-16">OWNER_MODE</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="ultra-glass p-8">
+                    <h3 class="text-xs font-black mb-6 text-gray-400 uppercase">Update News</h3>
+                    <input type="text" id="o-t" placeholder="Title" class="mb-4">
+                    <textarea id="o-b" placeholder="Body" class="h-24 mb-4"></textarea>
+                    <button onclick="doUpdate()" class="btn-main bg-purple-600 w-full py-4 text-xs">Push Update</button>
                 </div>
-                <div class="ultra-glass p-10 border-white/5">
-                    <h3 class="text-xs font-black mb-8 text-gray-400 uppercase tracking-[0.2em]">Support Inbox</h3>
-                    <div id="o-inbox" class="space-y-4 h-80 overflow-y-auto custom-scroll pr-2">
-                        <p class="text-gray-600 text-xs italic italic">System inbox empty.</p>
-                    </div>
+                <div class="ultra-glass p-8">
+                    <h3 class="text-xs font-black mb-6 text-gray-400 uppercase">Support Inbox</h3>
+                    <div id="o-inbox" class="space-y-3 h-64 overflow-y-auto custom-scroll text-xs"></div>
                 </div>
             </div>
+            <button onclick="location.reload()" class="mt-10 text-gray-500 underline text-xs">Exit Session</button>
         </div>
     </section>
 
-    <div id="m-auth" class="fixed inset-0 bg-black/98 z-[300] hidden-panel flex items-center justify-center p-6">
-        <div class="ultra-glass p-12 w-full max-w-sm border-purple-500/20">
-            <h2 class="text-3xl font-['Bungee'] mb-10 text-center italic">IDENTIFY</h2>
+    <div id="m-login" class="fixed inset-0 bg-black/95 z-[300] hidden-panel flex items-center justify-center p-6">
+        <div class="ultra-glass p-12 w-full max-w-sm border-purple-500/10 text-center">
+            <h2 class="text-3xl font-['Bungee'] mb-10 italic">LOGIN</h2>
             <input type="email" id="u-e" placeholder="Email" class="mb-4">
-            <input type="password" placeholder="Key Phrase" class="mb-10">
-            <button onclick="auth()" class="btn-main bg-white text-black w-full py-5 text-[12px] font-black">Login</button>
+            <button onclick="auth()" class="btn-main bg-white text-black w-full py-4 text-[11px] font-black">Enter</button>
         </div>
     </div>
 
     <div id="m-join" class="fixed inset-0 bg-black/95 z-[300] hidden-panel flex items-center justify-center p-6">
-        <div class="ultra-glass p-12 w-full max-w-sm">
-            <h2 class="text-2xl font-['Bungee'] mb-4 text-center">JOIN SESSION</h2>
-            <input type="text" id="j-c" placeholder="CODE-77" class="text-center tracking-[0.4em] font-black mb-10 uppercase text-purple-400">
+        <div class="ultra-glass p-12 w-full max-w-sm text-center">
+            <h2 class="text-2xl font-['Bungee'] mb-8">JOIN</h2>
+            <input type="text" id="j-c" placeholder="CODE" class="text-center tracking-widest font-black mb-8 uppercase text-purple-400">
             <div class="flex gap-3">
                 <button onclick="join('Private')" class="flex-1 btn-main bg-white/5 py-4 text-[10px]">PRIVATE</button>
                 <button onclick="join('Group')" class="flex-1 btn-main bg-purple-600 py-4 text-[10px]">GROUP</button>
@@ -199,20 +155,20 @@
     </div>
 
     <script>
-        let isBrody = false; let logged = false; let mail = ""; let chatArr = []; let activeID = null;
+        let isM = false; let logged = false; let user = ""; let chatArr = []; let activeID = null;
 
         function goHome() { document.getElementById('view-home').classList.remove('hidden-panel'); document.getElementById('view-hub').classList.add('hidden-panel'); }
         function goHub() { if(!logged) { toggleLogin(); return; } document.getElementById('view-home').classList.add('hidden-panel'); document.getElementById('view-hub').classList.remove('hidden-panel'); }
-        function toggleLogin() { document.getElementById('m-auth').classList.toggle('hidden-panel'); }
+        function toggleLogin() { document.getElementById('m-login').classList.toggle('hidden-panel'); }
         function openJoin() { if(logged) document.getElementById('m-join').classList.remove('hidden-panel'); }
 
         function auth() {
-            mail = document.getElementById('u-e').value;
-            if(!mail) return;
+            user = document.getElementById('u-e').value;
+            if(!user) return;
             logged = true;
-            if(mail === "wwebsiteofficial@outlook.com") { isBrody = true; document.getElementById('master-tag').classList.remove('hidden-panel'); }
-            document.getElementById('nav-btn').innerText = mail.split('@')[0].toUpperCase();
-            document.getElementById('lock-screen').classList.add('hidden-panel');
+            if(user === "wwebsiteofficial@outlook.com") isM = true;
+            document.getElementById('nav-btn').innerText = user.split('@')[0].toUpperCase();
+            document.getElementById('hub-lock').classList.add('hidden-panel');
             toggleLogin();
         }
 
@@ -227,10 +183,10 @@
         }
 
         function renderSide() {
-            const l = document.getElementById('side-list'); l.innerHTML = "";
+            const l = document.getElementById('side-chats'); l.innerHTML = "";
             chatArr.forEach(c => {
                 const d = document.createElement('div');
-                d.className = `chat-tab p-5 rounded-2xl text-sm font-black ${activeID === c.id ? 'active' : ''}`;
+                d.className = `chat-tab p-4 rounded-xl text-xs font-bold ${activeID === c.id ? 'active' : ''}`;
                 d.innerHTML = `<p>${c.id}</p><p class="text-[8px] text-gray-500 uppercase">${c.type}</p>`;
                 d.onclick = () => switchTo(c.id);
                 l.appendChild(d);
@@ -238,28 +194,28 @@
         }
 
         function switchTo(id) {
-            activeID = id; document.getElementById('lock-screen').classList.add('hidden-panel');
+            activeID = id; document.getElementById('hub-lock').classList.add('hidden-panel');
             const c = chatArr.find(x => x.id === id);
-            document.getElementById('chat-title').innerText = "#" + c.id;
-            document.getElementById('chat-type').innerText = c.type + " SESSION ACTIVE";
+            document.getElementById('cur-title').innerText = "#" + c.id;
+            document.getElementById('cur-type').innerText = c.type + " SESSION";
             renderFeed(); renderSide();
         }
 
         function send() {
-            const val = document.getElementById('msg-in').value; if(!val || !activeID) return;
+            const val = document.getElementById('msg-input').value; if(!val || !activeID) return;
             const c = chatArr.find(x => x.id === activeID);
-            c.msgs.push({ u: mail.split('@')[0], t: val });
-            document.getElementById('msg-in').value = "";
+            c.msgs.push({ u: user.split('@')[0], t: val });
+            document.getElementById('msg-input').value = "";
             renderFeed();
         }
 
         function renderFeed() {
-            const f = document.getElementById('chat-area'); f.innerHTML = "";
+            const f = document.getElementById('chat-feed'); f.innerHTML = "";
             const c = chatArr.find(x => x.id === activeID);
             c.msgs.forEach(m => {
                 const d = document.createElement('div');
-                d.className = "p-5 bg-white/5 rounded-3xl border border-white/5 max-w-[85%]";
-                d.innerHTML = `<p class="text-[9px] font-black text-purple-400 uppercase mb-2">${m.u}</p><p class="text-sm leading-relaxed text-gray-200">${m.t}</p>`;
+                d.className = "p-4 bg-white/5 rounded-2xl border border-white/5 max-w-[85%]";
+                d.innerHTML = `<p class="text-[9px] font-black text-purple-400 uppercase mb-1">${m.u}</p><p class="text-sm">${m.t}</p>`;
                 f.appendChild(d);
             });
             f.scrollTop = f.scrollHeight;
@@ -267,9 +223,28 @@
 
         function submitSupport() {
             const n = document.getElementById('c-name').value; const m = document.getElementById('c-msg').value;
-            if(!n || !m) return alert("Please fill both fields.");
+            if(!n || !m) return;
             const i = document.getElementById('o-inbox');
-            if(i.querySelector('p.italic')) i.innerHTML = "";
+            if(i.innerHTML === "") i.innerHTML = "";
             const d = document.createElement('div');
-            d.className = "p-5 bg-white/5 rounded-2xl border border-white/10 mb-3";
-            d.innerHTML = `<p class="font-black text-purple-400 mb-1">${n.toUpperCase()}</p
+            d.className = "p-3 bg-white/5 rounded-xl mb-2 border border-white/10";
+            d.innerHTML = `<p class="font-black text-purple-400">${n.toUpperCase()}</p><p>${m}</p>`;
+            i.prepend(div);
+            alert("Sent.");
+            document.getElementById('c-name').value = ""; document.getElementById('c-msg').value = "";
+        }
+
+        function doUpdate() {
+            const t = document.getElementById('o-t').value; const b = document.getElementById('o-b').value;
+            if(!t || !b) return;
+            document.getElementById('news-t').innerText = t;
+            document.getElementById('news-b').innerText = b;
+            alert("Pushed.");
+        }
+
+        let k = {};
+        document.addEventListener('keydown', e => { k[e.key.toLowerCase()] = true; if(k['l'] && k['p'] && isM) document.getElementById('view-owner').classList.remove('hidden-panel'); });
+        document.addEventListener('keyup', e => delete k[e.key.toLowerCase()]);
+    </script>
+</body>
+</html>
