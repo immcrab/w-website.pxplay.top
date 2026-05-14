@@ -3,15 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>W 2.0 | Master Protocol</title>
+    <title>W Website | Official</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;900&family=Bungee&display=swap" rel="stylesheet">
     
     <style>
         :root {
             --clay-purple: #7c3aed;
-            --clay-shadow: #5b21b6;
-            --clay-light: #a78bfa;
             --bg-dark: #09090b;
         }
 
@@ -23,157 +21,143 @@
             background-image: radial-gradient(circle at 2px 2px, #1e1e24 1px, transparent 0);
             background-size: 40px 40px;
             user-select: none;
-            -webkit-user-select: none;
         }
 
-        /* --- UI ELEMENTS --- */
         .glass-card {
             background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(25px) saturate(160%);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 40px;
+            border-radius: 30px;
+            transition: transform 0.3s ease, border-color 0.3s ease;
         }
 
-        .squish-btn {
+        .glass-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--clay-purple);
+        }
+
+        .action-btn {
             background: var(--clay-purple);
-            border-radius: 24px;
-            box-shadow: inset 4px 4px 10px var(--clay-light), inset -4px -4px 10px var(--clay-shadow), 0 10px 20px rgba(124, 58, 237, 0.3);
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-radius: 15px;
             font-family: 'Bungee', cursive;
-            border: none;
+            transition: all 0.2s;
         }
 
-        .squish-btn:active { transform: scale(0.92); }
-
-        /* --- COMING SOON STYLING --- */
-        .coming-soon-overlay {
-            position: absolute;
-            inset: 0;
-            background: rgba(0,0,0,0.6);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 40px;
-            opacity: 0;
-            transition: opacity 0.3s;
+        .action-btn:hover {
+            filter: brightness(1.2);
+            transform: scale(1.02);
         }
-        .group:hover .coming-soon-overlay { opacity: 1; }
 
-        /* --- SECURITY --- */
         .hidden-section { display: none; }
-        .vault-blur { filter: blur(40px); transition: filter 0.3s; }
-        @media print { body { display: none !important; } }
-
-        .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s ease-out; }
-        .reveal.active { opacity: 1; transform: translateY(0); }
+        
+        /* Anti-Screenshot Flash */
+        .security-flash {
+            animation: flash 0.3s ease;
+        }
+        @keyframes flash {
+            0% { background: transparent; }
+            50% { background: rgba(239, 68, 68, 0.2); }
+            100% { background: transparent; }
+        }
     </style>
 </head>
 <body>
 
     <nav class="fixed top-6 left-0 right-0 z-50 px-6">
-        <div class="max-w-5xl mx-auto glass-card py-4 px-8 flex justify-between items-center">
-            <div id="main-logo" class="text-3xl font-black italic tracking-tighter text-purple-500 cursor-pointer">W.</div>
-            <div class="hidden md:flex gap-8 text-[11px] font-black uppercase tracking-[0.2em] text-gray-400">
-                <a href="#hub" class="hover:text-white transition">Hub</a>
-                <a href="#store" class="hover:text-white transition">Store</a>
-                <a href="#team" class="hover:text-white transition">Crew</a>
+        <div class="max-w-5xl mx-auto glass-card py-4 px-8 flex justify-between items-center rounded-full">
+            <div id="main-logo" class="text-2xl font-black italic text-purple-500 cursor-pointer">W.</div>
+            <div class="flex gap-6 text-[10px] font-bold uppercase tracking-widest text-gray-400">
+                <a href="#hub" class="hover:text-white">Hub</a>
+                <a href="https://wwebsite.sell.app" target="_blank" class="hover:text-white">Store</a>
+                <a href="#vault" id="vault-link" class="hidden hover:text-red-500">Vault</a>
             </div>
-            <div id="user-status" class="text-[10px] font-black text-gray-500 tracking-widest uppercase">GUEST_MODE</div>
         </div>
     </nav>
 
     <header class="min-h-screen flex flex-col items-center justify-center text-center px-6">
-        <h1 class="text-7xl md:text-9xl font-['Bungee'] mb-4 reveal">W WEBSITE</h1>
-        <p class="text-gray-500 font-bold tracking-[0.5em] mb-12 reveal">VIRTUAL • PLAYFUL • SECURE</p>
-        <div class="reveal">
-            <p class="text-xs text-gray-600 animate-pulse">Press [ L + P ] to initiate Staff Link</p>
-        </div>
+        <h1 class="text-6xl md:text-8xl font-['Bungee'] mb-4">W WEBSITE</h1>
+        <p class="text-gray-400 font-bold tracking-[0.4em] mb-12">PROFESSIONAL • MODERN • SECURE</p>
+        <a href="https://wwebsite.sell.app" target="_blank" class="action-btn px-10 py-5 text-lg">SHOP NOW</a>
     </header>
 
-    <section id="login-portal" class="py-20 flex justify-center hidden-section">
-        <div class="w-full max-w-md glass-card p-10 border-purple-500/50">
-            <h2 class="text-3xl font-['Bungee'] mb-6">STAFF ACCESS</h2>
-            <div class="space-y-4">
-                <input type="email" id="email" placeholder="Work Email" class="w-full bg-white/5 border-2 border-transparent focus:border-purple-500 rounded-2xl p-4 outline-none transition">
-                <input type="password" id="password" placeholder="Keycode" class="w-full bg-white/5 border-2 border-transparent focus:border-purple-500 rounded-2xl p-4 outline-none transition">
-                <button id="loginBtn" class="w-full squish-btn py-5">VERIFY ACCOUNT</button>
+    <section id="hub" class="py-20 px-6 max-w-6xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="glass-card p-10 text-center">
+                <div class="text-4xl mb-4">💬</div>
+                <h3 class="text-xl font-black mb-2">TEXT SYSTEM</h3>
+                <p class="text-gray-500 text-sm mb-6">Real-time messaging with exclusive access codes.</p>
+                <button class="text-purple-400 font-bold text-xs">COMING SOON</button>
+            </div>
+            <div class="glass-card p-10 text-center">
+                <div class="text-4xl mb-4">💎</div>
+                <h3 class="text-xl font-black mb-2">SUBSCRIPTIONS</h3>
+                <p class="text-gray-500 text-sm mb-6">Tiered access for VIP and Executive members.</p>
+                <a href="https://wwebsite.sell.app" target="_blank" class="action-btn px-6 py-3 text-xs inline-block">VIEW TIERS</a>
+            </div>
+            <div class="glass-card p-10 text-center">
+                <div class="text-4xl mb-4">🎮</div>
+                <h3 class="text-xl font-black mb-2">GAMES</h3>
+                <p class="text-gray-500 text-sm mb-6">Staff-only betas and community arcade.</p>
+                <button class="text-purple-400 font-bold text-xs">COMING SOON</button>
             </div>
         </div>
     </section>
 
-    <section id="hub" class="py-32 px-6 max-w-6xl mx-auto">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 reveal">
-            <div class="glass-card p-10 relative group overflow-hidden">
-                <div class="text-5xl mb-4">💬</div>
-                <h3 class="text-2xl font-black">TEXT</h3>
-                <div class="coming-soon-overlay font-['Bungee'] text-purple-400">COMING SOON</div>
-            </div>
-            <div class="glass-card p-10 relative group overflow-hidden">
-                <div class="text-5xl mb-4">🎮</div>
-                <h3 class="text-2xl font-black">GAMES</h3>
-                <div class="coming-soon-overlay font-['Bungee'] text-cyan-400">COMING SOON</div>
-            </div>
-            <div class="glass-card p-10 relative group overflow-hidden">
-                <div class="text-5xl mb-4">🔗</div>
-                <h3 class="text-2xl font-black">SOCIALS</h3>
-                <div class="coming-soon-overlay font-['Bungee'] text-red-400">COMING SOON</div>
-            </div>
+    <section id="login-section" class="py-20 flex justify-center hidden-section">
+        <div class="w-full max-w-md glass-card p-10">
+            <h2 class="text-2xl font-['Bungee'] mb-6">STAFF LOGIN</h2>
+            <input type="email" id="email" placeholder="Email" class="w-full bg-white/5 border border-white/10 rounded-xl p-4 mb-4 outline-none">
+            <input type="password" id="pass" placeholder="Key" class="w-full bg-white/5 border border-white/10 rounded-xl p-4 mb-6 outline-none">
+            <button id="loginBtn" class="w-full action-btn py-4">LOGIN</button>
         </div>
     </section>
 
-    <section id="vault-section" class="py-32 px-6 hidden-section bg-red-600/5">
-        <div class="max-w-2xl mx-auto vault-content">
-            <div id="vault-card" class="glass-card p-12 border-red-500/40 text-center">
-                <h2 class="text-5xl font-['Bungee'] text-red-600 mb-6">THE VAULT</h2>
-                <button class="squish-btn bg-red-600 px-10 py-5 w-full">INITIALIZE MASTER SCAN</button>
+    <section id="vault" class="py-20 px-6 hidden-section">
+        <div class="max-w-2xl mx-auto glass-card p-12 border-red-500/30 text-center">
+            <h2 class="text-4xl font-['Bungee'] text-red-500 mb-6">THE VAULT</h2>
+            <div class="bg-black/40 p-6 rounded-2xl text-xs text-gray-500 italic mb-8">
+                Master Authority Level 10 Detected. Screenshot Protection Active.
             </div>
+            <button class="action-btn bg-red-600 px-8 py-4">MANAGE SYSTEM</button>
         </div>
     </section>
 
-    <script type="module">
-        // 1. AUTH LOGIC
+    <script>
         const ownerEmail = "wwebsiteofficial@outlook.com";
-        
-        // GHOST KEY HANDSHAKE (L + P)
+
+        // GHOST HANDSHAKE (L + P)
         let keys = {};
         document.addEventListener('keydown', e => {
             keys[e.key.toLowerCase()] = true;
             if (keys['l'] && keys['p']) {
-                document.getElementById('login-portal').classList.remove('hidden-section');
-                document.getElementById('login-portal').scrollIntoView({ behavior: 'smooth' });
+                document.getElementById('login-section').classList.remove('hidden-section');
+                document.getElementById('login-section').scrollIntoView({ behavior: 'smooth' });
             }
         });
         document.addEventListener('keyup', e => delete keys[e.key.toLowerCase()]);
 
-        // LOGIN EXECUTION
+        // LOGIN LOGIC
         document.getElementById('loginBtn').addEventListener('click', () => {
             const email = document.getElementById('email').value;
             if (email === ownerEmail) {
-                document.getElementById('user-status').innerText = "OWNER_AUTHORIZED";
-                document.getElementById('user-status').style.color = "#a78bfa";
-                document.getElementById('vault-section').classList.remove('hidden-section');
-                alert("Welcome back, Boss. Vault Unlocked.");
+                document.getElementById('vault-section')?.classList.remove('hidden-section'); // For separate sections
+                document.getElementById('vault').classList.remove('hidden-section');
+                document.getElementById('vault-link').classList.remove('hidden');
+                alert("Owner Access Granted.");
             } else {
-                document.getElementById('user-status').innerText = "STAFF_VERIFIED";
-                alert("Staff Identity Confirmed.");
+                alert("Staff Identity Verified.");
             }
         });
 
-        // 2. SECURITY PROTOCOLS
+        // SECURITY (Anti-Copy/Screenshot)
         document.addEventListener('contextmenu', e => e.preventDefault());
         document.addEventListener('keydown', e => {
-            if ((e.ctrlKey || e.metaKey) && ['c','v','s','p','i'].includes(e.key.toLowerCase())) {
+            if ((e.ctrlKey || e.metaKey) && ['c','v','s','p'].includes(e.key.toLowerCase())) {
                 e.preventDefault();
-                document.body.style.background = "#450a0a";
-                setTimeout(() => document.body.style.background = "#09090b", 200);
+                document.body.classList.add('security-flash');
+                setTimeout(() => document.body.classList.remove('security-flash'), 300);
             }
         });
-
-        // 3. SCROLL REVEALS
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => { if(entry.isIntersecting) entry.target.classList.add('active'); });
-        }, { threshold: 0.1 });
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
     </script>
 </body>
 </html>
