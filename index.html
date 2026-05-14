@@ -3,193 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>W Website | Official</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <title>W Website 2.0 | Master Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;800&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg: #0a0a0b;
-            --card-bg: #16161a;
-            --accent: #7000ff; /* Playful Purple */
-            --accent-glow: #a35dff;
-            --text: #ffffff;
-            --text-dim: #a0a0a0;
-        }
-
         body {
-            margin: 0;
-            padding: 0;
-            background-color: var(--bg);
-            color: var(--text);
-            font-family: 'Poppins', sans-serif;
-            overflow-x: hidden;
-        }
-
-        /* --- HEADER --- */
-        header {
-            padding: 20px 5%;
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            gap: 15px;
-        }
-
-        .logo-text { font-size: 2rem; font-weight: 800; letter-spacing: -1px; }
-        .logo-icon {
-            width: 45px; height: 45px;
-            background: linear-gradient(45deg, var(--accent), var(--accent-glow));
-            border-radius: 12px;
-            display: flex; align-items: center; justify-content: center;
-            font-weight: 900; font-size: 1.5rem;
-            box-shadow: 0 0 20px rgba(112, 0, 255, 0.4);
-        }
-
-        /* --- HERO --- */
-        .hero {
-            text-align: center;
-            padding: 60px 20px;
-            animation: fadeIn 1s ease-out;
-        }
-
-        .hero h1 { font-size: 3rem; margin-bottom: 10px; }
-        .hero p { color: var(--text-dim); max-width: 600px; margin: 0 auto; }
-
-        /* --- THE GRID --- */
-        .nav-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            padding: 40px 5%;
-        }
-
-        .card {
-            background: var(--card-bg);
-            padding: 30px;
-            border-radius: 24px;
-            text-align: center;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border: 1px solid #222;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card:hover {
-            transform: translateY(-10px);
-            border-color: var(--accent);
-            box-shadow: 0 10px 30px rgba(112, 0, 255, 0.2);
-        }
-
-        .card h3 { margin: 10px 0 5px; font-size: 1.4rem; }
-        .badge {
-            background: #333;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            font-weight: 800;
-        }
-
-        .badge.active { background: var(--accent); }
-
-        /* --- CHAT SECTION --- */
-        .chat-preview {
-            background: var(--card-bg);
-            margin: 40px 5%;
-            padding: 40px;
-            border-radius: 30px;
-            border: 1px dashed #444;
-        }
-
-        .chat-input-area {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        input {
-            flex: 1;
-            background: #222;
-            border: none;
-            padding: 15px;
-            border-radius: 12px;
+            background-color: #050505;
+            background-image: 
+                radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
+                radial-gradient(at 50% 0%, hsla(225,39%,30%,0.3) 0, transparent 50%);
             color: white;
-            outline: none;
+            font-family: 'Outfit', sans-serif;
+            min-height: 100vh;
         }
-
-        .btn {
-            background: var(--accent);
-            color: white;
-            border: none;
-            padding: 10px 25px;
-            border-radius: 12px;
-            font-weight: 600;
-            cursor: pointer;
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 28px;
         }
-
-        /* --- FOOTER --- */
-        footer {
-            background: #000;
-            padding: 60px 5%;
-            margin-top: 100px;
+        .neo-glow-purple { box-shadow: 0 0 40px -10px rgba(124, 58, 237, 0.3); }
+        .neo-glow-red { box-shadow: 0 0 40px -10px rgba(239, 68, 68, 0.3); }
+        .shimmer {
+            background: linear-gradient(90deg, #7c3aed, #d8b4fe, #7c3aed);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer 3s linear infinite;
         }
-
-        .social-icons { display: flex; gap: 20px; font-size: 1.2rem; margin-bottom: 20px; }
-        .social-icons span { color: var(--text-dim); cursor: pointer; transition: 0.3s; }
-        .social-icons span:hover { color: var(--accent); }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes shimmer { to { background-position: 200% center; } }
+        .update-item { border-left: 4px solid #7c3aed; background: linear-gradient(90deg, rgba(124, 58, 237, 0.1) 0%, transparent 100%); }
     </style>
 </head>
-<body>
+<body class="p-4 md:p-12">
 
-    <header>
-        <div class="logo-text">W Website</div>
-        <div class="logo-icon">W</div>
-    </header>
-
-    <div class="hero">
-        <h1>Welcome to the Future.</h1>
-        <p>Your portal for real-time text, exclusive games, and high-tier merchandise.</p>
-    </div>
-
-    <div class="nav-grid">
-        <div class="card">
-            <span class="badge">Coming Soon</span>
-            <h3>Socials</h3>
-        </div>
-        <div class="card">
-            <span class="badge">Coming Soon</span>
-            <h3>Games</h3>
-        </div>
-        <div class="card" onclick="alert('Launching Text Hub...')">
-            <span class="badge active">Live</span>
-            <h3>Text</h3>
-        </div>
-        <div class="card" onclick="window.location.href='https://wwebsite.sell.app'">
-            <span class="badge active">Store</span>
-            <h3>Shop</h3>
-        </div>
-    </div>
-
-    <div class="chat-preview">
-        <h2>💬 Create Group Chat</h2>
-        <p style="color: var(--text-dim);">Enter a unique group code to start texting your squad.</p>
-        <div class="chat-input-area">
-            <input type="text" placeholder="Enter Group Code (e.g. W-7728)...">
-            <button class="btn">Connect</button>
-        </div>
-    </div>
-
-    <footer>
-        <div class="social-icons">
-            <span>Twitch</span>
-            <span>TikTok</span>
-            <span>YouTube</span>
-        </div>
-        <p>Email: <b>Wwebsite@outlook.com</b></p>
-        <p>Phone: <span class="badge">Coming Soon</span></p>
-        <p style="margin-top: 40px; font-size: 0.8rem; color: #444;">© 2026 W Website | All Rights Reserved</p>
-    </footer>
-
-</body>
-</html>
+    <header class="max-w-7xl mx-auto flex justify-between items-center mb-12">
+        <div class="flex items-center gap-5">
+            <div class="h-14 w-14 glass flex items-center justify-center font-extrabold text-3xl neo-glow-purple border-purple-500/30">W</div>
+            <div>
+                <h1 class="text-3xl font-extrabold tracking-tighter shimmer">W WEBSITE</h1>
+                <p class="text-[10px] text-gray-500 tracking-[0.2em] uppercase font-bold">
