@@ -100,3 +100,16 @@ body {
 }
 
 .other-message {
+    align-self: flex-start;
+    border-bottom-left-radius: 4px;
+}
+
+/* Security Flash */
+.security-flash {
+    animation: flash 0.3s ease;
+}
+@keyframes flash {
+    0% { background: transparent; }
+    50% { background: rgba(239, 68, 68, 0.2); }
+    100% { background: transparent; }
+}
