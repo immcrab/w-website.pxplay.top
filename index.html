@@ -32,11 +32,37 @@
             animation: shimmer 3s linear infinite;
         }
         @keyframes shimmer { to { background-position: 200% center; } }
-        .update-item { border-left: 4px solid #7c3aed; background: linear-gradient(90deg, rgba(124, 58, 237, 0.1) 0%, transparent 100%); }
+        .update-item { 
+            border-left: 4px solid #7c3aed; 
+            background: linear-gradient(90deg, rgba(124, 58, 237, 0.1) 0%, transparent 100%); 
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            z-index: 50;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal.active {
+            display: flex;
+        }
+        .tier-card {
+            transition: all 0.3s ease;
+        }
+        .tier-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(124, 58, 237, 0.2);
+        }
     </style>
 </head>
 <body class="p-4 md:p-12">
-
+    
     <header class="max-w-7xl mx-auto flex justify-between items-center mb-12">
         <div class="flex items-center gap-5">
             <div class="h-14 w-14 glass flex items-center justify-center font-extrabold text-3xl neo-glow-purple border-purple-500/30">W</div>
@@ -49,7 +75,7 @@
             <span class="text-xs font-bold text-green-500 flex items-center gap-2">
                 <span class="h-2 w-2 bg-green-500 rounded-full animate-ping"></span> SYSTEMS ONLINE
             </span>
-            <button onclick="window.location.href='https://wwebsite.sell.app'" class="px-6 py-2 glass border-purple-500/50 text-purple-400 text-xs font-bold hover:bg-purple-500 hover:text-white transition-all">STORE</button>
+            <button onclick="window.location.href='https://wwebsite.sell.app'" class="px-6 py-2 glass border-purple-500/50 text-purple-400 text-xs font-bold hover:bg-purple-500 hover:text-white transition">SHOP</button>
         </div>
     </header>
 
@@ -60,7 +86,7 @@
                 <div class="flex justify-between items-center mb-8">
                     <h2 class="text-xl font-extrabold flex items-center gap-3">🛰️ STAFF LOGS <span class="text-[10px] text-gray-500 font-normal">OWNER/CODER ONLY</span></h2>
                 </div>
-                <div id="feed" class="space-y-6">
+                <div id="feed" class="space-y-6 max-h-96 overflow-y-auto">
                     <div class="update-item p-6 rounded-r-2xl">
                         <div class="flex justify-between mb-2">
                             <span class="text-purple-400 text-xs font-black tracking-widest">@BRODY_OWNER</span>
@@ -68,57 +94,236 @@
                         </div>
                         <p class="text-gray-300 text-sm leading-relaxed">Initialized the Master Build. Firebase integrated. Moving Chase to Sales Level 7. Owen, verify the 3-Layer Vault logic.</p>
                     </div>
+                    <div class="update-item p-6 rounded-r-2xl">
+                        <div class="flex justify-between mb-2">
+                            <span class="text-purple-400 text-xs font-black tracking-widest">@JASE_LEAD_CODER</span>
+                            <span class="text-gray-600 text-[10px]">MAY 13, 2026</span>
+                        </div>
+                        <p class="text-gray-300 text-sm leading-relaxed">Vault authentication system tested. All 3 layers responding correctly. Firebase security rules deployed to production.</p>
+                    </div>
+                    <div class="update-item p-6 rounded-r-2xl">
+                        <div class="flex justify-between mb-2">
+                            <span class="text-purple-400 text-xs font-black tracking-widest">@CHASE_SALES_LEAD</span>
+                            <span class="text-gray-600 text-[10px]">MAY 12, 2026</span>
+                        </div>
+                        <p class="text-gray-300 text-sm leading-relaxed">Q2 inventory updated. Sticker bundles (10/20/30) restocked. Merch shipping times optimized to 2-3 business days.</p>
+                    </div>
                 </div>
             </section>
 
             <section class="glass p-8 border-red-500/20 neo-glow-red">
                 <h2 class="text-2xl font-black mb-6 text-red-500 tracking-tight">🛡️ OWNER PANEL: THE VAULT</h2>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div class="p-4 bg-black/40 border border-white/5 rounded-2xl flex flex-col items-center text-center">
+                <p class="text-xs text-gray-400 mb-6">Triple-layer authentication required. Owner access only.</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                    <div class="p-4 bg-black/40 border border-white/5 rounded-2xl flex flex-col items-center text-center hover:border-red-500/50 transition">
                         <span class="text-[10px] text-gray-500 mb-2">AUTH 01</span>
                         <div class="h-10 w-10 bg-red-500/10 rounded-full mb-3 flex items-center justify-center text-red-500">👤</div>
                         <span class="text-[10px] font-bold">FACE ID</span>
+                        <p class="text-[8px] text-gray-600 mt-2">AI Facial Recognition</p>
                     </div>
-                    <div class="p-4 bg-black/40 border border-white/5 rounded-2xl flex flex-col items-center text-center">
+                    <div class="p-4 bg-black/40 border border-white/5 rounded-2xl flex flex-col items-center text-center hover:border-red-500/50 transition">
                         <span class="text-[10px] text-gray-500 mb-2">AUTH 02</span>
                         <div class="h-10 w-10 bg-red-500/10 rounded-full mb-3 flex items-center justify-center text-red-500">📇</div>
                         <span class="text-[10px] font-bold">PHYSICAL ID</span>
+                        <p class="text-[8px] text-gray-600 mt-2">Digital ID Verification</p>
                     </div>
-                    <div class="p-4 bg-black/40 border border-white/5 rounded-2xl flex flex-col items-center text-center">
+                    <div class="p-4 bg-black/40 border border-white/5 rounded-2xl flex flex-col items-center text-center hover:border-red-500/50 transition">
                         <span class="text-[10px] text-gray-500 mb-2">AUTH 03</span>
-                        <input type="password" placeholder="SECRET CODE" class="bg-transparent text-center text-xs text-red-400 outline-none w-full mt-3">
+                        <div class="h-10 w-10 bg-red-500/10 rounded-full mb-3 flex items-center justify-center text-red-500">🔐</div>
+                        <span class="text-[10px] font-bold">SECRET CODE</span>
+                        <p class="text-[8px] text-gray-600 mt-2">Master Password</p>
                     </div>
                 </div>
-                <button class="w-full mt-6 py-4 bg-red-600 rounded-2xl font-black text-xs tracking-widest hover:bg-red-500 transition-all shadow-lg shadow-red-900/20">ACCESS MASTER CONTROL</button>
+                <button onclick="openVaultModal()" class="w-full py-4 bg-red-600 rounded-2xl font-black text-xs tracking-widest hover:bg-red-500 transition-all shadow-lg shadow-red-900/20">ATTEMPT ACCESS</button>
+            </section>
+
+            <section class="glass p-8">
+                <h3 class="text-lg font-black mb-6 flex items-center gap-2">👑 ROLE HIERARCHY</h3>
+                <div class="space-y-3">
+                    <div class="p-4 bg-yellow-500/10 border border-yellow-500/30 rounded-xl">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-black text-yellow-400">LEVEL 10 - OWNER</span>
+                            <span class="text-[8px] text-gray-500">@BRODY</span>
+                        </div>
+                        <p class="text-[10px] text-gray-300 mt-2">Final authority on code, branding, business decisions. Exclusive Vault access.</p>
+                    </div>
+                    <div class="p-4 bg-purple-500/10 border border-purple-500/30 rounded-xl">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-black text-purple-400">LEVEL 9 - LEAD CODER</span>
+                            <span class="text-[8px] text-gray-500">@JASE</span>
+                        </div>
+                        <p class="text-[10px] text-gray-300 mt-2">Firebase, GitHub, AI security systems management.</p>
+                    </div>
+                    <div class="p-4 bg-blue-500/10 border border-blue-500/30 rounded-xl">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-black text-blue-400">LEVEL 8 - TEAM MANAGER</span>
+                            <span class="text-[8px] text-gray-500">@OWEN</span>
+                        </div>
+                        <p class="text-[10px] text-gray-300 mt-2">Operations lead. Sales staff oversight, Text hub monitoring.</p>
+                    </div>
+                    <div class="p-4 bg-cyan-500/10 border border-cyan-500/30 rounded-xl">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-black text-cyan-400">LEVEL 7 - SALES LEAD</span>
+                            <span class="text-[8px] text-gray-500">@CHASE</span>
+                        </div>
+                        <p class="text-[10px] text-gray-300 mt-2">Inventory, shipping logistics, spreadsheet tracking.</p>
+                    </div>
+                    <div class="p-4 bg-green-500/10 border border-green-500/30 rounded-xl">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-black text-green-400">LEVEL 5 - MODERATOR</span>
+                            <span class="text-[8px] text-gray-500">Team</span>
+                        </div>
+                        <p class="text-[10px] text-gray-300 mt-2">Community safety, message deletion, user banning.</p>
+                    </div>
+                </div>
             </section>
         </div>
 
         <div class="lg:col-span-4 space-y-8">
             <section class="glass p-8 border-purple-500/30">
                 <h3 class="text-lg font-black mb-1">💬 TEXT HUB</h3>
-                <p class="text-xs text-gray-500 mb-6 font-medium">Real-time group chat engine.</p>
-                <input type="text" placeholder="Enter Group Code..." class="w-full bg-white/5 border border-white/10 p-4 rounded-2xl text-sm mb-4 outline-none focus:border-purple-500 transition">
-                <button class="w-full py-4 bg-purple-600 rounded-2xl font-black text-xs tracking-widest hover:bg-purple-500 transition-all">JOIN GROUP</button>
+                <p class="text-xs text-gray-500 mb-6 font-medium">Real-time group chat engine. 8-digit access codes required.</p>
+                <input type="text" id="groupCode" placeholder="Enter Group Code (e.g. W-7728)..." maxlength="8" class="w-full bg-white/5 border border-white/10 p-4 rounded-2xl text-sm mb-4 outline-none focus:border-purple-500 transition uppercase">
+                <button onclick="joinGroup()" class="w-full py-4 bg-purple-600 rounded-2xl font-black text-xs tracking-widest hover:bg-purple-500 transition-all">JOIN GROUP</button>
             </section>
 
             <section class="glass p-8 space-y-4">
-                <h3 class="text-[10px] font-black text-gray-600 uppercase tracking-widest mb-2">Channels</h3>
+                <h3 class="text-[10px] font-black text-gray-600 uppercase tracking-widest mb-2">Social Channels</h3>
                 <div class="flex items-center gap-4 p-3 rounded-2xl bg-white/5 border border-white/5 group cursor-pointer hover:border-red-500/50 transition">
-                    <div class="h-10 w-10 bg-red-600 rounded-xl flex items-center justify-center font-black">YT</div>
-                    <span class="font-bold text-sm">YouTube</span>
+                    <div class="h-10 w-10 bg-red-600 rounded-xl flex items-center justify-center font-black text-white">YT</div>
+                    <div class="flex-1">
+                        <span class="font-bold text-sm block">YouTube</span>
+                        <span class="text-[8px] text-gray-600">Subscribe & Follow</span>
+                    </div>
                 </div>
                 <div class="flex items-center gap-4 p-3 rounded-2xl bg-white/5 border border-white/5 group cursor-pointer hover:border-cyan-500/50 transition">
-                    <div class="h-10 w-10 bg-black border border-gray-700 rounded-xl flex items-center justify-center font-black">TT</div>
-                    <span class="font-bold text-sm">TikTok</span>
+                    <div class="h-10 w-10 bg-black border-2 border-gray-700 rounded-xl flex items-center justify-center font-black text-white">TT</div>
+                    <div class="flex-1">
+                        <span class="font-bold text-sm block">TikTok</span>
+                        <span class="text-[8px] text-gray-600">Daily Content</span>
+                    </div>
                 </div>
                 <div class="flex items-center gap-4 p-3 rounded-2xl bg-white/5 border border-white/5 group cursor-pointer hover:border-purple-500/50 transition">
-                    <div class="h-10 w-10 bg-[#9146FF] rounded-xl flex items-center justify-center font-black">TW</div>
-                    <span class="font-bold text-sm">Twitch</span>
+                    <div class="h-10 w-10 bg-[#9146FF] rounded-xl flex items-center justify-center font-black text-white">TW</div>
+                    <div class="flex-1">
+                        <span class="font-bold text-sm block">Twitch</span>
+                        <span class="text-[8px] text-gray-600">Live Streams</span>
+                    </div>
                 </div>
+            </section>
+
+            <section class="glass p-8">
+                <h3 class="text-lg font-black mb-4">💳 SUBSCRIPTION TIERS</h3>
+                <button onclick="openTiersModal()" class="w-full py-3 bg-purple-600/50 border border-purple-500/50 rounded-xl font-bold text-xs hover:bg-purple-600 transition">VIEW ALL PLANS</button>
             </section>
         </div>
     </main>
 
+    <!-- VAULT MODAL -->
+    <div id="vaultModal" class="modal">
+        <div class="glass p-8 max-w-md w-full mx-4 border-red-500/20 neo-glow-red">
+            <h2 class="text-2xl font-black text-red-500 mb-6">🛡️ VAULT ACCESS</h2>
+            <div class="space-y-4 mb-6">
+                <div>
+                    <label class="text-[10px] text-gray-500 font-bold uppercase">Face ID Status</label>
+                    <input type="text" id="faceIdStatus" placeholder="Scanning..." disabled class="w-full mt-2 p-3 bg-black/40 border border-red-500/30 rounded-xl text-xs text-gray-400 cursor-not-allowed">
+                </div>
+                <div>
+                    <label class="text-[10px] text-gray-500 font-bold uppercase">ID Card Verification</label>
+                    <input type="text" id="idStatus" placeholder="Awaiting scan..." disabled class="w-full mt-2 p-3 bg-black/40 border border-red-500/30 rounded-xl text-xs text-gray-400 cursor-not-allowed">
+                </div>
+                <div>
+                    <label class="text-[10px] text-gray-500 font-bold uppercase">Master Password</label>
+                    <input type="password" id="masterCode" placeholder="Enter secret code..." class="w-full mt-2 p-3 bg-black/40 border border-red-500/30 rounded-xl text-xs text-red-400 outline-none focus:border-red-500 transition">
+                </div>
+            </div>
+            <div class="flex gap-3">
+                <button onclick="closeVaultModal()" class="flex-1 py-3 bg-gray-700 rounded-xl font-bold text-xs hover:bg-gray-600 transition">CANCEL</button>
+                <button onclick="accessVault()" class="flex-1 py-3 bg-red-600 rounded-xl font-bold text-xs hover:bg-red-500 transition">ATTEMPT UNLOCK</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TIERS MODAL -->
+    <div id="tiersModal" class="modal">
+        <div class="glass p-8 max-w-2xl w-full mx-4 max-h-96 overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-black">💳 SUBSCRIPTION TIERS</h2>
+                <button onclick="closeTiersModal()" class="text-2xl cursor-pointer">×</button>
+            </div>
+            
+            <div class="space-y-4">
+                <div class="tier-card glass p-6 border-green-500/30">
+                    <div class="flex justify-between items-start mb-3">
+                        <h3 class="font-bold text-lg">BASIC</h3>
+                        <span class="text-green-400 font-black">$2.99/mo</span>
+                    </div>
+                    <ul class="text-xs text-gray-400 space-y-2">
+                        <li>✓ Basic Profile Badge</li>
+                        <li>✓ Public Group Chat Access</li>
+                        <li>✗ Private Group Chats</li>
+                        <li>✗ Ad-Free Games</li>
+                    </ul>
+                </div>
+
+                <div class="tier-card glass p-6 border-blue-500/30">
+                    <div class="flex justify-between items-start mb-3">
+                        <h3 class="font-bold text-lg">STANDARD</h3>
+                        <span class="text-blue-400 font-black">$5.99/mo</span>
+                    </div>
+                    <ul class="text-xs text-gray-400 space-y-2">
+                        <li>✓ Standard Member Badge</li>
+                        <li>✓ 1 Private Group Chat</li>
+                        <li>✓ Ad-Free Games</li>
+                        <li>✗ Beta Features</li>
+                    </ul>
+                </div>
+
+                <div class="tier-card glass p-6 border-purple-500/30">
+                    <div class="flex justify-between items-start mb-3">
+                        <h3 class="font-bold text-lg">PREMIUM</h3>
+                        <span class="text-purple-400 font-black">$9.99/mo</span>
+                    </div>
+                    <ul class="text-xs text-gray-400 space-y-2">
+                        <li>✓ Premium Glowing Badge</li>
+                        <li>✓ 5 Private Group Chats</li>
+                        <li>✓ Priority Features Access</li>
+                        <li>✗ Beta Games</li>
+                    </ul>
+                </div>
+
+                <div class="tier-card glass p-6 border-cyan-500/30">
+                    <div class="flex justify-between items-start mb-3">
+                        <h3 class="font-bold text-lg">VIP</h3>
+                        <span class="text-cyan-400 font-black">$14.99/mo</span>
+                    </div>
+                    <ul class="text-xs text-gray-400 space-y-2">
+                        <li>✓ VIP Neon Profile Frame</li>
+                        <li>✓ Unlimited Private Chats</li>
+                        <li>✓ Early Access to Beta Games</li>
+                        <li>✓ Exclusive VIP Badge</li>
+                    </ul>
+                </div>
+
+                <div class="tier-card glass p-6 border-yellow-500/30">
+                    <div class="flex justify-between items-start mb-3">
+                        <h3 class="font-bold text-lg">EXECUTIVE</h3>
+                        <span class="text-yellow-400 font-black">$24.99/mo</span>
+                    </div>
+                    <ul class="text-xs text-gray-400 space-y-2">
+                        <li>✓ Master Executive Badge</li>
+                        <li>✓ Unique Colored Username</li>
+                        <li>✓ Executive Vault Access</li>
+                        <li>✓ First-Look Merch Drops</li>
+                    </ul>
+                </div>
+            </div>
+
+            <p class="text-[10px] text-gray-600 mt-6 text-center">💎 Stickers sold separately in bundles: 10 ($4.99) | 20 ($8.99) | 30 ($12.99)</p>
+        </div>
+    </div>
+
+    <!-- ADMIN UPDATE BAR -->
     <div class="fixed bottom-8 left-1/2 -translate-x-1/2 w-full max-w-xl px-4">
         <div class="glass p-3 flex gap-3 items-center border-purple-500/40 neo-glow-purple">
             <div class="h-10 w-10 rounded-full bg-purple-600 flex-shrink-0 flex items-center justify-center text-[10px] font-black">ADMIN</div>
@@ -128,12 +333,83 @@
     </div>
 
     <script>
+        // Vault Modal
+        function openVaultModal() {
+            document.getElementById('vaultModal').classList.add('active');
+        }
+
+        function closeVaultModal() {
+            document.getElementById('vaultModal').classList.remove('active');
+            document.getElementById('masterCode').value = '';
+        }
+
+        function accessVault() {
+            const code = document.getElementById('masterCode').value;
+            if (code === '') {
+                alert('Enter the master password!');
+                return;
+            }
+            alert(`Vault Access Attempt: "${code}"\n\nLevel 10 Owner authentication required. Connect to Firebase for verification.`);
+            closeVaultModal();
+        }
+
+        // Tiers Modal
+        function openTiersModal() {
+            document.getElementById('tiersModal').classList.add('active');
+        }
+
+        function closeTiersModal() {
+            document.getElementById('tiersModal').classList.remove('active');
+        }
+
+        // Group Chat
+        function joinGroup() {
+            const code = document.getElementById('groupCode').value.toUpperCase();
+            if (code.length !== 8) {
+                alert('Group code must be 8 characters!');
+                return;
+            }
+            alert(`Connecting to group: ${code}\n\nEstablishing real-time connection...`);
+            document.getElementById('groupCode').value = '';
+        }
+
+        // Admin Updates
         function sendUpdate() {
             const input = document.getElementById('adminUpdate');
             if(input.value.trim() === "") return;
-            alert("Sent to Owen & Jase for review. Firebase push queued!");
-            input.value = "";
+            
+            const feedDiv = document.getElementById('feed');
+            const newUpdate = document.createElement('div');
+            newUpdate.className = 'update-item p-6 rounded-r-2xl';
+            newUpdate.innerHTML = `
+                <div class="flex justify-between mb-2">
+                    <span class="text-purple-400 text-xs font-black tracking-widest">@ADMIN</span>
+                    <span class="text-gray-600 text-[10px]">NOW</span>
+                </div>
+                <p class="text-gray-300 text-sm leading-relaxed">${input.value}</p>
+            `;
+            
+            feedDiv.insertBefore(newUpdate, feedDiv.firstChild);
+            alert('Update pushed to Staff Logs. Firebase sync queued!');
+            input.value = '';
         }
+
+        // Close modals on outside click
+        document.getElementById('vaultModal').addEventListener('click', (e) => {
+            if (e.target.id === 'vaultModal') closeVaultModal();
+        });
+
+        document.getElementById('tiersModal').addEventListener('click', (e) => {
+            if (e.target.id === 'tiersModal') closeTiersModal();
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeVaultModal();
+                closeTiersModal();
+            }
+        });
     </script>
 </body>
 </html>
