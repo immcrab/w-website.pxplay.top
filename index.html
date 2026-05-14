@@ -23,7 +23,6 @@
             user-select: none;
         }
 
-        /* --- LOADING SCREEN STYLES --- */
         #loader {
             position: fixed;
             inset: 0;
@@ -45,11 +44,8 @@
             animation: spin 1s linear infinite;
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* --- ANIMATIONS --- */
         .reveal {
             opacity: 0;
             transform: translateY(30px);
@@ -79,6 +75,7 @@
             border-radius: 15px;
             font-family: 'Bungee', cursive;
             transition: all 0.2s;
+            text-align: center;
         }
 
         .action-btn:hover {
@@ -88,7 +85,6 @@
 
         .hidden-section { display: none; }
         
-        /* Anti-Screenshot Flash */
         .security-flash {
             animation: flash 0.3s ease;
         }
@@ -112,6 +108,7 @@
             <div class="flex gap-6 text-[10px] font-bold uppercase tracking-widest text-gray-400">
                 <a href="#hub" class="hover:text-white">Hub</a>
                 <a href="https://wwebsite.sell.app" target="_blank" class="hover:text-white">Store</a>
+                <a href="texting.html" class="hover:text-white">Messages</a>
                 <a href="#vault" id="vault-link" class="hidden hover:text-red-500">Vault</a>
             </div>
         </div>
@@ -128,8 +125,8 @@
             <div class="glass-card p-10 text-center">
                 <div class="text-4xl mb-4">💬</div>
                 <h3 class="text-xl font-black mb-2">TEXT SYSTEM</h3>
-                <p class="text-gray-500 text-sm mb-6">Real-time messaging and Calling.</p>
-                <button class="text-purple-400 font-bold text-xs">COMING SOON</button>
+                <p class="text-gray-500 text-sm mb-6">Real-time messaging with exclusive access codes.</p>
+                <a href="texting.html" class="action-btn px-6 py-3 text-xs inline-block">OPEN CHAT</a>
             </div>
             <div class="glass-card p-10 text-center">
                 <div class="text-4xl mb-4">💎</div>
@@ -140,7 +137,7 @@
             <div class="glass-card p-10 text-center">
                 <div class="text-4xl mb-4">🎮</div>
                 <h3 class="text-xl font-black mb-2">GAMES</h3>
-                <p class="text-gray-400 text-sm mb-6">community arcade.</p>
+                <p class="text-gray-400 text-sm mb-6">Staff-only betas and community arcade.</p>
                 <button class="text-purple-400 font-bold text-xs">COMING SOON</button>
             </div>
         </div>
@@ -185,24 +182,21 @@
     </script>
 
     <script>
-        // LOADER DISMISSAL
         window.addEventListener('load', () => {
             const loader = document.getElementById('loader');
             loader.style.opacity = '0';
             setTimeout(() => {
                 loader.style.visibility = 'hidden';
-                handleScrollReveal(); // Trigger animations for the first fold
+                handleScrollReveal();
             }, 500);
         });
 
-        // SLICK SCROLL REVEAL LOGIC
         function handleScrollReveal() {
             const reveals = document.querySelectorAll('.reveal');
             reveals.forEach(el => {
                 const windowHeight = window.innerHeight;
                 const elementTop = el.getBoundingClientRect().top;
-                const elementVisible = 100;
-                if (elementTop < windowHeight - elementVisible) {
+                if (elementTop < windowHeight - 100) {
                     el.classList.add('active');
                 }
             });
@@ -211,26 +205,24 @@
 
         const ownerEmail = "wwebsiteofficial@outlook.com";
 
-        // GHOST HANDSHAKE (L + P)
         let keys = {};
         document.addEventListener('keydown', e => {
             keys[e.key.toLowerCase()] = true;
             if (keys['l'] && keys['p']) {
                 const loginSec = document.getElementById('login-section');
                 loginSec.classList.remove('hidden-section');
-                loginSec.classList.add('active'); // Ensure animation triggers
+                loginSec.classList.add('active');
                 loginSec.scrollIntoView({ behavior: 'smooth' });
             }
         });
         document.addEventListener('keyup', e => delete keys[e.key.toLowerCase()]);
 
-        // LOGIN LOGIC
         document.getElementById('loginBtn').addEventListener('click', () => {
             const email = document.getElementById('email').value;
             if (email === ownerEmail) {
                 const vault = document.getElementById('vault');
                 vault.classList.remove('hidden-section');
-                vault.classList.add('active'); // Ensure animation triggers
+                vault.classList.add('active');
                 document.getElementById('vault-link').classList.remove('hidden');
                 alert("Owner Access Granted.");
             } else {
@@ -238,7 +230,6 @@
             }
         });
 
-        // SECURITY (Anti-Copy/Screenshot)
         document.addEventListener('contextmenu', e => e.preventDefault());
         document.addEventListener('keydown', e => {
             if ((e.ctrlKey || e.metaKey) && ['c','v','s','p'].includes(e.key.toLowerCase())) {
