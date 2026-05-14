@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>W | Official Network</title>
+    <title>W | The Network</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;900&family=Bungee&display=swap" rel="stylesheet">
     
@@ -31,137 +31,132 @@
         :root { --accent: #a78bfa; --bg: #050505; }
         body { background-color: var(--bg); color: white; font-family: 'Outfit', sans-serif; overflow-x: hidden; }
         
-        /* THE "W" DESIGN LANGUAGE */
+        /* MODERN GLASS UI */
         .ultra-glass { 
             background: rgba(255, 255, 255, 0.02); 
             backdrop-filter: blur(40px); 
             border: 1px solid rgba(255, 255, 255, 0.08); 
             border-radius: 30px; 
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .w-logo-hero {
-            font-size: clamp(150px, 25vw, 250px);
+        .w-logo {
+            font-size: clamp(140px, 22vw, 240px);
             font-weight: 900;
             line-height: 0.8;
             letter-spacing: -12px;
             font-style: italic;
-            background: linear-gradient(to bottom, #fff 40%, rgba(255,255,255,0.05));
+            background: linear-gradient(180deg, #fff 40%, rgba(255,255,255,0.05));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: -20px;
+            margin-bottom: -10px;
         }
 
-        .btn-tile { transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); font-family: 'Bungee', cursive; cursor: pointer; }
-        .btn-tile:hover { transform: translateY(-8px); border-color: var(--accent); background: rgba(167, 139, 250, 0.05); }
-        
+        /* SQUISHY HOVERS */
+        .btn-squish:hover { transform: scale(1.03) translateY(-5px); border-color: var(--accent); background: rgba(167, 139, 250, 0.05); }
+        .btn-squish:active { transform: scale(0.97); }
+
         .hidden { display: none !important; }
         
         input, textarea { 
-            background: rgba(255,255,255,0.04); 
+            background: rgba(255,255,255,0.03); 
             border: 1px solid rgba(255,255,255,0.1); 
             color: white; 
             padding: 18px; 
             border-radius: 20px; 
             outline: none; 
             width: 100%;
-            transition: 0.3s;
         }
-        input:focus { border-color: var(--accent); background: rgba(255,255,255,0.07); }
+        input:focus { border-color: var(--accent); }
 
         .chat-tab { cursor: pointer; transition: 0.3s; border-radius: 20px; border: 1px solid transparent; }
-        .chat-tab.active { background: rgba(167, 139, 250, 0.1); border-color: var(--accent); }
+        .chat-tab.active { background: rgba(167, 139, 250, 0.12); border-color: var(--accent); }
         
         .custom-scroll::-webkit-scrollbar { width: 4px; }
         .custom-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
     </style>
 </head>
-<body class="min-h-screen">
+<body>
 
     <nav class="fixed top-0 left-0 right-0 z-[100] p-10 flex justify-between items-center">
-        <div onclick="showSection('home')" class="text-4xl font-black italic cursor-pointer tracking-tighter">W<span class="text-purple-500">.</span></div>
-        <button onclick="toggleModal('login-modal')" id="nav-auth-btn" class="ultra-glass px-10 py-4 text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all">Sign In</button>
+        <div onclick="showSection('home')" class="text-4xl font-black italic tracking-tighter cursor-pointer">W<span class="text-purple-500">.</span></div>
+        <button onclick="toggleModal('login-modal')" id="nav-btn" class="ultra-glass px-10 py-4 text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all">Sign In</button>
     </nav>
 
     <section id="home-sec" class="flex flex-col items-center justify-center min-h-screen text-center px-6">
-        <div class="mb-24">
-            <h1 class="w-logo-hero">W</h1>
-            <p id="net-status" class="text-[11px] font-black text-purple-500 uppercase tracking-[1.2em] ml-6 opacity-60">Network Operational</p>
+        <div class="mb-24 animate-pulse">
+            <h1 class="w-logo">W</h1>
+            <p id="net-status" class="text-[11px] font-black text-purple-500 uppercase tracking-[1.3em] ml-6 opacity-60">Network Online</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-5xl mb-24">
-            <div onclick="showSection('hub')" class="ultra-glass p-20 btn-tile group">
+            <div onclick="showSection('hub')" class="ultra-glass p-20 btn-squish group cursor-pointer">
                 <h2 class="text-4xl font-['Bungee'] group-hover:text-purple-400">HUB</h2>
-                <p class="text-[10px] text-gray-500 font-bold uppercase mt-3 tracking-[0.3em]">Secure Messenger</p>
+                <p class="text-[10px] text-gray-500 font-bold uppercase mt-3 tracking-[0.4em]">Messenger</p>
             </div>
-            <a href="https://wwebsite.sell.app" target="_blank" class="ultra-glass p-20 btn-tile group">
+            <a href="https://wwebsite.sell.app" target="_blank" class="ultra-glass p-20 btn-squish group cursor-pointer">
                 <h2 class="text-4xl font-['Bungee'] group-hover:text-cyan-400">STORE</h2>
-                <p class="text-[10px] text-gray-500 font-bold uppercase mt-3 tracking-[0.3em]">Network Tiers</p>
+                <p class="text-[10px] text-gray-500 font-bold uppercase mt-3 tracking-[0.4em]">Network Shop</p>
             </a>
         </div>
 
-        <div class="max-w-2xl w-full ultra-glass p-12 border-white/5 mb-20">
-            <h3 class="text-xl font-['Bungee'] mb-10 italic uppercase">Broadcast Support</h3>
+        <div class="max-w-2xl w-full ultra-glass p-14 border-white/5 mb-20">
+            <h3 class="text-xl font-['Bungee'] mb-10 italic">Support Transmission</h3>
             <div class="space-y-4">
-                <input type="text" id="s-name" placeholder="Name">
-                <textarea id="s-msg" placeholder="Describe issue or feedback..." class="h-28"></textarea>
-                <button onclick="sendSupport()" class="bg-white text-black w-full py-5 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-purple-500 hover:text-white transition">Transmit</button>
+                <input type="text" id="sup-name" placeholder="Name">
+                <textarea id="sup-msg" placeholder="Message..." class="h-28"></textarea>
+                <button onclick="broadcast()" class="bg-white text-black w-full py-5 rounded-2xl font-black text-[11px] uppercase tracking-widest hover:bg-purple-500 hover:text-white transition">Broadcast</button>
             </div>
         </div>
     </section>
 
     <section id="hub-sec" class="hidden pt-32 pb-10 px-10 max-w-7xl mx-auto h-[92vh]">
         <div class="grid grid-cols-4 gap-8 h-full">
-            <div class="col-span-1 ultra-glass p-8 flex flex-col gap-4 overflow-y-auto custom-scroll border-white/5">
+            <div class="col-span-1 ultra-glass p-8 flex flex-col gap-4 overflow-y-auto custom-scroll">
                 <div class="flex justify-between items-center mb-6">
-                    <span class="text-[10px] font-black text-purple-400 uppercase tracking-widest">Channels</span>
-                    <button onclick="toggleModal('join-modal')" class="h-10 w-10 bg-white/5 rounded-full hover:bg-white/10 transition font-black text-lg">+</button>
+                    <span class="text-[10px] font-black text-purple-400 uppercase tracking-widest">Sessions</span>
+                    <button onclick="toggleModal('join-modal')" class="h-10 w-10 bg-white/5 rounded-full font-black text-lg hover:bg-white/10 transition">+</button>
                 </div>
-                <div id="side-list" class="space-y-2"></div>
+                <div id="session-list" class="space-y-2"></div>
             </div>
 
-            <div class="col-span-3 ultra-glass flex flex-col relative overflow-hidden border-white/10">
+            <div class="col-span-3 ultra-glass flex flex-col relative overflow-hidden">
                 <div id="hub-lock" class="absolute inset-0 bg-black/95 z-20 flex items-center justify-center text-center">
-                    <div>
-                        <div class="h-12 w-12 border-2 border-purple-500 border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
-                        <p class="text-[11px] font-['Bungee'] text-gray-600 tracking-widest uppercase">Select Session to Sync</p>
-                    </div>
+                    <p class="text-[11px] font-['Bungee'] text-gray-700 tracking-[0.5em] uppercase">Select Session to Connect</p>
                 </div>
-
                 <div class="p-8 border-b border-white/5 bg-white/[0.01]">
-                    <h3 id="chat-head" class="font-black italic text-gray-500 tracking-tighter">#---</h3>
+                    <h3 id="chat-head" class="font-black italic text-gray-500 tracking-tighter">#OFFLINE</h3>
                 </div>
-
                 <div id="msg-feed" class="flex-1 p-10 overflow-y-auto custom-scroll space-y-6"></div>
-
                 <div class="p-8 border-t border-white/5 bg-white/[0.02] flex gap-5">
-                    <input type="text" id="m-in" placeholder="Enter secure message..." class="flex-1">
+                    <input type="text" id="msg-in" placeholder="Secure transmission...">
                     <button onclick="send()" class="bg-white text-black px-14 rounded-2xl text-[11px] font-black uppercase tracking-widest">SEND</button>
                 </div>
             </div>
         </div>
     </section>
 
-    <div id="master-panel" class="hidden fixed inset-0 bg-black z-[500] p-16 overflow-y-auto">
-        <h2 class="text-6xl font-['Bungee'] text-purple-500 mb-20 italic tracking-tighter">W_CONSOLE</h2>
+    <div id="owner-panel" class="hidden fixed inset-0 bg-black z-[500] p-16 overflow-y-auto">
+        <h2 class="text-6xl font-['Bungee'] text-purple-500 mb-20 italic">W_CONSOLE</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
             <div class="ultra-glass p-12 border-purple-500/20">
-                <h3 class="text-xs font-black mb-8 uppercase text-gray-500 tracking-widest">Network Status</h3>
-                <input type="text" id="o-status" placeholder="Override Status Text" class="mb-6">
-                <button onclick="pushStatus()" class="bg-purple-600 w-full py-5 rounded-2xl font-black text-xs">UPDATE HOME</button>
+                <h3 class="text-xs font-black mb-8 uppercase text-gray-500">Live Headline</h3>
+                <input type="text" id="o-status" placeholder="Override Headline" class="mb-6">
+                <button onclick="pushStatus()" class="bg-purple-600 w-full py-5 rounded-2xl font-black text-xs">PUSH UPDATE</button>
             </div>
             <div class="ultra-glass p-12">
-                <h3 class="text-xs font-black mb-8 uppercase text-gray-500 tracking-widest">Support Inbox</h3>
+                <h3 class="text-xs font-black mb-8 uppercase text-gray-500">Broadcast Logs</h3>
                 <div id="o-inbox" class="space-y-4 h-64 overflow-y-auto custom-scroll text-sm"></div>
             </div>
         </div>
-        <button onclick="toggleModal('master-panel')" class="mt-12 text-gray-600 underline">Exit Console</button>
+        <button onclick="toggleModal('owner-panel')" class="mt-12 text-gray-600 underline">Exit Console</button>
     </div>
 
     <div id="login-modal" class="hidden fixed inset-0 bg-black/98 z-[600] flex items-center justify-center p-6">
         <div class="ultra-glass p-16 w-full max-w-sm text-center">
             <h2 class="text-3xl font-['Bungee'] mb-10 italic">LOGIN</h2>
-            <input type="email" id="u-mail" placeholder="Email" class="mb-8">
-            <button onclick="auth()" class="bg-white text-black w-full py-5 rounded-2xl font-black text-xs">IDENTIFY</button>
+            <input type="email" id="u-mail" placeholder="Network Email" class="mb-8">
+            <button onclick="auth()" class="bg-white text-black w-full py-5 rounded-2xl font-black text-xs uppercase">IDENTIFY</button>
         </div>
     </div>
 
@@ -169,7 +164,7 @@
         <div class="ultra-glass p-16 w-full max-w-sm text-center">
             <h2 class="text-2xl font-['Bungee'] mb-10">JOIN CHANNEL</h2>
             <input type="text" id="u-code" placeholder="CODE" class="text-center tracking-[0.5em] font-black mb-12 uppercase text-purple-400 text-xl">
-            <button onclick="join()" class="bg-purple-600 w-full py-5 rounded-2xl font-black text-xs">CONNECT</button>
+            <button onclick="join()" class="bg-purple-600 w-full py-5 rounded-2xl font-black text-xs uppercase">CONNECT</button>
         </div>
     </div>
 
@@ -188,7 +183,7 @@
             mail = document.getElementById('u-mail').value; if(!mail) return;
             logged = true;
             if(mail === "wwebsiteofficial@outlook.com") isBoss = true;
-            document.getElementById('nav-auth-btn').innerText = mail.split('@')[0].toUpperCase();
+            document.getElementById('nav-btn').innerText = mail.split('@')[0].toUpperCase();
             toggleModal('login-modal');
         }
 
@@ -201,7 +196,7 @@
         }
 
         function renderList() {
-            const list = document.getElementById('side-list');
+            const list = document.getElementById('session-list');
             list.innerHTML = chats.map(s => `
                 <div onclick="selectSession('${s.id}')" class="chat-tab p-6 font-black text-xs ${currentId === s.id ? 'active' : 'bg-white/[0.02]'}">
                     #${s.id}
@@ -216,7 +211,7 @@
         }
 
         function send() {
-            const input = document.getElementById('m-in'); if(!input.value || !currentId) return;
+            const input = document.getElementById('msg-in'); if(!input.value || !currentId) return;
             const session = chats.find(s => s.id === currentId);
             session.msgs.push({ u: mail.split('@')[0], t: input.value });
             input.value = ""; renderMsgs();
@@ -228,34 +223,34 @@
             feed.innerHTML = session.msgs.map(m => `
                 <div class="bg-white/5 p-6 rounded-3xl border border-white/5 max-w-[85%]">
                     <p class="text-[9px] text-purple-400 font-black mb-2 uppercase italic">${m.u}</p>
-                    <p class="text-sm text-gray-200 leading-relaxed">${m.t}</p>
+                    <p class="text-sm text-gray-200">${m.t}</p>
                 </div>
             `).join('');
             feed.scrollTop = feed.scrollHeight;
         }
 
-        function sendSupport() {
-            const n = document.getElementById('s-name').value; const m = document.getElementById('s-msg').value;
+        function broadcast() {
+            const n = document.getElementById('sup-name').value; const m = document.getElementById('sup-msg').value;
             if(!n || !m) return;
-            const box = document.getElementById('o-inbox');
+            const inbox = document.getElementById('o-inbox');
             const d = document.createElement('div');
             d.className = "p-5 ultra-glass mb-3 border-white/10 text-xs";
             d.innerHTML = `<p class="font-black text-purple-400 mb-1">${n.toUpperCase()}</p><p>${m}</p>`;
-            box.prepend(d);
-            alert("Sent.");
-            document.getElementById('s-name').value = ""; document.getElementById('s-msg').value = "";
+            inbox.prepend(d);
+            alert("Transmission Sent.");
+            document.getElementById('sup-name').value = ""; document.getElementById('sup-msg').value = "";
         }
 
         function pushStatus() {
             const s = document.getElementById('o-status').value;
             if(s) document.getElementById('net-status').innerText = s;
-            toggleModal('master-panel');
+            toggleModal('owner-panel');
         }
 
         let k = {};
         document.addEventListener('keydown', e => {
             k[e.key.toLowerCase()] = true;
-            if(k['l'] && k['p'] && isBoss) toggleModal('master-panel');
+            if(k['l'] && k['p'] && isBoss) toggleModal('owner-panel');
         });
         document.addEventListener('keyup', e => delete k[e.key.toLowerCase()]);
     </script>
