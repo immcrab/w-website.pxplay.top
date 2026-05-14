@@ -12,7 +12,7 @@
 
     <div id="loader">
         <div class="spinner"></div>
-        <p class="mt-4 font-['Bungee'] text-[10px] tracking-widest text-purple-500">INITIALIZING</p>
+        <p class="mt-4 font-['Bungee'] text-[10px] tracking-widest text-purple-500">SYSTEM ONLINE</p>
     </div>
 
     <nav class="fixed top-4 left-0 right-0 z-50 px-4 reveal">
@@ -20,7 +20,6 @@
             <div class="text-xl font-black italic text-purple-500">W.</div>
             <div class="flex gap-5 text-[9px] font-bold uppercase tracking-widest text-gray-400">
                 <a href="#hub">Hub</a>
-                <a href="#messages">Chat</a>
                 <a href="https://wwebsite.sell.app" target="_blank">Store</a>
                 <a href="#vault" id="vault-link" class="hidden text-red-500">Vault</a>
             </div>
@@ -29,18 +28,12 @@
 
     <header class="h-screen flex flex-col items-center justify-center text-center px-6 reveal">
         <h1 class="text-6xl md:text-8xl font-['Bungee'] leading-none">W WEBSITE</h1>
-        <p class="text-gray-500 text-[10px] md:text-sm font-bold tracking-[0.4em] mt-4 mb-12 uppercase">Professional • Secure • Integrated</p>
+        <p class="text-gray-500 text-[10px] md:text-sm font-bold tracking-[0.4em] mt-4 mb-12 uppercase">Professional • Secure • Modern</p>
         <a href="https://wwebsite.sell.app" target="_blank" class="action-btn px-10 py-5 text-sm">SHOP NOW</a>
     </header>
 
     <section id="hub" class="py-20 px-4 max-w-6xl mx-auto reveal">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="glass-card p-10 rounded-[35px] text-center">
-                <div class="text-3xl mb-4">💬</div>
-                <h3 class="text-lg font-black mb-2">LIVE MESSENGER</h3>
-                <p class="text-gray-500 text-xs mb-8">Real-time global chat with persistent Guest IDs.</p>
-                <a href="#messages" class="action-btn py-3 text-[10px]">GO TO CHAT</a>
-            </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div class="glass-card p-10 rounded-[35px] text-center">
                 <div class="text-3xl mb-4">💎</div>
                 <h3 class="text-lg font-black mb-2">SUBSCRIPTIONS</h3>
@@ -56,33 +49,24 @@
         </div>
     </section>
 
-    <section id="messages" class="py-20 px-4 max-w-4xl mx-auto reveal">
-        <div id="chat-container" class="glass-card rounded-[40px] overflow-hidden border border-white/10">
-            <div class="p-6 border-b border-white/10 flex justify-between items-center bg-white/5">
-                <div>
-                    <h2 class="font-['Bungee'] text-lg tracking-tighter">GLOBAL COMMS</h2>
-                    <p id="display-name" class="text-[9px] text-purple-500 font-bold uppercase tracking-widest">ID: CONNECTING...</p>
-                </div>
-            </div>
-            <div id="chat-window"></div>
-            <div class="p-4 bg-white/5 border-t border-white/10">
-                <div class="flex gap-2">
-                    <input type="text" id="msg-input" autocomplete="off" placeholder="Type a message..." 
-                        class="flex-1 bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-sm outline-none focus:border-purple-500 transition-all">
-                    <button id="send-btn" class="action-btn px-6 py-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <section id="login-section" class="py-20 px-4 flex justify-center hidden-section reveal">
         <div class="w-full max-w-md glass-card p-10 rounded-[35px]">
-            <h2 class="text-xl font-['Bungee'] mb-6 text-center">STAFF LOGIN</h2>
-            <input type="email" id="email" placeholder="Email" class="w-full bg-white/5 border border-white/10 rounded-xl p-4 mb-4 outline-none text-sm focus:border-purple-500">
-            <input type="password" id="pass" placeholder="Key" class="w-full bg-white/5 border border-white/10 rounded-xl p-4 mb-6 outline-none text-sm focus:border-purple-500">
-            <button id="loginBtn" class="w-full action-btn py-4">LOGIN</button>
+            <h2 class="text-xl font-['Bungee'] mb-6 text-center">STAFF ACCESS</h2>
+            
+            <div id="googleBtn" class="google-btn mb-6">
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/action/google.svg" width="18" alt="">
+                <span>Sign in with Google</span>
+            </div>
+
+            <div class="flex items-center gap-4 mb-6 opacity-20">
+                <hr class="flex-1 border-white/20">
+                <span class="text-[10px] font-bold">OR</span>
+                <hr class="flex-1 border-white/20">
+            </div>
+
+            <input type="email" id="email" placeholder="Staff Email" class="w-full bg-white/5 border border-white/10 rounded-xl p-4 mb-4 outline-none text-sm focus:border-purple-500">
+            <input type="password" id="pass" placeholder="Master Key" class="w-full bg-white/5 border border-white/10 rounded-xl p-4 mb-6 outline-none text-sm focus:border-purple-500">
+            <button id="loginBtn" class="w-full action-btn py-4">MANUAL LOGIN</button>
         </div>
     </section>
 
@@ -90,7 +74,7 @@
         <div class="max-w-2xl mx-auto glass-card p-12 border-red-500/30 rounded-[40px] text-center">
             <h2 class="text-4xl font-['Bungee'] text-red-500 mb-6">THE VAULT</h2>
             <div class="bg-black/40 p-6 rounded-2xl text-[10px] text-gray-500 italic mb-8">
-                Master Authority Level 10 Detected. Screenshot Protection Active.
+                Master Authority Level 10 Detected.
             </div>
             <button class="action-btn bg-red-600 px-8 py-4 mx-auto">MANAGE SYSTEM</button>
         </div>
@@ -98,7 +82,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getDatabase, ref, push, onValue, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyDgQRvvNbr8tY4OP0Ky-6Uy6LI1gWFlAXM",
@@ -112,46 +96,33 @@
         };
 
         const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
-        const chatRef = ref(db, 'messages');
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
 
-        // ID Management
-        let myId = localStorage.getItem('w_user_id') || 'Guest' + Math.floor(100 + Math.random() * 900);
-        localStorage.setItem('w_user_id', myId);
-        document.getElementById('display-name').innerText = "Logged in as " + myId;
-
-        const getOtherColor = (userId) => {
-            let hash = 0;
-            for (let i = 0; i < userId.length; i++) hash = userId.charCodeAt(i) + ((hash << 5) - hash);
-            return `hsl(${Math.abs(hash % 360)}, 50%, 35%)`;
+        // Google Login Logic
+        document.getElementById('googleBtn').onclick = () => {
+            signInWithPopup(auth, provider)
+                .then((result) => {
+                    const user = result.user;
+                    alert("Authenticated as: " + user.displayName);
+                    // Check if they are the owner
+                    if(user.email === "wwebsiteofficial@outlook.com") {
+                        showVault();
+                    }
+                }).catch((error) => {
+                    console.error(error);
+                    alert("Auth Failed. Check Firebase Console settings.");
+                });
         };
 
-        // Messaging
-        onValue(chatRef, (snapshot) => {
-            const chatWindow = document.getElementById('chat-window');
-            chatWindow.innerHTML = '';
-            snapshot.forEach((child) => {
-                const data = child.val();
-                const isMe = data.user === myId;
-                const bubble = document.createElement('div');
-                bubble.className = `message-bubble ${isMe ? 'my-message' : 'other-message'}`;
-                if(!isMe) bubble.style.background = getOtherColor(data.user);
-                bubble.innerHTML = `<div class="text-[8px] font-black uppercase opacity-50 mb-1">${data.user}</div><div>${data.text}</div>`;
-                chatWindow.appendChild(bubble);
-            });
-            chatWindow.scrollTop = chatWindow.scrollHeight;
-        });
+        function showVault() {
+            document.getElementById('vault').classList.remove('hidden-section');
+            document.getElementById('vault').classList.add('active');
+            document.getElementById('vault-link').classList.remove('hidden');
+            document.getElementById('vault').scrollIntoView({ behavior: 'smooth' });
+        }
 
-        const sendMsg = () => {
-            const input = document.getElementById('msg-input');
-            if (input.value.trim()) {
-                push(chatRef, { user: myId, text: input.value, timestamp: serverTimestamp() });
-                input.value = '';
-            }
-        };
-
-        document.getElementById('send-btn').onclick = sendMsg;
-        document.getElementById('msg-input').onkeydown = (e) => { if(e.key === 'Enter') sendMsg(); };
+        window.showVault = showVault; // Make accessible to manual login
     </script>
 
     <script>
@@ -170,7 +141,6 @@
         }
         window.addEventListener('scroll', handleScrollReveal);
 
-        // Security & Handshake
         const ownerEmail = "wwebsiteofficial@outlook.com";
         let keys = {};
         document.addEventListener('keydown', e => {
@@ -186,13 +156,12 @@
 
         document.getElementById('loginBtn').addEventListener('click', () => {
             if (document.getElementById('email').value === ownerEmail) {
-                document.getElementById('vault').classList.remove('hidden-section');
-                document.getElementById('vault').classList.add('active');
-                document.getElementById('vault-link').classList.remove('hidden');
-                alert("Owner Access Granted.");
+                window.showVault();
+                alert("Owner Manual Access Granted.");
             } else { alert("Staff Identity Verified."); }
         });
 
+        // Security
         document.addEventListener('contextmenu', e => e.preventDefault());
         document.addEventListener('keydown', e => {
             if ((e.ctrlKey || e.metaKey) && ['c','s','p'].includes(e.key.toLowerCase())) {
