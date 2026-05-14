@@ -23,6 +23,44 @@
             user-select: none;
         }
 
+        /* --- LOADING SCREEN STYLES --- */
+        #loader {
+            position: fixed;
+            inset: 0;
+            background: var(--bg-dark);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.5s ease, visibility 0.5s;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(124, 58, 237, 0.1);
+            border-top: 3px solid var(--clay-purple);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* --- ANIMATIONS --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         .glass-card {
             background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(25px) saturate(160%);
@@ -63,7 +101,12 @@
 </head>
 <body>
 
-    <nav class="fixed top-6 left-0 right-0 z-50 px-6">
+    <div id="loader">
+        <div class="spinner"></div>
+        <p class="mt-4 font-['Bungee'] text-xs tracking-widest text-purple-500 animate-pulse">INITIALIZING SYSTEM</p>
+    </div>
+
+    <nav class="fixed top-6 left-0 right-0 z-50 px-6 reveal">
         <div class="max-w-5xl mx-auto glass-card py-4 px-8 flex justify-between items-center rounded-full">
             <div id="main-logo" class="text-2xl font-black italic text-purple-500 cursor-pointer">W.</div>
             <div class="flex gap-6 text-[10px] font-bold uppercase tracking-widest text-gray-400">
@@ -74,13 +117,13 @@
         </div>
     </nav>
 
-    <header class="min-h-screen flex flex-col items-center justify-center text-center px-6">
+    <header class="min-h-screen flex flex-col items-center justify-center text-center px-6 reveal">
         <h1 class="text-6xl md:text-8xl font-['Bungee'] mb-4">W WEBSITE</h1>
         <p class="text-gray-400 font-bold tracking-[0.4em] mb-12">PROFESSIONAL • MODERN • SECURE</p>
-        <a href="" target="_blank" class="action-btn px-10 py-5 text-lg">Join Our Discord Channel (Coming Soon)</a>
+        <a href="https://wwebsite.sell.app" target="_blank" class="action-btn px-10 py-5 text-lg">SHOP NOW</a>
     </header>
 
-    <section id="hub" class="py-20 px-6 max-w-6xl mx-auto">
+    <section id="hub" class="py-20 px-6 max-w-6xl mx-auto reveal">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div class="glass-card p-10 text-center">
                 <div class="text-4xl mb-4">💬</div>
@@ -97,13 +140,13 @@
             <div class="glass-card p-10 text-center">
                 <div class="text-4xl mb-4">🎮</div>
                 <h3 class="text-xl font-black mb-2">GAMES</h3>
-                <p class="text-gray-500 text-sm mb-6">Staff-only betas and community arcade.</p>
+                <p class="text-gray-400 text-sm mb-6">Staff-only betas and community arcade.</p>
                 <button class="text-purple-400 font-bold text-xs">COMING SOON</button>
             </div>
         </div>
     </section>
 
-    <section id="login-section" class="py-20 flex justify-center hidden-section">
+    <section id="login-section" class="py-20 flex justify-center hidden-section reveal">
         <div class="w-full max-w-md glass-card p-10">
             <h2 class="text-2xl font-['Bungee'] mb-6">STAFF LOGIN</h2>
             <input type="email" id="email" placeholder="Email" class="w-full bg-white/5 border border-white/10 rounded-xl p-4 mb-4 outline-none">
@@ -112,7 +155,7 @@
         </div>
     </section>
 
-    <section id="vault" class="py-20 px-6 hidden-section">
+    <section id="vault" class="py-20 px-6 hidden-section reveal">
         <div class="max-w-2xl mx-auto glass-card p-12 border-red-500/30 text-center">
             <h2 class="text-4xl font-['Bungee'] text-red-500 mb-6">THE VAULT</h2>
             <div class="bg-black/40 p-6 rounded-2xl text-xs text-gray-500 italic mb-8">
@@ -122,7 +165,50 @@
         </div>
     </section>
 
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDgQRvvNbr8tY4OP0Ky-6Uy6LI1gWFlAXM",
+            authDomain: "makerlee.firebaseapp.com",
+            databaseURL: "https://makerlee-default-rtdb.firebaseio.com",
+            projectId: "makerlee",
+            storageBucket: "makerlee.firebasestorage.app",
+            messagingSenderId: "730881046345",
+            appId: "1:730881046345:web:bf0fb8862db08de7604c98",
+            measurementId: "G-GRQ0L4H0Y6"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+    </script>
+
     <script>
+        // LOADER DISMISSAL
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('loader');
+            loader.style.opacity = '0';
+            setTimeout(() => {
+                loader.style.visibility = 'hidden';
+                handleScrollReveal(); // Trigger animations for the first fold
+            }, 500);
+        });
+
+        // SLICK SCROLL REVEAL LOGIC
+        function handleScrollReveal() {
+            const reveals = document.querySelectorAll('.reveal');
+            reveals.forEach(el => {
+                const windowHeight = window.innerHeight;
+                const elementTop = el.getBoundingClientRect().top;
+                const elementVisible = 100;
+                if (elementTop < windowHeight - elementVisible) {
+                    el.classList.add('active');
+                }
+            });
+        }
+        window.addEventListener('scroll', handleScrollReveal);
+
         const ownerEmail = "wwebsiteofficial@outlook.com";
 
         // GHOST HANDSHAKE (L + P)
@@ -130,8 +216,10 @@
         document.addEventListener('keydown', e => {
             keys[e.key.toLowerCase()] = true;
             if (keys['l'] && keys['p']) {
-                document.getElementById('login-section').classList.remove('hidden-section');
-                document.getElementById('login-section').scrollIntoView({ behavior: 'smooth' });
+                const loginSec = document.getElementById('login-section');
+                loginSec.classList.remove('hidden-section');
+                loginSec.classList.add('active'); // Ensure animation triggers
+                loginSec.scrollIntoView({ behavior: 'smooth' });
             }
         });
         document.addEventListener('keyup', e => delete keys[e.key.toLowerCase()]);
@@ -140,8 +228,9 @@
         document.getElementById('loginBtn').addEventListener('click', () => {
             const email = document.getElementById('email').value;
             if (email === ownerEmail) {
-                document.getElementById('vault-section')?.classList.remove('hidden-section'); // For separate sections
-                document.getElementById('vault').classList.remove('hidden-section');
+                const vault = document.getElementById('vault');
+                vault.classList.remove('hidden-section');
+                vault.classList.add('active'); // Ensure animation triggers
                 document.getElementById('vault-link').classList.remove('hidden');
                 alert("Owner Access Granted.");
             } else {
