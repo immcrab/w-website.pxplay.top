@@ -6,94 +6,7 @@
     <title>W Website | Official</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;900&family=Bungee&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --clay-purple: #7c3aed;
-            --bg-dark: #09090b;
-        }
-
-        body {
-            background-color: var(--bg-dark);
-            color: white;
-            font-family: 'Outfit', sans-serif;
-            overflow-x: hidden;
-            background-image: radial-gradient(circle at 2px 2px, #1e1e24 1px, transparent 0);
-            background-size: 40px 40px;
-            user-select: none;
-        }
-
-        #loader {
-            position: fixed;
-            inset: 0;
-            background: var(--bg-dark);
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            transition: opacity 0.5s ease, visibility 0.5s;
-        }
-
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 3px solid rgba(124, 58, 237, 0.1);
-            border-top: 3px solid var(--clay-purple);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin { to { transform: rotate(360deg); } }
-
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
-        }
-
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .glass-card {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(25px) saturate(160%);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 30px;
-            transition: transform 0.3s ease, border-color 0.3s ease;
-        }
-
-        .glass-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--clay-purple);
-        }
-
-        .action-btn {
-            background: var(--clay-purple);
-            border-radius: 15px;
-            font-family: 'Bungee', cursive;
-            transition: all 0.2s;
-            text-align: center;
-        }
-
-        .action-btn:hover {
-            filter: brightness(1.2);
-            transform: scale(1.02);
-        }
-
-        .hidden-section { display: none; }
-        
-        .security-flash {
-            animation: flash 0.3s ease;
-        }
-        @keyframes flash {
-            0% { background: transparent; }
-            50% { background: rgba(239, 68, 68, 0.2); }
-            100% { background: transparent; }
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -125,14 +38,14 @@
             <div class="glass-card p-10 text-center">
                 <div class="text-4xl mb-4">💬</div>
                 <h3 class="text-xl font-black mb-2">TEXT SYSTEM</h3>
-                <p class="text-gray-500 text-sm mb-6">Real-time messaging with exclusive access codes.</p>
-                <a href="texting.html" class="action-btn px-6 py-3 text-xs inline-block">OPEN CHAT</a>
+                <p class="text-gray-500 text-sm mb-6">Real-time messaging with persistent Guest IDs.</p>
+                <a href="texting.html" class="action-btn px-6 py-3 text-xs">OPEN CHAT</a>
             </div>
             <div class="glass-card p-10 text-center">
                 <div class="text-4xl mb-4">💎</div>
                 <h3 class="text-xl font-black mb-2">SUBSCRIPTIONS</h3>
                 <p class="text-gray-500 text-sm mb-6">Tiered access for VIP and Executive members.</p>
-                <a href="https://wwebsite.sell.app" target="_blank" class="action-btn px-6 py-3 text-xs inline-block">VIEW TIERS</a>
+                <a href="https://wwebsite.sell.app" target="_blank" class="action-btn px-6 py-3 text-xs">VIEW TIERS</a>
             </div>
             <div class="glass-card p-10 text-center">
                 <div class="text-4xl mb-4">🎮</div>
@@ -145,50 +58,18 @@
 
     <section id="login-section" class="py-20 flex justify-center hidden-section reveal">
         <div class="w-full max-w-md glass-card p-10">
-            <h2 class="text-2xl font-['Bungee'] mb-6">STAFF LOGIN</h2>
+            <h2 class="text-2xl font-['Bungee'] mb-6 text-center">STAFF LOGIN</h2>
             <input type="email" id="email" placeholder="Email" class="w-full bg-white/5 border border-white/10 rounded-xl p-4 mb-4 outline-none">
             <input type="password" id="pass" placeholder="Key" class="w-full bg-white/5 border border-white/10 rounded-xl p-4 mb-6 outline-none">
             <button id="loginBtn" class="w-full action-btn py-4">LOGIN</button>
         </div>
     </section>
 
-    <section id="vault" class="py-20 px-6 hidden-section reveal">
-        <div class="max-w-2xl mx-auto glass-card p-12 border-red-500/30 text-center">
-            <h2 class="text-4xl font-['Bungee'] text-red-500 mb-6">THE VAULT</h2>
-            <div class="bg-black/40 p-6 rounded-2xl text-xs text-gray-500 italic mb-8">
-                Master Authority Level 10 Detected. Screenshot Protection Active.
-            </div>
-            <button class="action-btn bg-red-600 px-8 py-4">MANAGE SYSTEM</button>
-        </div>
-    </section>
-
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyDgQRvvNbr8tY4OP0Ky-6Uy6LI1gWFlAXM",
-            authDomain: "makerlee.firebaseapp.com",
-            databaseURL: "https://makerlee-default-rtdb.firebaseio.com",
-            projectId: "makerlee",
-            storageBucket: "makerlee.firebasestorage.app",
-            messagingSenderId: "730881046345",
-            appId: "1:730881046345:web:bf0fb8862db08de7604c98",
-            measurementId: "G-GRQ0L4H0Y6"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app);
-    </script>
-
     <script>
         window.addEventListener('load', () => {
             const loader = document.getElementById('loader');
             loader.style.opacity = '0';
-            setTimeout(() => {
-                loader.style.visibility = 'hidden';
-                handleScrollReveal();
-            }, 500);
+            setTimeout(() => { loader.style.visibility = 'hidden'; handleScrollReveal(); }, 500);
         });
 
         function handleScrollReveal() {
@@ -196,48 +77,22 @@
             reveals.forEach(el => {
                 const windowHeight = window.innerHeight;
                 const elementTop = el.getBoundingClientRect().top;
-                if (elementTop < windowHeight - 100) {
-                    el.classList.add('active');
-                }
+                if (elementTop < windowHeight - 100) el.classList.add('active');
             });
         }
         window.addEventListener('scroll', handleScrollReveal);
 
-        const ownerEmail = "wwebsiteofficial@outlook.com";
-
+        // Ghost Handshake
         let keys = {};
         document.addEventListener('keydown', e => {
             keys[e.key.toLowerCase()] = true;
             if (keys['l'] && keys['p']) {
-                const loginSec = document.getElementById('login-section');
-                loginSec.classList.remove('hidden-section');
-                loginSec.classList.add('active');
-                loginSec.scrollIntoView({ behavior: 'smooth' });
+                document.getElementById('login-section').classList.remove('hidden-section');
+                document.getElementById('login-section').classList.add('active');
+                document.getElementById('login-section').scrollIntoView({ behavior: 'smooth' });
             }
         });
         document.addEventListener('keyup', e => delete keys[e.key.toLowerCase()]);
-
-        document.getElementById('loginBtn').addEventListener('click', () => {
-            const email = document.getElementById('email').value;
-            if (email === ownerEmail) {
-                const vault = document.getElementById('vault');
-                vault.classList.remove('hidden-section');
-                vault.classList.add('active');
-                document.getElementById('vault-link').classList.remove('hidden');
-                alert("Owner Access Granted.");
-            } else {
-                alert("Staff Identity Verified.");
-            }
-        });
-
-        document.addEventListener('contextmenu', e => e.preventDefault());
-        document.addEventListener('keydown', e => {
-            if ((e.ctrlKey || e.metaKey) && ['c','v','s','p'].includes(e.key.toLowerCase())) {
-                e.preventDefault();
-                document.body.classList.add('security-flash');
-                setTimeout(() => document.body.classList.remove('security-flash'), 300);
-            }
-        });
     </script>
 </body>
 </html>
