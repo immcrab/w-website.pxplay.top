@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Index | Testing Mode</title>
+    <title>Index | Updating to 2.0</title>
     <style>
         * { box-sizing: border-box; }
         
@@ -13,108 +13,111 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background: radial-gradient(circle, #ffffff 0%, #dfe6e9 100%);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            color: #2d3436;
+            background: #0f172a; /* Darker, modern background */
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            color: #f8fafc;
         }
 
         .card {
             text-align: center;
-            background: #ffffff;
+            background: #1e293b;
             padding: 3rem;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
-            border: 1px solid #f1f2f6;
-            width: 90%;
-            max-width: 450px;
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+            border: 1px solid #334155;
+            width: 95%;
+            max-width: 500px;
         }
 
-        .status-badge {
+        .version-badge {
             display: inline-block;
-            background: #ffeaa7;
-            color: #d63031;
-            padding: 5px 15px;
+            background: #38bdf8;
+            color: #0f172a;
+            padding: 6px 18px;
             border-radius: 50px;
-            font-size: 12px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 20px;
+            font-size: 14px;
+            font-weight: 800;
+            margin-bottom: 25px;
         }
 
-        h1 { margin: 10px 0; font-weight: 800; font-size: 2rem; }
-        p { color: #636e72; line-height: 1.6; margin-bottom: 20px; }
+        h1 { margin: 10px 0; font-size: 2.2rem; letter-spacing: -1px; }
+        p { color: #94a3b8; line-height: 1.6; margin-bottom: 30px; }
 
-        /* Timer Styling */
         #timer {
-            font-size: 2.5rem;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 3.5rem;
             font-weight: 700;
-            color: #0984e3;
+            color: #38bdf8;
             margin: 20px 0;
-            font-variant-numeric: tabular-nums;
+            text-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
         }
 
         .progress-container {
             width: 100%;
-            background-color: #f1f2f6;
+            background-color: #334155;
             border-radius: 10px;
             overflow: hidden;
-            height: 8px;
+            height: 10px;
         }
 
         .progress-bar {
-            width: 100%;
+            width: 0%;
             height: 100%;
-            background: #0984e3;
-            border-radius: 10px;
-            transition: width 1s linear;
+            background: linear-gradient(90deg, #38bdf8, #818cf8);
+            transition: width 0.5s ease-out;
         }
     </style>
 </head>
 <body>
 
     <div class="card">
-        <div class="status-badge">Updating Mode</div>
-        <h1>Almost Ready</h1>
-        <p>We are now updating W website 2.0. The site will launch in:</p>
+        <div class="version-badge">UPDATING TO 2.0</div>
+        <h1>Systems Offline</h1>
+        <p>We're deploying the next generation of our platform. We'll be live in:</p>
         
-        <div id="timer">24:00:00</div>
+        <div id="timer">00:00:00:00</div>
 
         <div class="progress-container">
             <div id="bar" class="progress-bar"></div>
         </div>
+        <p style="font-size: 12px; margin-top: 20px; color: #64748b;">Progress synchronized with global deployment</p>
     </div>
 
     <script>
-        // Set the duration: 24 hours in seconds
-        let timeInSeconds = 24 * 60 * 60; 
-        const display = document.querySelector('#timer');
-        const progressBar = document.querySelector('#bar');
-        const totalTime = timeInSeconds;
+        // SET YOUR TARGET DATE HERE
+        // This calculates 24 hours from right now.
+        // For a fixed global time, you can replace this with a specific date string, 
+        // like: const countDownDate = new Date("May 20, 2026 12:00:00").getTime();
+        const countDownDate = new Date().getTime() + (24 * 60 * 60 * 1000);
+        const startTime = new Date().getTime();
 
-        const countdown = setInterval(() => {
-            let hours = Math.floor(timeInSeconds / 3600);
-            let minutes = Math.floor((timeInSeconds % 3600) / 60);
-            let seconds = timeInSeconds % 60;
+        const x = setInterval(function() {
+            const now = new Date().getTime();
+            const distance = countDownDate - now;
 
-            // Add leading zeros
-            hours = hours < 10 ? '0' + hours : hours;
-            minutes = minutes < 10 ? '0' + minutes : minutes;
-            seconds = seconds < 10 ? '0' + seconds : seconds;
+            // Time calculations for days, hours, minutes and seconds
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-            display.textContent = `${hours}:${minutes}:${seconds}`;
+            // Display the result
+            document.getElementById("timer").innerHTML = 
+                (hours < 10 ? "0" + hours : hours) + ":" + 
+                (minutes < 10 ? "0" + minutes : minutes) + ":" + 
+                (seconds < 10 ? "0" + seconds : seconds);
 
-            // Update Progress Bar
-            let progressWidth = (timeInSeconds / totalTime) * 100;
-            progressBar.style.width = progressWidth + "%";
+            // Calculate progress percentage based on 24 hours
+            const totalDuration = 24 * 60 * 60 * 1000;
+            const elapsed = totalDuration - distance;
+            const progress = (elapsed / totalDuration) * 100;
+            document.getElementById("bar").style.width = progress + "%";
 
-            if (timeInSeconds <= 0) {
-                clearInterval(countdown);
-                display.textContent = "00:00:00";
-                display.style.color = "#00b894";
-                document.querySelector('h1').textContent = "We are Live!";
-            } else {
-                timeInSeconds--;
+            // If the count down is finished
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("timer").innerHTML = "00:00:00";
+                document.getElementById("bar").style.width = "100%";
+                document.querySelector('h1').textContent = "Version 2.0 is Live!";
             }
         }, 1000);
     </script>
