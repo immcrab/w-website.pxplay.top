@@ -89,7 +89,7 @@ body {
 .hidden-section { display: none; }
 
 .google-btn {
-    background: white;
+    background: black;
     color: #000;
     font-weight: bold;
     display: flex;
