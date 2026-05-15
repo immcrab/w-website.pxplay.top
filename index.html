@@ -5,10 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Index | Testing Mode</title>
     <style>
-        /* Modern reset and centering */
-        * {
-            box-sizing: border-box;
-        }
+        * { box-sizing: border-box; }
         
         body {
             margin: 0;
@@ -45,19 +42,18 @@
             margin-bottom: 20px;
         }
 
-        h1 {
-            margin: 10px 0;
-            font-weight: 800;
-            font-size: 2rem;
+        h1 { margin: 10px 0; font-weight: 800; font-size: 2rem; }
+        p { color: #636e72; line-height: 1.6; margin-bottom: 20px; }
+
+        /* Timer Styling */
+        #timer {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #0984e3;
+            margin: 20px 0;
+            font-variant-numeric: tabular-nums;
         }
 
-        p {
-            color: #636e72;
-            line-height: 1.6;
-            margin-bottom: 30px;
-        }
-
-        /* Animated Progress Bar */
         .progress-container {
             width: 100%;
             background-color: #f1f2f6;
@@ -67,32 +63,61 @@
         }
 
         .progress-bar {
-            width: 70%; /* You can change this % to show progress */
+            width: 100%;
             height: 100%;
             background: #0984e3;
             border-radius: 10px;
-            animation: pulse 2s infinite ease-in-out;
-        }
-
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.6; }
-            100% { opacity: 1; }
+            transition: width 1s linear;
         }
     </style>
 </head>
 <body>
 
     <div class="card">
-        <div class="status-badge">Maintenance</div>
-        <h1>Testing Mode</h1>
-        <p>Our developers are currently testing new features. The site will be back online shortly.</p>
+        <div class="status-badge">Testing Mode</div>
+        <h1>Almost Ready</h1>
+        <p>We are running final tests. The site will launch in:</p>
         
+        <div id="timer">24:00:00</div>
+
         <div class="progress-container">
-            <div class="progress-bar"></div>
+            <div id="bar" class="progress-bar"></div>
         </div>
-        <p style="font-size: 12px; margin-top: 15px;">Estimated completion: Soon</p>
     </div>
+
+    <script>
+        // Set the duration: 24 hours in seconds
+        let timeInSeconds = 24 * 60 * 60; 
+        const display = document.querySelector('#timer');
+        const progressBar = document.querySelector('#bar');
+        const totalTime = timeInSeconds;
+
+        const countdown = setInterval(() => {
+            let hours = Math.floor(timeInSeconds / 3600);
+            let minutes = Math.floor((timeInSeconds % 3600) / 60);
+            let seconds = timeInSeconds % 60;
+
+            // Add leading zeros
+            hours = hours < 10 ? '0' + hours : hours;
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            seconds = seconds < 10 ? '0' + seconds : seconds;
+
+            display.textContent = `${hours}:${minutes}:${seconds}`;
+
+            // Update Progress Bar
+            let progressWidth = (timeInSeconds / totalTime) * 100;
+            progressBar.style.width = progressWidth + "%";
+
+            if (timeInSeconds <= 0) {
+                clearInterval(countdown);
+                display.textContent = "00:00:00";
+                display.style.color = "#00b894";
+                document.querySelector('h1').textContent = "We are Live!";
+            } else {
+                timeInSeconds--;
+            }
+        }, 1000);
+    </script>
 
 </body>
 </html>
