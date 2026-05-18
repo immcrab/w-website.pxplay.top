@@ -179,4 +179,660 @@
                         </div>
                     </div>
 
-                    <div id="screen-storage" class="spa-screen hidden space-y-
+                    <div id="screen-storage" class="spa-screen hidden space-y-6 max-w-5xl mx-auto w-full">
+                        <div>
+                            <button onclick="switchSPAScreen('home')" class="text-xs text-slate-400 hover:underline uppercase font-mono tracking-wider mb-1 block"><i class="fas fa-angle-left"></i> Return Matrix</button>
+                            <h2 class="text-lg font-bold tracking-widest text-white uppercase">Text Encryption Locker</h2>
+                        </div>
+                        <div class="border border-[#0f172a] bg-[#030305] p-6 space-y-4">
+                            <textarea id="storage-text-area" rows="12" class="w-full bg-[#030305] border border-[#1e293b] text-slate-300 font-mono text-xs p-4 focus:border-slate-400 outline-none" placeholder="Synchronizing local memory core allocation array storage parameters..."></textarea>
+                            <div class="flex justify-end">
+                                <button id="btn-save-storage" class="bg-transparent border border-slate-700 hover:border-slate-400 text-slate-300 px-5 py-2 font-mono text-xs uppercase tracking-widest transition-all">
+                                    Commit Memory Arrays
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="screen-creators" class="spa-screen hidden space-y-6 max-w-6xl mx-auto w-full">
+                        <div>
+                            <button onclick="switchSPAScreen('home')" class="text-xs text-[#a78bfa] hover:underline uppercase font-mono tracking-wider mb-1 block"><i class="fas fa-angle-left"></i> Return Matrix</button>
+                            <h2 class="text-lg font-bold tracking-widest text-white uppercase">Media Production Pipeline</h2>
+                        </div>
+
+                        <div id="media-campaign-controller" class="hidden border border-[#a78bfa]/40 bg-[#0f172a]/20 p-6 space-y-4 relative">
+                            <div class="absolute top-0 left-0 w-full h-[1px] bg-[#a78bfa]"></div>
+                            <h3 class="text-xs font-mono font-bold uppercase tracking-widest text-[#a78bfa]"><i class="fas fa-chart-line mr-1.5"></i> Integrated Ad Campaign Controller</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div class="bg-[#030305] p-3 border border-[#0f172a]">
+                                    <span class="text-[10px] font-mono text-slate-500 uppercase block">Active Redirection Track</span>
+                                    <input type="text" id="campaign-redirect-url" class="w-full bg-transparent text-xs text-[#a78bfa] font-mono mt-1 border-b border-[#1e293b] focus:border-[#a78bfa] outline-none pb-1" value="https://tiktok.com/@w_website">
+                                </div>
+                                <div class="bg-[#030305] p-3 border border-[#0f172a]">
+                                    <span class="text-[10px] font-mono text-slate-500 uppercase block">Monitored Global Impressions</span>
+                                    <span class="text-lg font-mono font-bold text-white tracking-tight" id="lbl-campaign-clicks">148,932</span>
+                                </div>
+                                <div class="bg-[#030305] p-3 border border-[#0f172a] flex items-end">
+                                    <button id="btn-update-campaign" class="w-full bg-[#a78bfa]/10 border border-[#a78bfa]/40 hover:bg-[#a78bfa] hover:text-[#030305] text-[#a78bfa] py-1.5 font-mono text-[11px] uppercase tracking-wider transition-all">
+                                        Deploy Link Update
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="border border-[#0f172a] bg-[#030305] overflow-hidden aspect-video relative flex items-center justify-center group">
+                                <div class="absolute inset-0 bg-slate-950/40 flex items-center justify-center z-10"><i class="fab fa-tiktok text-3xl text-slate-400 group-hover:text-white transition-colors"></i></div>
+                                <div class="text-[10px] font-mono text-slate-600 text-center uppercase z-20 pointer-events-none mt-16">TikTok Embed Pipeline Slot A</div>
+                            </div>
+                            <div class="border border-[#0f172a] bg-[#030305] overflow-hidden aspect-video relative flex items-center justify-center group">
+                                <div class="absolute inset-0 bg-slate-950/40 flex items-center justify-center z-10"><i class="fab fa-tiktok text-3xl text-slate-400 group-hover:text-white transition-colors"></i></div>
+                                <div class="text-[10px] font-mono text-slate-600 text-center uppercase z-20 pointer-events-none mt-16">TikTok Embed Pipeline Slot B</div>
+                            </div>
+                            <div class="border border-[#0f172a] bg-[#030305] overflow-hidden aspect-video relative flex items-center justify-center group">
+                                <div class="absolute inset-0 bg-slate-950/40 flex items-center justify-center z-10"><i class="fab fa-tiktok text-3xl text-slate-400 group-hover:text-white transition-colors"></i></div>
+                                <div class="text-[10px] font-mono text-slate-600 text-center uppercase z-20 pointer-events-none mt-16">TikTok Embed Pipeline Slot C</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="screen-crew" class="spa-screen hidden space-y-6 max-w-6xl mx-auto w-full">
+                        <div class="flex items-center justify-between border-b border-red-950 pb-4">
+                            <div>
+                                <button onclick="switchSPAScreen('home')" class="text-xs text-red-400 hover:underline uppercase font-mono tracking-wider mb-1 block"><i class="fas fa-angle-left"></i> Core Grid Matrix</button>
+                                <h2 class="text-lg font-bold tracking-widest text-red-400 uppercase">Crew Core Tactical Interface</h2>
+                            </div>
+                            <span id="lbl-active-terminal-clearance" class="text-[10px] font-mono px-2 py-0.5 bg-red-950 text-red-400 border border-red-900/40 uppercase tracking-widest">Clearance Status: Unknown</span>
+                        </div>
+                        
+                        <div id="panel-brody-master" class="hidden space-y-4 staff-sub-panel">
+                            <div class="border border-[#a78bfa] bg-[#0a0614] p-6 space-y-4">
+                                <h3 class="text-sm font-mono font-black uppercase text-[#a78bfa] tracking-wider"><i class="fas fa-terminal mr-2"></i> LEVEL 4 - MASTER CONTROL INTERFACE</h3>
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 font-mono text-xs">
+                                    <div class="bg-[#030305] p-3 border border-[#0f172a]"><span class="text-slate-500 uppercase block">Core System Ping</span><span class="text-[#22d3ee] font-bold" id="lbl-master-ping">12ms</span></div>
+                                    <div class="bg-[#030305] p-3 border border-[#0f172a]"><span class="text-slate-500 uppercase block">Node Overrides Injected</span><span class="text-white font-bold" id="lbl-override-count">0 Active</span></div>
+                                    <div class="bg-[#030305] p-3 border border-[#0f172a]"><span class="text-slate-500 uppercase block">Global Network Firewall</span><span class="text-emerald-400 font-bold" id="lbl-firewall-status">STABLE</span></div>
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="block text-xs uppercase font-mono text-slate-400">Global Mainframe Banner Broadcast</label>
+                                    <textarea id="input-global-broadcast" rows="3" placeholder="Inject network-wide critical notification parameters..." class="w-full bg-[#030305] border border-[#1e293b] focus:border-[#a78bfa] text-xs font-mono p-3 text-slate-200 outline-none"></textarea>
+                                    <div class="flex gap-2">
+                                        <button id="btn-fire-broadcast" class="bg-[#a78bfa] hover:bg-[#a78bfa]/80 text-[#030305] px-4 py-2 font-mono text-xs font-bold uppercase tracking-wider transition-all">Execute Broadcaster</button>
+                                        <button id="btn-master-lockdown" class="bg-red-950/40 text-red-400 border border-red-900/50 hover:bg-red-900 text-white px-4 py-2 font-mono text-xs uppercase tracking-wider transition-all">Initiate Complete System Lockdown</button>
+                                    </div>
+                                    <div class="mt-2 text-[10px] font-mono text-slate-500 bg-[#030305] p-2 border border-[#1e293b]" id="lbl-lockdown-status">
+                                        SYSTEM SECURITY LOCK: COLD
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="panel-jase-executive" class="hidden space-y-4 staff-sub-panel">
+                            <div class="border border-slate-500 bg-[#0f172a]/20 p-6 space-y-4">
+                                <h3 class="text-sm font-mono font-black uppercase text-slate-300 tracking-wider"><i class="fas fa-bars-progress mr-2"></i> LEVEL 3 - EXECUTIVE OPERATIONS PANEL</h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div class="border border-[#0f172a] bg-[#030305] p-4">
+                                        <h4 class="text-xs uppercase font-mono text-slate-400 mb-2">Project Milestone Deliverables</h4>
+                                        <ul class="space-y-2 text-xs font-mono text-slate-500">
+                                            <li><i class="fas fa-check-square text-emerald-400 mr-2"></i> Core Authentication Firebase Schema [V25]</li>
+                                            <li><i class="fas fa-check-square text-emerald-400 mr-2"></i> W-Bot Backend State Streaming Hooks [V25.8]</li>
+                                        </ul>
+                                    </div>
+                                    <div class="border border-[#0f172a] bg-[#030305] p-4">
+                                        <h4 class="text-xs uppercase font-mono text-slate-400 mb-2">Staff Deployment Roster</h4>
+                                        <div class="space-y-1.5 text-xs font-mono" id="jase-roster-mount"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="panel-brayden-security" class="hidden space-y-4 staff-sub-panel">
+                            <div class="border border-[#22d3ee] bg-[#051317] p-6 space-y-4">
+                                <h3 class="text-sm font-mono font-black uppercase text-[#22d3ee] tracking-wider"><i class="fas fa-shield-halved mr-2"></i> LEVEL 2 - SECURITY ENFORCEMENT FIREWALL PANEL</h3>
+                                <div class="border border-[#0f172a] bg-[#030305] p-4">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <h4 class="text-xs uppercase font-mono text-slate-400">Live Session Access Tracking Manifest</h4>
+                                        <span id="lbl-security-flag" class="text-[9px] bg-emerald-950 border border-emerald-500 text-emerald-400 px-1 font-mono">INTEGRITY_NOMINAL</span>
+                                    </div>
+                                    <div id="security-auth-logs" class="space-y-2 font-mono text-[11px] max-h-48 overflow-y-auto text-slate-500">
+                                        <div>[00:00:00] Initialized Manifest Monitoring Hooks Engine...</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="panel-ammar-moderation" class="hidden space-y-4 staff-sub-panel">
+                            <div class="border border-[#22d3ee]/60 bg-[#030305] p-6 space-y-4">
+                                <h3 class="text-sm font-mono font-black uppercase text-[#22d3ee] tracking-wider"><i class="fas fa-filter mr-2"></i> LEVEL 1 - MODERATION INTERCEPT TERMINAL</h3>
+                                <div class="border border-[#0f172a] bg-[#030305] p-4 space-y-3">
+                                    <div class="flex justify-between items-center">
+                                        <h4 class="text-xs uppercase font-mono text-slate-400">Real-time Stream Filter Audit Hook</h4>
+                                        <span id="lbl-mod-flag" class="text-[9px] bg-slate-900 text-slate-400 px-1 font-mono">FILTER_PASSIVE</span>
+                                    </div>
+                                    <div id="moderator-live-stream-target" class="space-y-2 max-h-60 overflow-y-auto text-xs font-mono">
+                                        <p class="text-slate-600 italic">Awaiting message streaming packets array...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <aside class="hidden lg:flex w-80 border-l border-[#0f172a] bg-[#030305] flex-col overflow-hidden shrink-0">
+                    <div class="p-4 border-b border-[#0f172a] bg-[#030305]/50 flex items-center justify-between">
+                        <div>
+                            <span class="text-xs font-bold uppercase tracking-widest text-slate-400"><i class="fas fa-robot text-[#22d3ee] mr-1.5"></i> W-Bot Core Terminal</span>
+                            <div class="text-[9px] font-mono text-slate-600 uppercase mt-0.5">Model: mixtral-8x7b-32768</div>
+                        </div>
+                        <button onclick="syncWBotGlobalStateObject()" class="text-[10px] text-[#22d3ee] border border-[#22d3ee]/20 hover:bg-[#22d3ee]/10 px-2 py-0.5 font-mono"><i class="fas fa-sync-alt animate-spin"></i></button>
+                    </div>
+                    
+                    <div id="ai-chat-output" class="flex-1 p-4 space-y-3 overflow-y-auto text-xs font-mono">
+                        <div class="text-slate-500"><span class="text-[#22d3ee] font-bold">W-BOT:</span> Context pipeline synchronized. Global environment memory initialized. Ready for operations metrics queries.</div>
+                    </div>
+
+                    <div class="p-3 border-t border-[#0f172a] bg-[#030305]">
+                        <div class="flex gap-2">
+                            <input type="text" id="input-ai-prompt" placeholder="Ask W-Bot AI Engine..." class="flex-1 bg-[#030305] border border-[#1e293b] text-xs font-mono py-2 px-2.5 outline-none text-slate-200 focus:border-[#22d3ee]">
+                            <button id="btn-fire-ai" class="bg-[#0f172a] border border-[#1e293b] hover:border-[#22d3ee] hover:text-[#22d3ee] text-slate-400 px-3 transition-all"><i class="fas fa-paper-plane text-xs"></i></button>
+                        </div>
+                    </div>
+                </aside>
+
+            </main>
+
+            <footer class="h-16 border-t border-[#0f172a] bg-[#030305] flex items-center justify-around px-4 z-30 shrink-0 lg:hidden">
+                <button onclick="switchSPAScreen('home')" class="flex flex-col items-center justify-center text-slate-400 hover:text-white transition-colors">
+                    <i class="fas fa-table-cells text-sm"></i><span class="text-[9px] font-mono uppercase tracking-wider mt-1">Matrix</span>
+                </button>
+                <button onclick="switchSPAScreen('chat')" class="flex flex-col items-center justify-center text-slate-400 hover:text-[#22d3ee] transition-colors">
+                    <i class="fas fa-comments text-sm"></i><span class="text-[9px] font-mono uppercase tracking-wider mt-1">Hub</span>
+                </button>
+                <button onclick="switchSPAScreen('storage')" class="flex flex-col items-center justify-center text-slate-400 hover:text-white transition-colors">
+                    <i class="fas fa-vault text-sm"></i><span class="text-[9px] font-mono uppercase tracking-wider mt-1">Vault</span>
+                </button>
+                <button onclick="switchSPAScreen('creators')" class="flex flex-col items-center justify-center text-slate-400 hover:text-[#a78bfa] transition-colors">
+                    <i class="fas fa-photo-film text-sm"></i><span class="text-[9px] font-mono uppercase tracking-wider mt-1">Media</span>
+                </button>
+                <button id="nav-mobile-crew-btn" onclick="switchSPAScreen('crew')" class="hidden flex flex-col items-center justify-center text-red-500/60 hover:text-red-400 transition-colors animate-pulse">
+                    <i class="fas fa-shield-halved text-sm"></i><span class="text-[9px] font-mono uppercase tracking-wider mt-1">Staff</span>
+                </button>
+            </footer>
+
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
+        import { getDatabase, ref, set, push, onValue, remove, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "YOUR_FIREBASE_API_KEY_HERE",
+            authDomain: "YOUR_FIREBASE_AUTH_DOMAIN_HERE",
+            databaseURL: "https://YOUR_DATABASE_NAME_HERE.firebaseio.com",
+            projectId: "YOUR_FIREBASE_PROJECT_ID_HERE",
+            storageBucket: "YOUR_FIREBASE_STORAGE_BUCKET_HERE",
+            messagingSenderId: "YOUR_FIREBASE_MESSAGING_SENDER_ID_HERE",
+            appId: "YOUR_FIREBASE_APP_ID_HERE"
+        };
+
+        const firebaseApp = initializeApp(firebaseConfig);
+        const firebaseAuth = getAuth(firebaseApp);
+        const database = getDatabase(firebaseApp);
+        const googleProvider = new GoogleAuthProvider();
+
+        const SYSTEM_REGISTRY = {
+            OWNER: { roleLabel: 'Owner', colorClass: 'bg-ownerPurple text-[#030305]', emails: ['wwebsitesystem@outlook.com', 'brodywilliams0226@gmail.com'], clearanceLevel: 4 },
+            CO_OWNER: { roleLabel: 'Co-Owner', colorClass: 'bg-slate-300 text-[#030305]', emails: ['jasepeaslee@gmail.com'], clearanceLevel: 3 },
+            SECURITY: { roleLabel: 'Security Specialist', colorClass: 'bg-securityCyan text-[#030305]', emails: ['bmkeppel3@gmail.com'], clearanceLevel: 2 },
+            MODERATOR: { roleLabel: 'Moderator', colorClass: 'bg-securityCyan text-[#030305]', emails: ['ammar.staff.w@outlook.com'], clearanceLevel: 1 },
+            MEDIA: { roleLabel: 'Media Creator', colorClass: 'bg-[#a78bfa]/20 text-[#a78bfa] border border-[#a78bfa]/40', emails: ['ombatidj@gmail.com'], clearanceLevel: 1 }
+        };
+
+        const ENCRYPTED_STAFF_PASSKEYS = {
+            "wwebsitesystem@outlook.com": "", "brodywilliams0226@gmail.com": "", "jasepeaslee@gmail.com": "", "bmkeppel3@gmail.com": "", "ammar.staff.w@outlook.com": "", "ombatidj@gmail.com": ""
+        };
+
+        let authenticatedUserSession = null;
+        let authenticatedUserRoleProfile = null;
+        let activeSPAScreen = 'home';
+
+        // ==========================================
+        // SECTION 8: W-BOT SYSTEM AUTOMATION STATE ENGINE
+        // ==========================================
+        window.wBotSystemState = {
+            activeScreen: 'home',
+            systemMetrics: {
+                firebasePing: '12ms',
+                networkLoad: 'Optimal',
+                firewallStatus: 'STABLE',
+                activeOverrides: 0,
+                lockdownActive: false
+            },
+            securityFlags: {
+                integrityStatus: 'INTEGRITY_NOMINAL',
+                lastFlaggedUser: 'None',
+                moderationState: 'FILTER_PASSIVE'
+            },
+            crewContext: {
+                currentUser: null,
+                currentClearance: 0,
+                isOwner: false
+            }
+        };
+
+        window.syncWBotGlobalStateObject = function() {
+            window.wBotSystemState.activeScreen = activeSPAScreen;
+            window.wBotSystemState.systemMetrics.firebasePing = document.getElementById('lbl-master-ping')?.innerText || '12ms';
+            window.wBotSystemState.systemMetrics.activeOverrides = parseInt(document.getElementById('lbl-override-count')?.innerText || '0');
+            window.wBotSystemState.systemMetrics.firewallStatus = document.getElementById('lbl-firewall-status')?.innerText || 'STABLE';
+            window.wBotSystemState.securityFlags.integrityStatus = document.getElementById('lbl-security-flag')?.innerText || 'INTEGRITY_NOMINAL';
+            window.wBotSystemState.securityFlags.moderationState = document.getElementById('lbl-mod-flag')?.innerText || 'FILTER_PASSIVE';
+            
+            if (authenticatedUserSession && authenticatedUserRoleProfile) {
+                window.wBotSystemState.crewContext.currentUser = authenticatedUserSession.email;
+                window.wBotSystemState.crewContext.currentClearance = authenticatedUserRoleProfile.clearanceLevel;
+                window.wBotSystemState.crewContext.isOwner = (authenticatedUserRoleProfile.clearanceLevel === 4);
+            }
+            pushNetworkLog("W-Bot AI Companion telemetry context snapshot updated.");
+        };
+
+        window.switchSPAScreen = function(targetScreen) {
+            if (targetScreen === 'crew' && !authenticatedUserRoleProfile) {
+                executeSessionBreachPurge("Unauthorized Inspection Vector Intercepted via SPA Router.");
+                return;
+            }
+            activeSPAScreen = targetScreen;
+            document.querySelectorAll('.spa-screen').forEach(el => el.classList.add('hidden'));
+            const targetedDOMNode = document.getElementById(`screen-${targetScreen}`);
+            if (targetedDOMNode) {
+                targetedDOMNode.classList.remove('hidden');
+                pushNetworkLog(`Routed interface matrix screen to node: [${targetScreen.toUpperCase()}]`);
+            }
+            if (targetScreen === 'chat') snapChatToBottom();
+            syncWBotGlobalStateObject();
+        };
+
+        function pushNetworkLog(logString) {
+            const consoleDOM = document.getElementById('network-logs-console');
+            if (!consoleDOM) return;
+            const logEntry = document.createElement('div');
+            const timeStamp = new Date().toISOString().slice(11, 19);
+            logEntry.innerHTML = `<span class="text-slate-600">[${timeStamp}]</span> ${logString}`;
+            consoleDOM.appendChild(logEntry);
+            consoleDOM.scrollTop = consoleDOM.scrollHeight;
+        }
+
+        setInterval(() => {
+            const timeLabel = document.getElementById('current-timestamp-lbl');
+            if (timeLabel) timeLabel.innerText = new Date().toISOString().slice(11, 19) + " UTC";
+        }, 1000);
+
+        function sanitizePayloadHTML(rawString) {
+            const structuralMap = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#x27;', "/": '&#x2F;' };
+            return rawString.replace(/[&<>"'/]/g, (char) => structuralMap[char]);
+        }
+
+        document.getElementById('btn-google-signin').addEventListener('click', () => {
+            signInWithPopup(firebaseAuth, googleProvider)
+                .then((result) => { processAuthenticationPayload(result.user); })
+                .catch((error) => {
+                    document.getElementById('auth-error-log').innerText = `OAUTH EXCEPTION: ${error.message}`;
+                    document.getElementById('auth-error-log').classList.remove('hidden');
+                });
+        });
+
+        function processAuthenticationPayload(userPayload) {
+            const userEmail = userPayload.email.toLowerCase();
+            let locatedRole = null;
+            for (const key in SYSTEM_REGISTRY) {
+                if (SYSTEM_REGISTRY[key].emails.includes(userEmail)) { locatedRole = SYSTEM_REGISTRY[key]; break; }
+            }
+            if (!locatedRole) {
+                document.getElementById('auth-error-log').innerText = "ACCESS DENIED: Unmapped credential node.";
+                document.getElementById('auth-error-log').classList.remove('hidden');
+                signOut(firebaseAuth);
+                return;
+            }
+            authenticatedUserSession = userPayload;
+            authenticatedUserRoleProfile = locatedRole;
+            document.getElementById('auth-step-1').classList.add('hidden');
+            document.getElementById('txt-identified-email').innerText = userEmail;
+            document.getElementById('auth-step-2').classList.remove('hidden');
+            document.getElementById('auth-error-log').classList.add('hidden');
+        }
+
+        document.getElementById('btn-verify-key').addEventListener('click', () => {
+            const userEnteredKey = document.getElementById('input-staff-key').value;
+            if (userEnteredKey === ENCRYPTED_STAFF_PASSKEYS[authenticatedUserSession.email.toLowerCase()]) {
+                grantAccessToMainframe();
+            } else {
+                executeSessionBreachPurge("Stage 2 passkey credential violation.");
+            }
+        });
+
+        function grantAccessToMainframe() {
+            document.getElementById('login-gate').classList.add('hidden');
+            document.getElementById('system-workspace').classList.remove('hidden');
+            document.getElementById('user-display-name').innerText = authenticatedUserSession.displayName || authenticatedUserSession.email;
+            const badgeDOM = document.getElementById('user-display-role');
+            badgeDOM.innerText = authenticatedUserRoleProfile.roleLabel;
+            badgeDOM.className = `text-[9px] font-mono px-1.5 py-0.5 rounded-none uppercase tracking-wider ${authenticatedUserRoleProfile.colorClass}`;
+            if (authenticatedUserSession.photoURL) {
+                const avatar = document.getElementById('user-display-avatar');
+                avatar.src = authenticatedUserSession.photoURL; avatar.classList.remove('hidden');
+            }
+            configureInterfaceClearancePermissions();
+            initializeRealtimeDataSyncPipelines();
+            syncWBotGlobalStateObject();
+        }
+
+        function executeSessionBreachPurge(reasonString) {
+            alert(`SECURITY SYSTEM OVERRIDE: ${reasonString}`);
+            authenticatedUserSession = null; authenticatedUserRoleProfile = null;
+            signOut(firebaseAuth).then(() => { location.reload(); });
+        }
+
+        document.getElementById('btn-system-logout').addEventListener('click', () => {
+            signOut(firebaseAuth).then(() => { location.reload(); });
+        });
+
+        function configureInterfaceClearancePermissions() {
+            if (!authenticatedUserRoleProfile) return;
+            const targetClearance = authenticatedUserRoleProfile.clearanceLevel;
+            const targetUserEmail = authenticatedUserSession.email.toLowerCase();
+
+            if (targetClearance >= 1) {
+                document.getElementById('tile-crew-core').classList.remove('hidden');
+                document.getElementById('nav-mobile-crew-btn').classList.remove('hidden');
+            }
+            if (SYSTEM_REGISTRY.OWNER.emails.includes(targetUserEmail) || SYSTEM_REGISTRY.CO_OWNER.emails.includes(targetUserEmail)) {
+                document.getElementById('btn-clear-mainframe').classList.remove('hidden');
+            }
+            if (SYSTEM_REGISTRY.OWNER.emails.includes(targetUserEmail) || SYSTEM_REGISTRY.MEDIA.emails.includes(targetUserEmail)) {
+                document.getElementById('media-campaign-controller').classList.remove('hidden');
+            }
+            document.querySelectorAll('.staff-sub-panel').forEach(panel => panel.classList.add('hidden'));
+            document.getElementById('lbl-active-terminal-clearance').innerText = `Clearance Status: Level ${targetClearance} [${authenticatedUserRoleProfile.roleLabel}]`;
+
+            if (SYSTEM_REGISTRY.OWNER.emails.includes(targetUserEmail)) {
+                document.getElementById('panel-brody-master').classList.remove('hidden');
+            } else if (SYSTEM_REGISTRY.CO_OWNER.emails.includes(targetUserEmail)) {
+                document.getElementById('panel-jase-executive').classList.remove('hidden');
+                buildJaseStaffRosterUI();
+            } else if (SYSTEM_REGISTRY.SECURITY.emails.includes(targetUserEmail)) {
+                document.getElementById('panel-brayden-security').classList.remove('hidden');
+            } else if (SYSTEM_REGISTRY.MODERATOR.emails.includes(targetUserEmail)) {
+                document.getElementById('panel-ammar-moderation').classList.remove('hidden');
+            }
+        }
+
+        function initializeRealtimeDataSyncPipelines() {
+            onValue(ref(database, 'messages'), (snapshot) => {
+                const rawDataPayload = snapshot.val();
+                renderChatHubInterfaceStream(rawDataPayload);
+                if (authenticatedUserRoleProfile && authenticatedUserRoleProfile.clearanceLevel >= 1) {
+                    renderModeratorInterfaceTerminalStream(rawDataPayload);
+                }
+            });
+
+            onValue(ref(database, `storage/${authenticatedUserSession.uid}`), (snapshot) => {
+                const savedData = snapshot.val();
+                if (savedData && savedData.textArrayPayload) document.getElementById('storage-text-area').value = savedData.textArrayPayload;
+            });
+
+            document.getElementById('btn-save-storage').onclick = () => {
+                set(ref(database, `storage/${authenticatedUserSession.uid}`), {
+                    textArrayPayload: document.getElementById('storage-text-area').value, timestampUpdate: serverTimestamp()
+                }).then(() => { alert("Storage updated."); });
+            };
+
+            if (authenticatedUserRoleProfile.clearanceLevel === 2) {
+                onValue(ref(database, 'security_audit_logs'), (snapshot) => {
+                    const trackingData = snapshot.val();
+                    const targetContainer = document.getElementById('security-auth-logs');
+                    if (!targetContainer) return; targetContainer.innerHTML = '';
+                    if (trackingData) {
+                        Object.keys(trackingData).forEach(logId => {
+                            const packet = trackingData[logId];
+                            const div = document.createElement('div');
+                            div.innerText = `[${packet.time}] USER: ${packet.email} -> ACTION: ${packet.action}`;
+                            targetContainer.appendChild(div);
+                        });
+                    }
+                });
+            }
+            pushTelemetrySecurityLogEntry("Mainframe Panel Workspace Authentication Active.");
+        }
+
+        function pushTelemetrySecurityLogEntry(actionString) {
+            push(ref(database, 'security_audit_logs'), {
+                email: authenticatedUserSession.email, action: actionString, time: new Date().toISOString().slice(11, 19)
+            });
+        }
+
+        function renderChatHubInterfaceStream(messagesDataBlob) {
+            const chatContainer = document.getElementById('chat-messages-container');
+            if (!chatContainer) return; chatContainer.innerHTML = '';
+            if (!messagesDataBlob) return;
+            Object.keys(messagesDataBlob).forEach((messageId) => {
+                const messagePacket = messagesDataBlob[messageId];
+                let badgeMarkup = `<span class="text-[9px] bg-slate-800 text-slate-400 font-mono px-1.5 py-0.5 uppercase tracking-wide">User Node</span>`;
+                for (const key in SYSTEM_REGISTRY) {
+                    if (SYSTEM_REGISTRY[key].emails.includes(messagePacket.senderEmail?.toLowerCase())) {
+                        badgeMarkup = `<span class="text-[9px] font-mono px-1.5 py-0.5 uppercase tracking-wide ${SYSTEM_REGISTRY[key].colorClass}">${SYSTEM_REGISTRY[key].roleLabel}</span>`;
+                        break;
+                    }
+                }
+                const messageRow = document.createElement('div');
+                messageRow.className = "p-3 bg-[#0f172a]/20 border border-[#0f172a] space-y-1";
+                messageRow.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2"><span class="text-xs font-bold text-slate-300 font-mono">${messagePacket.senderName}</span>${badgeMarkup}</div>
+                        <span class="text-[9px] font-mono text-slate-600">${messagePacket.timestampDisplay || 'LIVE'}</span>
+                    </div>
+                    <p class="text-xs text-slate-300 font-mono break-all">${messagePacket.messageText}</p>
+                `;
+                chatContainer.appendChild(messageRow);
+            });
+            snapChatToBottom();
+        }
+
+        function snapChatToBottom() {
+            const container = document.getElementById('chat-messages-container');
+            if (container) container.scrollTop = container.scrollHeight;
+        }
+
+        document.getElementById('btn-send-message').onclick = ExecuteOutboundChatMessageDelivery;
+        document.getElementById('input-chat-message').onkeydown = (e) => { if (e.key === 'Enter') ExecuteOutboundChatMessageDelivery(); };
+
+        function ExecuteOutboundChatMessageDelivery() {
+            const textInputDOM = document.getElementById('input-chat-message');
+            const cleanTextString = sanitizePayloadHTML(textInputDOM.value.trim());
+            if (!cleanTextString) return;
+            push(ref(database, 'messages'), {
+                senderName: authenticatedUserSession.displayName || authenticatedUserSession.email,
+                senderEmail: authenticatedUserSession.email,
+                messageText: cleanTextString,
+                serverTimestampRef: serverTimestamp(),
+                timestampDisplay: new Date().toISOString().slice(11, 19)
+            }).then(() => { textInputDOM.value = ''; snapChatToBottom(); });
+        }
+
+        document.getElementById('btn-clear-mainframe').onclick = () => {
+            const checkEmail = authenticatedUserSession.email.toLowerCase();
+            if (SYSTEM_REGISTRY.OWNER.emails.includes(checkEmail) || SYSTEM_REGISTRY.CO_OWNER.emails.includes(checkEmail)) {
+                if (confirm("Wipe database message node?")) {
+                    remove(ref(database, 'messages')).then(() => { pushNetworkLog("Wiped messages."); });
+                }
+            }
+        };
+
+        document.getElementById('btn-update-campaign').onclick = () => { alert("Campaign Updated."); };
+
+        function buildJaseStaffRosterUI() {
+            const mount = document.getElementById('jase-roster-mount'); if (!mount) return; mount.innerHTML = '';
+            for (const itemKey in SYSTEM_REGISTRY) {
+                mount.innerHTML += `<div class="flex items-center justify-between border-b border-slate-900 pb-1">
+                    <span class="text-slate-300 font-bold">${SYSTEM_REGISTRY[itemKey].roleLabel}</span>
+                    <span class="text-[10px] text-emerald-400 uppercase">ONLINE</span></div>`;
+            }
+        }
+
+        function renderModeratorInterfaceTerminalStream(rawData) {
+            const container = document.getElementById('moderator-live-stream-target'); if (!container) return; container.innerHTML = '';
+            if (!rawData) return;
+            Object.keys(rawData).forEach(msgId => {
+                const div = document.createElement('div');
+                div.className = "flex items-center justify-between bg-[#030305] p-2 border border-slate-900";
+                div.innerHTML = `<div class="truncate"><span class="text-[#22d3ee] font-bold">[${rawData[msgId].senderName}]:</span> <span class="text-slate-300">${rawData[msgId].messageText}</span></div>
+                    <button onclick="window.executeModeratorDeleteActionHook('${msgId}')" class="bg-red-950/40 text-red-400 text-[9px] px-2 py-0.5">Wipe</button>`;
+                container.appendChild(div);
+            });
+        }
+
+        window.executeModeratorDeleteActionHook = function(messageIdNode) {
+            remove(ref(database, `messages/${messageIdNode}`)).then(() => { syncWBotGlobalStateObject(); });
+        };
+
+        // BRODY SYSTEMS COMMAND CONTROLLERS
+        document.getElementById('btn-fire-broadcast').onclick = () => {
+            const text = document.getElementById('input-global-broadcast').value; if(!text) return;
+            alert(`GLOBAL BROADCAST: ${text}`); document.getElementById('input-global-broadcast').value = '';
+        };
+
+        document.getElementById('btn-master-lockdown').onclick = () => {
+            if (confirm("Initiate Complete System Lockdown?")) {
+                window.wBotSystemState.systemMetrics.lockdownActive = true;
+                document.getElementById('lbl-lockdown-status').innerText = "SYSTEM SECURITY LOCK: COLD OVERRIDE DEPLOYED";
+                document.getElementById('lbl-lockdown-status').className = "mt-2 text-[10px] font-mono text-red-400 bg-red-950/40 p-2 border border-red-900";
+                pushTelemetrySecurityLogEntry("CRITICAL LOCKDOWN TRIGGERED VIA LEVEL 4 CONSOLE");
+            }
+        };
+
+        setInterval(() => {
+            const label = document.getElementById('lbl-master-ping');
+            if (label) label.innerText = `${Math.floor(Math.random() * (16 - 9 + 1)) + 9}ms`;
+        }, 3000);
+
+        // ==========================================
+        // ADVANCED INTERACTION CAPABILITIES & RESTRICTION MATRIX
+        // ==========================================
+        document.getElementById('btn-fire-ai').onclick = executeOutboundAIEnginePromptRequest;
+        document.getElementById('input-ai-prompt').onkeydown = (e) => { if (e.key === 'Enter') executeOutboundAIEnginePromptRequest(); };
+
+        function executeOutboundAIEnginePromptRequest() {
+            const promptInputDOM = document.getElementById('input-ai-prompt');
+            const targetPromptString = promptInputDOM.value.trim();
+            if (!targetPromptString) return;
+
+            // Synchronize the runtime parameters immediately before sending context strings downstream
+            syncWBotGlobalStateObject();
+
+            const chatHistoryOutputDOM = document.getElementById('ai-chat-output');
+            const userQueryBlock = document.createElement('div');
+            userQueryBlock.className = "text-slate-300 border-l border-slate-700 pl-2 py-1";
+            userQueryBlock.innerHTML = `<span class="text-slate-400 font-bold uppercase">USER:</span> ${sanitizePayloadHTML(targetPromptString)}`;
+            chatHistoryOutputDOM.appendChild(userQueryBlock);
+
+            promptInputDOM.value = '';
+
+            const systemLoadingRow = document.createElement('div');
+            systemLoadingRow.className = "text-slate-500 italic animate-pulse";
+            systemLoadingRow.id = "wbot-processing-node-lbl";
+            systemLoadingRow.innerText = "W-Bot parsing global platform state arrays...";
+            chatHistoryOutputDOM.appendChild(systemLoadingRow);
+            chatHistoryOutputDOM.scrollTop = chatHistoryOutputDOM.scrollHeight;
+
+            // PREPARE W-BOT INTEGRATED SYSTEM CONTEXT
+            const platformStateContextString = `
+                [W-BOT BACKEND REAL-TIME STATE CONTEXT MONITOR]
+                Active Rendered Panel Node: ${window.wBotSystemState.activeScreen}
+                Firebase DB Latency Target: ${window.wBotSystemState.systemMetrics.firebasePing}
+                Network Load Matrix: ${window.wBotSystemState.systemMetrics.networkLoad}
+                Firewall Security Node: ${window.wBotSystemState.systemMetrics.firewallStatus}
+                Global Core Lockdown Active: ${window.wBotSystemState.systemMetrics.lockdownActive}
+                Security Specialist Token Flag: ${window.wBotSystemState.securityFlags.integrityStatus}
+                Moderation Intercept Pipeline Status: ${window.wBotSystemState.securityFlags.moderationState}
+                Authenticated Session User Email: ${window.wBotSystemState.crewContext.currentUser}
+                User Command Clearance Tier Level: ${window.wBotSystemState.crewContext.currentClearance}
+                Is Brody (Owner Level 4 Access Authorized): ${window.wBotSystemState.crewContext.isOwner}
+                
+                [RESTRICTION ENFORCEMENT PROTOCOLS]
+                1. W-Bot possesses read/write metrics tracking context but can NEVER execute master operations edits or activate full lockdown directly from this input prompt box.
+                2. If the user is Brody (Clearance Level 4) and requests structural operations tools, W-Bot will explicitly output raw execution syntax:
+                   - For Notice Drafts: Output exactly "COMMAND_DRAFT_NOTICE: <notice text>"
+                   - For Purging Data: Output exactly "COMMAND_FORMAT_CHAT_WIPE"
+                   - For User Audit Manifests: Output exactly "COMMAND_PREPARE_AUDIT_LOGS"
+                3. If standard tier requests are received, direct them back towards authorized platform navigation tiles.
+            `;
+
+            fetch("https://api.groq.com/openapi/v1/chat/completions", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer YOUR_GROQ_API_KEY_HERE"
+                },
+                body: JSON.stringify({
+                    model: "mixtral-8x7b-32768",
+                    messages: [
+                        { role: "system", content: "You are W-Bot, the core automated AI companion architecture built inside W Website Node V25. Expose platform analysis configurations matching structural rules." },
+                        { role: "system", content: platformStateContextString },
+                        { role: "user", content: targetPromptString }
+                    ],
+                    temperature: 0.2
+                })
+            })
+            .then(response => { if (!response.ok) throw new Error(`HTTP Stream Exception: ${response.status}`); return response.json(); })
+            .then(dataResponsePayload => {
+                const generatedReplyContent = dataResponsePayload.choices[0].message.content;
+                const loaderNode = document.getElementById('wbot-processing-node-lbl');
+                if (loaderNode) loaderNode.remove();
+
+                const aiReplyBlock = document.createElement('div');
+                aiReplyBlock.className = "text-slate-300 bg-[#0f172a]/40 border border-[#0f172a] p-2 relative";
+                
+                // PARSING INTERNAL AI CAPABILITY SIGNALS REFERRED FROM THE ACCESS DIRECTIVE
+                let contextualExecutionBadge = "";
+                if (generatedReplyContent.includes("COMMAND_DRAFT_NOTICE:")) {
+                    contextualExecutionBadge = `<div class="text-[9px] font-mono text-[#a78bfa] mb-1"><i class="fas fa-bullhorn"></i> NOTICE DETECTED: AUTO-STAGED FOR MAIN INFRASTRUCTURE BROADCASTER</div>`;
+                    const extractedNotice = generatedReplyContent.split("COMMAND_DRAFT_NOTICE:")[1]?.trim();
+                    if(document.getElementById('input-global-broadcast')) {
+                        document.getElementById('input-global-broadcast').value = extractedNotice;
+                    }
+                } else if (generatedReplyContent.includes("COMMAND_FORMAT_CHAT_WIPE")) {
+                    contextualExecutionBadge = `<div class="text-[9px] font-mono text-red-400 mb-1"><i class="fas fa-radiation"></i> CRITICAL ERASE CALLOUT DETECTED: PURGE PATTERNS PIPED TO MAIN PANEL</div>`;
+                } else if (generatedReplyContent.includes("COMMAND_PREPARE_AUDIT_LOGS")) {
+                    contextualExecutionBadge = `<div class="text-[9px] font-mono text-[#22d3ee] mb-1"><i class="fas fa-clipboard-list"></i> TELEMETRY PARSER GENERATED: LOG INTEGRITY STRUCTURING SYSTEM READY</div>`;
+                }
+
+                aiReplyBlock.innerHTML = `
+                    ${contextualExecutionBadge}
+                    <span class="text-[#22d3ee] font-bold uppercase block text-[10px]">W-BOT SYSTEM COMPANION:</span>
+                    <p class="mt-1 leading-relaxed">${sanitizePayloadHTML(generatedReplyContent)}</p>
+                `;
+                chatHistoryOutputDOM.appendChild(aiReplyBlock);
+                chatHistoryOutputDOM.scrollTop = chatHistoryOutputDOM.scrollHeight;
+            })
+            .catch(err => {
+                const loaderNode = document.getElementById('wbot-processing-node-lbl');
+                if (loaderNode) loaderNode.remove();
+                const failureRowErrorBlock = document.createElement('div');
+                failureRowErrorBlock.className = "text-red-400 bg-red-950/20 border border-red-900/50 p-2 font-mono text-[11px]";
+                failureRowErrorBlock.innerText = `W-BOT CONTEXT PIPE FAIL: ${err.message}`;
+                chatHistoryOutputDOM.appendChild(failureRowErrorBlock);
+                chatHistoryOutputDOM.scrollTop = chatHistoryOutputDOM.scrollHeight;
+            });
+        }
+
+        onAuthStateChanged(firebaseAuth, (userProfileInstance) => {
+            document.getElementById('app-loader').classList.add('hidden');
+            if (userProfileInstance) { processAuthenticationPayload(userProfileInstance); }
+            else { document.getElementById('login-gate').classList.remove('hidden'); }
+        });
+
+    </script>
+</body>
+</html>
