@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>W Website - Mobile Entry Gate V25</title>
+    <title>W Website - Universal Mobile Entry Gate V25</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -28,7 +28,12 @@
             <p class="text-[9px] sm:text-[10px] text-slate-500 mt-1 uppercase tracking-widest">Entry Gate Node V25</p>
         </div>
 
-        <div id="stage-1-container" class="space-y-4">
+        <div id="stage-loading-container" class="space-y-3 py-4 text-center">
+            <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-slate-400 mx-auto"></div>
+            <p class="text-[10px] font-mono text-slate-500 uppercase tracking-widest">Resolving Authentication State...</p>
+        </div>
+
+        <div id="stage-1-container" class="hidden space-y-4">
             <p class="text-[11px] sm:text-xs text-slate-400 text-center uppercase tracking-wider">Authentication Required</p>
             <button id="btn-google-auth" class="w-full min-h-[48px] flex items-center justify-center gap-3 bg-transparent border border-[#1c1917] active:bg-slate-900 sm:hover:border-slate-400 text-slate-200 py-3 px-4 transition-all duration-200 font-medium text-[11px] sm:text-xs uppercase tracking-widest">
                 Identity Authentication via Google
@@ -67,8 +72,9 @@
     </div>
 
     <script type="module">
+        // 1. FIREBASE INITIALIZATION USING WEBSAFE PROD CDN NODES
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, signInWithPopup, GoogleAuthProvider, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getAuth, signInWithRedirect, getRedirectResult, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
         import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
         const firebaseConfig = {
@@ -85,6 +91,7 @@
         const auth = getAuth(app);
         const database = getDatabase(app);
 
+        // 3. TEAM REGISTRY LOOKUP MATRIX
         const AUTHORIZED_TEAM_REGISTRY = [
             "wwebsitesystem@outlook.com",
             "brodywilliams0226@gmail.com",
@@ -97,6 +104,8 @@
         let authenticatedUserEmail = null;
         let targetDbPathKey = null;
 
+        // View Node Mapping References
+        const stageLoadingView = document.getElementById('stage-loading-container');
         const stage1View = document.getElementById('stage-1-container');
         const stage2View = document.getElementById('stage-2-container');
         const stageHomeView = document.getElementById('stage-home-container');
@@ -119,26 +128,54 @@
             return emailStr.replace(/\./g, '_');
         }
 
+        // 2. STAGE 1: MOBILE REDIRECT HANDSHAKE FLOW
         document.getElementById('btn-google-auth').addEventListener('click', () => {
             displayGateError(null);
             const provider = new GoogleAuthProvider();
-            
-            signInWithPopup(auth, provider)
-                .then((result) => {
+            // Upgraded from Popup to Redirect to bypass aggressive mobile pop-up blocking software
+            signInWithRedirect(auth, provider).catch((error) => {
+                displayGateError(`REDIRECT INIT FAILED: [${error.code}]`);
+            });
+        });
+
+        // AUTH DATA ROUTE TRACKER
+        // Listens for a user arriving back on the page after logging into Google
+        getRedirectResult(auth)
+            .then((result) => {
+                if (result && result.user) {
                     const userEmail = result.user.email ? result.user.email.toLowerCase().trim() : '';
                     processIdentityVerification(userEmail);
-                })
-                .catch((error) => {
-                    displayGateError(`OAUTH EXCEPTION: ${error.message}`);
-                });
+                }
+            })
+            .catch((error) => {
+                // This will instantly surface setup mismatches (e.g. unauthorized-domain or operation-not-allowed)
+                displayGateError(`GOOGLE FIREBASE ERROR: [${error.code}] - ${error.message}`);
+                stageLoadingView.classList.add('hidden');
+                stage1View.classList.remove('hidden');
+            });
+
+        // PERSISTENT SESSION MONITOR
+        onAuthStateChanged(auth, (user) => {
+            stageLoadingView.classList.add('hidden');
+            if (user) {
+                const checkedEmail = user.email ? user.email.toLowerCase().trim() : '';
+                processIdentityVerification(checkedEmail);
+            } else {
+                stage1View.classList.remove('hidden');
+                stage2View.classList.add('hidden');
+                stageHomeView.classList.add('hidden');
+            }
         });
 
         function processIdentityVerification(email) {
             if (!AUTHORIZED_TEAM_REGISTRY.includes(email)) {
-                displayGateError("Access Denied: Node Unrecognized.");
+                displayGateError(`Access Denied: Node Unrecognized [${email}].`);
                 signOut(auth).then(() => {
                     authenticatedUserEmail = null;
                     targetDbPathKey = null;
+                    stageHomeView.classList.add('hidden');
+                    stage2View.classList.add('hidden');
+                    stage1View.classList.remove('hidden');
                 });
                 return;
             }
@@ -148,14 +185,17 @@
 
             emailLabelView.innerText = email;
             stage1View.classList.add('hidden');
-            stage2View.classList.remove('hidden');
+            // If they passed Google but haven't supplied the structural DB passkey yet, hold them at stage 2
+            if (stageHomeView.classList.contains('hidden')) {
+                stage2View.classList.remove('hidden');
+            }
         }
 
+        // 4. DATABASE KEY VALIDATION ENGINE
         verifyKeyButton.addEventListener('click', executeSecurityKeyMatchValidation);
         securityKeyInput.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' && !verifyKeyButton.disabled) {
-                // Instantly dismiss virtual mobile keyboards on submission
-                securityKeyInput.blur();
+                securityKeyInput.blur(); // Dismisses mobile keyboards immediately
                 executeSecurityKeyMatchValidation();
             }
         });
@@ -183,11 +223,11 @@
                             freezeInputInterfaceGate();
                         }
                     } else {
-                        displayGateError("Database Error: Auth parameters missing.");
+                        displayGateError("Database Error: Path configurations missing under auth_nodes/ tree.");
                     }
                 })
                 .catch((dbError) => {
-                    displayGateError(`DATABASE OVERRIDE TRIGGERED: ${dbError.message}`);
+                    displayGateError(`DATABASE SECURITY CRITICAL EXCEPTION: [${dbError.code}]`);
                 });
         }
 
@@ -212,6 +252,7 @@
             }, 1000);
         }
 
+        // DISCONNECT SESSION MANIFEST CLEANER
         document.getElementById('btn-disconnect').addEventListener('click', () => {
             signOut(auth).then(() => {
                 authenticatedUserEmail = null;
