@@ -1,707 +1,182 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en" class="h-full bg-[#030305]">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>W OS V25 // Multi-Panel Infrastructure Dashboard</title>
+    <title>W Website - Node V25 (AI Core Integration)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        baseDark: '#030305',
-                        panelSlate: '#0f172a',
-                        borderSlate: '#1e293b',
-                        neonPurple: '#a78bfa',
-                        neonCyan: '#22d3ee'
+                        brandDark: '#030305',
+                        panelBorder: '#0f172a',
+                        panelBorderMuted: '#1e293b',
+                        ownerPurple: '#a78bfa',
+                        securityCyan: '#22d3ee'
                     }
                 }
             }
         }
     </script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bungee&family=JetBrains+Mono:wght@300;400;700&family=Outfit:wght@400;700&family=Urbanist:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <style>
-        body {
-            background-color: #030305;
-            font-family: 'Urbanist', sans-serif;
-            overflow-x: hidden;
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
         }
-        .font-mono-os { font-family: 'JetBrains Mono', monospace; }
-        .font-display { font-family: 'Outfit', sans-serif; }
-        .font-bungee { font-family: 'Bungee', cursive; }
-        
-        .scrollbar-cyber::-webkit-scrollbar { width: 4px; height: 4px; }
-        .scrollbar-cyber::-webkit-scrollbar-track { background: #030305; }
-        .scrollbar-cyber::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 2px; }
-        .scrollbar-cyber::-webkit-scrollbar-thumb:hover { background: #a78bfa; }
-        
-        .glow-purple { box-shadow: 0 0 25px rgba(167, 139, 250, 0.15); }
-        .glow-cyan { box-shadow: 0 0 25px rgba(34, 211, 238, 0.15); }
-        .glow-green { box-shadow: 0 0 15px rgba(52, 211, 153, 0.25); }
-        .glow-red { box-shadow: 0 0 25px rgba(239, 68, 68, 0.25); }
+        ::-webkit-scrollbar-track {
+            background: #030305;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #22d3ee;
+        }
     </style>
 </head>
-<body class="min-h-screen text-zinc-100 flex flex-col justify-between p-4 lg:p-6 pb-28">
+<body class="h-full text-slate-100 font-sans antialiased overflow-hidden selection:bg-[#22d3ee]/30">
 
-    <div id="global-broadcast-banner" class="hidden w-full max-w-[1800px] mx-auto bg-gradient-to-r from-red-950/80 to-purple-950/80 border border-red-500/40 p-3 rounded-xl mb-4 items-center justify-between shadow-lg animate-pulse z-50">
-        <div class="flex items-center gap-3 font-mono-os text-xs">
-            <i class="fa-solid fa-triangle-exclamation text-red-400 text-base"></i>
-            <div>
-                <span class="text-red-400 font-bold uppercase tracking-wider">[EMERGENCY BROADCAST]:</span>
-                <span id="broadcast-output-text" class="text-zinc-200 ml-1">Initial system state active. Waiting for upstream payload events...</span>
-            </div>
-        </div>
-        <button onclick="document.getElementById('global-broadcast-banner').classList.replace('flex','hidden')" class="text-zinc-500 hover:text-zinc-200 text-xs font-mono-os px-2">✕</button>
-    </div>
-
-    <header class="w-full max-w-[1800px] mx-auto flex flex-col md:flex-row justify-between items-center border-b border-borderSlate pb-4 mb-5 gap-4">
-        <div class="flex items-center justify-between w-full md:w-auto gap-4">
-            <div class="flex items-center gap-3">
-                <div class="relative flex h-3 w-3">
-                    <span id="sys-pulse-ping" class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                    <span id="sys-pulse-dot" class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500 glow-green"></span>
-                </div>
-                <div>
-                    <h1 class="text-xl md:text-2xl font-bungee tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">W INFRASTRUCTURE</h1>
-                    <p class="text-[10px] font-mono-os text-zinc-500 uppercase tracking-widest">STATION NODE // MULTI-PANEL CONSOLE ARCHITECTURE</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="flex items-center gap-3 bg-panelSlate/80 p-2 rounded-xl border border-borderSlate w-full md:w-auto justify-between shadow-xl">
-            <div class="flex items-center gap-3 pl-2">
-                <i id="clearance-icon" class="fa-solid fa-key text-zinc-600 text-lg"></i>
-                <div>
-                    <p class="text-[9px] font-mono-os text-zinc-500 leading-none">SECURITY MATRIX</p>
-                    <p id="clearance-user-tag" class="text-xs font-bold font-mono-os text-zinc-400 mt-1">GUEST_TERMINAL_MUTED</p>
-                </div>
-            </div>
-            <div class="flex gap-2">
-                <button id="btn-mock-auth" class="bg-gradient-to-r from-purple-500 to-cyan-500 text-zinc-950 text-xs font-bold font-display px-4 py-2 rounded-lg transition-all uppercase tracking-wider hover:brightness-110">
-                    Mount Token
-                </button>
-                <button id="btn-mock-logout" class="hidden bg-zinc-900 border border-zinc-800 text-zinc-400 text-xs font-display px-4 py-2 rounded-lg transition-all uppercase tracking-wider hover:bg-red-950/20 hover:text-red-400">
-                    Purge
-                </button>
-            </div>
-        </div>
-    </header>
-
-    <main class="w-full max-w-[1800px] mx-auto grid grid-cols-1 xl:grid-cols-12 gap-5 flex-grow items-stretch">
+    <div id="app" class="h-full w-full flex flex-col justify-between">
         
-        <div class="xl:col-span-9 flex flex-col gap-5">
-            
-            <section id="fallback-gate-panel" class="w-full bg-panelSlate/20 border border-borderSlate rounded-2xl p-8 flex flex-col items-center justify-center text-center flex-grow min-h-[400px]">
-                <div class="h-16 w-16 bg-zinc-900 border border-zinc-800 rounded-2xl flex items-center justify-center text-zinc-600 text-2xl mb-4 animate-pulse">
-                    <i class="fa-solid fa-fingerprint"></i>
-                </div>
-                <h3 class="text-sm font-bungee tracking-widest text-zinc-400 uppercase">Awaiting Staff Handshake Sequence</h3>
-                <p class="text-xs font-mono-os text-zinc-500 max-w-md mt-2 leading-relaxed">
-                    No verified administrative token currently mapped inside the local scope variables. Mount cryptographic credentials at the terminal gate above to populate monitoring frameworks.
-                </p>
-            </section>
-
-            <section id="l4-owner-panel" class="hidden w-full bg-panelSlate/40 border border-purple-500/40 rounded-2xl p-5 glow-purple flex-col justify-between flex-grow animate-fadeIn">
-                <div>
-                    <div class="flex justify-between items-center border-b border-purple-500/20 pb-3 mb-4">
-                        <div class="flex items-center gap-2">
-                            <i class="fa-solid fa-crown text-purple-400 animate-pulse"></i>
-                            <h2 class="font-display font-bold text-base text-zinc-100 tracking-wide uppercase">LEVEL 4 // MASTER CONTROL PANEL (OWNER ONLY)</h2>
-                        </div>
-                        <span class="text-[9px] font-mono-os bg-purple-950 text-purple-300 border border-purple-900 px-2 py-0.5 rounded font-bold uppercase tracking-widest">Root Matrix Access</span>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-5">
-                        <div class="bg-zinc-950 p-4 rounded-xl border border-borderSlate flex flex-col justify-between shadow-inner">
-                            <span class="text-zinc-500 text-[10px] font-mono-os uppercase tracking-wider block">Firebase System Stream</span>
-                            <div class="flex items-center gap-2 mt-2 font-mono-os text-xs">
-                                <span class="h-2 w-2 rounded-full bg-emerald-400 glow-green"></span>
-                                <span class="text-zinc-200 font-bold">CONNECTED // LIVE_MUTATION_OK</span>
-                            </div>
-                        </div>
-                        <div class="bg-zinc-950 p-4 rounded-xl border border-borderSlate flex flex-col justify-between shadow-inner">
-                            <span class="text-zinc-500 text-[10px] font-mono-os uppercase tracking-wider block">Groq API Edge Latency</span>
-                            <div class="text-cyan-400 font-bold font-mono-os text-xs mt-2 flex items-center gap-1.5">
-                                <i class="fa-solid fa-bolt text-xs"></i> 0.04ms Edge Response
-                            </div>
-                        </div>
-                        <div class="bg-zinc-950 p-4 rounded-xl border border-borderSlate flex flex-col justify-between shadow-inner">
-                            <span class="text-zinc-500 text-[10px] font-mono-os uppercase tracking-wider block">Active Pipeline Routings</span>
-                            <div class="text-purple-400 font-bold font-mono-os text-xs mt-2">
-                                142 Active Secure WebSockets
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="bg-zinc-950 p-4 rounded-xl border border-borderSlate mb-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                        <div class="font-mono-os">
-                            <h4 class="text-xs font-bold text-red-400 uppercase tracking-wider flex items-center gap-1.5">
-                                <i class="fa-solid fa-triangle-exclamation"></i> Platform Firewall Isolation Matrix
-                            </h4>
-                            <p class="text-[11px] text-zinc-500 mt-1 leading-normal">
-                                Activating structural lockouts drops public ingest proxies immediately. Only Owner/Co-Owner clearance nodes maintain session validations.
-                            </p>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <span id="lockdown-status-label" class="text-[10px] font-mono-os text-zinc-400 bg-zinc-900 px-2 py-1 rounded border border-zinc-800 font-bold">NORMAL_OPERATION</span>
-                            <label class="relative inline-flex items-center cursor-pointer">
-                                <input id="toggle-lockdown" type="checkbox" class="sr-only peer">
-                                <div class="w-11 h-6 bg-zinc-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-zinc-400 after:border-zinc-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-red-500 peer-checked:glow-red"></div>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="bg-gradient-to-r from-zinc-950 to-purple-950/20 p-4 rounded-xl border border-purple-500/20">
-                        <h4 class="text-xs font-mono-os font-bold text-purple-400 uppercase tracking-wider mb-2">
-                            <i class="fa-solid fa-bullhorn"></i> Structural Mainframe Inbound Broadcast Array
-                        </h4>
-                        <div class="flex gap-2">
-                            <input id="input-l4-broadcast" type="text" placeholder="Inject localized text strings payload directly into active user interface pipelines..." class="bg-zinc-950 text-xs font-mono-os text-zinc-200 border border-borderSlate focus:border-purple-500 focus:outline-none px-3 py-2.5 rounded-lg flex-grow shadow-inner">
-                            <button id="btn-l4-broadcast-send" class="bg-purple-500 hover:brightness-110 text-zinc-950 font-mono-os font-bold text-xs px-5 py-2.5 rounded-lg transition-all uppercase tracking-widest">
-                                XMIT PAYLOAD
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="l3-coowner-panel" class="hidden w-full bg-panelSlate/40 border border-cyan-500/40 rounded-2xl p-5 glow-cyan flex-col justify-between flex-grow animate-fadeIn">
-                <div>
-                    <div class="flex justify-between items-center border-b border-cyan-500/20 pb-3 mb-4">
-                        <div class="flex items-center gap-2">
-                            <i class="fa-solid fa-chart-line text-cyan-400"></i>
-                            <h2 class="font-display font-bold text-base text-zinc-100 tracking-wide uppercase">LEVEL 3 // EXECUTIVE OPERATIONS CENTER</h2>
-                        </div>
-                        <span class="text-[9px] font-mono-os bg-cyan-950 text-cyan-300 border border-cyan-900 px-2 py-0.5 rounded font-bold uppercase tracking-widest">Co-Owner Module</span>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 items-stretch">
-                        <div class="bg-zinc-950 p-4 rounded-xl border border-borderSlate flex flex-col justify-between shadow-inner">
-                            <div>
-                                <h3 class="text-xs font-mono-os font-bold text-zinc-200 uppercase border-b border-zinc-900 pb-2 mb-3">
-                                    <i class="fa-solid fa-list-check text-cyan-400 mr-1.5"></i> Platform Update Logs & Milestones
-                               </h3>
-                                <div id="l3-log-container" class="space-y-2 max-h-[160px] overflow-y-auto scrollbar-cyber pr-1 text-[11px] font-mono-os text-zinc-400">
-                                    <div class="bg-panelSlate/40 p-2 rounded border border-zinc-900/60"><span class="text-cyan-400 font-bold">[V25.01]</span> Multi-monitor CSS grid layout components standardized.</div>
-                                    <div class="bg-panelSlate/40 p-2 rounded border border-zinc-900/60"><span class="text-cyan-400 font-bold">[V25.02]</span> Cryptographic session verification arrays mounted.</div>
-                                </div>
-                            </div>
-                            <div class="flex gap-2 mt-4 pt-3 border-t border-zinc-900">
-                                <input id="input-l3-log" type="text" placeholder="Append engineering log..." class="bg-zinc-950 border border-borderSlate text-xs font-mono-os px-2.5 py-1.5 rounded-lg flex-grow focus:outline-none focus:border-cyan-500">
-                                <button id="btn-l3-log-add" class="bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 hover:bg-cyan-400 hover:text-zinc-950 font-mono-os text-xs font-bold px-3 py-1.5 rounded-lg transition-all">
-                                    APPEND
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="bg-zinc-950 p-4 rounded-xl border border-borderSlate shadow-inner">
-                            <h3 class="text-xs font-mono-os font-bold text-zinc-200 uppercase border-b border-zinc-900 pb-2 mb-3">
-                                <i class="fa-solid fa-network-wired text-cyan-400 mr-1.5"></i> Live Network Staff Allocations
-                            </h3>
-                            <div class="space-y-2 font-mono-os text-[11px]">
-                                <div class="flex justify-between items-center bg-panelSlate/30 p-2 rounded border border-zinc-900/60">
-                                    <span class="text-purple-400 font-bold">Brody <span class="text-[9px] text-zinc-600 font-normal">[OWNER]</span></span>
-                                    <span class="text-emerald-400 flex items-center gap-1 font-bold"><span class="h-1.5 w-1.5 rounded-full bg-emerald-400 glow-green animate-pulse"></span> SYSTEM_ROOT</span>
-                                </div>
-                                <div class="flex justify-between items-center bg-panelSlate/30 p-2 rounded border border-zinc-900/60">
-                                    <span class="text-cyan-400 font-bold">Jase <span class="text-[9px] text-zinc-600 font-normal">[CO-OWNER]</span></span>
-                                    <span class="text-emerald-400 flex items-center gap-1 font-bold"><span class="h-1.5 w-1.5 rounded-full bg-emerald-400 glow-green animate-pulse"></span> OPS_ACTIVE</span>
-                                </div>
-                                <div class="flex justify-between items-center bg-panelSlate/30 p-2 rounded border border-zinc-900/60">
-                                    <span class="text-zinc-400 font-bold">External Network Nodes</span>
-                                    <span class="text-zinc-600 font-bold">STANDBY</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="l2-security-panel" class="hidden w-full bg-panelSlate/40 border border-purple-500/40 rounded-2xl p-5 glow-purple flex-col justify-between flex-grow animate-fadeIn">
-                <div>
-                    <div class="flex justify-between items-center border-b border-purple-500/20 pb-3 mb-4">
-                        <div class="flex items-center gap-2">
-                            <i class="fa-solid fa-shield-halved text-purple-400"></i>
-                            <h2 class="font-display font-bold text-base text-zinc-100 tracking-wide uppercase">LEVEL 2 // SECURITY ENFORCEMENT ARRAY</h2>
-                        </div>
-                        <span class="text-[9px] font-mono-os bg-purple-950 text-purple-300 border border-purple-900 px-2 py-0.5 rounded font-bold uppercase tracking-widest">Sec Specialist Token</span>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 items-stretch">
-                        <div class="bg-zinc-950 p-4 rounded-xl border border-borderSlate shadow-inner flex flex-col justify-between">
-                            <div>
-                                <h3 class="text-xs font-mono-os font-bold text-zinc-200 uppercase border-b border-zinc-900 pb-2 mb-3">
-                                    <i class="fa-solid fa-receipt text-purple-400 mr-1.5"></i> Firewall Auth Mutation Streams
-                                </h3>
-                                <div id="l2-firewall-stream" class="space-y-2 max-h-[170px] overflow-y-auto scrollbar-cyber pr-1 text-[10px] font-mono-os text-zinc-400">
-                                    <div class="border-l-2 border-emerald-500 pl-2 py-0.5 bg-panelSlate/20">
-                                        [<span class="text-zinc-500">12:44:11</span>] SUCCESS: brodywilliams0226@gmail.com initialized handshake route.
-                                    </div>
-                                    <div class="border-l-2 border-emerald-500 pl-2 py-0.5 bg-panelSlate/20">
-                                        [<span class="text-zinc-500">12:45:02</span>] SUCCESS: jasepeaslee@gmail.com validation completed.
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="bg-zinc-950 p-4 rounded-xl border border-borderSlate shadow-inner flex flex-col justify-between">
-                            <div>
-                                <h3 class="text-xs font-mono-os font-bold text-zinc-200 uppercase border-b border-zinc-900 pb-2 mb-3">
-                                    <i class="fa-solid fa-binoculars text-purple-400 mr-1.5"></i> Deep Account Integrity Audits
-                                </h3>
-                                <p class="text-[11px] font-mono-os text-zinc-500 leading-normal mb-3">
-                                    Inspect system schemas directly across the database layout tree to trace anomalies or role elevation bypass attempts.
-                                </p>
-                                <div class="bg-panelSlate/50 p-2.5 rounded border border-zinc-900 text-[10px] font-mono-os">
-                                    <span class="text-purple-400 font-bold block mb-1">AUDIT DIAGNOSTICS</span>
-                                    No structural anomalies flagged. User database role attributes match authenticated token indices.
-                                </div>
-                            </div>
-                            <button id="btn-l2-scan" class="bg-purple-500/10 border border-purple-500/30 text-purple-300 hover:bg-purple-500 hover:text-zinc-950 text-xs font-mono-os font-bold py-2 rounded-lg transition-all mt-4 w-full uppercase tracking-wider">
-                                Execute Full Access Audit Sweep
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="l1-moderator-panel" class="hidden w-full bg-panelSlate/40 border border-cyan-500/40 rounded-2xl p-5 glow-cyan flex-col justify-between flex-grow animate-fadeIn">
-                <div>
-                    <div class="flex justify-between items-center border-b border-cyan-500/20 pb-3 mb-4">
-                        <div class="flex items-center gap-2">
-                            <i class="fa-solid fa-shield-cat text-cyan-400"></i>
-                            <h2 class="font-display font-bold text-base text-zinc-100 tracking-wide uppercase">LEVEL 1 // MODERATION INTERCEPT MATRIX</h2>
-                        </div>
-                        <span class="text-[9px] font-mono-os bg-cyan-950 text-cyan-300 border border-cyan-900 px-2 py-0.5 rounded font-bold uppercase tracking-widest">Moderator Loop</span>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 items-stretch">
-                        <div class="bg-zinc-950 p-4 rounded-xl border border-borderSlate shadow-inner flex flex-col justify-between">
-                            <div>
-                                <h3 class="text-xs font-mono-os font-bold text-zinc-200 uppercase border-b border-zinc-900 pb-2 mb-3">
-                                    <i class="fa-solid fa-filter text-cyan-400 mr-1.5"></i> Policy Violation Queue Stream
-                                </h3>
-                                <div id="l1-filter-container" class="space-y-2 max-h-[170px] overflow-y-auto scrollbar-cyber pr-1 text-[11px] font-mono-os text-zinc-400">
-                                    <div class="bg-panelSlate/40 p-2 rounded border border-zinc-900 flex justify-between items-center">
-                                        <span>User_8871: "Check out this domain https://unauth..."</span>
-                                        <span class="text-[9px] text-red-400 font-bold bg-red-950/40 px-1.5 py-0.5 rounded border border-red-900/60 uppercase">Link Blocked</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="bg-zinc-950 p-4 rounded-xl border border-borderSlate shadow-inner flex flex-col justify-between">
-                            <div>
-                                <h3 class="text-xs font-mono-os font-bold text-zinc-200 uppercase border-b border-zinc-900 pb-2 mb-3">
-                                    <i class="fa-solid fa-gavel text-cyan-400 mr-1.5"></i> Direct Ingest Restricter Engine
-                                </h3>
-                                <p class="text-[11px] font-mono-os text-zinc-500 leading-normal mb-3">
-                                    Target offensive platform profiles to instantly wipe global message arrays or clear localized input state permissions.
-                                </p>
-                                <input id="input-l1-target" type="text" placeholder="Input target network username/UID token..." class="w-full bg-zinc-950 border border-borderSlate text-xs font-mono-os px-3 py-2 rounded-lg focus:outline-none focus:border-cyan-500 mb-2">
-                            </div>
-                            <div class="grid grid-cols-2 gap-2 mt-2">
-                                <button id="btn-l1-mute" class="bg-amber-500/10 border border-amber-500/30 text-amber-400 hover:bg-amber-500 hover:text-zinc-950 text-xs font-mono-os font-bold py-2 rounded-lg transition-all uppercase tracking-wider">
-                                    Restrict Inputs
-                                </button>
-                                <button id="btn-l1-wipe" class="bg-red-500/10 border border-red-500/30 text-red-400 hover:bg-red-500 hover:text-zinc-950 text-xs font-mono-os font-bold py-2 rounded-lg transition-all uppercase tracking-wider">
-                                    Wipe Messages
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+        <div id="app-loader" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#030305]">
+            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-[#22d3ee]"></div>
+            <p class="mt-4 text-xs tracking-widest text-slate-500 uppercase">Synchronizing Core Manifest V25.8...</p>
         </div>
 
-        <aside class="xl:col-span-3 flex flex-col gap-5">
-            <section class="bg-panelSlate/40 border border-borderSlate rounded-2xl p-4 glow-cyan flex flex-col justify-between flex-grow h-[450px] xl:h-auto shadow-xl">
-                <div>
-                    <div class="flex justify-between items-center border-b border-borderSlate pb-2 mb-3">
-                        <h3 class="text-xs font-bungee tracking-wider text-cyan-400 flex items-center gap-1.5">
-                            <i class="fa-solid fa-robot"></i> W-AI CONNECTOR
-                        </h3>
-                        <span class="bg-cyan-950 text-cyan-400 font-mono-os text-[9px] px-1.5 py-0.5 rounded border border-cyan-900/60 font-bold uppercase tracking-wider">Groq Bound</span>
-                    </div>
+        <div id="login-gate" class="hidden fixed inset-0 z-40 flex items-center justify-center bg-[#030305] p-4">
+            <div class="w-full max-w-md border border-[#0f172a] bg-[#030305] p-8 rounded-none shadow-2xl relative">
+                <div class="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-[#22d3ee] to-transparent"></div>
+                
+                <div class="text-center mb-8">
+                    <h1 class="text-2xl font-bold tracking-wider text-white uppercase">W Website</h1>
+                    <p class="text-xs text-slate-500 mt-1 uppercase tracking-widest">Core Systems Node V25</p>
+                </div>
 
-                    <div id="ai-response-viewport" class="scrollbar-cyber h-[230px] xl:h-[280px] overflow-y-auto space-y-3 pr-1 text-[11px] font-mono-os text-zinc-300">
-                        <div class="bg-zinc-950 p-2.5 rounded-xl border border-borderSlate/80">
-                            <span class="text-cyan-400 font-bold block mb-1 font-display uppercase tracking-wider">[SYSTEM_INTELLIGENCE]</span>
-                            Core Connector active. Multi-monitor workstation viewport bindings stabilized. Ready to ingest telemetry queries or script logs.
-                        </div>
+                <div id="auth-step-1" class="space-y-4">
+                    <p class="text-xs text-slate-400 text-center uppercase tracking-normal">Dual-Stage Authentication Required for Access</p>
+                    <button id="btn-google-signin" class="w-full flex items-center justify-center gap-3 bg-transparent border border-[#1e293b] hover:border-[#22d3ee] text-slate-200 py-3 px-4 transition-all duration-200 font-medium text-sm tracking-wide">
+                        <i class="fab fa-google text-[#22d3ee]"></i> Authenticate via Google Identity
+                    </button>
+                </div>
+
+                <div id="auth-step-2" class="hidden space-y-4 transition-all duration-300">
+                    <div class="border-l-2 border-[#a78bfa] bg-[#0f172a]/40 p-3 mb-4">
+                        <p class="text-xs text-slate-400 uppercase tracking-wider">Identified Session Account:</p>
+                        <p id="txt-identified-email" class="text-sm font-mono text-[#a78bfa] break-all"></p>
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase tracking-wider text-slate-400 mb-2">Staff Security Verification Key</label>
+                        <input type="password" id="input-staff-key" placeholder="••••••••••••••••" class="w-full bg-[#030305] border border-[#1e293b] focus:border-[#a78bfa] text-slate-100 py-2.5 px-3 outline-none font-mono text-sm transition-all">
+                    </div>
+                    <button id="btn-verify-key" class="w-full bg-transparent border border-[#a78bfa] hover:bg-[#a78bfa]/10 text-[#a78bfa] py-2.5 px-4 font-semibold text-xs uppercase tracking-widest transition-all">
+                        Validate Credentials & Override Lock
+                    </button>
+                </div>
+
+                <div id="auth-error-log" class="hidden mt-6 p-3 bg-red-950/20 border border-red-900/50 text-red-400 text-xs font-mono"></div>
+            </div>
+        </div>
+
+        <div id="system-workspace" class="hidden h-full w-full flex flex-col justify-between">
+            
+            <header class="h-14 border-b border-[#0f172a] bg-[#030305] px-6 flex items-center justify-between z-30 shrink-0">
+                <div class="flex items-center gap-4">
+                    <span class="text-sm font-black tracking-widest text-white uppercase">W Mainframe <span class="text-xs font-mono font-normal text-slate-500">v25.8</span></span>
+                    <div class="hidden md:flex items-center gap-2 bg-[#0f172a] px-2.5 py-1 border border-[#1e293b]">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                        <span class="text-[10px] font-mono text-slate-400 tracking-wider uppercase">AI Telemetry Hooked</span>
                     </div>
                 </div>
 
-                <div class="mt-3 pt-3 border-t border-borderSlate/60">
-                    <div class="flex items-center gap-1.5 bg-zinc-950 p-1 rounded-xl border border-borderSlate">
-                        <input id="input-ai-terminal" type="text" placeholder="Query W-Bot node..." class="bg-transparent text-[11px] font-mono-os text-zinc-200 focus:outline-none px-2 py-2 flex-grow">
-                        <button id="btn-ai-submit" class="bg-cyan-500/10 hover:bg-cyan-400 text-cyan-400 hover:text-zinc-950 border border-cyan-500/20 font-mono-os text-xs font-bold px-3 py-2 rounded-lg transition-all">
-                            <i class="fa-solid fa-arrow-right"></i>
-                        </button>
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-3 border-r border-[#0f172a] pr-4">
+                        <div class="text-right">
+                            <p id="user-display-name" class="text-xs font-semibold text-slate-200">Loading Node...</p>
+                            <span id="user-display-role" class="text-[9px] font-mono px-1.5 py-0.5 rounded-none uppercase tracking-wider bg-slate-800 text-slate-400">Guest User</span>
+                        </div>
+                        <img id="user-display-avatar" src="" alt="Avatar" class="w-8 h-8 rounded-none border border-[#1e293b] hidden">
                     </div>
+                    <button id="btn-system-logout" class="text-xs text-slate-500 hover:text-red-400 font-mono transition-all duration-150 uppercase tracking-wider">
+                        <i class="fas fa-power-off text-xs mr-1"></i> Disconnect
+                    </button>
+                </div>
+            </header>
+
+            <main class="flex-1 w-full flex overflow-hidden relative">
+
+                <aside class="hidden lg:flex w-72 border-r border-[#0f172a] bg-[#030305] flex-col overflow-hidden shrink-0">
+                    <div class="p-4 border-b border-[#0f172a] bg-[#030305]/50 flex items-center justify-between">
+                        <span class="text-xs font-bold uppercase tracking-widest text-slate-400"><i class="fas fa-network-wired text-[#22d3ee] mr-1.5"></i> Network Topology</span>
+                        <span class="text-[10px] font-mono text-slate-500" id="current-timestamp-lbl">00:00:00 UTC</span>
+                    </div>
+                    <div id="network-logs-console" class="flex-1 p-4 font-mono text-[11px] space-y-2 overflow-y-auto text-slate-500">
+                        <div class="text-[#22d3ee]">[SYSTEM] Initializing Matrix Modules...</div>
+                        <div class="text-slate-600">[SYS-LOG] Memory Leak Shields Deployment Complete.</div>
+                    </div>
+                </aside>
+
+                <section class="flex-1 flex flex-col bg-[#030305] overflow-y-auto p-6 md:p-8">
                     
-                    <div class="mt-3 bg-zinc-950 p-2 rounded-lg border border-borderSlate/60 flex flex-col justify-between h-[65px]">
-                        <span class="text-[9px] font-mono-os text-zinc-500 block uppercase tracking-wider">Network Activity Stream:</span>
-                        <div id="network-scrolling-feed" class="text-[10px] font-mono-os text-zinc-400 overflow-hidden relative h-[35px] flex items-center">
-                            <div class="absolute w-full animate-pulse text-cyan-300/80">[SYS_LOG] Listening for live mutation hooks...</div>
+                    <div id="screen-home" class="spa-screen space-y-8 max-w-6xl mx-auto w-full">
+                        <div>
+                            <h2 class="text-lg font-bold tracking-widest text-white uppercase">System Control Matrix</h2>
+                            <p class="text-xs text-slate-500 mt-1">Select an operational vector to route core access parameters.</p>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
+                            <div onclick="switchSPAScreen('chat')" class="group cursor-pointer border border-[#0f172a] bg-[#030305] p-6 hover:border-[#22d3ee] transition-all duration-300 relative">
+                                <div class="absolute top-3 right-3 text-slate-700 group-hover:text-[#22d3ee] transition-colors"><i class="fas fa-comments text-lg"></i></div>
+                                <h3 class="text-sm font-bold tracking-wider text-slate-200 group-hover:text-white uppercase">Real-Time Chat Hub</h3>
+                                <p class="text-xs text-slate-500 mt-2 line-clamp-2">Access live localized communication terminal networks synced with Firebase main node.</p>
+                                <span class="inline-block mt-4 text-[10px] font-mono uppercase tracking-widest text-[#22d3ee] bg-[#22d3ee]/5 px-2 py-0.5">Initialize Vector</span>
+                            </div>
+
+                            <div onclick="switchSPAScreen('storage')" class="group cursor-pointer border border-[#0f172a] bg-[#030305] p-6 hover:border-slate-400 transition-all duration-300 relative">
+                                <div class="absolute top-3 right-3 text-slate-700 group-hover:text-slate-300 transition-colors"><i class="fas fa-vault text-lg"></i></div>
+                                <h3 class="text-sm font-bold tracking-wider text-slate-200 group-hover:text-white uppercase">Secure Storage Locker</h3>
+                                <p class="text-xs text-slate-500 mt-2 line-clamp-2">Encrypted text repository module containing master structural data logs.</p>
+                                <span class="inline-block mt-4 text-[10px] font-mono uppercase tracking-widest text-slate-400 bg-slate-800 px-2 py-0.5">Initialize Vector</span>
+                            </div>
+
+                            <div onclick="switchSPAScreen('creators')" class="group cursor-pointer border border-[#0f172a] bg-[#030305] p-6 hover:border-[#a78bfa] transition-all duration-300 relative">
+                                <div class="absolute top-3 right-3 text-slate-700 group-hover:text-[#a78bfa] transition-colors"><i class="fas fa-photo-film text-lg"></i></div>
+                                <h3 class="text-sm font-bold tracking-wider text-slate-200 group-hover:text-white uppercase">Media Creators Portal</h3>
+                                <p class="text-xs text-slate-500 mt-2 line-clamp-2">Embedded visual dynamic asset vectors, short clips, and integrated social tracking logs.</p>
+                                <span class="inline-block mt-4 text-[10px] font-mono uppercase tracking-widest text-[#a78bfa] bg-[#a78bfa]/5 px-2 py-0.5">Initialize Vector</span>
+                            </div>
+
+                            <div id="tile-crew-core" class="hidden group cursor-pointer border border-dashed border-red-950 bg-[#0c0505] p-6 hover:border-red-500 transition-all duration-300 relative animate-pulse">
+                                <div class="absolute top-3 right-3 text-red-950 group-hover:text-red-500 transition-colors"><i class="fas fa-shield-halved text-lg"></i></div>
+                                <h3 class="text-sm font-bold tracking-wider text-red-400 group-hover:text-red-300 uppercase">Restricted Staff Core</h3>
+                                <p class="text-xs text-slate-500 mt-2 line-clamp-2">Biometric credential match detected. Access targeted administration command panels instantly.</p>
+                                <span onclick="switchSPAScreen('crew')" class="inline-block mt-4 text-[10px] font-mono uppercase tracking-widest text-red-500 bg-red-950/30 px-2 py-0.5">Override Lock Gate</span>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </section>
-        </aside>
-    </main>
 
-    <nav class="fixed bottom-4 left-1/2 -translate-x-1/2 w-[92%] max-w-5xl bg-panelSlate/95 border border-borderSlate rounded-2xl px-5 py-3.5 flex justify-between items-center shadow-2xl backdrop-blur-md z-40">
-        <div class="flex items-center gap-3">
-            <span class="text-xs font-bungee tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">W CONFIG PLATFORM</span>
-            <div id="console-security-breach-indicator" class="hidden md:flex items-center gap-1.5 text-[10px] font-mono-os bg-red-950/40 border border-red-900 text-red-400 px-2 py-0.5 rounded font-bold uppercase tracking-wider">
-                <i class="fa-solid fa-shield-halved animate-spin"></i> DOM Security Armed
-            </div>
-        </div>
-        
-        <div class="flex gap-2 text-xs font-mono-os">
-            <button onclick="alert('Routing Engine Link: Redirecting to Home Mainframe')" class="bg-zinc-950 text-cyan-400 border border-borderSlate px-3 py-2 rounded-lg font-bold shadow-md uppercase tracking-wider flex items-center gap-1.5 transition-all hover:brightness-110">
-                <i class="fa-solid fa-house"></i> <span class="hidden sm:inline">Home</span>
-            </button>
-            <button onclick="alert('Routing Engine Link: Redirecting to Chat Interface')" class="text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900 px-3 py-2 rounded-lg flex items-center gap-1.5 transition-all">
-                <i class="fa-solid fa-comments"></i> <span class="hidden sm:inline">Chat</span>
-            </button>
-            <button onclick="alert('Routing Engine Link: Redirecting to Locker Core')" class="text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900 px-3 py-2 rounded-lg flex items-center gap-1.5 transition-all">
-                <i class="fa-solid fa-box-archive"></i> <span class="hidden sm:inline">Locker</span>
-            </button>
-        </div>
-    </nav>
+                    <div id="screen-chat" class="spa-screen hidden h-full flex flex-col space-y-4 max-w-5xl mx-auto w-full">
+                        <div class="flex items-center justify-between border-b border-[#0f172a] pb-4">
+                            <div>
+                                <button onclick="switchSPAScreen('home')" class="text-xs text-[#22d3ee] hover:underline uppercase font-mono tracking-wider mb-1 block"><i class="fas fa-angle-left"></i> Return Matrix</button>
+                                <h2 class="text-lg font-bold tracking-widest text-white uppercase">Real-Time Messaging Platform</h2>
+                            </div>
+                            <button id="btn-clear-mainframe" class="hidden text-[10px] bg-red-950/20 text-red-400 border border-red-900/50 hover:bg-red-900/40 font-mono py-1.5 px-3 uppercase tracking-wider transition-all">
+                                <i class="fas fa-trash-can mr-1"></i> Purge Mainframe Node
+                            </button>
+                        </div>
 
-    <script type="module">
-        // STRICT CONFIGURATION INDEX REGISTER FOR ACCOUNT PRIVILEGE EVALUATIONS
-        const CRYPTO_CREW_REGISTRY = {
-            "wwebsitesystem@outlook.com": { name: "Brody", role: "OWNER", tier: 4 },
-            "brodywilliams0226@gmail.com": { name: "Brody", role: "OWNER", tier: 4 },
-            "jasepeaslee@gmail.com": { name: "Jase", role: "CO-OWNER", tier: 3 },
-            "bmkeppel3@gmail.com": { name: "Brayden", role: "SECURITY SPECIALIST", tier: 2 },
-            "Ammar.staff.w@outlook.com": { name: "Ammar", role: "MODERATOR", tier: 1 }
-        };
+                        <div id="chat-messages-container" class="flex-1 bg-[#030305] border border-[#0f172a] p-4 overflow-y-auto space-y-3 min-h-[350px] max-h-[550px]"></div>
 
-        // TRACKING HOOK FOR ACTIVE INITIALIZED STATE USER TOKEN
-        let cachedActiveUserSession = null;
-
-        // DOM CORE QUERY SELECTORS
-        const btnMockAuth = document.getElementById('btn-mock-auth');
-        const btnMockLogout = document.getElementById('btn-mock-logout');
-        const clearanceUserTag = document.getElementById('clearance-user-tag');
-        const clearanceIcon = document.getElementById('clearance-icon');
-        const sysPulsePing = document.getElementById('sys-pulse-ping');
-        const sysPulseDot = document.getElementById('sys-pulse-dot');
-        const fallbackGatePanel = document.getElementById('fallback-gate-panel');
-
-        // ADMINISTRATIVE PANEL OBJECT REPOSITORIES
-        const panelsIndexMap = {
-            4: document.getElementById('l4-owner-panel'),
-            3: document.getElementById('l3-coowner-panel'),
-            2: document.getElementById('l2-security-panel'),
-            1: document.getElementById('l1-moderator-panel')
-        };
-
-        // CONNECTED DATA TARGET COMPONENTS
-        const globalBroadcastBanner = document.getElementById('global-broadcast-banner');
-        const broadcastOutputText = document.getElementById('broadcast-output-text');
-        const inputL4Broadcast = document.getElementById('input-l4-broadcast');
-        const btnL4BroadcastSend = document.getElementById('btn-l4-broadcast-send');
-        const toggleLockdown = document.getElementById('toggle-lockdown');
-        const lockdownStatusLabel = document.getElementById('lockdown-status-label');
-
-        const inputL3Log = document.getElementById('input-l3-log');
-        const btnL3LogAdd = document.getElementById('btn-l3-log-add');
-        const l3LogContainer = document.getElementById('l3-log-container');
-
-        const btnL2Scan = document.getElementById('btn-l2-scan');
-        const l2FirewallStream = document.getElementById('l2-firewall-stream');
-
-        const inputL1Target = document.getElementById('input-l1-target');
-        const btnL1Mute = document.getElementById('btn-l1-mute');
-        const btnL1Wipe = document.getElementById('btn-l1-wipe');
-        const l1FilterContainer = document.getElementById('l1-filter-container');
-
-        const inputAiTerminal = document.getElementById('input-ai-terminal');
-        const btnAiSubmit = document.getElementById('btn-ai-submit');
-        const aiResponseViewport = document.getElementById('ai-response-viewport');
-        const networkScrollingFeed = document.getElementById('network-scrolling-feed');
-
-        // -------------------------------------------------------------
-        // 1. CONDITIONAL LAYER ROLE RESOLUTION PIPELINE
-        // -------------------------------------------------------------
-        function routeInterfacePermissionsHandshake(userEmailInputString) {
-            // Securely wipe layout visibility states to baseline structural conditions
-            fallbackGatePanel.classList.replace('hidden', 'flex');
-            Object.values(panelsIndexMap).forEach(panelElement => {
-                panelElement.classList.replace('flex', 'hidden');
-            });
-            
-            sysPulsePing.className = "animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75";
-            sysPulseDot.className = "relative inline-flex rounded-full h-3 w-3 bg-emerald-500 glow-green";
-
-            if (!userEmailInputString) {
-                cachedActiveUserSession = null;
-                clearanceUserTag.innerText = "GUEST_TERMINAL_MUTED";
-                clearanceUserTag.className = "text-xs font-bold font-mono-os text-zinc-400 mt-1";
-                clearanceIcon.className = "fa-solid fa-key text-zinc-600 text-lg";
-                return;
-            }
-
-            const verifiedTargetKey = userEmailInputString.trim();
-            
-            // STRICT INTERACTION CHECKING BASED ON THE DATA REGISTER SCHEMA MATCHES
-            if (CRYPTO_CREW_REGISTRY[verifiedTargetKey]) {
-                const crewMeta = CRYPTO_CREW_REGISTRY[verifiedTargetKey];
-                cachedActiveUserSession = { email: verifiedTargetKey, ...crewMeta };
-
-                // Repaint Top Navigation Identity Elements
-                clearanceUserTag.innerText = `${crewMeta.name.toUpperCase()} // LVL_${crewMeta.tier}_${crewMeta.role}`;
-                clearanceUserTag.className = "text-xs font-bold font-mono-os text-cyan-400 tracking-wider mt-1";
-                clearanceIcon.className = "fa-solid fa-fingerprint text-purple-400 text-lg animate-pulse";
-                
-                // Hide fallback screen frame and pop open authorized panel target directly
-                fallbackGatePanel.classList.replace('flex', 'hidden');
-                const targetViewPanel = panelsIndexMap[crewMeta.tier];
-                if (targetViewPanel) {
-                    targetViewPanel.classList.replace('hidden', 'flex');
-                }
-
-                pushNetworkTelemetryFeedLog(`[AUTH] Clearance granted to profile matching tier index standard ${crewMeta.tier}.`);
-            } else {
-                // Handle normal user logins without privileges safely
-                const simpleHandle = verifiedTargetKey.split('@')[0];
-                cachedActiveUserSession = { email: verifiedTargetKey, name: simpleHandle, role: "USER", tier: 0 };
-                clearanceUserTag.innerText = `${simpleHandle.toUpperCase()} // UNPRIVILEGED_NODE`;
-                clearanceUserTag.className = "text-xs font-bold font-mono-os text-purple-400 mt-1";
-                clearanceIcon.className = "fa-solid fa-user-lock text-zinc-500 text-lg";
-                
-                pushNetworkTelemetryFeedLog(`[AUTH] standard node subscription attached for target handle token allocation.`);
-            }
-        }
-
-        // Trigger Event Listeners on Mock Auth Gate Buttons
-        btnMockAuth.addEventListener('click', () => {
-            const promptValueEmail = prompt("Simulating Firebase authentication layer. Pass valid staff credential identifier key:");
-            if (promptValueEmail && promptValueEmail.includes('@')) {
-                btnMockAuth.classList.add('hidden');
-                btnMockLogout.classList.remove('hidden');
-                routeInterfacePermissionsHandshake(promptValueEmail);
-            } else if (promptValueEmail) {
-                alert("HANDSHAKE FAULT: Ingest string formatting doesn't conform to user@domain schema tracking structures.");
-            }
-        });
-
-        btnMockLogout.addEventListener('click', () => {
-            btnMockAuth.classList.remove('hidden');
-            btnMockLogout.classList.add('hidden');
-            routeInterfacePermissionsHandshake(null);
-        });
-
-        // -------------------------------------------------------------
-        // 2. STAGE 4 UTIL CONFIGS: BROADCAST & HARD FLIP INTERRUPTS
-        // -------------------------------------------------------------
-        btnL4BroadcastSend.addEventListener('click', () => {
-            // Redundant validation lock to safeguard from unauthorized component references inside layout trees
-            if (!cachedActiveUserSession || cachedActiveUserSession.tier !== 4) {
-                enforceSecurityBreachEvictionTrace();
-                return;
-            }
-            const broadcastPayload = inputL4Broadcast.value.trim();
-            if (broadcastPayload) {
-                broadcastOutputText.innerText = sanitizeInputMarkup(broadcastPayload);
-                globalBroadcastBanner.classList.replace('hidden', 'flex');
-                inputL4Broadcast.value = "";
-                pushNetworkTelemetryFeedLog("[MAINFRAME] Owner deployed a platform-wide system update message.");
-            }
-        });
-
-        toggleLockdown.addEventListener('change', (e) => {
-            if (!cachedActiveUserSession || cachedActiveUserSession.tier !== 4) {
-                enforceSecurityBreachEvictionTrace();
-                return;
-            }
-            if (e.target.checked) {
-                lockdownStatusLabel.innerText = "LOCKDOWN_ACTIVE_RED";
-                lockdownStatusLabel.className = "text-[10px] font-mono-os text-red-400 bg-red-950/40 px-2 py-1 rounded border border-red-900 font-bold animate-pulse";
-                sysPulsePing.className = "animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75";
-                sysPulseDot.className = "relative inline-flex rounded-full h-3 w-3 bg-red-500 glow-red";
-                pushNetworkTelemetryFeedLog("[ALERT] Structural firewall rules altered: Platform Isolation active.");
-            } else {
-                lockdownStatusLabel.innerText = "NORMAL_OPERATION";
-                lockdownStatusLabel.className = "text-[10px] font-mono-os text-zinc-400 bg-zinc-900 px-2 py-1 rounded border border-zinc-800 font-bold";
-                sysPulsePing.className = "animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75";
-                sysPulseDot.className = "relative inline-flex rounded-full h-3 w-3 bg-emerald-500 glow-green";
-                pushNetworkTelemetryFeedLog("[ALERT] Structural firewall normalized. Public routing parameters restored.");
-            }
-        });
-
-        // -------------------------------------------------------------
-        // 3. STAGE 3 UTIL CONFIGS: ASYNC LOG MANIPULATIONS
-        // -------------------------------------------------------------
-        btnL3LogAdd.addEventListener('click', () => {
-            if (!cachedActiveUserSession || cachedActiveUserSession.tier !== 3) {
-                enforceSecurityBreachEvictionTrace();
-                return;
-            }
-            const rawLogValue = inputL3Log.value.trim();
-            if (rawLogValue) {
-                const appendedLogNode = document.createElement('div');
-                appendedLogNode.className = "bg-panelSlate/40 p-2 rounded border border-zinc-900/60 animate-fadeIn";
-                appendedLogNode.innerHTML = `<span class="text-cyan-400 font-bold">[APPENDED_${new Date().toLocaleTimeString()}]</span> ${sanitizeInputMarkup(rawLogValue)}`;
-                l3LogContainer.appendChild(appendedLogNode);
-                l3LogContainer.scrollTop = l3LogContainer.scrollHeight;
-                inputL3Log.value = "";
-                pushNetworkTelemetryFeedLog("[OPS] Co-Owner mutated system milestone repository values.");
-            }
-        });
-
-        // -------------------------------------------------------------
-        // 4. STAGE 2 UTIL CONFIGS: SECURITY SCANNER TRIGGERS
-        // -------------------------------------------------------------
-        btnL2Scan.addEventListener('click', () => {
-            if (!cachedActiveUserSession || cachedActiveUserSession.tier !== 2) {
-                enforceSecurityBreachEvictionTrace();
-                return;
-            }
-            pushNetworkTelemetryFeedLog("[SEC] Manual identity vector integrity sweep forced by Specialist.");
-            const appendAuditEntry = document.createElement('div');
-            appendAuditEntry.className = "border-l-2 border-purple-500 pl-2 py-0.5 bg-panelSlate/20 text-[10px] text-purple-300 font-bold animate-fadeIn";
-            appendAuditEntry.innerText = `[${new Date().toLocaleTimeString()}] SWEEP SUCCESS: All active session token maps correspond perfectly with auth references.`;
-            l2FirewallStream.appendChild(appendAuditEntry);
-            l2FirewallStream.scrollTop = l2FirewallStream.scrollHeight;
-            alert("INTEGRITY SYSTEM MESSAGE: Audit sequence executed cleanly. Zero mutation anomalies found.");
-        });
-
-        // -------------------------------------------------------------
-        // 5. STAGE 1 UTIL CONFIGS: MODERATOR MUTATION COMMAND INTERRUPTS
-        // -------------------------------------------------------------
-        function executeModAction(actionTypeString) {
-            if (!cachedActiveUserSession || cachedActiveUserSession.tier !== 1) {
-                enforceSecurityBreachEvictionTrace();
-                return;
-            }
-            const targetedUserToken = inputL1Target.value.trim();
-            if (!targetedUserToken) {
-                alert("MOD ACTION REJECTION: Target UID identifier token mapping parameters missing.");
-                return;
-            }
-            
-            const actionNotificationNode = document.createElement('div');
-            actionNotificationNode.className = "bg-panelSlate/40 p-2 rounded border border-zinc-900 flex justify-between items-center text-[10px] border-amber-500/30 text-amber-300 animate-fadeIn";
-            actionNotificationNode.innerHTML = `<span>Target Node [${sanitizeInputMarkup(targetedUserToken)}] subject to ${actionTypeString} mutation.</span> <span class="uppercase font-bold text-amber-400">Enforced</span>`;
-            
-            l1FilterContainer.appendChild(actionNotificationNode);
-            l1FilterContainer.scrollTop = l1FilterContainer.scrollHeight;
-            pushNetworkTelemetryFeedLog(`[MOD] Action '${actionTypeString}' assigned against target allocation pointer [${targetedUserToken}].`);
-            inputL1Target.value = "";
-        }
-
-        btnL1Mute.addEventListener('click', () => executeModAction('RESTRICT_INPUTS'));
-        btnL1Wipe.addEventListener('click', () => executeModAction('WIPE_MESSAGES'));
-
-        // -------------------------------------------------------------
-        // 6. CONTINUOUS AI PIPELINE TERMINAL (W-BOT OPERATIONS)
-        // -------------------------------------------------------------
-        function dispatchAITerminalQuery() {
-            const rawQueryString = inputAiTerminal.value.trim();
-            if (!rawQueryString) return;
-
-            const userTextNodeElement = document.createElement('div');
-            userTextNodeElement.className = "bg-zinc-950 p-2 rounded-xl border border-borderSlate text-right ml-4 animate-fadeIn text-[11px]";
-            userTextNodeElement.innerHTML = `<span class="text-cyan-400 font-bold block mb-0.5 font-display text-[9px]">OPERATOR</span> <span class="break-all">${sanitizeInputMarkup(rawQueryString)}</span>`;
-            aiResponseViewport.appendChild(userTextNodeElement);
-            aiResponseViewport.scrollTop = aiResponseViewport.scrollHeight;
-            inputAiTerminal.value = "";
-
-            const computationIndicatorNode = document.createElement('div');
-            computationIndicatorNode.className = "text-[9px] font-mono-os text-zinc-500 animate-pulse pl-1";
-            computationIndicatorNode.innerText = "Interfacing edge endpoint at groq-api-v25/llama3...";
-            aiResponseViewport.appendChild(computationIndicatorNode);
-            aiResponseViewport.scrollTop = aiResponseViewport.scrollHeight;
-
-            setTimeout(() => {
-                computationIndicatorNode.remove();
-                const botResponseNodeElement = document.createElement('div');
-                botResponseNodeElement.className = "bg-panelSlate border border-cyan-500/20 p-2.5 rounded-xl text-cyan-300 mr-4 shadow-sm animate-fadeIn text-[11px]";
-                botResponseNodeElement.innerHTML = `
-                    <span class="text-cyan-400 font-bold block mb-0.5 font-display text-[9px] uppercase tracking-wider"><i class="fa-solid fa-robot mr-1"></i> W-Bot Engine</span>
-                    Query packet processed without compilation exception events. Mainframe grid states running inside optimal parameters.
-                `;
-                aiResponseViewport.appendChild(botResponseNodeElement);
-                aiResponseViewport.scrollTop = aiResponseViewport.scrollHeight;
-                pushNetworkTelemetryFeedLog("[AI] Groq edge model processed an automated evaluation hook.");
-            }, 850);
-        }
-
-        btnAiSubmit.addEventListener('click', dispatchAITerminalQuery);
-        inputAiTerminal.addEventListener('keydown', (e) => { if (e.key === 'Enter') dispatchAITerminalQuery(); });
-
-        function pushNetworkTelemetryFeedLog(logContextString) {
-            networkScrollingFeed.innerHTML = `<div class="absolute w-full text-[10px] font-mono-os text-cyan-300 tracking-wide animate-fadeIn">${logContextString}</div>`;
-        }
-
-        // -------------------------------------------------------------
-        // 7. IN-DOM TAMPER TAMPER PROOF ENFORCEMENT GUARDRAILS
-        // -------------------------------------------------------------
-        function enforceSecurityBreachEvictionTrace() {
-            document.getElementById('console-security-breach-indicator').classList.remove('hidden');
-            document.body.innerHTML = `
-                <div class="min-h-screen bg-[#030305] text-red-500 font-mono-os flex flex-col items-center justify-center p-6 text-center">
-                    <div class="border border-red-500/40 bg-red-950/20 p-8 rounded-2xl glow-red max-w-lg">
-                        <i class="fa-solid fa-shield-halved text-4xl animate-bounce mb-3"></i>
-                        <h1 class="text-base font-bungee tracking-wider mb-2">SECURITY BREACH INTERCEPT: UNAUTHORIZED ROLE ELEVATION DETECTED</h1>
-                        <p class="text-xs text-zinc-400 leading-relaxed">
-                            The security architecture detected an anomalous execution loop or unauthorized attempt to bypass interface visibility hooks. Your session tokens are dropped. The layout node matrix has been forced to close down immediately.
-                        </p>
-                        <button onclick="window.location.reload()" class="mt-5 bg-red-500 text-zinc-950 text-xs font-bold font-display px-4 py-2 rounded-lg tracking-widest uppercase">
-                            Re-Initialize Terminal Connection
-                        </button>
+                        <div class="flex gap-2">
+                            <input type="text" id="input-chat-message" placeholder="Awaiting raw communications delivery array..." class="flex-1 bg-[#030305] border border-[#0f172a] focus:border-[#22d3ee] text-slate-200 py-3 px-4 outline-none text-sm transition-all">
+                            <button id="btn-send-message" class="bg-[#0f172a] border border-[#1e293b] hover:border-[#22d3ee] hover:text-[#22d3ee] text-slate-300 px-6 font-mono text-xs uppercase tracking-widest transition-all">
+                                Broadcast
+                            </button>
+                        </div>
                     </div>
-                </div>
-            `;
-            throw new Error("CRITICAL CONTEXT DISCREPANCY: Execution path aborted via DOM manipulation filters.");
-        }
 
-        // Active MutationObserver loop to scan layout element integrity profiles continuously
-        const domArchitectureGuardSensor = new MutationObserver((mutationRecordsList) => {
-            mutationRecordsList.forEach(mutationRecord => {
-                if (mutationRecord.type === "attributes" && mutationRecord.attributeName === "class") {
-                    const targetEl = mutationRecord.target;
-                    // Scan if hidden attribute wrappers were extracted while decoupled from valid staff credentials
-                    if (targetEl.tagName === "SECTION" && !targetEl.classList.contains('hidden') && targetEl.id !== 'fallback-gate-panel') {
-                        const structuralPanelId = targetEl.id;
-                        let evaluatedClearanceTier = null;
-                        if (structuralPanelId === 'l4-owner-panel') evaluatedClearanceTier = 4;
-                        if (structuralPanelId === 'l3-coowner-panel') evaluatedClearanceTier = 3;
-                        if (structuralPanelId === 'l2-security-panel') evaluatedClearanceTier = 2;
-                        if (structuralPanelId === 'l1-moderator-panel') evaluatedClearanceTier = 1;
-
-                        if (evaluatedClearanceTier !== null) {
-                            if (!cachedActiveUserSession || cachedActiveUserSession.tier !== evaluatedClearanceTier) {
-                                enforceSecurityBreachEvictionTrace();
-                            }
-                        }
-                    }
-                }
-            });
-        });
-
-        // Attach layout integrity monitoring across global configuration spaces
-        Object.values(panelsIndexMap).forEach(panelNodeElement => {
-            domArchitectureGuardSensor.observe(panelNodeElement, { attributes: true });
-        });
-
-        function sanitizeInputMarkup(rawStr) {
-            const tempDiv = document.createElement('div');
-            tempDiv.innerText = rawStr;
-            return tempDiv.innerHTML;
-        }
-    </script>
-</body>
-</html>
+                    <div id="screen-storage" class="spa-screen hidden space-y-
