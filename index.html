@@ -3,655 +3,398 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wwebsite | Premium Platform Architecture</title>
+    <title>Wwebsite | Control Terminal & Platform</title>
     <style>
-        /* --- PREMIUM SYSTEM ROOT VARIABLES --- */
+        /* --- INDUSTRIAL PREMIUM SYSTEM ROOT --- */
         :root {
-            --bg-color: #030305;
-            --panel-bg: #09090e;
-            --sidebar-bg: #0d0d14;
+            --bg-main: #020204;
+            --panel-bg: #07070b;
+            --panel-sidebar: #0b0b10;
+            --border-subtle: rgba(255, 255, 255, 0.04);
             --gold-accent: #D4AF37;
-            --gold-hover: #b5952f;
             --text-main: #ffffff;
-            --text-muted: #7e7e86;
-            --accent-purple: #4a3b68;
-            --accent-purple-hover: #5d4a82;
-            --card-bg: rgba(255, 255, 255, 0.02);
-            --border-glow: 0 0 15px rgba(212, 175, 55, 0.15);
-            --glass-overlay: rgba(3, 3, 5, 0.45);
+            --text-muted: #6e6e76;
+            
+            /* Status Indicators */
+            --color-error: #ff4545;
+            --color-warning: #ffa500;
+            --color-testing: #3b82f6;
+            --color-success: #10b981;
+            
+            --accent-purple: #32254f;
+            --card-bg: rgba(255, 255, 255, 0.01);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
 
         body {
-            background-color: var(--bg-color);
+            background-color: var(--bg-main);
             color: var(--text-main);
             overflow-x: hidden;
             scroll-behavior: smooth;
         }
 
-        /* --- WEBKIT SCROLLBAR ANIMATIONS --- */
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #010103;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: rgba(212, 175, 55, 0.3);
-            border-radius: 3px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--gold-accent);
-        }
+        /* --- SCROLLBAR TERMINAL CONFIG --- */
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::-webkit-scrollbar-track { background: #000000; }
+        ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 2px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--gold-accent); }
 
-        /* --- BROADCAST ANNER --- */
-        #broadcast-banner {
+        /* --- OVERRIDES FOR INTERCEPT STATES --- */
+        .system-intercept-screen {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
+            top: 0; left: 0; width: 100vw; height: 100vh;
             background: #000000;
-            border-bottom: 1px solid rgba(212, 175, 55, 0.25);
-            color: var(--gold-accent);
-            text-align: center;
-            padding: 10px 20px;
-            font-size: 0.75rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            z-index: 2000;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.8);
-        }
-
-        /* --- PREMIUM NAVIGATION BAR --- */
-        header {
-            position: fixed;
-            top: 36px;
-            width: 100%;
-            padding: 20px 50px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(3, 3, 5, 0.9);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            z-index: 1000;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-        }
-
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            cursor: pointer;
-        }
-
-        .logo-mark {
-            font-size: 2rem;
-            font-weight: 900;
-            color: var(--gold-accent);
-            text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
-            letter-spacing: 2px;
-        }
-
-        .logo-text {
-            font-size: 1.5rem;
-            font-weight: 300;
-            letter-spacing: 1px;
-            text-transform: lowercase;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 30px;
-            list-style: none;
-        }
-
-        .nav-tab {
-            background: transparent;
-            border: none;
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            cursor: pointer;
-            padding: 8px 16px;
-            transition: all 0.3s ease;
-            border-bottom: 2px solid transparent;
-        }
-
-        .nav-tab:hover {
-            color: var(--text-main);
-        }
-
-        .nav-tab.active-tab {
-            color: var(--gold-accent);
-            border-bottom: 2px solid var(--gold-accent);
-            text-shadow: 0 0 8px rgba(212, 175, 55, 0.2);
-        }
-
-        .right-actions {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .login-btn {
-            background: transparent;
-            color: var(--text-main);
-            border: 1px solid var(--gold-accent);
-            padding: 10px 25px;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: var(--border-glow);
-        }
-
-        .login-btn:hover {
-            background: var(--gold-accent);
-            color: var(--bg-color);
-            font-weight: bold;
-        }
-
-        .user-badge {
+            z-index: 9999;
             display: none;
-            font-size: 0.85rem;
-            color: var(--gold-accent);
-            letter-spacing: 1px;
-            border-left: 1px solid rgba(255, 255, 255, 0.1);
-            padding-left: 15px;
-            text-transform: uppercase;
-        }
-
-        /* --- SECURITY MODAL ACCESS NODES --- */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(8px);
-            z-index: 3000;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-        }
-
-        .modal-box {
-            background: #060609;
-            border: 1px solid rgba(212, 175, 55, 0.25);
+            text-align: center;
             padding: 40px;
-            width: 100%;
-            max-width: 420px;
-            text-align: center;
-            position: relative;
-            box-shadow: var(--border-glow);
         }
-
-        .close-modal {
-            position: absolute;
-            top: 15px; right: 20px;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--text-muted);
-            transition: color 0.2s;
+        .intercept-card {
+            max-width: 500px;
+            padding: 40px;
+            border: 1px solid var(--border-subtle);
+            background: #050508;
         }
-        .close-modal:hover { color: white; }
-
-        .modal-box h2 { margin-bottom: 10px; font-weight: 300; letter-spacing: 2px; text-transform: uppercase;}
-        .modal-box p.subtitle { color: var(--text-muted); font-size: 0.8rem; margin-bottom: 25px;}
-        
-        .modal-box input {
-            width: 100%; padding: 14px; margin-bottom: 15px;
-            background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.08);
-            color: white; outline: none; font-size: 0.9rem;
-            transition: border-color 0.3s;
-        }
-        .modal-box input:focus { border-color: var(--gold-accent); }
-        
-        .modal-box button {
-            width: 100%; padding: 14px; margin-bottom: 12px;
-            cursor: pointer; font-weight: bold; text-transform: uppercase;
-            letter-spacing: 1px; font-size: 0.85rem; transition: all 0.2s;
-        }
-
-        /* PREMIUM BRANDED GOOGLE IDENTITY KEY BUTTON BUTTON */
-        .google-signin-btn-container {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            margin-top: 15px;
-        }
-
-        .google-btn-spec {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #131314;
-            border: 1px solid #8e918f;
-            border-radius: 100px;
-            color: #e3e3e3;
-            cursor: pointer;
-            padding: 12px 24px;
-            width: 100%;
-            max-width: 320px;
-            transition: background-color 0.2s, border-color 0.2s;
-        }
-
-        .google-btn-spec:hover {
-            background-color: #1e1e1f;
-            border-color: #c4c7c5;
-        }
-
-        .google-icon-svg {
-            width: 20px;
-            height: 20px;
-            margin-right: 12px;
-        }
-
-        .google-btn-text {
-            font-size: 0.95rem;
-            font-weight: 500;
-            letter-spacing: 0.25px;
-            font-family: 'Roboto', sans-serif, Arial;
-        }
-
-        /* --- LAYOUT CONTROL MATRICES --- */
-        main {
-            padding: 160px 20px 60px;
-            max-width: 1300px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 80px;
-        }
-
-        .page-view {
-            display: flex;
-            flex-direction: column;
-            gap: 80px;
-            width: 100%;
-        }
-
-        .hidden-view {
-            display: none !important;
-        }
-
-        /* --- HERO BRANDING PARADIGMS --- */
-        .hero-branding {
-            text-align: center;
-            padding: 20px 0 0;
-        }
-
-        .hero-logo {
-            font-size: 6rem;
-            font-weight: 900;
-            color: var(--gold-accent);
-            text-shadow: 0 0 25px rgba(212, 175, 55, 0.3);
-            letter-spacing: 4px;
-            line-height: 1;
+        .intercept-title {
+            font-size: 1.1rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
             margin-bottom: 15px;
         }
-
-        .hero-title {
-            font-size: 2.2rem;
-            font-weight: 300;
-            letter-spacing: 6px;
-            text-transform: lowercase;
-            color: var(--text-main);
-        }
-
-        h2.section-title {
-            text-align: center;
-            font-weight: 300;
-            letter-spacing: 3px;
-            margin-bottom: 40px;
-            text-transform: uppercase;
-            text-shadow: 0 0 8px rgba(255, 255, 255, 0.1);
-        }
-
-        /* ==================================================================================== */
-        /* MOCKUP COMPONENT STRUCTURE DESIGN: PREMIUM WORKSPACE                  */
-        /* ==================================================================================== */
-        .workspace-preview-frame {
-            position: relative;
-            background: var(--panel-bg);
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            height: 620px;
-            display: grid;
-            grid-template-columns: 280px 1fr;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        /* LEFT SIDEBAR CONTROLS */
-        .workspace-sidebar {
-            background: var(--sidebar-bg);
-            border-right: 1px solid rgba(255, 255, 255, 0.03);
-            display: flex;
-            flex-direction: column;
-            padding: 20px;
-        }
-
-        /* Identity Node Matrix (Based on uploaded tracking reference file) */
-        .identity-profile-card {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            margin-bottom: 20px;
-        }
-
-        .avatar-circle-wrapper {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #1f1c2c, #928dab);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1.5px solid rgba(212, 175, 55, 0.4);
-            position: relative;
-        }
-
-        .online-presence-tether {
-            width: 10px;
-            height: 10px;
-            background: #2ec4b6;
-            border-radius: 50%;
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            border: 2px solid var(--sidebar-bg);
-        }
-
-        .identity-meta-fields {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .identity-primary-label {
-            font-size: 0.9rem;
-            font-weight: bold;
-            color: var(--text-main);
-            letter-spacing: 0.5px;
-        }
-
-        .identity-sub-role-label {
-            font-size: 0.75rem;
+        .intercept-desc {
             color: var(--text-muted);
-        }
-
-        /* Functional Tab Selector Rails */
-        .workspace-navigation-rail {
-            display: flex;
-            justify-content: space-between;
-            background: rgba(0, 0, 0, 0.2);
-            padding: 6px;
-            border-radius: 8px;
-            margin-bottom: 25px;
-        }
-
-        .rail-action-unit {
-            flex: 1;
-            background: transparent;
-            border: none;
-            padding: 10px 4px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 6px;
-            color: var(--text-muted);
-            cursor: pointer;
-            border-radius: 6px;
-            font-size: 0.65rem;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-        }
-
-        .rail-action-unit.active-rail-unit {
-            background: var(--accent-purple);
-            color: var(--text-main);
-        }
-
-        .rail-vector-icon {
-            width: 18px;
-            height: 18px;
-            fill: currentColor;
-        }
-
-        /* Action triggers */
-        .create-stream-trigger {
-            width: 100%;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            color: var(--text-main);
-            padding: 12px;
-            border-radius: 6px;
             font-size: 0.85rem;
-            cursor: pointer;
+            line-height: 1.6;
             letter-spacing: 0.5px;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
         }
 
-        /* Content payload preview streams lists */
-        .stream-telemetry-feed {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            opacity: 0.25; /* Protected view layer matrix state */
+        /* --- NAVIGATION HEADER --- */
+        #broadcast-banner {
+            position: fixed; top: 0; left: 0; width: 100%;
+            background: #000000; border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+            color: var(--gold-accent); text-align: center; padding: 10px 20px;
+            font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; z-index: 2000;
         }
 
-        .stream-list-item-skeleton {
-            width: 100%;
-            height: 48px;
-            background: rgba(255, 255, 255, 0.01);
-            border-radius: 6px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+        header {
+            position: fixed; top: 36px; width: 100%; padding: 20px 50px;
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(2, 2, 4, 0.95); backdrop-filter: blur(12px);
+            z-index: 1000; border-bottom: 1px solid var(--border-subtle);
+        }
+        .logo-container { display: flex; align-items: center; gap: 12px; cursor: pointer; }
+        .logo-mark { font-size: 1.8rem; font-weight: 900; color: var(--gold-accent); letter-spacing: 1px; }
+        .logo-text { font-size: 1.3rem; font-weight: 300; letter-spacing: 1px; }
+        
+        .nav-links { display: flex; gap: 20px; list-style: none; }
+        .nav-tab {
+            background: transparent; border: none; color: var(--text-muted);
+            font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px;
+            cursor: pointer; padding: 8px 12px; transition: color 0.2s;
+        }
+        .nav-tab:hover, .nav-tab.active-tab { color: var(--text-main); }
+        .nav-tab.active-tab { border-bottom: 1px solid var(--gold-accent); }
+
+        .login-btn {
+            background: transparent; color: var(--text-main); border: 1px solid var(--border-subtle);
+            padding: 8px 20px; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;
+            cursor: pointer; transition: all 0.2s;
+        }
+        .login-btn:hover { border-color: var(--gold-accent); color: var(--gold-accent); }
+        .user-badge { font-size: 0.8rem; color: var(--text-muted); margin-right: 15px; }
+
+        /* --- SECURITY GATEWAY MODAL --- */
+        .modal-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.9); backdrop-filter: blur(6px); z-index: 3000;
+            justify-content: center; align-items: center;
+        }
+        .modal-box {
+            background: #050508; border: 1px solid var(--border-subtle);
+            padding: 40px; width: 100%; max-width: 400px; position: relative;
+        }
+        .close-modal { position: absolute; top: 15px; right: 20px; cursor: pointer; color: var(--text-muted); font-size: 1.2rem; }
+        .modal-box h2 { font-size: 1.1rem; font-weight: 400; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; text-align: center;}
+        .modal-box input {
+            width: 100%; padding: 12px; margin-bottom: 12px;
+            background: #000; border: 1px solid var(--border-subtle); color: white; outline: none; font-size: 0.85rem;
+        }
+        .modal-box input:focus { border-color: rgba(255,255,255,0.2); }
+        .modal-box button.action-submit {
+            width: 100%; padding: 12px; margin-bottom: 8px; background: white; border: none; color: black;
+            font-weight: bold; text-transform: uppercase; font-size: 0.8rem; cursor: pointer; letter-spacing: 1px;
+        }
+        .google-signin-btn-container { width: 100%; display: flex; justify-content: center; margin-top: 15px; }
+        .google-btn-spec {
+            display: flex; align-items: center; justify-content: center; background-color: #131314;
+            border: 1px solid #444; border-radius: 4px; color: #e3e3e3; cursor: pointer; padding: 10px; width: 100%;
         }
 
-        /* RIGHT DISPLAY VIEWPORT CANVAS */
-        .workspace-viewport-canvas {
-            background: #050508;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            padding: 40px;
-        }
+        /* --- STRUCTURAL INTERFACE CONTENT PANELS --- */
+        main { padding: 150px 20px 60px; max-width: 1200px; margin: 0 auto; min-height: 80vh; }
+        .page-view { display: flex; flex-direction: column; gap: 60px; width: 100%; }
+        .hidden-view { display: none !important; }
 
-        .central-empty-vector-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-            text-align: center;
-            opacity: 0.3;
-        }
+        /* HERO LAYOUT EXTRAS */
+        .hero-branding { text-align: center; padding: 10px 0; }
+        .hero-logo { font-size: 5rem; font-weight: 900; color: var(--text-main); letter-spacing: 2px; line-height: 1; }
+        .hero-title { font-size: 1.8rem; font-weight: 200; letter-spacing: 4px; color: var(--text-muted); }
+        h2.section-title { font-size: 1rem; font-weight: 400; letter-spacing: 3px; margin-bottom: 30px; text-transform: uppercase; text-align: center; color: var(--text-muted); }
 
-        .central-workspace-bubble-icon {
-            width: 80px;
-            height: 80px;
-            background: var(--accent-purple);
-            border-radius: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-main);
+        /* TEXTING WORKSPACE COMPONENT MOCKUP */
+        .workspace-preview-frame {
+            position: relative; background: var(--panel-bg); border: 1px solid var(--border-subtle);
+            height: 500px; display: grid; grid-template-columns: 260px 1fr; border-radius: 4px; overflow: hidden;
         }
+        .workspace-sidebar { background: var(--panel-sidebar); border-right: 1px solid var(--border-subtle); padding: 20px; display: flex; flex-direction: column; }
+        .identity-profile-card { display: flex; align-items: center; gap: 12px; padding-bottom: 15px; border-bottom: 1px solid var(--border-subtle); margin-bottom: 15px; }
+        .avatar-circle-wrapper { width: 34px; height: 34px; border-radius: 50%; background: #1a1a24; border: 1px solid rgba(255,255,255,0.1); position: relative; }
+        .online-presence-tether { width: 8px; height: 8px; background: var(--color-success); border-radius: 50%; position: absolute; bottom: 0; right: 0; }
+        .identity-meta-fields { display: flex; flex-direction: column; }
+        .identity-primary-label { font-size: 0.85rem; font-weight: bold; }
+        .identity-sub-role-label { font-size: 0.7rem; color: var(--text-muted); }
+        .workspace-navigation-rail { display: flex; justify-content: space-between; background: rgba(0,0,0,0.3); padding: 4px; border-radius: 4px; margin-bottom: 15px; }
+        .rail-action-unit { flex: 1; background: transparent; border: none; padding: 8px 2px; color: var(--text-muted); font-size: 0.6rem; text-transform: uppercase; cursor: pointer; text-align: center; }
+        .rail-action-unit.active-rail-unit { background: var(--accent-purple); color: white; }
+        .create-stream-trigger { width: 100%; background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle); color: white; padding: 10px; font-size: 0.8rem; cursor: pointer; margin-bottom: 15px; }
+        .stream-telemetry-feed { flex: 1; display: flex; flex-direction: column; gap: 6px; opacity: 0.15; }
+        .stream-list-item-skeleton { width: 100%; height: 36px; background: white; border-radius: 2px; }
+        .workspace-viewport-canvas { background: #040406; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        .workspace-blur-lockscreen-layer { position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(2,2,4,0.6); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); z-index: 10; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        .preview-badge { border: 1px solid var(--text-muted); color: var(--text-muted); padding: 4px 12px; font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 15px; }
+        .layer-title { font-size: 1.1rem; font-weight: 300; letter-spacing: 3px; margin-bottom: 8px; }
+        .layer-tagline { font-size: 0.8rem; color: var(--text-muted); max-width: 400px; text-align: center; line-height: 1.5; }
 
-        .central-headline-text {
-            font-size: 1.2rem;
-            font-weight: 300;
-            letter-spacing: 1px;
-        }
+        /* PREVIEW APPLICATIONS NODES */
+        .preview-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .preview-box { height: 180px; background: var(--panel-bg); border: 1px solid var(--border-subtle); display: flex; justify-content: center; align-items: center; position: relative; }
+        .coming-soon-badge { position: absolute; background: #000; border: 1px solid var(--border-subtle); padding: 10px 20px; font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); }
 
-        /* GLASS FROST OVERLAY SPECIFICATIONS */
-        .workspace-blur-lockscreen-layer {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--glass-overlay);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            z-index: 10;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 40px;
-            text-align: center;
-        }
+        /* FEEDBACK LAYER ARCHITECTURE */
+        .feedback-section { background: var(--panel-bg); padding: 40px; border: 1px solid var(--border-subtle); text-align: center; }
+        .btn-submit-feedback { background: transparent; color: var(--text-main); border: 1px solid var(--border-subtle); padding: 12px 30px; font-size: 0.8rem; text-transform: uppercase; cursor: pointer; letter-spacing: 1px; }
+        .btn-submit-feedback:hover { border-color: white; }
 
-        /* --- PREVIEW GRID BLOCKS --- */
-        .preview-grid {
+        /* CREDITS PAGE DESIGN */
+        .credits-container { max-width: 600px; margin: 0 auto; width: 100%; }
+        .credits-grid { display: flex; flex-direction: column; gap: 15px; }
+        .credit-card { background: var(--panel-bg); border: 1px solid var(--border-subtle); padding: 20px 30px; display: flex; justify-content: space-between; align-items: center; }
+        .credit-card h4 { font-size: 1rem; font-weight: 400; }
+        .credit-card p { font-size: 0.75rem; color: var(--gold-accent); text-transform: uppercase; letter-spacing: 1px; }
+
+        /* ==================================================================================== */
+        /* 🎛️ NEW ARCHITECTURE MODULE: INDUSTRIAL INDUSTRIAL OWNER CONTROL PANEL             */
+        /* ==================================================================================== */
+        .owner-grid-framework {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 30px;
-        }
-
-        .preview-box {
-            position: relative;
-            height: 250px;
-            background: var(--panel-bg);
-            border: 1px solid rgba(255, 255, 255, 0.03);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .mock-ui {
-            opacity: 0.08;
-            pointer-events: none;
-            width: 100%; height: 100%;
-            background: repeating-linear-gradient(45deg, transparent, transparent 10px, #fff 10px, #fff 11px);
-        }
-
-        .coming-soon-badge {
-            position: absolute;
-            background: rgba(3, 3, 5, 0.9);
-            border: 1px solid var(--gold-accent);
-            padding: 14px 28px;
-            font-weight: bold;
-            letter-spacing: 2px;
-            color: var(--gold-accent);
-            text-transform: uppercase;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.6);
-            backdrop-filter: blur(4px);
-        }
-
-        /* --- STANDALONE CREDITS LOOKS --- */
-        .credits-container {
-            padding: 20px 0;
-            max-width: 800px;
-            margin: 0 auto;
-            width: 100%;
-        }
-
-        .credits-grid {
-            display: grid;
-            grid-template-columns: 1fr;
+            grid-template-columns: 1fr 1fr;
             gap: 25px;
+            width: 100%;
             margin-top: 20px;
         }
+        
+        .owner-card-panel {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-subtle);
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+        }
 
-        .credit-card {
-            background: var(--card-bg);
-            border-left: 3px solid var(--gold-accent);
-            padding: 30px 40px;
+        .panel-header-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-subtle);
+            font-weight: bold;
+        }
+
+        /* Grouped Industrial Matrix Switch Controls */
+        .switch-vertical-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .industrial-switch-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 12px 20px;
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .industrial-switch-row:hover {
+            background: rgba(255, 255, 255, 0.01);
+            border-color: rgba(255, 255, 255, 0.03);
+        }
+
+        .industrial-switch-row.active-row-state[data-mode="shutdown"] { border-color: var(--color-error); background: rgba(255, 69, 69, 0.03); }
+        .industrial-switch-row.active-row-state[data-mode="maintenance"] { border-color: var(--color-warning); background: rgba(255, 165, 0, 0.03); }
+        .industrial-switch-row.active-row-state[data-mode="testing"] { border-color: var(--color-testing); background: rgba(59, 130, 246, 0.03); }
+        .industrial-switch-row.active-row-state[data-mode="live"] { border-color: var(--color-success); background: rgba(16, 185, 129, 0.03); }
+
+        .switch-label-block {
+            display: flex;
+            flex-direction: column;
+        }
+        .switch-label-main { font-size: 0.85rem; font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; }
+        .switch-label-sub { font-size: 0.7rem; color: var(--text-muted); margin-top: 2px; }
+
+        .status-pill-indicator {
+            font-size: 0.65rem;
+            padding: 4px 10px;
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 1px;
+            background: rgba(255,255,255,0.05);
+            color: var(--text-muted);
+            border-radius: 2px;
+        }
+        .active-row-state[data-mode="shutdown"] .status-pill-indicator { background: var(--color-error); color: black; }
+        .active-row-state[data-mode="maintenance"] .status-pill-indicator { background: var(--color-warning); color: black; }
+        .active-row-state[data-mode="testing"] .status-pill-indicator { background: var(--color-testing); color: white; }
+        .active-row-state[data-mode="live"] .status-pill-indicator { background: var(--color-success); color: black; }
+
+        /* Global Reset Elements */
+        .heavy-action-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px dashed var(--border-subtle);
+            text-align: center;
+            height: 100%;
+        }
+        .btn-industrial-flat {
+            background: transparent;
+            color: var(--text-main);
+            border: 1px solid var(--text-muted);
+            padding: 14px 28px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 15px;
+            width: 100%;
+            max-width: 300px;
+        }
+        .btn-industrial-flat:hover {
+            background: white;
+            color: black;
+            border-color: white;
+        }
+
+        /* Stream Monitor Scroller Panels */
+        .stream-scroller-box {
+            height: 280px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding-right: 5px;
+        }
+        .suggestion-data-row {
+            background: rgba(0,0,0,0.4);
+            border: 1px solid var(--border-subtle);
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .suggestion-header-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+        .suggestion-text-payload {
+            font-size: 0.85rem;
+            color: #e0e0e3;
+            line-height: 1.4;
+        }
+
+        /* Telemetry Data Grid Display */
+        .telemetry-text-matrix {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        .telemetry-item-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            border-top: 1px solid rgba(255,255,255,0.01);
-            border-right: 1px solid rgba(255,255,255,0.01);
-        }
-
-        .credit-card h4 { font-size: 1.3rem; font-weight: 300; letter-spacing: 1px; }
-        .credit-card p { color: var(--gold-accent); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; }
-
-        /* --- COMMUNITY DATA FEEDBACK RELAY --- */
-        .feedback-section {
-            background: var(--panel-bg);
-            padding: 50px;
-            border: 1px solid rgba(255,255,255,0.02);
-            text-align: center;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-        }
-
-        textarea {
-            width: 100%;
-            max-width: 600px;
-            height: 130px;
-            background: rgba(0,0,0,0.4);
-            border: 1px solid rgba(255,255,255,0.08);
-            color: white;
-            padding: 18px;
-            margin: 25px 0 15px;
-            outline: none;
-            resize: none;
-            font-size: 0.9rem;
-            transition: border-color 0.3s;
-        }
-        textarea:focus { border-color: var(--gold-accent); }
-
-        .btn-submit-feedback {
-            background: var(--gold-accent);
-            color: black;
-            border: none;
-            padding: 14px 40px;
-            font-weight: bold;
-            text-transform: uppercase;
-            cursor: pointer;
-            letter-spacing: 1px;
             font-size: 0.85rem;
-            transition: background 0.2s;
+            letter-spacing: 0.5px;
         }
-        .btn-submit-feedback:hover { background: var(--gold-hover); }
+        .telemetry-label { color: var(--text-main); text-transform: uppercase; font-size: 0.8rem; }
+        .telemetry-value-indicator { font-weight: bold; font-size: 0.8rem; text-transform: uppercase; }
+        .telemetry-value-indicator.state-green { color: var(--color-success); }
 
-        /* --- APPLICATION ENVIRONMENT FOOTER --- */
-        footer {
-            border-top: 1px solid rgba(255, 255, 255, 0.03);
-            padding: 40px 20px;
+        /* Exception Cards Warnings */
+        .exception-protocol-card {
+            max-width: 500px;
+            margin: 40px auto;
+            border: 1px solid var(--color-error);
+            background: rgba(255, 69, 69, 0.02);
+            padding: 40px;
             text-align: center;
-            background: #010102;
-            margin-top: 60px;
         }
+        .exception-headline { color: var(--color-error); font-size: 1rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; font-weight: bold; }
+        .exception-body { color: var(--text-muted); font-size: 0.85rem; line-height: 1.6; }
 
-        footer p { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 12px; letter-spacing: 0.5px;}
-        footer a { color: var(--gold-accent); text-decoration: none; font-weight: bold; letter-spacing: 1px; }
-        footer a:hover { color: var(--gold-hover); }
+        /* --- FOOTER REGION --- */
+        footer { border-top: 1px solid var(--border-subtle); padding: 40px 20px; text-align: center; background: #010102; margin-top: 60px; }
+        footer p { color: var(--text-muted); font-size: 0.8rem; margin-bottom: 8px; letter-spacing: 0.5px;}
+        footer a { color: var(--text-main); text-decoration: none; font-weight: bold; }
 
-        /* --- RESPONSIVE SCREEN MATRIX --- */
-        @media (max-width: 768px) {
-            header { padding: 15px 25px; top: 36px; flex-direction: column; gap: 15px; }
-            main { padding-top: 200px; gap: 60px; }
+        @media (max-width: 900px) {
+            header { padding: 15px 25px; top: 36px; flex-direction: column; gap: 12px; }
+            main { padding-top: 180px; }
+            .owner-grid-framework { grid-template-columns: 1fr; }
             .workspace-preview-frame { grid-template-columns: 1fr; height: auto; }
-            .workspace-sidebar { border-right: none; border-bottom: 1px solid rgba(255, 255, 255, 0.04); }
-            .workspace-viewport-canvas { height: 350px; }
-            .preview-grid { grid-template-columns: 1fr; }
-            .credit-card { flex-direction: column; align-items: flex-start; gap: 12px; padding: 25px; }
+            .workspace-sidebar { border-right: none; border-bottom: 1px solid var(--border-subtle); }
+            .workspace-viewport-canvas { height: 300px; }
         }
     </style>
 </head>
 <body>
 
+    <div class="system-intercept-screen" id="screen-shutdown">
+        <div class="intercept-card">
+            <div class="intercept-title" style="color: var(--color-error);">System Offline</div>
+            <div class="intercept-desc">The platform core engine has been temporarily taken offline by administration modules. Standby for reconnection logs.</div>
+        </div>
+    </div>
+
+    <div class="system-intercept-screen" id="screen-maintenance">
+        <div class="intercept-card">
+            <div class="intercept-title" style="color: var(--color-warning);">System Updating</div>
+            <div class="intercept-desc">Wwebsite is currently updating system dependencies. Back up shortly.</div>
+        </div>
+    </div>
+
     <div id="broadcast-banner">
-        System Notice: Wwebsite is currently in active development. Features will be fully built on 05/22-23-24/2026.
+        System Notice: Wwebsite is currently in active development. Complete compilation sequence scheduled for 2026.
     </div>
 
     <header>
@@ -663,6 +406,7 @@
         <ul class="nav-links">
             <li><button class="nav-tab active-tab" id="tab-home" onclick="showPage('home')">Home</button></li>
             <li><button class="nav-tab" id="tab-credits" onclick="showPage('credits')">Credits</button></li>
+            <li><button class="nav-tab" id="tab-owner" style="display: none; color: var(--gold-accent);" onclick="showPage('owner')">Owner Panel</button></li>
         </ul>
 
         <div class="right-actions">
@@ -674,35 +418,31 @@
     <div class="modal-overlay" id="loginModal">
         <div class="modal-box">
             <span class="close-modal" onclick="closeModal()">&times;</span>
-            <h2 id="modalInterfaceHeadline">Access Portal</h2>
-            <p class="subtitle">Secure clearance node verification encryption</p>
+            <h2>Access Portal</h2>
             
             <input type="email" id="portalEmailField" placeholder="Secured Email Sequence">
             <input type="password" id="portalPasswordField" placeholder="Access Authentication Key">
             
-            <button class="btn-submit" style="background: var(--gold-accent); border: none; color: black; font-weight: bold;" onclick="executeEmailPasswordLogin()">Authenticate Key</button>
-            <button class="btn-register" style="background: transparent; border: 1px solid rgba(255,255,255,0.15); color: white;" onclick="executeEmailPasswordRegistration()">Create Registry File</button>
-            
-            <p style="margin: 15px 0 5px; color: var(--text-muted); font-size: 0.75rem; letter-spacing: 1px; text-transform: uppercase;">OR</p>
+            <button class="action-submit" onclick="executeEmailPasswordLogin()">Authenticate Key</button>
+            <button class="action-submit" style="background: transparent; border: 1px solid var(--border-subtle); color: white;" onclick="executeEmailPasswordRegistration()">Create Registry File</button>
             
             <div class="google-signin-btn-container">
                 <button class="google-btn-spec" onclick="executeGoogleIdentitySync()">
-                    <svg class="google-icon-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <svg style="width:18px; height:18px; margin-right:10px;" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
                         <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
                         <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"/>
                         <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"/>
                     </svg>
-                    <span class="google-btn-text">Sign in with Google</span>
+                    <span style="font-size:0.85rem; font-weight:500;">Sign in with Google</span>
                 </button>
             </div>
         </div>
     </div>
 
     <main>
-        
+
         <div id="page-home-view" class="page-view">
-            
             <section class="hero-branding">
                 <div class="hero-logo">W</div>
                 <h1 class="hero-title">w website</h1>
@@ -710,112 +450,150 @@
 
             <section id="texting-platform">
                 <h2 class="section-title">Texting Channel Platform</h2>
-                
                 <div class="workspace-preview-frame">
-                    
                     <div class="workspace-blur-lockscreen-layer">
                         <div class="preview-badge">PREVIEW</div>
                         <div class="layer-title">TEXTING CHANNELS — COMING SOON</div>
-                        <div class="layer-tagline">Real-time communication framework powered by Firebase architecture. Access clearance protocol under development.</div>
+                        <div class="layer-tagline">Real-time communication workspace environment. Backend security systems layout configuration under current development.</div>
                     </div>
-
                     <div class="workspace-sidebar">
-                        
                         <div class="identity-profile-card">
-                            <div class="avatar-circle-wrapper">
-                                <div class="online-presence-tether"></div>
-                            </div>
+                            <div class="avatar-circle-wrapper"><div class="online-presence-tether"></div></div>
                             <div class="identity-meta-fields">
                                 <span class="identity-primary-label" id="workspaceUserProfileName">Goated Website</span>
                                 <span class="identity-sub-role-label">by Brody Williams</span>
                             </div>
                         </div>
-
                         <div class="workspace-navigation-rail">
-                            <button class="rail-action-unit active-rail-unit">
-                                <svg class="rail-vector-icon" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/></svg>
-                                Chats
-                            </button>
-                            <button class="rail-action-unit">
-                                <svg class="rail-vector-icon" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
-                                People
-                            </button>
-                            <button class="rail-action-unit">
-                                <svg class="rail-vector-icon" viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
-                                Alerts
-                            </button>
-                            <button class="rail-action-unit">
-                                <svg class="rail-vector-icon" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-5 14H4v-4h11v4zm0-5H4V9h11v4zm5 5h-4V9h4v9z"/></svg>
-                                Updates
-                            </button>
+                            <button class="rail-action-unit active-rail-unit">Chats</button>
+                            <button class="rail-action-unit">People</button>
+                            <button class="rail-action-unit">Alerts</button>
+                            <button class="rail-action-unit">Updates</button>
                         </div>
-
                         <button class="create-stream-trigger">+ New Chat</button>
-
                         <div class="stream-telemetry-feed">
                             <div class="stream-list-item-skeleton"></div>
                             <div class="stream-list-item-skeleton"></div>
-                            <div class="stream-list-item-skeleton"></div>
-                            <div class="stream-list-item-skeleton"></div>
                         </div>
                     </div>
-
                     <div class="workspace-viewport-canvas">
-                        <div class="central-empty-vector-container">
-                            <div class="central-workspace-bubble-icon">
-                                <svg style="width: 36px; height: 36px; fill: currentColor;" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/></svg>
-                            </div>
-                            <h3 class="central-headline-text">Select a conversation</h3>
-                            <p style="font-size: 0.8rem; color: var(--text-muted);">or start a new one</p>
-                        </div>
-                    </div>
-
-                </div>
-            </section>
-
-            <section id="modules">
-                <h2 class="section-title">Upcoming Modules</h2>
-                <div class="preview-grid">
-                    <div class="preview-box">
-                        <div class="mock-ui"></div>
-                        <div class="coming-soon-badge">Gaming Arena</div>
-                    </div>
-                    <div class="preview-box">
-                        <div class="mock-ui"></div>
-                        <div class="coming-soon-badge">Social Stream</div>
+                        <p style="color: var(--text-muted); font-size: 0.85rem;">Select a conversation to begin</p>
                     </div>
                 </div>
             </section>
 
-            <section id="feedback" class="feedback-section">
+            <section class="feedback-section">
                 <h2 class="section-title">Community Feedback</h2>
-                <p style="color: var(--text-muted); font-size: 0.9rem; letter-spacing: 0.5px;">What do you want to see next on the Wwebsite ecosystem?</p>
                 <form id="feedbackRelayDataForm">
-                    <textarea id="feedbackPayloadTextarea" placeholder="Transmit feature ideas, core system suggestions, or protocol requests..." required></textarea><br>
+                    <textarea id="feedbackPayloadTextarea" placeholder="Transmit system deployment optimization requests directly to the core owner telemetry paths..." required></textarea><br>
                     <button type="submit" class="btn-submit-feedback">Transmit Payload</button>
                 </form>
             </section>
-            
         </div>
 
         <div id="page-credits-view" class="page-view hidden-view">
             <section class="credits-container">
                 <h2 class="section-title">System Credentials & Credits</h2>
                 <div class="credits-grid">
-                    <div class="credit-card">
-                        <h4>Brody Williams</h4>
-                        <p>Master / Executive Command</p>
-                    </div>
-                    <div class="credit-card">
-                        <h4>Jase</h4>
-                        <p>Infrastructure Operations</p>
-                    </div>
-                    <div class="credit-card">
-                        <h4>Owen</h4>
-                        <p>Operations Management</p>
-                    </div>
+                    <div class="credit-card"><h4>Brody Williams</h4><p>Master / Executive Command</p></div>
+                    <div class="credit-card"><h4>Jase</h4><p>Infrastructure Operations</p></div>
+                    <div class="credit-card"><h4>Owen</h4><p>Operations Management</p></div>
                 </div>
             </section>
+        </div>
+
+        <div id="page-owner-view" class="page-view hidden-view">
+            
+            <div id="owner-auth-lock-card" class="exception-protocol-card" style="display: block;">
+                <div class="exception-headline">Clearance Level 4 Protocol Exception</div>
+                <div class="exception-body">Access Denied. Your current active cryptographic context contains insufficient signature validation properties. This environment routing sequence is restricted exclusively to the Master Operations Profile.</div>
+            </div>
+
+            <div id="owner-operational-workspace" style="display: none;">
+                <h2 class="section-title" style="text-align: left; margin-bottom: 10px;">Owner Command Console</h2>
+                <p style="color: var(--text-muted); font-size: 0.8rem; margin-bottom: 30px; text-transform: uppercase; letter-spacing: 1px;">Master Execution Space Node &bull; brodywilliams0226@gmail.com</p>
+                
+                <div class="owner-grid-framework">
+                    
+                    <div class="owner-card-panel">
+                        <div class="panel-header-title">Global Operations Manager</div>
+                        <div class="switch-vertical-stack">
+                            
+                            <div class="industrial-switch-row" id="sw-shutdown" data-mode="shutdown" onclick="updateGlobalPlatformState('shutdown')">
+                                <div class="switch-label-block">
+                                    <span class="switch-label-main">Engine Shutdown</span>
+                                    <span class="switch-label-sub">Disconnect public server frame routing nodes</span>
+                                </div>
+                                <span class="status-pill-indicator">OFFLINE</span>
+                            </div>
+
+                            <div class="industrial-switch-row" id="sw-maintenance" data-mode="maintenance" onclick="updateGlobalPlatformState('maintenance')">
+                                <div class="switch-label-block">
+                                    <span class="switch-label-main">Maintenance Mode</span>
+                                    <span class="switch-label-sub">Restrict access for software update deployments</span>
+                                </div>
+                                <span class="status-pill-indicator">MAINTENANCE</span>
+                            </div>
+
+                            <div class="industrial-switch-row" id="sw-testing" data-mode="testing" onclick="updateGlobalPlatformState('testing')">
+                                <div class="switch-label-block">
+                                    <span class="switch-label-main">Testing Staging Mode</span>
+                                    <span class="switch-label-sub">Developer whitelists operational parameters</span>
+                                </div>
+                                <span class="status-pill-indicator">STAGING</span>
+                            </div>
+
+                            <div class="industrial-switch-row" id="sw-live" data-mode="live" onclick="updateGlobalPlatformState('live')">
+                                <div class="switch-label-block">
+                                    <span class="switch-label-main">Live Public Mode</span>
+                                    <span class="switch-label-sub">Standard production routing pipeline delivery</span>
+                                </div>
+                                <span class="status-pill-indicator">ONLINE</span>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="owner-card-panel">
+                        <div class="panel-header-title">Global Refresh Controller</div>
+                        <div class="heavy-action-container">
+                            <p style="font-size: 0.85rem; line-height: 1.5; color: #e0e0e3;">Execute a pipeline broadcast signature across all active sockets to force a soft client browser reload and clear stale local content cache metrics instantly.</p>
+                            <button class="btn-industrial-flat" onclick="triggerGlobalLiveEngineReset()">Refresh Everything Globally</button>
+                        </div>
+                    </div>
+
+                    <div class="owner-card-panel">
+                        <div class="panel-header-title">Live Community Feedback Monitor (/suggestions)</div>
+                        <div class="stream-scroller-box" id="feedbackRealtimeStreamContainer">
+                            <div style="color: var(--text-muted); font-size: 0.8rem; padding: 20px; text-align: center;">Awaiting incoming feedback database synchronization...</div>
+                        </div>
+                    </div>
+
+                    <div class="owner-card-panel">
+                        <div class="panel-header-title">Real-Time Platform Telemetry Grid</div>
+                        <div class="telemetry-text-matrix">
+                            <div class="telemetry-item-row">
+                                <span class="telemetry-label">Database Node State</span>
+                                <span class="telemetry-value-indicator state-green">CONNECTED</span>
+                            </div>
+                            <div class="telemetry-item-row">
+                                <span class="telemetry-label">Authentication Relays</span>
+                                <span class="telemetry-value-indicator state-green">STANDBY</span>
+                            </div>
+                            <div class="telemetry-item-row">
+                                <span class="telemetry-label">Platform Latency</span>
+                                <span class="telemetry-value-indicator" style="color: var(--gold-accent); font-family: monospace;">&lt;12ms</span>
+                            </div>
+                            <div class="telemetry-item-row">
+                                <span class="telemetry-label">Cluster Registry Route</span>
+                                <span class="telemetry-value-indicator" style="color: var(--text-muted); font-family: monospace;">US-CENTRAL1</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
         </div>
 
     </main>
@@ -836,9 +614,9 @@
             signOut, 
             onAuthStateChanged 
         } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { getDatabase, ref, push, set, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-        // Operational hardware network mapping parameters
+        // Operational hardware network parameters mapping
         const firebaseConfig = {
             apiKey: "AIzaSyChx24EPK7w1f7SGVYraI993TkC89ZxiZo",
             authDomain: "wwebsite-ae20b.firebaseapp.com",
@@ -850,175 +628,250 @@
             measurementId: "G-HK8S5YRG4J"
         };
 
-        // Initialize connection layers
+        // Initialize connections
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const rtdb = getDatabase(app);
         const googleProvider = new GoogleAuthProvider();
 
-        // Local Document Object Model mapping declarations
+        // DOM Mapping Node Declarations
         const modal = document.getElementById('loginModal');
         const homeView = document.getElementById('page-home-view');
         const creditsView = document.getElementById('page-credits-view');
+        const ownerView = document.getElementById('page-owner-view');
+        
         const tabHome = document.getElementById('tab-home');
         const tabCredits = document.getElementById('tab-credits');
+        const tabOwner = document.getElementById('tab-owner');
+        
         const userDisplayIdentity = document.getElementById('userDisplayIdentity');
         const authGatewayTriggerButton = document.getElementById('authGatewayTriggerButton');
         const feedbackRelayDataForm = document.getElementById('feedbackRelayDataForm');
         const feedbackPayloadTextarea = document.getElementById('feedbackPayloadTextarea');
         const workspaceUserProfileName = document.getElementById('workspaceUserProfileName');
+        
+        // Owner Specific DOM Selectors
+        const ownerAuthLockCard = document.getElementById('owner-auth-lock-card');
+        const ownerOperationalWorkspace = document.getElementById('owner-operational-workspace');
+        const feedbackRealtimeStreamContainer = document.getElementById('feedbackRealtimeStreamContainer');
 
-        // Modal interface controllers
+        // Target System Operations Parameters
+        const OWNER_EMAIL_TARGET = "brodywilliams0226@gmail.com";
+        let localCacheInitializationTimestamp = Date.now();
+
+        // --- GLOBAL INTERACTIVE MODAL ROUTINES ---
         window.openModal = function() {
             if(auth.currentUser) {
-                signOut(auth).then(() => {
-                    alert("Identity session cleared securely.");
-                }).catch((error) => {
-                    console.error("Session termination error:", error);
-                });
+                signOut(auth).then(() => { alert("Session terminated securely."); }).catch((err) => { console.error(err); });
             } else {
                 modal.style.display = 'flex';
             }
         }
+        window.closeModal = function() { modal.style.display = 'none'; }
+        window.onclick = function(e) { if(e.target === modal) closeModal(); }
 
-        window.closeModal = function() {
-            modal.style.display = 'none';
-        }
-
-        window.onclick = function(event) {
-            if (event.target === modal) {
-                closeModal();
-            }
-        }
-
-        // Viewport router triggers
+        // --- PLATFORM EXECUTIVE ROUTER ---
         window.showPage = function(pageId) {
             homeView.classList.add('hidden-view');
             creditsView.classList.add('hidden-view');
+            ownerView.classList.add('hidden-view');
             tabHome.classList.remove('active-tab');
             tabCredits.classList.remove('active-tab');
+            tabOwner.classList.remove('active-tab');
 
             if (pageId === 'home') {
                 homeView.classList.remove('hidden-view');
                 tabHome.classList.add('active-tab');
-                window.scrollTo(0, 0);
             } else if (pageId === 'credits') {
                 creditsView.classList.remove('hidden-view');
                 tabCredits.classList.add('active-tab');
-                window.scrollTo(0, 0);
+            } else if (pageId === 'owner') {
+                ownerView.classList.remove('hidden-view');
+                tabOwner.classList.add('active-tab');
             }
+            window.scrollTo(0,0);
         }
 
-        // --- AUTHENTICATION FLOWS ---
-
-        // Google Federated Identity Sync Execution
+        // --- FIREBASE SECURITY AUTHENTICATION PROCESSORS ---
         window.executeGoogleIdentitySync = function() {
             signInWithPopup(auth, googleProvider)
-            .then((result) => {
-                alert(`Welcome verified client node: ${result.user.displayName}`);
-                closeModal();
-            })
-            .catch((error) => {
-                alert(`Identity registration fault: ${error.message}`);
-            });
+            .then(() => { closeModal(); })
+            .catch((err) => { alert(`Identity verification tracking breakdown: ${err.message}`); });
         }
 
-        // Email/Password Authentication Sequence
         window.executeEmailPasswordLogin = function() {
             const email = document.getElementById('portalEmailField').value.trim();
             const password = document.getElementById('portalPasswordField').value;
-
-            if(!email || !password) {
-                alert("Processing failed: Input fields require complete configuration.");
-                return;
-            }
-
+            if(!email || !password) { alert("Missing execution fields."); return; }
+            
             signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                alert(`Authorization clear: ${userCredential.user.email}`);
-                closeModal();
-                clearAuthenticationInputFields();
-            })
-            .catch((error) => {
-                alert(`Authorization denied: ${error.message}`);
-            });
+            .then(() => { closeModal(); clearAuthInputs(); })
+            .catch((err) => { alert(`Access denied: ${err.message}`); });
         }
 
-        // Email/Password Registry Generation
         window.executeEmailPasswordRegistration = function() {
             const email = document.getElementById('portalEmailField').value.trim();
             const password = document.getElementById('portalPasswordField').value;
-
-            if(!email || !password) {
-                alert("Registry initialization failed: Missing validation targets.");
-                return;
-            }
-
+            if(!email || !password) { alert("Missing execution fields."); return; }
+            
             createUserWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                alert(`Secure registry tracking node initialized: ${userCredential.user.email}`);
-                closeModal();
-                clearAuthenticationInputFields();
-            })
-            .catch((error) => {
-                alert(`Registry execution error: ${error.message}`);
-            });
+            .then(() => { closeModal(); clearAuthInputs(); })
+            .catch((err) => { alert(`Node generated: ${err.message}`); });
         }
 
-        function clearAuthenticationInputFields() {
+        function clearAuthInputs() {
             document.getElementById('portalEmailField').value = '';
             document.getElementById('portalPasswordField').value = '';
         }
 
-        // --- DATABASE COMMUNICATIONS ---
-        feedbackRelayDataForm.addEventListener('submit', function(event) {
-            event.preventDefault();
-            const payloadContent = feedbackPayloadTextarea.value.trim();
+        // --- PUBLIC DATA SUBMISSION ROUTING ENGINE ---
+        feedbackRelayDataForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const payload = feedbackPayloadTextarea.value.trim();
+            if(!payload) return;
 
-            if(!payloadContent) return;
-
-            const activeUserToken = auth.currentUser;
-            const dataSubmissionPackage = {
-                message: payloadContent,
+            const activeUser = auth.currentUser;
+            const packagePayload = {
+                message: payload,
                 timestamp: new Date().toISOString(),
-                clientIdentityHash: activeUserToken ? activeUserToken.uid : "ANONYMOUS_RELAY_NODE",
-                clientEmail: activeUserToken ? activeUserToken.email : "unverified@node.identity"
+                clientIdentityHash: activeUser ? activeUser.uid : "ANONYMOUS_RELAY_NODE",
+                clientEmail: activeUser ? activeUser.email : "unverified@node.identity"
             };
 
-            const targetedDatabaseReference = ref(rtdb, 'community_feedback');
-            const targetPushLocation = push(targetedDatabaseReference);
-            
-            set(targetPushLocation, dataSubmissionPackage)
+            // Transmit parameters to the critical tracking node: /suggestions
+            set(push(ref(rtdb, 'suggestions')), packagePayload)
             .then(() => {
-                alert("Data matrix confirmation: Feedback tracking sequence recorded.");
+                alert("Data payload transmission confirmed.");
                 feedbackRelayDataForm.reset();
             })
-            .catch((error) => {
-                alert(`Network failure intercept during payload uplink: ${error.message}`);
-            });
+            .catch((err) => { alert(`Uplink fault: ${err.message}`); });
         });
 
-        // --- SESSION STATE LISTENER ---
+        // ==================================================================================== */
+        // 🛠️ ACTIVE REALTIME SYNCHRONIZATION PIPELINE LISTENERS                                */
+        // ==================================================================================== */
+        
+        // Listen to global metadata system configurations branch matrix
+        const systemStatusDatabaseReference = ref(rtdb, 'system/status');
+        onValue(systemStatusDatabaseReference, (snapshot) => {
+            const systemStateValue = snapshot.val() || "live";
+            
+            // Re-evaluate client intercept screen structural parameters layout visibility
+            document.getElementById('screen-shutdown').style.display = 'none';
+            document.getElementById('screen-maintenance').style.display = 'none';
+
+            // Filter out developer master admin overrides bypass validation metrics inside intercept screens
+            const isOwnerSession = auth.currentUser && auth.currentUser.email === OWNER_EMAIL_TARGET;
+
+            if(!isOwnerSession) {
+                if (systemStateValue === "shutdown") {
+                    document.getElementById('screen-shutdown').style.display = 'flex';
+                } else if (systemStateValue === "maintenance") {
+                    document.getElementById('screen-maintenance').style.display = 'flex';
+                }
+            }
+
+            // Sync visual button state matrix selection properties in Owner Control dashboard
+            updateOwnerSwitchStateHighlights(systemStateValue);
+        });
+
+        // Listen to live system broadcast sockets network reset tracking triggers
+        const liveResetTelemetryBroadcastReference = ref(rtdb, 'system/global_refresh');
+        onValue(liveResetTelemetryBroadcastReference, (snapshot) => {
+            const serverBroadcastTimestampValue = snapshot.val();
+            if(serverBroadcastTimestampValue && serverBroadcastTimestampValue > localCacheInitializationTimestamp) {
+                // Soft refresh execution caught down stream inside running instance sockets pipelines
+                window.location.reload();
+            }
+        });
+
+        // Dynamic updates for dashboard UI button highlights
+        function updateOwnerSwitchStateHighlights(activeMode) {
+            const targetedControlSwitchRowElements = document.querySelectorAll('.industrial-switch-row');
+            targetedControlSwitchRowElements.forEach(row => row.classList.remove('active-row-state'));
+            
+            const targetActiveRowElement = document.getElementById(`sw-${activeMode}`);
+            if(targetActiveRowElement) {
+                targetActiveRowElement.classList.add('active-row-state');
+            }
+        }
+
+        // --- CONTROLLER HANDLERS FOR PROTECTED ACTION TRIGGERS ---
+        window.updateGlobalPlatformState = function(targetStateValue) {
+            if(!auth.currentUser || auth.currentUser.email !== OWNER_EMAIL_TARGET) return;
+            set(ref(rtdb, 'system/status'), targetStateValue);
+        }
+
+        window.triggerGlobalLiveEngineReset = function() {
+            if(!auth.currentUser || auth.currentUser.email !== OWNER_EMAIL_TARGET) return;
+            set(ref(rtdb, 'system/global_refresh'), Date.now())
+            .then(() => { alert("Global soft socket reset broadcast command deployed successfully."); });
+        }
+
+        // Initialize real-time feed updates loop for suggestion node tree pathing tracking analytics
+        function initializeSuggestionsStreamCollectorEngine() {
+            const targetSuggestionsPathRef = ref(rtdb, 'suggestions');
+            onValue(targetSuggestionsPathRef, (snapshot) => {
+                feedbackRealtimeStreamContainer.innerHTML = '';
+                const collectionPayloadData = snapshot.val();
+
+                if(!collectionPayloadData) {
+                    feedbackRealtimeStreamContainer.innerHTML = `<div style="color: var(--text-muted); font-size: 0.8rem; padding: 20px; text-align: center;">No feedback data strings discovered in /suggestions branch node matrix.</div>`;
+                    return;
+                }
+
+                // Process payloads backwards to view incoming metrics inside scrolling matrix
+                Object.keys(collectionPayloadData).reverse().forEach(keyId => {
+                    const dynamicItemNodeRecord = collectionPayloadData[keyId];
+                    const rawRowStringDomTemplate = `
+                        <div class="suggestion-data-row">
+                            <div class="suggestion-header-meta">
+                                <span>Identity: ${dynamicItemNodeRecord.clientEmail || 'ANONYMOUS'}</span>
+                                <span>${dynamicItemNodeRecord.timestamp ? dynamicItemNodeRecord.timestamp.substring(11, 16) : '00:00'}</span>
+                            </div>
+                            <div class="suggestion-text-payload">${dynamicItemNodeRecord.message || ''}</div>
+                        </div>
+                    `;
+                    feedbackRealtimeStreamContainer.insertAdjacentHTML('beforeend', rawRowStringDomTemplate);
+                });
+            });
+        }
+
+        // --- GLOBAL SESSION LISTENER IDENTITY DISPATCHER MATRIX ---
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                const userDisplayString = user.displayName || user.email.split('@')[0];
-                userDisplayIdentity.innerText = `Node: ${userDisplayString}`;
-                userDisplayIdentity.style.display = 'inline-block';
-                
-                // Dynamically sync workspace identity values upon structural verification
-                workspaceUserProfileName.innerText = userDisplayString;
+                const calculatedStringLabelIdentity = user.displayName || user.email.split('@')[0];
+                userDisplayIdentity.innerText = `Node: ${calculatedStringLabelIdentity}`;
+                workspaceUserProfileName.innerText = calculatedStringLabelIdentity;
                 
                 authGatewayTriggerButton.innerText = "Log Out Securely";
-                authGatewayTriggerButton.style.borderColor = "#ff4d4d";
-                authGatewayTriggerButton.style.color = "#ff4d4d";
+
+                // Validation tracking configuration parameters: Owner Level Evaluation
+                if(user.email === OWNER_EMAIL_TARGET) {
+                    tabOwner.style.display = 'inline-block';
+                    ownerAuthLockCard.style.display = 'none';
+                    ownerOperationalWorkspace.style.display = 'block';
+                    
+                    // Activate live data streams
+                    initializeSuggestionsStreamCollectorEngine();
+                } else {
+                    tabOwner.style.display = 'none';
+                    ownerAuthLockCard.style.display = 'block';
+                    ownerOperationalWorkspace.style.display = 'none';
+                }
             } else {
-                userDisplayIdentity.style.display = 'none';
                 userDisplayIdentity.innerText = "Offline";
                 workspaceUserProfileName.innerText = "Goated Website";
-                
                 authGatewayTriggerButton.innerText = "Login / Sign Up";
-                authGatewayTriggerButton.style.borderColor = "var(--gold-accent)";
-                authGatewayTriggerButton.style.color = "var(--text-main)";
+                tabOwner.style.display = 'none';
+                
+                ownerAuthLockCard.style.display = 'block';
+                ownerOperationalWorkspace.style.display = 'none';
+                
+                // If user context logs out while on protected view layer paths, fall back to home routing maps
+                if(!ownerView.classList.contains('hidden-view')) {
+                    showPage('home');
+                }
             }
         });
     </script>
