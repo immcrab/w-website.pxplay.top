@@ -3,17 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>w website | Premium Platform</title>
+    <title>Wwebsite | Premium Platform Architecture</title>
     <style>
-        /* --- GLOBAL STYLING --- */
+        /* --- PREMIUM SYSTEM ROOT VARIABLES --- */
         :root {
             --bg-color: #030305;
+            --panel-bg: #09090e;
+            --sidebar-bg: #0d0d14;
             --gold-accent: #D4AF37;
             --gold-hover: #b5952f;
             --text-main: #ffffff;
-            --text-muted: #a0a0a5;
-            --card-bg: rgba(255, 255, 255, 0.03);
-            --border-glow: 0 0 15px rgba(212, 175, 55, 0.2);
+            --text-muted: #7e7e86;
+            --accent-purple: #4a3b68;
+            --accent-purple-hover: #5d4a82;
+            --card-bg: rgba(255, 255, 255, 0.02);
+            --border-glow: 0 0 15px rgba(212, 175, 55, 0.15);
+            --glass-overlay: rgba(3, 3, 5, 0.45);
         }
 
         * {
@@ -30,14 +35,29 @@
             scroll-behavior: smooth;
         }
 
-        /* --- BROADCAST BANNER --- */
+        /* --- WEBKIT SCROLLBAR ANIMATIONS --- */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #010103;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(212, 175, 55, 0.3);
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--gold-accent);
+        }
+
+        /* --- BROADCAST ANNER --- */
         #broadcast-banner {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             background: #000000;
-            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.25);
             color: var(--gold-accent);
             text-align: center;
             padding: 10px 20px;
@@ -48,7 +68,7 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.8);
         }
 
-        /* --- TOP NAV --- */
+        /* --- PREMIUM NAVIGATION BAR --- */
         header {
             position: fixed;
             top: 36px;
@@ -57,10 +77,11 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(3, 3, 5, 0.85);
-            backdrop-filter: blur(10px);
+            background: rgba(3, 3, 5, 0.9);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             z-index: 1000;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
         }
 
         .logo-container {
@@ -74,7 +95,7 @@
             font-size: 2rem;
             font-weight: 900;
             color: var(--gold-accent);
-            text-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
             letter-spacing: 2px;
         }
 
@@ -85,7 +106,6 @@
             text-transform: lowercase;
         }
 
-        /* PAGE SWITCH NAVIGATION */
         .nav-links {
             display: flex;
             gap: 30px;
@@ -96,7 +116,7 @@
             background: transparent;
             border: none;
             color: var(--text-muted);
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             text-transform: uppercase;
             letter-spacing: 2px;
             cursor: pointer;
@@ -112,7 +132,7 @@
         .nav-tab.active-tab {
             color: var(--gold-accent);
             border-bottom: 2px solid var(--gold-accent);
-            text-shadow: 0 0 8px rgba(212, 175, 55, 0.3);
+            text-shadow: 0 0 8px rgba(212, 175, 55, 0.2);
         }
 
         .right-actions {
@@ -126,7 +146,7 @@
             color: var(--text-main);
             border: 1px solid var(--gold-accent);
             padding: 10px 25px;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             text-transform: uppercase;
             letter-spacing: 1px;
             cursor: pointer;
@@ -140,24 +160,34 @@
             font-weight: bold;
         }
 
-        /* --- MODAL --- */
+        .user-badge {
+            display: none;
+            font-size: 0.85rem;
+            color: var(--gold-accent);
+            letter-spacing: 1px;
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            padding-left: 15px;
+            text-transform: uppercase;
+        }
+
+        /* --- SECURITY MODAL ACCESS NODES --- */
         .modal-overlay {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(5px);
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
             z-index: 3000;
             justify-content: center;
             align-items: center;
         }
 
         .modal-box {
-            background: #0a0a0e;
-            border: 1px solid rgba(212, 175, 55, 0.3);
+            background: #060609;
+            border: 1px solid rgba(212, 175, 55, 0.25);
             padding: 40px;
             width: 100%;
-            max-width: 400px;
+            max-width: 420px;
             text-align: center;
             position: relative;
             box-shadow: var(--border-glow);
@@ -169,34 +199,80 @@
             font-size: 1.5rem;
             cursor: pointer;
             color: var(--text-muted);
+            transition: color 0.2s;
         }
+        .close-modal:hover { color: white; }
 
-        .modal-box h2 { margin-bottom: 25px; font-weight: 300; }
+        .modal-box h2 { margin-bottom: 10px; font-weight: 300; letter-spacing: 2px; text-transform: uppercase;}
+        .modal-box p.subtitle { color: var(--text-muted); font-size: 0.8rem; margin-bottom: 25px;}
+        
         .modal-box input {
-            width: 100%; padding: 12px; margin-bottom: 15px;
-            background: var(--card-bg); border: 1px solid #333;
-            color: white; outline: none;
+            width: 100%; padding: 14px; margin-bottom: 15px;
+            background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.08);
+            color: white; outline: none; font-size: 0.9rem;
+            transition: border-color 0.3s;
         }
+        .modal-box input:focus { border-color: var(--gold-accent); }
+        
         .modal-box button {
-            width: 100%; padding: 12px; margin-bottom: 15px;
+            width: 100%; padding: 14px; margin-bottom: 12px;
             cursor: pointer; font-weight: bold; text-transform: uppercase;
+            letter-spacing: 1px; font-size: 0.85rem; transition: all 0.2s;
         }
-        .btn-submit { background: var(--gold-accent); border: none; color: black; }
-        .btn-google { background: white; border: none; color: black; }
 
-        /* --- MAIN LAYOUT CONTROL --- */
+        /* PREMIUM BRANDED GOOGLE IDENTITY KEY BUTTON BUTTON */
+        .google-signin-btn-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .google-btn-spec {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #131314;
+            border: 1px solid #8e918f;
+            border-radius: 100px;
+            color: #e3e3e3;
+            cursor: pointer;
+            padding: 12px 24px;
+            width: 100%;
+            max-width: 320px;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+
+        .google-btn-spec:hover {
+            background-color: #1e1e1f;
+            border-color: #c4c7c5;
+        }
+
+        .google-icon-svg {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+        }
+
+        .google-btn-text {
+            font-size: 0.95rem;
+            font-weight: 500;
+            letter-spacing: 0.25px;
+            font-family: 'Roboto', sans-serif, Arial;
+        }
+
+        /* --- LAYOUT CONTROL MATRICES --- */
         main {
-            padding: 150px 20px 60px;
-            max-width: 1200px;
+            padding: 160px 20px 60px;
+            max-width: 1300px;
             margin: 0 auto;
             display: flex;
             flex-direction: column;
             gap: 80px;
         }
 
-        /* Dynamic view wrappers */
         .page-view {
-            display-wrap: flex;
+            display: flex;
             flex-direction: column;
             gap: 80px;
             width: 100%;
@@ -206,26 +282,26 @@
             display: none !important;
         }
 
-        /* --- HERO INTRO SECTION --- */
+        /* --- HERO BRANDING PARADIGMS --- */
         .hero-branding {
             text-align: center;
-            padding: 40px 0 10px;
+            padding: 20px 0 0;
         }
 
         .hero-logo {
-            font-size: 5rem;
+            font-size: 6rem;
             font-weight: 900;
             color: var(--gold-accent);
-            text-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+            text-shadow: 0 0 25px rgba(212, 175, 55, 0.3);
             letter-spacing: 4px;
             line-height: 1;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
 
         .hero-title {
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             font-weight: 300;
-            letter-spacing: 4px;
+            letter-spacing: 6px;
             text-transform: lowercase;
             color: var(--text-main);
         }
@@ -236,139 +312,200 @@
             letter-spacing: 3px;
             margin-bottom: 40px;
             text-transform: uppercase;
-            text-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.1);
         }
 
-        /* --- NON-DISCORD TEXTING PLATFORM PREVIEW --- */
-        .messaging-platform-wrapper {
+        /* ==================================================================================== */
+        /* MOCKUP COMPONENT STRUCTURE DESIGN: PREMIUM WORKSPACE                  */
+        /* ==================================================================================== */
+        .workspace-preview-frame {
             position: relative;
-            background: #050508;
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            height: 520px;
+            background: var(--panel-bg);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            height: 620px;
             display: grid;
-            grid-template-columns: 240px 1fr;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.7);
-            user-select: none;
-            -webkit-user-select: none;
-            pointer-events: none;
+            grid-template-columns: 280px 1fr;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
+            border-radius: 8px;
+            overflow: hidden;
         }
 
-        .channel-sidebar {
-            background: #020204;
-            border-right: 1px solid rgba(212, 175, 55, 0.15);
+        /* LEFT SIDEBAR CONTROLS */
+        .workspace-sidebar {
+            background: var(--sidebar-bg);
+            border-right: 1px solid rgba(255, 255, 255, 0.03);
             display: flex;
             flex-direction: column;
-            padding: 25px 0;
-            opacity: 0.4;
+            padding: 20px;
         }
 
-        .pane-title {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            letter-spacing: 3px;
-            margin-bottom: 25px;
-            padding: 0 25px;
-            font-weight: bold;
-        }
-
-        .channel-list {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .channel-item {
+        /* Identity Node Matrix (Based on uploaded tracking reference file) */
+        .identity-profile-card {
             display: flex;
             align-items: center;
-            padding: 14px 25px;
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            letter-spacing: 1px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.02);
-            text-transform: uppercase;
+            gap: 12px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            margin-bottom: 20px;
         }
 
-        .channel-item.active {
-            background: rgba(212, 175, 55, 0.06);
-            color: var(--gold-accent);
-            font-weight: bold;
-            border-left: 2px solid var(--gold-accent);
-        }
-
-        .status-dot {
-            width: 5px;
-            height: 5px;
-            background-color: var(--gold-accent);
+        .avatar-circle-wrapper {
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
-            margin-right: 12px;
-            box-shadow: 0 0 6px var(--gold-accent);
-        }
-
-        .chat-viewport {
+            background: linear-gradient(135deg, #1f1c2c, #928dab);
             display: flex;
-            flex-direction: column;
-            background: #040407;
+            align-items: center;
+            justify-content: center;
+            border: 1.5px solid rgba(212, 175, 55, 0.4);
             position: relative;
         }
 
-        .chat-header {
-            padding: 20px 30px;
-            border-bottom: 1px solid rgba(212, 175, 55, 0.15);
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--text-muted);
-            background: #020204;
-            opacity: 0.4;
+        .online-presence-tether {
+            width: 10px;
+            height: 10px;
+            background: #2ec4b6;
+            border-radius: 50%;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            border: 2px solid var(--sidebar-bg);
         }
 
-        .message-stream-area {
+        .identity-meta-fields {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .identity-primary-label {
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: var(--text-main);
+            letter-spacing: 0.5px;
+        }
+
+        .identity-sub-role-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* Functional Tab Selector Rails */
+        .workspace-navigation-rail {
+            display: flex;
+            justify-content: space-between;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 6px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+
+        .rail-action-unit {
             flex: 1;
-            padding: 30px;
+            background: transparent;
+            border: none;
+            padding: 10px 4px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-muted);
+            cursor: pointer;
+            border-radius: 6px;
+            font-size: 0.65rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .rail-action-unit.active-rail-unit {
+            background: var(--accent-purple);
+            color: var(--text-main);
+        }
+
+        .rail-vector-icon {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        /* Action triggers */
+        .create-stream-trigger {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: var(--text-main);
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            letter-spacing: 0.5px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        /* Content payload preview streams lists */
+        .stream-telemetry-feed {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            opacity: 0.25; /* Protected view layer matrix state */
+        }
+
+        .stream-list-item-skeleton {
+            width: 100%;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.01);
+            border-radius: 6px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+        }
+
+        /* RIGHT DISPLAY VIEWPORT CANVAS */
+        .workspace-viewport-canvas {
+            background: #050508;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            position: relative;
+            padding: 40px;
         }
 
-        .empty-stream-placeholder {
-            color: var(--text-muted);
-            font-size: 0.8rem;
-            font-style: italic;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            opacity: 0.25;
+        .central-empty-vector-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            text-align: center;
+            opacity: 0.3;
         }
 
-        .chat-input-wrapper {
-            padding: 25px 30px;
-            background: #020204;
-            border-top: 1px solid rgba(255, 255, 255, 0.03);
-            opacity: 0.4;
-        }
-
-        .input-bar-container {
-            width: 100%;
-            background: #06060a;
-            border: 1px solid rgba(255, 255, 255, 0.08);
+        .central-workspace-bubble-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--accent-purple);
+            border-radius: 24px;
             display: flex;
             align-items: center;
-            padding: 16px 20px;
+            justify-content: center;
+            color: var(--text-main);
         }
 
-        .chat-input-placeholder-text {
-            color: rgba(255, 255, 255, 0.25);
-            font-size: 0.85rem;
-            letter-spacing: 0.5px;
+        .central-headline-text {
+            font-size: 1.2rem;
+            font-weight: 300;
+            letter-spacing: 1px;
         }
 
-        .coming-soon-blur-layer {
+        /* GLASS FROST OVERLAY SPECIFICATIONS */
+        .workspace-blur-lockscreen-layer {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(3, 3, 5, 0.65);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            background: var(--glass-overlay);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             z-index: 10;
             display: flex;
             flex-direction: column;
@@ -378,37 +515,7 @@
             text-align: center;
         }
 
-        .preview-badge {
-            background: rgba(212, 175, 55, 0.1);
-            border: 1px solid var(--gold-accent);
-            color: var(--gold-accent);
-            padding: 6px 16px;
-            font-size: 0.7rem;
-            font-weight: bold;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 20px;
-            box-shadow: var(--border-glow);
-        }
-
-        .layer-title {
-            font-size: 1.6rem;
-            font-weight: 300;
-            letter-spacing: 6px;
-            color: var(--text-main);
-            margin-bottom: 15px;
-            text-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
-        }
-
-        .layer-tagline {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            max-width: 480px;
-            line-height: 1.6;
-            letter-spacing: 1px;
-        }
-
-        /* --- PREVIEW SECTIONS (OTHER COMING SOON) --- */
+        /* --- PREVIEW GRID BLOCKS --- */
         .preview-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
@@ -418,8 +525,8 @@
         .preview-box {
             position: relative;
             height: 250px;
-            background: #111;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--panel-bg);
+            border: 1px solid rgba(255, 255, 255, 0.03);
             overflow: hidden;
             display: flex;
             flex-direction: column;
@@ -428,28 +535,28 @@
         }
 
         .mock-ui {
-            opacity: 0.15;
+            opacity: 0.08;
             pointer-events: none;
             width: 100%; height: 100%;
-            background: repeating-linear-gradient(45deg, transparent, transparent 10px, #222 10px, #222 20px);
+            background: repeating-linear-gradient(45deg, transparent, transparent 10px, #fff 10px, #fff 11px);
         }
 
         .coming-soon-badge {
             position: absolute;
-            background: rgba(3, 3, 5, 0.85);
+            background: rgba(3, 3, 5, 0.9);
             border: 1px solid var(--gold-accent);
-            padding: 15px 30px;
+            padding: 14px 28px;
             font-weight: bold;
             letter-spacing: 2px;
             color: var(--gold-accent);
             text-transform: uppercase;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-            backdrop-filter: blur(5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
         }
 
-        /* --- CREDITS PAGE LOOK --- */
+        /* --- STANDALONE CREDITS LOOKS --- */
         .credits-container {
-            padding: 40px 0;
+            padding: 20px 0;
             max-width: 800px;
             margin: 0 auto;
             width: 100%;
@@ -464,80 +571,87 @@
 
         .credit-card {
             background: var(--card-bg);
-            border-left: 4px solid var(--gold-accent);
-            padding: 30px;
+            border-left: 3px solid var(--gold-accent);
+            padding: 30px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border-top: 1px solid rgba(255,255,255,0.01);
+            border-right: 1px solid rgba(255,255,255,0.01);
         }
 
-        .credit-card h4 { font-size: 1.4rem; font-weight: 400; letter-spacing: 1px; }
-        .credit-card p { color: var(--gold-accent); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; }
+        .credit-card h4 { font-size: 1.3rem; font-weight: 300; letter-spacing: 1px; }
+        .credit-card p { color: var(--gold-accent); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; }
 
-        /* --- FEEDBACK FORM --- */
+        /* --- COMMUNITY DATA FEEDBACK RELAY --- */
         .feedback-section {
-            background: var(--card-bg);
+            background: var(--panel-bg);
             padding: 50px;
-            border: 1px solid rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.02);
             text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
         }
 
         textarea {
             width: 100%;
             max-width: 600px;
-            height: 120px;
-            background: #0a0a0e;
-            border: 1px solid #333;
+            height: 130px;
+            background: rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,255,255,0.08);
             color: white;
-            padding: 15px;
-            margin: 20px 0;
+            padding: 18px;
+            margin: 25px 0 15px;
             outline: none;
             resize: none;
+            font-size: 0.9rem;
+            transition: border-color 0.3s;
         }
-
         textarea:focus { border-color: var(--gold-accent); }
 
         .btn-submit-feedback {
             background: var(--gold-accent);
             color: black;
             border: none;
-            padding: 12px 35px;
+            padding: 14px 40px;
             font-weight: bold;
             text-transform: uppercase;
             cursor: pointer;
-            transition: opacity 0.3s;
+            letter-spacing: 1px;
+            font-size: 0.85rem;
+            transition: background 0.2s;
         }
-        
-        .btn-submit-feedback:hover { opacity: 0.8; }
+        .btn-submit-feedback:hover { background: var(--gold-hover); }
 
-        /* --- FOOTER --- */
+        /* --- APPLICATION ENVIRONMENT FOOTER --- */
         footer {
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
             padding: 40px 20px;
             text-align: center;
             background: #010102;
+            margin-top: 60px;
         }
 
-        footer p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 10px; }
+        footer p { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 12px; letter-spacing: 0.5px;}
         footer a { color: var(--gold-accent); text-decoration: none; font-weight: bold; letter-spacing: 1px; }
+        footer a:hover { color: var(--gold-hover); }
 
-        /* --- RESPONSIVENESS --- */
+        /* --- RESPONSIVE SCREEN MATRIX --- */
         @media (max-width: 768px) {
-            header { padding: 15px 20px; top: 36px; flex-direction: column; gap: 15px; }
-            main { padding-top: 180px; gap: 60px; }
-            .messaging-platform-wrapper { grid-template-columns: 1fr; height: auto; }
-            .channel-sidebar { border-right: none; border-bottom: 1px solid rgba(212, 175, 55, 0.15); }
-            .chat-viewport { height: 400px; }
+            header { padding: 15px 25px; top: 36px; flex-direction: column; gap: 15px; }
+            main { padding-top: 200px; gap: 60px; }
+            .workspace-preview-frame { grid-template-columns: 1fr; height: auto; }
+            .workspace-sidebar { border-right: none; border-bottom: 1px solid rgba(255, 255, 255, 0.04); }
+            .workspace-viewport-canvas { height: 350px; }
             .preview-grid { grid-template-columns: 1fr; }
-            .credit-card { flex-direction: column; align-items: flex-start; gap: 10px; }
+            .credit-card { flex-direction: column; align-items: flex-start; gap: 12px; padding: 25px; }
         }
     </style>
 </head>
 <body>
 
     <div id="broadcast-banner">
-        System Notice: w website is currently in active development. Features will be fully built on 05/22-23-24/2026.
+        System Notice: Wwebsite is currently in active development. Features will be fully built on 05/22-23-24/2026.
     </div>
 
     <header>
@@ -552,19 +666,36 @@
         </ul>
 
         <div class="right-actions">
-            <button class="login-btn" onclick="openModal()">Login / Sign Up</button>
+            <span class="user-badge" id="userDisplayIdentity">Offline</span>
+            <button class="login-btn" id="authGatewayTriggerButton" onclick="openModal()">Login / Sign Up</button>
         </div>
     </header>
 
     <div class="modal-overlay" id="loginModal">
         <div class="modal-box">
             <span class="close-modal" onclick="closeModal()">&times;</span>
-            <h2>Access Portal</h2>
-            <button class="btn-google">Sign in with Google</button>
-            <p style="margin: 15px 0; color: var(--text-muted); font-size: 0.8rem;">OR</p>
-            <input type="email" placeholder="Email Address">
-            <input type="password" placeholder="Password">
-            <button class="btn-submit">Login</button>
+            <h2 id="modalInterfaceHeadline">Access Portal</h2>
+            <p class="subtitle">Secure clearance node verification encryption</p>
+            
+            <input type="email" id="portalEmailField" placeholder="Secured Email Sequence">
+            <input type="password" id="portalPasswordField" placeholder="Access Authentication Key">
+            
+            <button class="btn-submit" style="background: var(--gold-accent); border: none; color: black; font-weight: bold;" onclick="executeEmailPasswordLogin()">Authenticate Key</button>
+            <button class="btn-register" style="background: transparent; border: 1px solid rgba(255,255,255,0.15); color: white;" onclick="executeEmailPasswordRegistration()">Create Registry File</button>
+            
+            <p style="margin: 15px 0 5px; color: var(--text-muted); font-size: 0.75rem; letter-spacing: 1px; text-transform: uppercase;">OR</p>
+            
+            <div class="google-signin-btn-container">
+                <button class="google-btn-spec" onclick="executeGoogleIdentitySync()">
+                    <svg class="google-icon-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"/>
+                        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"/>
+                    </svg>
+                    <span class="google-btn-text">Sign in with Google</span>
+                </button>
+            </div>
         </div>
     </div>
 
@@ -580,42 +711,62 @@
             <section id="texting-platform">
                 <h2 class="section-title">Texting Channel Platform</h2>
                 
-                <div class="messaging-platform-wrapper">
+                <div class="workspace-preview-frame">
                     
-                    <div class="coming-soon-blur-layer">
+                    <div class="workspace-blur-lockscreen-layer">
                         <div class="preview-badge">PREVIEW</div>
                         <div class="layer-title">TEXTING CHANNELS — COMING SOON</div>
                         <div class="layer-tagline">Real-time communication framework powered by Firebase architecture. Access clearance protocol under development.</div>
                     </div>
 
-                    <div class="channel-sidebar">
-                        <div class="pane-title">Data Streams</div>
-                        <ul class="channel-list">
-                            <li class="channel-item active">
-                                <div class="status-dot"></div>global-mainframe
-                            </li>
-                            <li class="channel-item">
-                                <div class="status-dot"></div>announcements
-                            </li>
-                            <li class="channel-item">
-                                <div class="status-dot"></div>general-relay
-                            </li>
-                        </ul>
+                    <div class="workspace-sidebar">
+                        
+                        <div class="identity-profile-card">
+                            <div class="avatar-circle-wrapper">
+                                <div class="online-presence-tether"></div>
+                            </div>
+                            <div class="identity-meta-fields">
+                                <span class="identity-primary-label" id="workspaceUserProfileName">Goated Website</span>
+                                <span class="identity-sub-role-label">by Brody Williams</span>
+                            </div>
+                        </div>
+
+                        <div class="workspace-navigation-rail">
+                            <button class="rail-action-unit active-rail-unit">
+                                <svg class="rail-vector-icon" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/></svg>
+                                Chats
+                            </button>
+                            <button class="rail-action-unit">
+                                <svg class="rail-vector-icon" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+                                People
+                            </button>
+                            <button class="rail-action-unit">
+                                <svg class="rail-vector-icon" viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+                                Alerts
+                            </button>
+                            <button class="rail-action-unit">
+                                <svg class="rail-vector-icon" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-5 14H4v-4h11v4zm0-5H4V9h11v4zm5 5h-4V9h4v9z"/></svg>
+                                Updates
+                            </button>
+                        </div>
+
+                        <button class="create-stream-trigger">+ New Chat</button>
+
+                        <div class="stream-telemetry-feed">
+                            <div class="stream-list-item-skeleton"></div>
+                            <div class="stream-list-item-skeleton"></div>
+                            <div class="stream-list-item-skeleton"></div>
+                            <div class="stream-list-item-skeleton"></div>
+                        </div>
                     </div>
 
-                    <div class="chat-viewport">
-                        <div class="chat-header">
-                            Active Terminal Node: <span>global-mainframe</span>
-                        </div>
-
-                        <div class="message-stream-area">
-                            <div class="empty-stream-placeholder">No active stream payloads found.</div>
-                        </div>
-
-                        <div class="chat-input-wrapper">
-                            <div class="input-bar-container">
-                                <div class="chat-input-placeholder-text">Secure communication node offline — Authorization required...</div>
+                    <div class="workspace-viewport-canvas">
+                        <div class="central-empty-vector-container">
+                            <div class="central-workspace-bubble-icon">
+                                <svg style="width: 36px; height: 36px; fill: currentColor;" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/></svg>
                             </div>
+                            <h3 class="central-headline-text">Select a conversation</h3>
+                            <p style="font-size: 0.8rem; color: var(--text-muted);">or start a new one</p>
                         </div>
                     </div>
 
@@ -625,26 +776,23 @@
             <section id="modules">
                 <h2 class="section-title">Upcoming Modules</h2>
                 <div class="preview-grid">
-                    
                     <div class="preview-box">
                         <div class="mock-ui"></div>
                         <div class="coming-soon-badge">Gaming Arena</div>
                     </div>
-
                     <div class="preview-box">
                         <div class="mock-ui"></div>
                         <div class="coming-soon-badge">Social Stream</div>
                     </div>
-
                 </div>
             </section>
 
             <section id="feedback" class="feedback-section">
                 <h2 class="section-title">Community Feedback</h2>
-                <p style="color: var(--text-muted);">What do you want to see next on w website?</p>
-                <form onsubmit="submitFeedback(event)">
-                    <textarea placeholder="Type your ideas and suggestions here..." required></textarea><br>
-                    <button type="submit" class="btn-submit-feedback">Submit Request</button>
+                <p style="color: var(--text-muted); font-size: 0.9rem; letter-spacing: 0.5px;">What do you want to see next on the Wwebsite ecosystem?</p>
+                <form id="feedbackRelayDataForm">
+                    <textarea id="feedbackPayloadTextarea" placeholder="Transmit feature ideas, core system suggestions, or protocol requests..." required></textarea><br>
+                    <button type="submit" class="btn-submit-feedback">Transmit Payload</button>
                 </form>
             </section>
             
@@ -673,26 +821,83 @@
     </main>
 
     <footer>
-        <p>w website Ecosystem &copy; 2026. All Rights Reserved.</p>
+        <p>Wwebsite Ecosystem &copy; 2026. All Rights Reserved.</p>
         <p>Official Support Relay: <a href="mailto:wwebsiteofficial@outlook.com">wwebsiteofficial@outlook.com</a></p>
     </footer>
 
-    <script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { 
+            getAuth, 
+            GoogleAuthProvider, 
+            signInWithPopup, 
+            signInWithEmailAndPassword, 
+            createUserWithEmailAndPassword, 
+            signOut, 
+            onAuthStateChanged 
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        // Operational hardware network mapping parameters
+        const firebaseConfig = {
+            apiKey: "AIzaSyChx24EPK7w1f7SGVYraI993TkC89ZxiZo",
+            authDomain: "wwebsite-ae20b.firebaseapp.com",
+            databaseURL: "https://wwebsite-ae20b-default-rtdb.firebaseio.com",
+            projectId: "wwebsite-ae20b",
+            storageBucket: "wwebsite-ae20b.firebasestorage.app",
+            messagingSenderId: "1073638981689",
+            appId: "1:1073638981689:web:1fceb547ed3704b782cde8",
+            measurementId: "G-HK8S5YRG4J"
+        };
+
+        // Initialize connection layers
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const rtdb = getDatabase(app);
+        const googleProvider = new GoogleAuthProvider();
+
+        // Local Document Object Model mapping declarations
         const modal = document.getElementById('loginModal');
         const homeView = document.getElementById('page-home-view');
         const creditsView = document.getElementById('page-credits-view');
         const tabHome = document.getElementById('tab-home');
         const tabCredits = document.getElementById('tab-credits');
+        const userDisplayIdentity = document.getElementById('userDisplayIdentity');
+        const authGatewayTriggerButton = document.getElementById('authGatewayTriggerButton');
+        const feedbackRelayDataForm = document.getElementById('feedbackRelayDataForm');
+        const feedbackPayloadTextarea = document.getElementById('feedbackPayloadTextarea');
+        const workspaceUserProfileName = document.getElementById('workspaceUserProfileName');
 
-        // Dynamic View-Router Matrix Configuration
-        function showPage(pageId) {
-            // Hide all sub-views first
+        // Modal interface controllers
+        window.openModal = function() {
+            if(auth.currentUser) {
+                signOut(auth).then(() => {
+                    alert("Identity session cleared securely.");
+                }).catch((error) => {
+                    console.error("Session termination error:", error);
+                });
+            } else {
+                modal.style.display = 'flex';
+            }
+        }
+
+        window.closeModal = function() {
+            modal.style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // Viewport router triggers
+        window.showPage = function(pageId) {
             homeView.classList.add('hidden-view');
             creditsView.classList.add('hidden-view');
             tabHome.classList.remove('active-tab');
             tabCredits.classList.remove('active-tab');
 
-            // Toggle selected target components
             if (pageId === 'home') {
                 homeView.classList.remove('hidden-view');
                 tabHome.classList.add('active-tab');
@@ -704,25 +909,118 @@
             }
         }
 
-        function openModal() {
-            modal.style.display = 'flex';
-        }
+        // --- AUTHENTICATION FLOWS ---
 
-        function closeModal() {
-            modal.style.display = 'none';
-        }
-
-        window.onclick = function(event) {
-            if (event.target === modal) {
+        // Google Federated Identity Sync Execution
+        window.executeGoogleIdentitySync = function() {
+            signInWithPopup(auth, googleProvider)
+            .then((result) => {
+                alert(`Welcome verified client node: ${result.user.displayName}`);
                 closeModal();
-            }
+            })
+            .catch((error) => {
+                alert(`Identity registration fault: ${error.message}`);
+            });
         }
 
-        function submitFeedback(event) {
-            event.preventDefault(); 
-            alert("Secure Feedback Sent. Thank you for shaping the w website ecosystem.");
-            event.target.reset(); 
+        // Email/Password Authentication Sequence
+        window.executeEmailPasswordLogin = function() {
+            const email = document.getElementById('portalEmailField').value.trim();
+            const password = document.getElementById('portalPasswordField').value;
+
+            if(!email || !password) {
+                alert("Processing failed: Input fields require complete configuration.");
+                return;
+            }
+
+            signInWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                alert(`Authorization clear: ${userCredential.user.email}`);
+                closeModal();
+                clearAuthenticationInputFields();
+            })
+            .catch((error) => {
+                alert(`Authorization denied: ${error.message}`);
+            });
         }
+
+        // Email/Password Registry Generation
+        window.executeEmailPasswordRegistration = function() {
+            const email = document.getElementById('portalEmailField').value.trim();
+            const password = document.getElementById('portalPasswordField').value;
+
+            if(!email || !password) {
+                alert("Registry initialization failed: Missing validation targets.");
+                return;
+            }
+
+            createUserWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                alert(`Secure registry tracking node initialized: ${userCredential.user.email}`);
+                closeModal();
+                clearAuthenticationInputFields();
+            })
+            .catch((error) => {
+                alert(`Registry execution error: ${error.message}`);
+            });
+        }
+
+        function clearAuthenticationInputFields() {
+            document.getElementById('portalEmailField').value = '';
+            document.getElementById('portalPasswordField').value = '';
+        }
+
+        // --- DATABASE COMMUNICATIONS ---
+        feedbackRelayDataForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const payloadContent = feedbackPayloadTextarea.value.trim();
+
+            if(!payloadContent) return;
+
+            const activeUserToken = auth.currentUser;
+            const dataSubmissionPackage = {
+                message: payloadContent,
+                timestamp: new Date().toISOString(),
+                clientIdentityHash: activeUserToken ? activeUserToken.uid : "ANONYMOUS_RELAY_NODE",
+                clientEmail: activeUserToken ? activeUserToken.email : "unverified@node.identity"
+            };
+
+            const targetedDatabaseReference = ref(rtdb, 'community_feedback');
+            const targetPushLocation = push(targetedDatabaseReference);
+            
+            set(targetPushLocation, dataSubmissionPackage)
+            .then(() => {
+                alert("Data matrix confirmation: Feedback tracking sequence recorded.");
+                feedbackRelayDataForm.reset();
+            })
+            .catch((error) => {
+                alert(`Network failure intercept during payload uplink: ${error.message}`);
+            });
+        });
+
+        // --- SESSION STATE LISTENER ---
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                const userDisplayString = user.displayName || user.email.split('@')[0];
+                userDisplayIdentity.innerText = `Node: ${userDisplayString}`;
+                userDisplayIdentity.style.display = 'inline-block';
+                
+                // Dynamically sync workspace identity values upon structural verification
+                workspaceUserProfileName.innerText = userDisplayString;
+                
+                authGatewayTriggerButton.innerText = "Log Out Securely";
+                authGatewayTriggerButton.style.borderColor = "#ff4d4d";
+                authGatewayTriggerButton.style.color = "#ff4d4d";
+            } else {
+                userDisplayIdentity.style.display = 'none';
+                userDisplayIdentity.innerText = "Offline";
+                workspaceUserProfileName.innerText = "Goated Website";
+                
+                authGatewayTriggerButton.innerText = "Login / Sign Up";
+                authGatewayTriggerButton.style.borderColor = "var(--gold-accent)";
+                authGatewayTriggerButton.style.color = "var(--text-main)";
+            }
+        });
     </script>
 </body>
 </html>
