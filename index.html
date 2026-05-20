@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wwebsite | Premium Platform</title>
+    <title>w website | Premium Platform</title>
     <style>
         /* --- GLOBAL STYLING --- */
         :root {
@@ -82,6 +82,7 @@
             font-size: 1.5rem;
             font-weight: 300;
             letter-spacing: 1px;
+            text-transform: lowercase;
         }
 
         .login-btn {
@@ -174,52 +175,69 @@
         }
 
         .tier-card {
+            position: relative;
             background: var(--card-bg);
             border: 1px solid rgba(255, 255, 255, 0.05);
             padding: 40px;
             text-align: center;
-            transition: transform 0.3s ease;
-        }
-
-        .tier-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--gold-accent);
-            box-shadow: var(--border-glow);
+            overflow: hidden;
         }
 
         .tier-card h3 { color: var(--gold-accent); margin-bottom: 15px; font-size: 1.5rem; }
         .tier-card p { color: var(--text-muted); margin-bottom: 30px; font-size: 0.9rem; line-height: 1.6; }
         .tier-card .price { font-size: 2.5rem; margin-bottom: 20px; font-weight: bold; }
 
-        /* --- TEXTING CHANNEL COMPONENT PLATFORM --- */
-        .messaging-platform-wrapper {
-            position: relative;
-            background: #06060a;
-            border: 1px solid rgba(212, 175, 55, 0.15);
-            border-radius: 8px;
-            height: 550px;
+        /* Subscriptions Coming Soon Overlay */
+        .tier-coming-soon {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(3, 3, 5, 0.8);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             display: flex;
-            overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            justify-content: center;
+            align-items: center;
+            z-index: 5;
         }
 
-        /* Sub-Pane Sidebar */
+        .tier-badge-text {
+            border: 1px solid var(--gold-accent);
+            color: var(--gold-accent);
+            padding: 12px 30px;
+            font-weight: bold;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            background: #030305;
+            box-shadow: var(--border-glow);
+        }
+
+        /* --- TEXTING PLATFORM DESIGN --- */
+        .messaging-platform-wrapper {
+            position: relative;
+            background: #050508;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            height: 520px;
+            display: grid;
+            grid-template-columns: 240px 1fr;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.7);
+        }
+
         .channel-sidebar {
-            width: 260px;
-            background: #0b0b10;
-            border-right: 1px solid rgba(255, 255, 255, 0.05);
+            background: #020204;
+            border-right: 1px solid rgba(212, 175, 55, 0.15);
             display: flex;
             flex-direction: column;
-            padding: 20px 10px;
+            padding: 25px 0;
         }
 
         .pane-title {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             text-transform: uppercase;
-            color: var(--gold-accent);
-            letter-spacing: 2px;
-            margin-bottom: 20px;
-            padding-left: 10px;
+            color: var(--text-muted);
+            letter-spacing: 3px;
+            margin-bottom: 25px;
+            padding: 0 25px;
             font-weight: bold;
         }
 
@@ -227,139 +245,123 @@
             list-style: none;
             display: flex;
             flex-direction: column;
-            gap: 5px;
         }
 
         .channel-item {
             display: flex;
             align-items: center;
-            padding: 12px 15px;
-            border-radius: 4px;
+            padding: 14px 25px;
             cursor: pointer;
             color: var(--text-muted);
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             transition: all 0.2s ease;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+            text-transform: uppercase;
         }
 
         .channel-item:hover {
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(212, 175, 55, 0.03);
             color: var(--text-main);
         }
 
         .channel-item.active {
-            background: rgba(212, 175, 55, 0.08);
-            color: var(--text-main);
-            border-left: 3px solid var(--gold-accent);
-            font-weight: 500;
+            background: rgba(212, 175, 55, 0.06);
+            color: var(--gold-accent);
+            font-weight: bold;
+            border-left: 2px solid var(--gold-accent);
         }
 
         .status-dot {
-            width: 6px;
-            height: 6px;
-            background-color: #2ec4b6;
+            width: 5px;
+            height: 5px;
+            background-color: var(--gold-accent);
             border-radius: 50%;
-            margin-right: 10px;
-            box-shadow: 0 0 8px #2ec4b6;
+            margin-right: 12px;
+            box-shadow: 0 0 6px var(--gold-accent);
         }
 
-        /* Main Viewport Workspace */
         .chat-viewport {
-            flex: 1;
             display: flex;
             flex-direction: column;
-            background: #030305;
+            background: #040407;
         }
 
         .chat-header {
-            padding: 20px 25px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            font-size: 1rem;
-            font-weight: 300;
-            letter-spacing: 1px;
+            padding: 20px 30px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            background: #020204;
         }
 
         .chat-header span {
-            color: var(--gold-accent);
+            color: var(--text-main);
             font-weight: bold;
         }
 
         .message-stream-area {
             flex: 1;
-            padding: 25px;
+            padding: 30px;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 25px;
         }
 
-        /* Dynamic Chat Nodes */
         .message-node {
             display: flex;
-            gap: 15px;
-            animation: fadeInNode 0.3s ease forward;
+            flex-direction: column;
+            gap: 6px;
+            border-left: 1px solid rgba(255, 255, 255, 0.05);
+            padding-left: 15px;
+            animation: fadeInNode 0.25s ease forwards;
         }
 
         @keyframes fadeInNode {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .user-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: rgba(212, 175, 55, 0.15);
-            border: 1px solid var(--gold-accent);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--gold-accent);
-            font-weight: bold;
-            font-size: 0.9rem;
-            flex-shrink: 0;
-        }
-
-        .node-content {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
+            from { opacity: 0; transform: translateX(-5px); }
+            to { opacity: 1; transform: translateX(0); }
         }
 
         .node-meta {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
         .node-username {
             font-weight: bold;
-            font-size: 0.95rem;
-            letter-spacing: 0.5px;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            color: var(--gold-accent);
+            text-transform: uppercase;
         }
 
         .node-timestamp {
-            font-size: 0.75rem;
-            color: var(--text-muted);
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.3);
+            letter-spacing: 0.5px;
         }
 
         .node-text {
-            color: #e0e0e5;
+            color: #e2e2e8;
             font-size: 0.9rem;
-            line-height: 1.5;
+            line-height: 1.6;
+            font-weight: 300;
         }
 
-        /* Interactive Entry Bar */
         .chat-input-wrapper {
-            padding: 20px 25px;
-            background: #030305;
+            padding: 25px 30px;
+            background: #020204;
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
         }
 
         .input-bar-container {
             width: 100%;
-            background: #0b0b10;
+            background: #06060a;
             border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 30px;
             display: flex;
             align-items: center;
             padding: 5px 10px 5px 20px;
@@ -376,22 +378,21 @@
             border: none;
             outline: none;
             color: var(--text-main);
-            font-size: 0.9rem;
-            padding: 10px 0;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            padding: 12px 0;
         }
 
         .chat-input-field::placeholder {
-            color: var(--text-muted);
-            font-style: italic;
+            color: rgba(255, 255, 255, 0.25);
         }
 
         .send-node-btn {
             background: transparent;
-            border: 1px solid rgba(212, 175, 55, 0.4);
+            border: 1px solid var(--gold-accent);
             color: var(--gold-accent);
-            padding: 8px 20px;
-            border-radius: 20px;
-            font-size: 0.8rem;
+            padding: 8px 22px;
+            font-size: 0.75rem;
             cursor: pointer;
             text-transform: uppercase;
             letter-spacing: 1px;
@@ -402,16 +403,14 @@
             background: var(--gold-accent);
             color: #030305;
             font-weight: bold;
-            box-shadow: var(--border-glow);
         }
 
-        /* Coming Soon Frosted Glass Layer */
         .coming-soon-blur-layer {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(3, 3, 5, 0.65);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            background: rgba(3, 3, 5, 0.75);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
             z-index: 10;
             display: flex;
             flex-direction: column;
@@ -429,33 +428,32 @@
         }
 
         .layer-title {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             font-weight: 300;
-            letter-spacing: 5px;
+            letter-spacing: 6px;
             color: var(--text-main);
-            margin-bottom: 12px;
-            text-shadow: 0 0 15px rgba(255,255,255,0.3);
+            margin-bottom: 15px;
+            text-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
         }
 
         .layer-tagline {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: var(--text-muted);
-            max-width: 500px;
+            max-width: 480px;
             line-height: 1.6;
-            letter-spacing: 0.5px;
-            margin-bottom: 25px;
+            letter-spacing: 1px;
+            margin-bottom: 30px;
         }
 
         .bypass-btn {
             background: transparent;
             color: var(--gold-accent);
             border: 1px solid var(--gold-accent);
-            padding: 8px 20px;
-            font-size: 0.75rem;
+            padding: 10px 24px;
+            font-size: 0.7rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
             cursor: pointer;
-            border-radius: 4px;
             transition: background 0.2s;
         }
 
@@ -570,8 +568,8 @@
             header { padding: 15px 20px; top: 36px; }
             .credits-grid { grid-template-columns: 1fr; }
             main { padding-top: 130px; gap: 60px; }
-            .messaging-platform-wrapper { flex-direction: column; height: auto; }
-            .channel-sidebar { width: 100%; border-right: none; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+            .messaging-platform-wrapper { grid-template-columns: 1fr; height: auto; }
+            .channel-sidebar { border-right: none; border-bottom: 1px solid rgba(212, 175, 55, 0.15); }
             .chat-viewport { height: 400px; }
             .preview-grid { grid-template-columns: 1fr; }
         }
@@ -580,13 +578,13 @@
 <body>
 
     <div id="broadcast-banner">
-        System Notice: Wwebsite is currently in active development. Features will be fully built on 05/22-23-24/2026.
+        System Notice: w website is currently in active development. Features will be fully built on 05/22-23-24/2026.
     </div>
 
     <header>
         <div class="logo-container">
             <span class="logo-mark">W</span>
-            <span class="logo-text">Wwebsite</span>
+            <span class="logo-text">w website</span>
         </div>
         <button class="login-btn" onclick="openModal()">Login / Sign Up</button>
     </header>
@@ -607,18 +605,27 @@
         <section id="premium">
             <h2 class="section-title">Select Your Access</h2>
             <div class="tier-grid">
+                
                 <div class="tier-card">
+                    <div class="tier-coming-soon">
+                        <div class="tier-badge-text">Coming Soon</div>
+                    </div>
                     <h3>Free Tier</h3>
                     <div class="price">$0<span style="font-size:1rem; color: var(--text-muted);">/mo</span></div>
                     <p>Basic access to public features, standard network streaming, and general platform exploration.</p>
                     <button class="login-btn" style="width: 100%;">Select Plan</button>
                 </div>
+
                 <div class="tier-card">
+                    <div class="tier-coming-soon">
+                        <div class="tier-badge-text">Coming Soon</div>
+                    </div>
                     <h3>Premium</h3>
                     <div class="price">$19<span style="font-size:1rem; color: var(--text-muted);">/mo</span></div>
                     <p>Unrestricted platform bandwidth, verified badging, early module access, and zero advertisements.</p>
                     <button class="login-btn" style="width: 100%; background: var(--gold-accent); color: black;">Select Plan</button>
                 </div>
+
             </div>
         </section>
 
@@ -634,23 +641,23 @@
                 </div>
 
                 <div class="channel-sidebar">
-                    <div class="pane-title">Text Channels</div>
+                    <div class="pane-title">Data Streams</div>
                     <ul class="channel-list">
-                        <li class="channel-item active" onclick="switchChannel(this, '🌐-global-mainframe')">
-                            <div class="status-dot"></div># global-mainframe
+                        <li class="channel-item active" onclick="switchChannel(this, 'global-mainframe')">
+                            <div class="status-dot"></div>global-mainframe
                         </li>
-                        <li class="channel-item" onclick="switchChannel(this, '📢-announcements')">
-                            <div class="status-dot"></div># announcements
+                        <li class="channel-item" onclick="switchChannel(this, 'announcements')">
+                            <div class="status-dot"></div>announcements
                         </li>
-                        <li class="channel-item" onclick="switchChannel(this, '💬-general-relay')">
-                            <div class="status-dot"></div># general-relay
+                        <li class="channel-item" onclick="switchChannel(this, 'general-relay')">
+                            <div class="status-dot"></div>general-relay
                         </li>
                     </ul>
                 </div>
 
                 <div class="chat-viewport">
                     <div class="chat-header">
-                        Channel Workspace: <span id="activeChannelName"># 🌐-global-mainframe</span>
+                        Active Terminal Node: <span id="activeChannelName">global-mainframe</span>
                     </div>
 
                     <div class="message-stream-area" id="messageStream">
@@ -659,7 +666,7 @@
                     <div class="chat-input-wrapper">
                         <div class="input-bar-container">
                             <input type="text" id="chatInputField" class="chat-input-field" placeholder="Secure communication node offline — Authorization required..." onkeydown="handleChatKeyPress(event)">
-                            <button class="send-node-btn" onclick="sendChatNode()">Send</button>
+                            <button class="send-node-btn" onclick="sendChatNode()">Send Node</button>
                         </div>
                     </div>
                 </div>
@@ -704,7 +711,7 @@
 
         <section id="feedback" class="feedback-section">
             <h2 class="section-title">Community Feedback</h2>
-            <p style="color: var(--text-muted);">What do you want to see next on Wwebsite?</p>
+            <p style="color: var(--text-muted);">What do you want to see next on w website?</p>
             <form onsubmit="submitFeedback(event)">
                 <textarea placeholder="Type your ideas and suggestions here..." required></textarea><br>
                 <button type="submit" class="btn-submit-feedback">Submit Request</button>
@@ -714,7 +721,7 @@
     </main>
 
     <footer>
-        <p>Wwebsite Ecosystem &copy; 2026. All Rights Reserved.</p>
+        <p>w website Ecosystem &copy; 2026. All Rights Reserved.</p>
         <p>Official Support Relay: <a href="mailto:wwebsiteofficial@outlook.com">wwebsiteofficial@outlook.com</a></p>
     </footer>
 
@@ -725,11 +732,11 @@
         const messageStream = document.getElementById('messageStream');
         const activeChannelName = document.getElementById('activeChannelName');
 
-        // Storage Object to let you swap channels while retaining sent messages
+        // Local State Tracking Store (Dynamic Chat Buffer)
         const channelDataStore = {
-            '🌐-global-mainframe': [],
-            '📢-announcements': [],
-            '💬-general-relay': []
+            'global-mainframe': [],
+            'announcements': [],
+            'general-relay': []
         };
 
         function openModal() {
@@ -748,25 +755,20 @@
 
         function submitFeedback(event) {
             event.preventDefault(); 
-            alert("Secure Feedback Sent. Thank you for shaping the Wwebsite ecosystem.");
+            alert("Secure Feedback Sent. Thank you for shaping the w website ecosystem.");
             event.target.reset(); 
         }
 
         /* --- TEXTING CHANNEL INTERACTION CONTROLLERS --- */
         function bypassOverlay() {
             comingSoonLayer.classList.add('hidden');
-            chatInputField.placeholder = "Type an encrypted node broadcast transmission...";
+            chatInputField.placeholder = "Broadcast encrypted data payload node...";
         }
 
         function switchChannel(element, channelId) {
-            // Update active sidebar styling indicators
             document.querySelectorAll('.channel-item').forEach(item => item.classList.remove('active'));
             element.classList.add('active');
-            
-            // Adjust header display name
-            activeChannelName.innerText = `# ${channelId}`;
-            
-            // Re-render corresponding historical array stream data
+            activeChannelName.innerText = channelId;
             renderChannelStream(channelId);
         }
 
@@ -777,65 +779,52 @@
         }
 
         function sendChatNode() {
-            const currentChannel = activeChannelName.innerText.replace('# ', '').trim();
+            const currentChannel = activeChannelName.innerText.trim();
             const textValue = chatInputField.value.trim();
 
             if (textValue === '') return;
 
-            // Capture exact current system runtime clock stamp
             const now = new Date();
             const timeStamp = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-            // Generate clean node configuration object
             const nodePayload = {
-                userInitials: "U",
-                userName: "Authorized User",
+                userName: "NODE_CLIENT_AUTHORIZED",
                 time: timeStamp,
                 text: textValue
             };
 
-            // Push payload to designated memory track array
             channelDataStore[currentChannel].push(nodePayload);
-            
-            // Wipe processing visual track fields and refresh display
             chatInputField.value = '';
             renderChannelStream(currentChannel);
         }
 
         function renderChannelStream(channelId) {
-            // Flush old DOM structural nodes
             messageStream.innerHTML = '';
-            
             const records = channelDataStore[channelId];
 
             if (records.length === 0) {
-                messageStream.innerHTML = `<div style="color: var(--text-muted); text-align: center; margin: auto; font-size: 0.85rem; font-style: italic; letter-spacing: 0.5px;">No encrypted nodes processed in channel layout. Enter a payload string below.</div>`;
+                messageStream.innerHTML = `<div style="color: var(--text-muted); text-align: center; margin: auto; font-size: 0.8rem; font-style: italic; letter-spacing: 1px; text-transform: uppercase;">No active stream payloads found. Enter a string sequence down below.</div>`;
                 return;
             }
 
-            // Loop and compile new message layout rows
             records.forEach(node => {
                 const nodeDiv = document.createElement('div');
                 nodeDiv.className = 'message-node';
                 nodeDiv.innerHTML = `
-                    <div class="user-icon">${node.userInitials}</div>
-                    <div class="node-content">
-                        <div class="node-meta">
-                            <span class="node-username">${node.userName}</span>
-                            <span class="node-timestamp">${node.time}</span>
-                        </div>
-                        <div class="node-text">${node.text}</div>
+                    <div class="node-meta">
+                        <span class="node-username">${node.userName}</span>
+                        <span class="node-timestamp">${node.time}</span>
                     </div>
+                    <div class="node-text">${node.text}</div>
                 `;
                 messageStream.appendChild(nodeDiv);
             });
 
-            // Automatically scroll container downward to lock view matrix on newest data arrays
             messageStream.scrollTop = messageStream.scrollHeight;
         }
 
-        // Initialize display configuration defaults
-        renderChannelStream('🌐-global-mainframe');
+        // Run Initial Render State Configuration
+        renderChannelStream('global-mainframe');
     </script>
 </body>
 </html>
