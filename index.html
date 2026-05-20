@@ -85,6 +85,42 @@
             text-transform: lowercase;
         }
 
+        /* PAGE SWITCH NAVIGATION */
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-tab {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            padding: 8px 16px;
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+
+        .nav-tab:hover {
+            color: var(--text-main);
+        }
+
+        .nav-tab.active-tab {
+            color: var(--gold-accent);
+            border-bottom: 2px solid var(--gold-accent);
+            text-shadow: 0 0 8px rgba(212, 175, 55, 0.3);
+        }
+
+        .right-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
         .login-btn {
             background: transparent;
             color: var(--text-main);
@@ -148,7 +184,7 @@
         .btn-submit { background: var(--gold-accent); border: none; color: black; }
         .btn-google { background: white; border: none; color: black; }
 
-        /* --- MAIN LAYOUT --- */
+        /* --- MAIN LAYOUT CONTROL --- */
         main {
             padding: 150px 20px 60px;
             max-width: 1200px;
@@ -156,6 +192,18 @@
             display: flex;
             flex-direction: column;
             gap: 80px;
+        }
+
+        /* Dynamic view wrappers */
+        .page-view {
+            display-wrap: flex;
+            flex-direction: column;
+            gap: 80px;
+            width: 100%;
+        }
+
+        .hidden-view {
+            display: none !important;
         }
 
         /* --- HERO INTRO SECTION --- */
@@ -191,7 +239,7 @@
             text-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
         }
 
-        /* --- NON-DISCORD TEXTING PLATFORM (IMAGE MOCKUP PREVIEW) --- */
+        /* --- NON-DISCORD TEXTING PLATFORM PREVIEW --- */
         .messaging-platform-wrapper {
             position: relative;
             background: #050508;
@@ -202,7 +250,7 @@
             box-shadow: 0 25px 50px rgba(0,0,0,0.7);
             user-select: none;
             -webkit-user-select: none;
-            pointer-events: none; /* Disables all interaction completely */
+            pointer-events: none;
         }
 
         .channel-sidebar {
@@ -315,7 +363,6 @@
             letter-spacing: 0.5px;
         }
 
-        /* Absolute Preview Glass Mask Overlay */
         .coming-soon-blur-layer {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -400,21 +447,33 @@
             backdrop-filter: blur(5px);
         }
 
-        /* --- CREDITS --- */
+        /* --- CREDITS PAGE LOOK --- */
+        .credits-container {
+            padding: 40px 0;
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
         .credits-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
+            grid-template-columns: 1fr;
+            gap: 25px;
+            margin-top: 20px;
         }
 
         .credit-card {
             background: var(--card-bg);
-            border-left: 3px solid var(--gold-accent);
-            padding: 25px;
+            border-left: 4px solid var(--gold-accent);
+            padding: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
 
-        .credit-card h4 { font-size: 1.2rem; margin-bottom: 5px; }
-        .credit-card p { color: var(--gold-accent); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
+        .credit-card h4 { font-size: 1.4rem; font-weight: 400; letter-spacing: 1px; }
+        .credit-card p { color: var(--gold-accent); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; }
 
         /* --- FEEDBACK FORM --- */
         .feedback-section {
@@ -465,13 +524,13 @@
 
         /* --- RESPONSIVENESS --- */
         @media (max-width: 768px) {
-            header { padding: 15px 20px; top: 36px; }
-            .credits-grid { grid-template-columns: 1fr; }
-            main { padding-top: 130px; gap: 60px; }
+            header { padding: 15px 20px; top: 36px; flex-direction: column; gap: 15px; }
+            main { padding-top: 180px; gap: 60px; }
             .messaging-platform-wrapper { grid-template-columns: 1fr; height: auto; }
             .channel-sidebar { border-right: none; border-bottom: 1px solid rgba(212, 175, 55, 0.15); }
             .chat-viewport { height: 400px; }
             .preview-grid { grid-template-columns: 1fr; }
+            .credit-card { flex-direction: column; align-items: flex-start; gap: 10px; }
         }
     </style>
 </head>
@@ -482,11 +541,19 @@
     </div>
 
     <header>
-        <div class="logo-container">
+        <div class="logo-container" onclick="showPage('home')">
             <span class="logo-mark">W</span>
             <span class="logo-text">w website</span>
         </div>
-        <button class="login-btn" onclick="openModal()">Login / Sign Up</button>
+
+        <ul class="nav-links">
+            <li><button class="nav-tab active-tab" id="tab-home" onclick="showPage('home')">Home</button></li>
+            <li><button class="nav-tab" id="tab-credits" onclick="showPage('credits')">Credits</button></li>
+        </ul>
+
+        <div class="right-actions">
+            <button class="login-btn" onclick="openModal()">Login / Sign Up</button>
+        </div>
     </header>
 
     <div class="modal-overlay" id="loginModal">
@@ -503,99 +570,105 @@
 
     <main>
         
-        <section class="hero-branding">
-            <div class="hero-logo">W</div>
-            <h1 class="hero-title">w website</h1>
-        </section>
-
-        <section id="texting-platform">
-            <h2 class="section-title">Texting Channel Platform</h2>
+        <div id="page-home-view" class="page-view">
             
-            <div class="messaging-platform-wrapper">
+            <section class="hero-branding">
+                <div class="hero-logo">W</div>
+                <h1 class="hero-title">w website</h1>
+            </section>
+
+            <section id="texting-platform">
+                <h2 class="section-title">Texting Channel Platform</h2>
                 
-                <div class="coming-soon-blur-layer">
-                    <div class="preview-badge">PREVIEW</div>
-                    <div class="layer-title">TEXTING CHANNELS — COMING SOON</div>
-                    <div class="layer-tagline">Real-time communication framework powered by Firebase architecture. Access clearance protocol under development.</div>
-                </div>
-
-                <div class="channel-sidebar">
-                    <div class="pane-title">Data Streams</div>
-                    <ul class="channel-list">
-                        <li class="channel-item active">
-                            <div class="status-dot"></div>global-mainframe
-                        </li>
-                        <li class="channel-item">
-                            <div class="status-dot"></div>announcements
-                        </li>
-                        <li class="channel-item">
-                            <div class="status-dot"></div>general-relay
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="chat-viewport">
-                    <div class="chat-header">
-                        Active Terminal Node: <span>global-mainframe</span>
+                <div class="messaging-platform-wrapper">
+                    
+                    <div class="coming-soon-blur-layer">
+                        <div class="preview-badge">PREVIEW</div>
+                        <div class="layer-title">TEXTING CHANNELS — COMING SOON</div>
+                        <div class="layer-tagline">Real-time communication framework powered by Firebase architecture. Access clearance protocol under development.</div>
                     </div>
 
-                    <div class="message-stream-area">
-                        <div class="empty-stream-placeholder">No active stream payloads found.</div>
+                    <div class="channel-sidebar">
+                        <div class="pane-title">Data Streams</div>
+                        <ul class="channel-list">
+                            <li class="channel-item active">
+                                <div class="status-dot"></div>global-mainframe
+                            </li>
+                            <li class="channel-item">
+                                <div class="status-dot"></div>announcements
+                            </li>
+                            <li class="channel-item">
+                                <div class="status-dot"></div>general-relay
+                            </li>
+                        </ul>
                     </div>
 
-                    <div class="chat-input-wrapper">
-                        <div class="input-bar-container">
-                            <div class="chat-input-placeholder-text">Secure communication node offline — Authorization required...</div>
+                    <div class="chat-viewport">
+                        <div class="chat-header">
+                            Active Terminal Node: <span>global-mainframe</span>
+                        </div>
+
+                        <div class="message-stream-area">
+                            <div class="empty-stream-placeholder">No active stream payloads found.</div>
+                        </div>
+
+                        <div class="chat-input-wrapper">
+                            <div class="input-bar-container">
+                                <div class="chat-input-placeholder-text">Secure communication node offline — Authorization required...</div>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-            </div>
-        </section>
-
-        <section id="modules">
-            <h2 class="section-title">Upcoming Modules</h2>
-            <div class="preview-grid">
-                
-                <div class="preview-box">
-                    <div class="mock-ui"></div>
-                    <div class="coming-soon-badge">Gaming Arena</div>
                 </div>
+            </section>
 
-                <div class="preview-box">
-                    <div class="mock-ui"></div>
-                    <div class="coming-soon-badge">Social Stream</div>
-                </div>
+            <section id="modules">
+                <h2 class="section-title">Upcoming Modules</h2>
+                <div class="preview-grid">
+                    
+                    <div class="preview-box">
+                        <div class="mock-ui"></div>
+                        <div class="coming-soon-badge">Gaming Arena</div>
+                    </div>
 
-            </div>
-        </section>
+                    <div class="preview-box">
+                        <div class="mock-ui"></div>
+                        <div class="coming-soon-badge">Social Stream</div>
+                    </div>
 
-        <section id="credits">
-            <h2 class="section-title">System Credentials & Credits</h2>
-            <div class="credits-grid">
-                <div class="credit-card">
-                    <h4>Brody Williams</h4>
-                    <p>Master / Executive Command</p>
                 </div>
-                <div class="credit-card">
-                    <h4>Jase</h4>
-                    <p>Infrastructure Operations</p>
-                </div>
-                <div class="credit-card">
-                    <h4>Owen</h4>
-                    <p>Operations Management</p>
-                </div>
-            </div>
-        </section>
+            </section>
 
-        <section id="feedback" class="feedback-section">
-            <h2 class="section-title">Community Feedback</h2>
-            <p style="color: var(--text-muted);">What do you want to see next on w website?</p>
-            <form onsubmit="submitFeedback(event)">
-                <textarea placeholder="Type your ideas and suggestions here..." required></textarea><br>
-                <button type="submit" class="btn-submit-feedback">Submit Request</button>
-            </form>
-        </section>
+            <section id="feedback" class="feedback-section">
+                <h2 class="section-title">Community Feedback</h2>
+                <p style="color: var(--text-muted);">What do you want to see next on w website?</p>
+                <form onsubmit="submitFeedback(event)">
+                    <textarea placeholder="Type your ideas and suggestions here..." required></textarea><br>
+                    <button type="submit" class="btn-submit-feedback">Submit Request</button>
+                </form>
+            </section>
+            
+        </div>
+
+        <div id="page-credits-view" class="page-view hidden-view">
+            <section class="credits-container">
+                <h2 class="section-title">System Credentials & Credits</h2>
+                <div class="credits-grid">
+                    <div class="credit-card">
+                        <h4>Brody Williams</h4>
+                        <p>Master / Executive Command</p>
+                    </div>
+                    <div class="credit-card">
+                        <h4>Jase</h4>
+                        <p>Infrastructure Operations</p>
+                    </div>
+                    <div class="credit-card">
+                        <h4>Owen</h4>
+                        <p>Operations Management</p>
+                    </div>
+                </div>
+            </section>
+        </div>
 
     </main>
 
@@ -606,6 +679,30 @@
 
     <script>
         const modal = document.getElementById('loginModal');
+        const homeView = document.getElementById('page-home-view');
+        const creditsView = document.getElementById('page-credits-view');
+        const tabHome = document.getElementById('tab-home');
+        const tabCredits = document.getElementById('tab-credits');
+
+        // Dynamic View-Router Matrix Configuration
+        function showPage(pageId) {
+            // Hide all sub-views first
+            homeView.classList.add('hidden-view');
+            creditsView.classList.add('hidden-view');
+            tabHome.classList.remove('active-tab');
+            tabCredits.classList.remove('active-tab');
+
+            // Toggle selected target components
+            if (pageId === 'home') {
+                homeView.classList.remove('hidden-view');
+                tabHome.classList.add('active-tab');
+                window.scrollTo(0, 0);
+            } else if (pageId === 'credits') {
+                creditsView.classList.remove('hidden-view');
+                tabCredits.classList.add('active-tab');
+                window.scrollTo(0, 0);
+            }
+        }
 
         function openModal() {
             modal.style.display = 'flex';
