@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wwebsite | Control Terminal & Platform</title>
+    <title>Wwebsite | Secure Messaging Terminal</title>
     <style>
         /* --- INDUSTRIAL PREMIUM SYSTEM ROOT --- */
         :root {
-            --bg-main: #020204;
+            --bg-main: #030305;
             --panel-bg: #07070b;
             --panel-sidebar: #0b0b10;
             --border-subtle: rgba(255, 255, 255, 0.04);
@@ -15,14 +15,16 @@
             --text-main: #ffffff;
             --text-muted: #6e6e76;
             
+            /* Playful & Premium Accents */
+            --bubble-self-gradient: linear-gradient(135deg, #2e1a47 0%, #1e113a 100%);
+            --bubble-peer-gradient: linear-gradient(135deg, #161c2e 0%, #0d111c 100%);
+            --bubble-glowing-glow: rgba(74, 43, 114, 0.25);
+            
             /* Status Indicators */
             --color-error: #ff4545;
             --color-warning: #ffa500;
             --color-testing: #3b82f6;
             --color-success: #10b981;
-            
-            --accent-purple: #32254f;
-            --card-bg: rgba(255, 255, 255, 0.01);
         }
 
         * {
@@ -40,42 +42,10 @@
         }
 
         /* --- SCROLLBAR TERMINAL CONFIG --- */
-        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
         ::-webkit-scrollbar-track { background: #000000; }
-        ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 2px; }
+        ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.08); border-radius: 2px; }
         ::-webkit-scrollbar-thumb:hover { background: var(--gold-accent); }
-
-        /* --- OVERRIDES FOR INTERCEPT STATES --- */
-        .system-intercept-screen {
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            background: #000000;
-            z-index: 9999;
-            display: none;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 40px;
-        }
-        .intercept-card {
-            max-width: 500px;
-            padding: 40px;
-            border: 1px solid var(--border-subtle);
-            background: #050508;
-        }
-        .intercept-title {
-            font-size: 1.1rem;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            margin-bottom: 15px;
-        }
-        .intercept-desc {
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            line-height: 1.6;
-            letter-spacing: 0.5px;
-        }
 
         /* --- NAVIGATION HEADER --- */
         #broadcast-banner {
@@ -88,7 +58,7 @@
         header {
             position: fixed; top: 36px; width: 100%; padding: 20px 50px;
             display: flex; justify-content: space-between; align-items: center;
-            background: rgba(2, 2, 4, 0.95); backdrop-filter: blur(12px);
+            background: rgba(3, 3, 5, 0.95); backdrop-filter: blur(12px);
             z-index: 1000; border-bottom: 1px solid var(--border-subtle);
         }
         .logo-container { display: flex; align-items: center; gap: 12px; cursor: pointer; }
@@ -112,15 +82,15 @@
         .login-btn:hover { border-color: var(--gold-accent); color: var(--gold-accent); }
         .user-badge { font-size: 0.8rem; color: var(--text-muted); margin-right: 15px; }
 
-        /* --- SECURITY GATEWAY MODAL --- */
+        /* --- GLOBAL SECURITY GATEWAY MODAL --- */
         .modal-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.9); backdrop-filter: blur(6px); z-index: 3000;
+            background: rgba(0, 0, 0, 0.95); backdrop-filter: blur(8px); z-index: 3000;
             justify-content: center; align-items: center;
         }
         .modal-box {
-            background: #050508; border: 1px solid var(--border-subtle);
-            padding: 40px; width: 100%; max-width: 400px; position: relative;
+            background: #06060a; border: 1px solid var(--border-subtle);
+            padding: 40px; width: 100%; max-width: 420px; position: relative;
         }
         .close-modal { position: absolute; top: 15px; right: 20px; cursor: pointer; color: var(--text-muted); font-size: 1.2rem; }
         .modal-box h2 { font-size: 1.1rem; font-weight: 400; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; text-align: center;}
@@ -133,263 +103,329 @@
             width: 100%; padding: 12px; margin-bottom: 8px; background: white; border: none; color: black;
             font-weight: bold; text-transform: uppercase; font-size: 0.8rem; cursor: pointer; letter-spacing: 1px;
         }
-        .google-signin-btn-container { width: 100%; display: flex; justify-content: center; margin-top: 15px; }
-        .google-btn-spec {
-            display: flex; align-items: center; justify-content: center; background-color: #131314;
-            border: 1px solid #444; border-radius: 4px; color: #e3e3e3; cursor: pointer; padding: 10px; width: 100%;
+        
+        /* Team Selection Checkboxes (Inside Chat Generator Modal) */
+        .team-selection-matrix {
+            margin: 15px 0; max-height: 150px; overflow-y: auto;
+            border: 1px solid var(--border-subtle); padding: 10px; background: #000;
+        }
+        .team-member-checkbox-row {
+            display: flex; align-items: center; gap: 10px; padding: 6px 0;
+            font-size: 0.85rem; color: #d1d1d6;
+        }
+        .team-member-checkbox-row input { width: auto; margin: 0; }
+
+        /* --- AUTH ALERTS BANNER --- */
+        #authAlertBanner {
+            display: none; background: rgba(255, 69, 69, 0.15); border: 1px solid var(--color-error);
+            color: white; padding: 12px; text-align: center; font-size: 0.85rem;
+            letter-spacing: 1px; margin-bottom: 20px; text-transform: uppercase;
         }
 
-        /* --- STRUCTURAL INTERFACE CONTENT PANELS --- */
-        main { padding: 150px 20px 60px; max-width: 1200px; margin: 0 auto; min-height: 80vh; }
+        /* --- STRUCTURAL APP VIEW CONTENT --- */
+        main { padding: 150px 20px 60px; max-width: 1300px; margin: 0 auto; min-height: 85vh; }
         .page-view { display: flex; flex-direction: column; gap: 60px; width: 100%; }
         .hidden-view { display: none !important; }
 
-        /* HERO LAYOUT EXTRAS */
+        /* PUBLIC VIEWS MOCK LAYOUTS */
         .hero-branding { text-align: center; padding: 10px 0; }
         .hero-logo { font-size: 5rem; font-weight: 900; color: var(--text-main); letter-spacing: 2px; line-height: 1; }
         .hero-title { font-size: 1.8rem; font-weight: 200; letter-spacing: 4px; color: var(--text-muted); }
         h2.section-title { font-size: 1rem; font-weight: 400; letter-spacing: 3px; margin-bottom: 30px; text-transform: uppercase; text-align: center; color: var(--text-muted); }
 
-        /* TEXTING WORKSPACE COMPONENT MOCKUP */
-        .workspace-preview-frame {
-            position: relative; background: var(--panel-bg); border: 1px solid var(--border-subtle);
-            height: 500px; display: grid; grid-template-columns: 260px 1fr; border-radius: 4px; overflow: hidden;
-        }
-        .workspace-sidebar { background: var(--panel-sidebar); border-right: 1px solid var(--border-subtle); padding: 20px; display: flex; flex-direction: column; }
-        .identity-profile-card { display: flex; align-items: center; gap: 12px; padding-bottom: 15px; border-bottom: 1px solid var(--border-subtle); margin-bottom: 15px; }
-        .avatar-circle-wrapper { width: 34px; height: 34px; border-radius: 50%; background: #1a1a24; border: 1px solid rgba(255,255,255,0.1); position: relative; }
-        .online-presence-tether { width: 8px; height: 8px; background: var(--color-success); border-radius: 50%; position: absolute; bottom: 0; right: 0; }
-        .identity-meta-fields { display: flex; flex-direction: column; }
-        .identity-primary-label { font-size: 0.85rem; font-weight: bold; }
-        .identity-sub-role-label { font-size: 0.7rem; color: var(--text-muted); }
-        .workspace-navigation-rail { display: flex; justify-content: space-between; background: rgba(0,0,0,0.3); padding: 4px; border-radius: 4px; margin-bottom: 15px; }
-        .rail-action-unit { flex: 1; background: transparent; border: none; padding: 8px 2px; color: var(--text-muted); font-size: 0.6rem; text-transform: uppercase; cursor: pointer; text-align: center; }
-        .rail-action-unit.active-rail-unit { background: var(--accent-purple); color: white; }
-        .create-stream-trigger { width: 100%; background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle); color: white; padding: 10px; font-size: 0.8rem; cursor: pointer; margin-bottom: 15px; }
-        .stream-telemetry-feed { flex: 1; display: flex; flex-direction: column; gap: 6px; opacity: 0.15; }
-        .stream-list-item-skeleton { width: 100%; height: 36px; background: white; border-radius: 2px; }
-        .workspace-viewport-canvas { background: #040406; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-        .workspace-blur-lockscreen-layer { position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(2,2,4,0.6); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); z-index: 10; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-        .preview-badge { border: 1px solid var(--text-muted); color: var(--text-muted); padding: 4px 12px; font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 15px; }
-        .layer-title { font-size: 1.1rem; font-weight: 300; letter-spacing: 3px; margin-bottom: 8px; }
-        .layer-tagline { font-size: 0.8rem; color: var(--text-muted); max-width: 400px; text-align: center; line-height: 1.5; }
-
-        /* PREVIEW APPLICATIONS NODES */
-        .preview-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-        .preview-box { height: 180px; background: var(--panel-bg); border: 1px solid var(--border-subtle); display: flex; justify-content: center; align-items: center; position: relative; }
-        .coming-soon-badge { position: absolute; background: #000; border: 1px solid var(--border-subtle); padding: 10px 20px; font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); }
-
-        /* FEEDBACK LAYER ARCHITECTURE */
-        .feedback-section { background: var(--panel-bg); padding: 40px; border: 1px solid var(--border-subtle); text-align: center; }
-        .btn-submit-feedback { background: transparent; color: var(--text-main); border: 1px solid var(--border-subtle); padding: 12px 30px; font-size: 0.8rem; text-transform: uppercase; cursor: pointer; letter-spacing: 1px; }
-        .btn-submit-feedback:hover { border-color: white; }
-
-        /* CREDITS PAGE DESIGN */
-        .credits-container { max-width: 600px; margin: 0 auto; width: 100%; }
-        .credits-grid { display: flex; flex-direction: column; gap: 15px; }
-        .credit-card { background: var(--panel-bg); border: 1px solid var(--border-subtle); padding: 20px 30px; display: flex; justify-content: space-between; align-items: center; }
-        .credit-card h4 { font-size: 1rem; font-weight: 400; }
-        .credit-card p { font-size: 0.75rem; color: var(--gold-accent); text-transform: uppercase; letter-spacing: 1px; }
-
         /* ==================================================================================== */
-        /* 🎛️ OWNER CONTROL PANEL INTERFACE STRUCTURE                                         */
+        /* 💬 NEW ARCHITECTURE MODULE: PREMIUM W-MESSAGES CHAT WORKSPACE                      */
         /* ==================================================================================== */
-        .owner-grid-framework {
+        .messages-workspace-container {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 25px;
-            width: 100%;
-            margin-top: 20px;
-        }
-        
-        .owner-card-panel {
+            grid-template-columns: 320px 1fr;
+            height: 680px;
             background: var(--panel-bg);
             border: 1px solid var(--border-subtle);
-            padding: 30px;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        /* --- LEFT SIDE SUB-PANE: CHAT STREAM SELECTOR --- */
+        .msg-sub-pane {
+            background: var(--panel-sidebar);
+            border-right: 1px solid var(--border-subtle);
             display: flex;
             flex-direction: column;
         }
-
-        .panel-header-title {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            letter-spacing: 2px;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
+        .pane-meta-header {
+            padding: 24px 20px;
             border-bottom: 1px solid var(--border-subtle);
+        }
+        .pane-title-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .pane-headline {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
             font-weight: bold;
         }
-
-        .switch-vertical-stack {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .industrial-switch-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 12px 20px;
-            border: 1px solid transparent;
+        .btn-create-chat {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.15);
+            color: var(--text-main);
+            font-size: 0.75rem;
+            padding: 5px 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
             cursor: pointer;
             transition: all 0.2s;
         }
-
-        .industrial-switch-row:hover {
-            background: rgba(255, 255, 255, 0.01);
-            border-color: rgba(255, 255, 255, 0.03);
+        .btn-create-chat:hover {
+            border-color: var(--gold-accent);
+            color: var(--gold-accent);
         }
 
-        .industrial-switch-row.active-row-state[data-mode="shutdown"] { border-color: var(--color-error); background: rgba(255, 69, 69, 0.03); }
-        .industrial-switch-row.active-row-state[data-mode="maintenance"] { border-color: var(--color-warning); background: rgba(255, 165, 0, 0.03); }
-        .industrial-switch-row.active-row-state[data-mode="testing"] { border-color: var(--color-testing); background: rgba(59, 130, 246, 0.03); }
-        .industrial-switch-row.active-row-state[data-mode="live"] { border-color: var(--color-success); background: rgba(16, 185, 129, 0.03); }
+        /* Contact Threads Scroller */
+        .threads-scroller {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px 0;
+        }
+        .thread-row-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 20px;
+            cursor: pointer;
+            border-bottom: 1px solid rgba(255,255,255,0.01);
+            transition: all 0.2s;
+        }
+        .thread-row-item:hover {
+            background: rgba(255, 255, 255, 0.01);
+        }
+        .thread-row-item.active-thread-selected {
+            background: rgba(212, 175, 55, 0.03);
+            border-left: 2px solid var(--gold-accent);
+        }
 
-        .switch-label-block {
+        /* Premium Round Avatars with Presence Triggers */
+        .avatar-frame {
+            position: relative;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #161622;
+            border: 1px solid rgba(255,255,255,0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: var(--gold-accent);
+            text-transform: uppercase;
+        }
+        .presence-dot {
+            position: absolute;
+            bottom: 1px;
+            right: 1px;
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            border: 1.5px solid var(--panel-sidebar);
+            background: var(--text-muted);
+        }
+        .presence-dot.state-online { background: var(--color-success); }
+        .presence-dot.state-busy { background: var(--color-warning); }
+
+        .thread-meta-block {
+            flex: 1;
             display: flex;
             flex-direction: column;
+            gap: 4px;
+            min-width: 0;
         }
-        .switch-label-main { font-size: 0.85rem; font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; }
-        .switch-label-sub { font-size: 0.7rem; color: var(--text-muted); margin-top: 2px; }
-
-        .status-pill-indicator {
-            font-size: 0.65rem;
-            padding: 4px 10px;
-            text-transform: uppercase;
-            font-weight: bold;
-            letter-spacing: 1px;
-            background: rgba(255,255,255,0.05);
+        .thread-title-text {
+            font-size: 0.85rem;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .thread-preview-snippet {
+            font-size: 0.75rem;
             color: var(--text-muted);
-            border-radius: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
-        .active-row-state[data-mode="shutdown"] .status-pill-indicator { background: var(--color-error); color: black; }
-        .active-row-state[data-mode="maintenance"] .status-pill-indicator { background: var(--color-warning); color: black; }
-        .active-row-state[data-mode="testing"] .status-pill-indicator { background: var(--color-testing); color: white; }
-        .active-row-state[data-mode="live"] .status-pill-indicator { background: var(--color-success); color: black; }
 
-        .heavy-action-container {
+        /* --- RIGHT SIDE VIEWPORT: PLAYFUL PREMIUM CANVAS --- */
+        .chat-viewport-canvas {
+            display: flex;
+            flex-direction: column;
+            background: #030305;
+            height: 100%;
+            position: relative;
+        }
+
+        .chat-viewport-fallback-empty {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 40px 20px;
-            background: rgba(0, 0, 0, 0.2);
-            border: 1px dashed var(--border-subtle);
-            text-align: center;
             height: 100%;
-        }
-        .btn-industrial-flat {
-            background: transparent;
-            color: var(--text-main);
-            border: 1px solid var(--text-muted);
-            padding: 14px 28px;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            font-weight: bold;
-            letter-spacing: 2px;
-            cursor: pointer;
-            transition: all 0.2s;
-            margin-top: 15px;
-            width: 100%;
-            max-width: 300px;
-        }
-        .btn-industrial-flat:hover {
-            background: white;
-            color: black;
-            border-color: white;
-        }
-
-        .stream-scroller-box {
-            height: 280px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            padding-right: 5px;
-        }
-        .suggestion-data-row {
-            background: rgba(0,0,0,0.4);
-            border: 1px solid var(--border-subtle);
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-        .suggestion-header-meta {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.7rem;
             color: var(--text-muted);
-        }
-        .suggestion-text-payload {
             font-size: 0.85rem;
-            color: #e0e0e3;
-            line-height: 1.4;
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
 
-        .telemetry-text-matrix {
+        .chat-stream-header {
+            padding: 20px 30px;
+            border-bottom: 1px solid var(--border-subtle);
+            background: rgba(7, 7, 11, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .active-stream-title { font-size: 0.9rem; font-weight: 500; letter-spacing: 0.5px; }
+
+        /* Message Log Area */
+        .message-history-log {
+            flex: 1;
+            overflow-y: auto;
+            padding: 30px;
             display: flex;
             flex-direction: column;
-            gap: 14px;
+            gap: 20px;
         }
-        .telemetry-item-row {
+
+        .message-row-wrapper {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.85rem;
+            flex-direction: column;
+            max-width: 70%;
+        }
+        .message-row-wrapper.layout-self { align-self: flex-end; align-items: flex-end; }
+        .message-row-wrapper.layout-peer { align-self: flex-start; align-items: flex-start; }
+
+        .message-sender-tag {
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.4);
+            margin-bottom: 5px;
+            padding: 0 4px;
             letter-spacing: 0.5px;
         }
-        .telemetry-label { color: var(--text-main); text-transform: uppercase; font-size: 0.8rem; }
-        .telemetry-value-indicator { font-weight: bold; font-size: 0.8rem; text-transform: uppercase; }
-        .telemetry-value-indicator.state-green { color: var(--color-success); }
-
-        .exception-protocol-card {
-            max-width: 500px;
-            margin: 40px auto;
-            border: 1px solid var(--color-error);
-            background: rgba(255, 69, 69, 0.02);
-            padding: 40px;
-            text-align: center;
+        
+        /* Pill-Shaped Premium Message Bubbles */
+        .premium-message-bubble {
+            padding: 12px 20px;
+            border-radius: 24px;
+            font-size: 0.88rem;
+            line-height: 1.5;
+            color: #f1f1f5;
+            word-break: break-word;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
-        .exception-headline { color: var(--color-error); font-size: 1rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; font-weight: bold; }
-        .exception-body { color: var(--text-muted); font-size: 0.85rem; line-height: 1.6; }
+        .layout-self .premium-message-bubble {
+            background: var(--bubble-self-gradient);
+            border-bottom-right-radius: 4px;
+            border: 1px solid rgba(74, 43, 114, 0.4);
+            box-shadow: 0 4px 20px var(--bubble-glowing-glow);
+        }
+        .layout-peer .premium-message-bubble {
+            background: var(--bubble-peer-gradient);
+            border-bottom-left-radius: 4px;
+            border: 1px solid rgba(255,255,255,0.02);
+        }
 
-        /* --- FOOTER --- */
+        /* --- BOTTOM ACTION INTEGRATION DOCK --- */
+        .bottom-action-dock {
+            padding: 20px 30px;
+            border-top: 1px solid var(--border-subtle);
+            background: rgba(7, 7, 11, 0.7);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .dock-input-row {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        .premium-pill-input {
+            flex: 1;
+            background: #000000;
+            border: 1px solid var(--border-subtle);
+            color: white;
+            padding: 14px 24px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            outline: none;
+            transition: all 0.2s;
+        }
+        .premium-pill-input:focus {
+            border-color: rgba(255,255,255,0.15);
+            background: #020203;
+        }
+        
+        .btn-dock-send {
+            background: white;
+            color: black;
+            border: none;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            transition: transform 0.2s;
+        }
+        .btn-dock-send:hover { transform: scale(1.05); }
+
+        /* Integrated Utility Buttons Bar */
+        .dock-utilities-strip {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .utility-action-btn {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-subtle);
+            color: #a1a1aa;
+            padding: 6px 14px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .utility-action-btn:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            border-color: rgba(255,255,255,0.15);
+        }
+        .utility-action-btn.accent-launch {
+            color: #3b82f6;
+            border-color: rgba(59, 130, 246, 0.2);
+        }
+        .utility-action-btn.accent-launch:hover {
+            background: rgba(59, 130, 246, 0.1);
+            color: #60a5fa;
+        }
+
+        /* --- FOOTER REGION --- */
         footer { border-top: 1px solid var(--border-subtle); padding: 40px 20px; text-align: center; background: #010102; margin-top: 60px; }
         footer p { color: var(--text-muted); font-size: 0.8rem; margin-bottom: 8px; letter-spacing: 0.5px;}
         footer a { color: var(--text-main); text-decoration: none; font-weight: bold; }
-
-        @media (max-width: 900px) {
-            header { padding: 15px 25px; top: 36px; flex-direction: column; gap: 12px; }
-            main { padding-top: 180px; }
-            .owner-grid-framework { grid-template-columns: 1fr; }
-            .workspace-preview-frame { grid-template-columns: 1fr; height: auto; }
-            .workspace-sidebar { border-right: none; border-bottom: 1px solid var(--border-subtle); }
-            .workspace-viewport-canvas { height: 300px; }
-        }
     </style>
 </head>
 <body>
 
-    <div class="system-intercept-screen" id="screen-shutdown">
-        <div class="intercept-card">
-            <div class="intercept-title" style="color: var(--color-error);">System Offline</div>
-            <div class="intercept-desc">The platform core engine has been taken offline by administration modules. Standby for connection logs.</div>
-        </div>
-    </div>
-
-    <div class="system-intercept-screen" id="screen-maintenance">
-        <div class="intercept-card">
-            <div class="intercept-title" style="color: var(--color-warning);">System Updating</div>
-            <div class="intercept-desc">Wwebsite is currently updating system dependencies. Back up shortly.</div>
-        </div>
-    </div>
-
     <div id="broadcast-banner">
-        System Notice: Wwebsite is currently in active development. Complete compilation sequence scheduled for 05/22-23-24-25-26-27/2026. This will be recored and published in the social media section. 
+        System Notice: Wwebsite is currently in active development. Complete compilation sequence scheduled for 2026.
     </div>
 
     <header>
@@ -401,7 +437,7 @@
         <ul class="nav-links">
             <li><button class="nav-tab active-tab" id="tab-home" onclick="showPage('home')">Home</button></li>
             <li><button class="nav-tab" id="tab-credits" onclick="showPage('credits')">Credits</button></li>
-            <li><button class="nav-tab" id="tab-owner" style="display: none; color: var(--gold-accent);" onclick="showPage('owner')">Owner Panel</button></li>
+            <li><button class="nav-tab" id="tab-messages" style="color: #60a5fa;" onclick="showPage('messages')">💬 Chats</button></li>
         </ul>
 
         <div class="right-actions">
@@ -413,7 +449,8 @@
     <div class="modal-overlay" id="loginModal">
         <div class="modal-box">
             <span class="close-modal" onclick="closeModal()">&times;</span>
-            <h2>Access Portal</h2>
+            <div id="authAlertBanner">Authentication Required — Please sign in to access your W-Messages secure terminal.</div>
+            <h2 id="modalPortalHeadline">Access Portal</h2>
             
             <input type="email" id="portalEmailField" placeholder="Secured Email Sequence">
             <input type="password" id="portalPasswordField" placeholder="Access Authentication Key">
@@ -421,7 +458,7 @@
             <button class="action-submit" onclick="executeEmailPasswordLogin()">Authenticate Key</button>
             <button class="action-submit" style="background: transparent; border: 1px solid var(--border-subtle); color: white;" onclick="executeEmailPasswordRegistration()">Create Registry File</button>
             
-            <div class="google-signin-btn-container">
+            <div class="google-signin-btn-container" style="width:100%; display:flex; justify-content:center; margin-top:15px;">
                 <button class="google-btn-spec" onclick="executeGoogleIdentitySync()">
                     <svg style="width:18px; height:18px; margin-right:10px;" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
@@ -429,9 +466,29 @@
                         <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"/>
                         <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"/>
                     </svg>
-                    <span style="font-size:0.85rem; font-weight:500;">Sign in with Google</span>
+                    <span style="font-size:0.85rem; font-weight:500; color: #e3e3e3;">Sign in with Google</span>
                 </button>
             </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="createChatModal">
+        <div class="modal-box">
+            <span class="close-modal" onclick="closeCreateChatModal()">&times;</span>
+            <h2>Initialize Chat Stream</h2>
+            <p style="color: var(--text-muted); font-size: 0.75rem; margin-bottom: 15px; text-transform: uppercase;">Build a group sequence or search team directories</p>
+            
+            <input type="text" id="chatThreadNameInput" placeholder="Thread Room Designation Name (e.g. Core Engine Devs)">
+            
+            <div style="font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); margin-top: 10px;">Select Team Contacts:</div>
+            <div class="team-selection-matrix">
+                <label class="team-member-checkbox-row"><input type="checkbox" value="Jullian" class="team-checkbox"> Jullian (Operations)</label>
+                <label class="team-member-checkbox-row"><input type="checkbox" value="Isaac P" class="team-checkbox"> Isaac P (Graphics Engine)</label>
+                <label class="team-member-checkbox-row"><input type="checkbox" value="Wesley" class="team-checkbox"> Wesley (Architecture)</label>
+                <label class="team-member-checkbox-row"><input type="checkbox" value="Henry" class="team-checkbox"> Henry (Infrastructure)</label>
+            </div>
+
+            <button class="action-submit" onclick="commitNewChatThreadToRealtimeDatabase()">Initialize Stream Channel</button>
         </div>
     </div>
 
@@ -443,46 +500,9 @@
                 <h1 class="hero-title">w website</h1>
             </section>
 
-            <section id="texting-platform">
-                <h2 class="section-title">Texting Channel Platform</h2>
-                <div class="workspace-preview-frame">
-                    <div class="workspace-blur-lockscreen-layer">
-                        <div class="preview-badge">PREVIEW</div>
-                        <div class="layer-title">TEXTING CHANNELS — COMING SOON</div>
-                        <div class="layer-tagline">Real-time communication workspace environment. Backend security systems layout configuration under current development.</div>
-                    </div>
-                    <div class="workspace-sidebar">
-                        <div class="identity-profile-card">
-                            <div class="avatar-circle-wrapper"><div class="online-presence-tether"></div></div>
-                            <div class="identity-meta-fields">
-                                <span class="identity-primary-label" id="workspaceUserProfileName">Goated Website</span>
-                                <span class="identity-sub-role-label">by Brody Williams</span>
-                            </div>
-                        </div>
-                        <div class="workspace-navigation-rail">
-                            <button class="rail-action-unit active-rail-unit">Chats</button>
-                            <button class="rail-action-unit">People</button>
-                            <button class="rail-action-unit">Alerts</button>
-                            <button class="rail-action-unit">Updates</button>
-                        </div>
-                        <button class="create-stream-trigger">+ New Chat</button>
-                        <div class="stream-telemetry-feed">
-                            <div class="stream-list-item-skeleton"></div>
-                            <div class="stream-list-item-skeleton"></div>
-                        </div>
-                    </div>
-                    <div class="workspace-viewport-canvas">
-                        <p style="color: var(--text-muted); font-size: 0.85rem;">Select a conversation to begin</p>
-                    </div>
-                </div>
-            </section>
-
             <section class="feedback-section">
-                <h2 class="section-title">Community Feedback</h2>
-                <form id="feedbackRelayDataForm">
-                    <textarea id="feedbackPayloadTextarea" placeholder="Transmit system deployment optimization requests directly to the core owner telemetry paths..." required></textarea><br>
-                    <button type="submit" class="btn-submit-feedback">Transmit Payload</button>
-                </form>
+                <h2 class="section-title">Operational Feedback Portal</h2>
+                <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 20px;">Public landing section view models. Log into your encrypted profiles using the secure headers above.</p>
             </section>
         </div>
 
@@ -497,96 +517,59 @@
             </section>
         </div>
 
-        <div id="page-owner-view" class="page-view hidden-view">
+        <div id="page-messages-view" class="page-view hidden-view">
             
-            <div id="owner-auth-lock-card" class="exception-protocol-card" style="display: block;">
-                <div class="exception-headline">Clearance Level 4 Protocol Exception</div>
-                <div class="exception-body">Access Denied. Your current active token context contains insufficient signature properties. This routing space is restricted exclusively to the Master Profile.</div>
-            </div>
-
-            <div id="owner-operational-workspace" style="display: none;">
-                <h2 class="section-title" style="text-align: left; margin-bottom: 10px;">Owner Command Console</h2>
-                <p style="color: var(--text-muted); font-size: 0.8rem; margin-bottom: 30px; text-transform: uppercase; letter-spacing: 1px;">Master Execution Space Node &bull; brodywilliams0226@gmail.com</p>
+            <div class="messages-workspace-container">
                 
-                <div class="owner-grid-framework">
+                <div class="msg-sub-pane">
+                    <div class="pane-meta-header">
+                        <div class="pane-title-row">
+                            <span class="pane-headline">W-Messages</span>
+                            <button class="btn-create-chat" onclick="openCreateChatModal()">+ New Chat</button>
+                        </div>
+                    </div>
+
+                    <div class="threads-scroller" id="activeChatThreadsListContainer">
+                        <div style="color: var(--text-muted); font-size: 0.75rem; text-align: center; padding-top: 40px; text-transform: uppercase;">No active chat nodes found.</div>
+                    </div>
+                </div>
+
+                <div class="chat-viewport-canvas">
                     
-                    <div class="owner-card-panel">
-                        <div class="panel-header-title">Global Operations Manager</div>
-                        <div class="switch-vertical-stack">
-                            
-                            <div class="industrial-switch-row" id="sw-shutdown" data-mode="shutdown" onclick="updateGlobalPlatformState('shutdown')">
-                                <div class="switch-label-block">
-                                    <span class="switch-label-main">Engine Shutdown</span>
-                                    <span class="switch-label-sub">Disconnect public server frame routing nodes</span>
-                                </div>
-                                <span class="status-pill-indicator">OFFLINE</span>
-                            </div>
-
-                            <div class="industrial-switch-row" id="sw-maintenance" data-mode="maintenance" onclick="updateGlobalPlatformState('maintenance')">
-                                <div class="switch-label-block">
-                                    <span class="switch-label-main">Maintenance Mode</span>
-                                    <span class="switch-label-sub">Restrict access for software update deployments</span>
-                                </div>
-                                <span class="status-pill-indicator">MAINTENANCE</span>
-                            </div>
-
-                            <div class="industrial-switch-row" id="sw-testing" data-mode="testing" onclick="updateGlobalPlatformState('testing')">
-                                <div class="switch-label-block">
-                                    <span class="switch-label-main">Testing Staging Mode</span>
-                                    <span class="switch-label-sub">Developer whitelists operational parameters</span>
-                                </div>
-                                <span class="status-pill-indicator">STAGING</span>
-                            </div>
-
-                            <div class="industrial-switch-row" id="sw-live" data-mode="live" onclick="updateGlobalPlatformState('live')">
-                                <div class="switch-label-block">
-                                    <span class="switch-label-main">Live Public Mode</span>
-                                    <span class="switch-label-sub">Standard production routing pipeline delivery</span>
-                                </div>
-                                <span class="status-pill-indicator">ONLINE</span>
-                            </div>
-
-                        </div>
+                    <div class="chat-viewport-fallback-empty" id="chatFallbackPlaceholderScreen">
+                        <p>No Channel Context Initialized</p>
+                        <p style="font-size: 0.7rem; color: #444; margin-top: 5px;">Select an active workspace cluster from the channel sub-pane list</p>
                     </div>
 
-                    <div class="owner-card-panel">
-                        <div class="panel-header-title">Global Refresh Controller</div>
-                        <div class="heavy-action-container">
-                            <p style="font-size: 0.85rem; line-height: 1.5; color: #e0e0e3;">Execute a pipeline broadcast signature across all active sockets to force a soft client browser reload and clear stale local content cache metrics instantly.</p>
-                            <button class="btn-industrial-flat" onclick="triggerGlobalLiveEngineReset()">Refresh Everything Globally</button>
+                    <div id="activeChatInterfaceWorkspaceFrame" style="display: none; flex-direction: column; height: 100%;">
+                        <div class="chat-stream-header">
+                            <span class="active-stream-title" id="activeThreadHeaderLabel">Channel Context Node</span>
+                            <span style="font-size: 0.65rem; color: var(--color-success); font-family: monospace; letter-spacing: 1px; text-transform: uppercase;">&bull; Socket Sync Stable</span>
                         </div>
-                    </div>
 
-                    <div class="owner-card-panel">
-                        <div class="panel-header-title">Live Community Feedback Monitor (/suggestions)</div>
-                        <div class="stream-scroller-box" id="feedbackRealtimeStreamContainer">
-                            <div style="color: var(--text-muted); font-size: 0.8rem; padding: 20px; text-align: center;">Awaiting database synchronization pipeline logs...</div>
-                        </div>
-                    </div>
+                        <div class="message-history-log" id="chatStreamMessageLogViewport"></div>
 
-                    <div class="owner-card-panel">
-                        <div class="panel-header-title">Real-Time Platform Telemetry Grid</div>
-                        <div class="telemetry-text-matrix">
-                            <div class="telemetry-item-row">
-                                <span class="telemetry-label">Database Node State</span>
-                                <span class="telemetry-value-indicator state-green">CONNECTED</span>
-                            </div>
-                            <div class="telemetry-item-row">
-                                <span class="telemetry-label">Authentication Relays</span>
-                                <span class="telemetry-value-indicator state-green">STANDBY</span>
-                            </div>
-                            <div class="telemetry-item-row">
-                                <span class="telemetry-label">Platform Latency</span>
-                                <span class="telemetry-value-indicator" style="color: var(--gold-accent); font-family: monospace;">&lt;12ms</span>
-                            </div>
-                            <div class="telemetry-item-row">
-                                <span class="telemetry-label">Cluster Registry Route</span>
-                                <span class="telemetry-value-indicator" style="color: var(--text-muted); font-family: monospace;">US-CENTRAL1</span>
+                        <div class="bottom-action-dock">
+                            <form id="chatMessageDispatchSubmissionForm" onsubmit="transmitChatMessageEvent(event)" class="dock-input-row">
+                                <input type="text" id="chatPayloadInputField" class="premium-pill-input" placeholder="Type your message to the crew..." autocomplete="off">
+                                <button type="submit" class="btn-dock-send">
+                                    <svg style="width:16px; height:16px; transform: rotate(45deg); margin-left:-2px; margin-top:2px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                                    </svg>
+                                </button>
+                            </form>
+
+                            <div class="dock-utilities-strip">
+                                <button class="utility-action-btn" onclick="alert('Asset Dispatch Pipeline Integration Triggered: Local Filesystem Registry Open.')">[📁 Upload Assets]</button>
+                                <button class="utility-action-btn accent-launch" onclick="alert('Launching interactive frame application prototype sandbox logs... Open US-CENTRAL1.')">[🚀 Launch Game Demo]</button>
+                                <button class="utility-action-btn" style="margin-left: auto;" onclick="alert('Current System Matrix Settings Override: Encryption parameters standard RSA 4096-bit.')">[🔒 Manage Permissions]</button>
                             </div>
                         </div>
                     </div>
 
                 </div>
+
             </div>
 
         </div>
@@ -609,7 +592,7 @@
             signOut, 
             onAuthStateChanged 
         } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getDatabase, ref, push, set, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { getDatabase, ref, push, set, onValue, onChildAdded } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyChx24EPK7w1f7SGVYraI993TkC89ZxiZo",
@@ -628,49 +611,66 @@
         const rtdb = getDatabase(app);
         const googleProvider = new GoogleAuthProvider();
 
-        // Interface DOM Nodes Mapping
+        // Interface Views DOM Extraction
         const modal = document.getElementById('loginModal');
+        const createChatModal = document.getElementById('createChatModal');
+        const authAlertBanner = document.getElementById('authAlertBanner');
+        
         const homeView = document.getElementById('page-home-view');
         const creditsView = document.getElementById('page-credits-view');
-        const ownerView = document.getElementById('page-owner-view');
+        const messagesView = document.getElementById('page-messages-view');
         
         const tabHome = document.getElementById('tab-home');
         const tabCredits = document.getElementById('tab-credits');
-        const tabOwner = document.getElementById('tab-owner');
+        const tabMessages = document.getElementById('tab-messages');
         
         const userDisplayIdentity = document.getElementById('userDisplayIdentity');
         const authGatewayTriggerButton = document.getElementById('authGatewayTriggerButton');
-        const feedbackRelayDataForm = document.getElementById('feedbackRelayDataForm');
-        const feedbackPayloadTextarea = document.getElementById('feedbackPayloadTextarea');
         const workspaceUserProfileName = document.getElementById('workspaceUserProfileName');
-        
-        const ownerAuthLockCard = document.getElementById('owner-auth-lock-card');
-        const ownerOperationalWorkspace = document.getElementById('owner-operational-workspace');
-        const feedbackRealtimeStreamContainer = document.getElementById('feedbackRealtimeStreamContainer');
 
-        const OWNER_EMAIL_TARGET = "brodywilliams0226@gmail.com";
-        let localCacheInitializationTimestamp = Date.now();
-        let activeDatabaseSystemStateValue = "live";
+        // Chats Layout Targets
+        const activeChatThreadsListContainer = document.getElementById('activeChatThreadsListContainer');
+        const chatFallbackPlaceholderScreen = document.getElementById('chatFallbackPlaceholderScreen');
+        const activeChatInterfaceWorkspaceFrame = document.getElementById('activeChatInterfaceWorkspaceFrame');
+        const activeThreadHeaderLabel = document.getElementById('activeThreadHeaderLabel');
+        const chatStreamMessageLogViewport = document.getElementById('chatStreamMessageLogViewport');
+        const chatPayloadInputField = document.getElementById('chatPayloadInputField');
 
-        // --- AUTHENTICATION MODAL LAYOUT HANDLERS ---
-        window.openModal = function() {
+        // Running Global Context Cache
+        let selectedActiveThreadIdNode = null;
+        let activeMessageStreamDatabaseListenerReference = null;
+
+        // --- GLOBAL SYSTEM GATE MODAL OVERRIDES ---
+        window.openModal = function(showAlertText = false) {
             if(auth.currentUser) {
-                signOut(auth).then(() => { alert("Session terminated safely."); }).catch((err) => { console.error(err); });
+                signOut(auth).then(() => { alert("Session terminated securely."); }).catch((err) => { console.error(err); });
             } else {
+                authAlertBanner.style.display = showAlertText ? 'block' : 'none';
+                document.getElementById('modalPortalHeadline').innerText = showAlertText ? "Access Restricted" : "Access Portal";
                 modal.style.display = 'flex';
             }
         }
         window.closeModal = function() { modal.style.display = 'none'; }
-        window.onclick = function(e) { if(e.target === modal) closeModal(); }
+        
+        window.openCreateChatModal = function() { createChatModal.style.display = 'flex'; }
+        window.closeCreateChatModal = function() { createChatModal.style.display = 'none'; }
 
-        // --- SPA ENGINE LAYER CORE ROUTER ---
+        // --- SPA NAVIGATION CORE CONTROLLER ENGINE ---
         window.showPage = function(pageId) {
+            // 🔒 1. SECURE ROUTING AUTHENTICATION GUARD LAYER
+            if (pageId === 'messages' && !auth.currentUser) {
+                // Deny visibility instantly, force redirect/intercept logic triggers
+                showPage('home');
+                openModal(true); // Open authentication portal containing custom structural validation banner
+                return;
+            }
+
             homeView.classList.add('hidden-view');
             creditsView.classList.add('hidden-view');
-            ownerView.classList.add('hidden-view');
+            messagesView.classList.add('hidden-view');
             tabHome.classList.remove('active-tab');
             tabCredits.classList.remove('active-tab');
-            tabOwner.classList.remove('active-tab');
+            tabMessages.classList.remove('active-tab');
 
             if (pageId === 'home') {
                 homeView.classList.remove('hidden-view');
@@ -678,201 +678,229 @@
             } else if (pageId === 'credits') {
                 creditsView.classList.remove('hidden-view');
                 tabCredits.classList.add('active-tab');
-            } else if (pageId === 'owner') {
-                ownerView.classList.remove('hidden-view');
-                tabOwner.classList.add('active-tab');
+            } else if (pageId === 'messages') {
+                messagesView.classList.remove('hidden-view');
+                tabMessages.classList.add('active-tab');
+                initializeWorkspaceThreadsListenerEngine();
             }
             window.scrollTo(0,0);
         }
 
-        // --- FIREBASE SECURITY GATEWAY AUTHENTICATION FLOWS ---
+        // --- AUTH PORTAL HANDLERS ---
         window.executeGoogleIdentitySync = function() {
-            signInWithPopup(auth, googleProvider)
-            .then(() => { closeModal(); })
-            .catch((err) => { alert(`Identity popup failure execution logs: ${err.message}`); });
+            signInWithPopup(auth, googleProvider).then(() => { closeModal(); }).catch((err) => { alert(err.message); });
         }
-
         window.executeEmailPasswordLogin = function() {
             const email = document.getElementById('portalEmailField').value.trim();
             const password = document.getElementById('portalPasswordField').value;
-            if(!email || !password) { alert("Execution halted: Missing tracking text values."); return; }
-            
-            signInWithEmailAndPassword(auth, email, password)
-            .then(() => { closeModal(); clearAuthInputs(); })
-            .catch((err) => { alert(`Authentication error signature: ${err.message}`); });
+            if(!email || !password) return;
+            signInWithEmailAndPassword(auth, email, password).then(() => { closeModal(); }).catch((err) => { alert(err.message); });
         }
-
         window.executeEmailPasswordRegistration = function() {
             const email = document.getElementById('portalEmailField').value.trim();
             const password = document.getElementById('portalPasswordField').value;
-            if(!email || !password) { alert("Execution halted: Missing tracking text values."); return; }
+            if(!email || !password) return;
+            createUserWithEmailAndPassword(auth, email, password).then(() => { closeModal(); }).catch((err) => { alert(err.message); });
+        }
+
+        // ==================================================================================== */
+        // 📡 CHAT THREAD REAL-TIME INJECTION PIPELINE OPERATIONS                               */
+        // ==================================================================================== */
+        
+        // Form Action: Construct a new communication path channel
+        window.commitNewChatThreadToRealtimeDatabase = function() {
+            const threadName = document.getElementById('chatThreadNameInput').value.trim();
+            if(!threadName) { alert("Please provide a room designation identifier string."); return; }
+
+            // Extract values out of the team matrix checklist
+            const checkedTeamNodeBoxes = document.querySelectorAll('.team-checkbox:checked');
+            let builtTeamMembersListArray = [];
+            checkedTeamNodeBoxes.forEach(box => builtTeamMembersListArray.push(box.value));
             
-            createUserWithEmailAndPassword(auth, email, password)
-            .then(() => { closeModal(); clearAuthInputs(); })
-            .catch((err) => { alert(`Account registry registration warning: ${err.message}`); });
-        }
+            // Standard inclusion profile additions
+            builtTeamMembersListArray.push(auth.currentUser.displayName || auth.currentUser.email.split('@')[0]);
 
-        function clearAuthInputs() {
-            document.getElementById('portalEmailField').value = '';
-            document.getElementById('portalPasswordField').value = '';
-        }
-
-        // --- DATA SUBMISSION ROUTER PIPELINE GENERATOR (/suggestions) ---
-        feedbackRelayDataForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const payload = feedbackPayloadTextarea.value.trim();
-            if(!payload) return;
-
-            const activeUser = auth.currentUser;
-            const packagePayload = {
-                message: payload,
-                timestamp: new Date().toISOString(),
-                clientIdentityHash: activeUser ? activeUser.uid : "ANONYMOUS_RELAY_NODE",
-                clientEmail: activeUser ? activeUser.email : "unverified@node.identity"
+            const threadPayloadDataBlock = {
+                channelName: threadName,
+                timestampCreated: new Date().toISOString(),
+                creatorNodeIdHash: auth.currentUser.uid,
+                associatedCrewTeamNodes: builtTeamMembersListArray,
+                lastMessageSummarySnippet: "Channel space initialized safely. System ready."
             };
 
-            set(push(ref(rtdb, 'suggestions')), packagePayload)
+            const targetNewThreadPushReference = push(ref(rtdb, 'chats'));
+            set(targetNewThreadPushReference, threadPayloadDataBlock)
             .then(() => {
-                alert("Data matrix confirmation: Stream telemetry path recorded.");
-                feedbackRelayDataForm.reset();
+                closeCreateChatModal();
+                document.getElementById('chatThreadNameInput').value = '';
+                checkedTeamNodeBoxes.forEach(box => box.checked = false);
             })
-            .catch((err) => { alert(`Uplink transmission block: ${err.message}`); });
-        });
+            .catch(err => alert(`Network creation pipeline failure block: ${err.message}`));
+        };
 
-        // ==================================================================================== */
-        // 🛠️ ACTIVE SYNC PIPELINE INTERCEPT RE-EVALUATION LOGIC                              */
-        // ==================================================================================== */
-        function evaluateInterceptVisibilityState() {
-            // Default reset view profiles
-            document.getElementById('screen-shutdown').style.display = 'none';
-            document.getElementById('screen-maintenance').style.display = 'none';
+        // Listen for all active database paths inside the global `/chats` node parameters
+        function initializeWorkspaceThreadsListenerEngine() {
+            const chatsDataTrackingReference = ref(rtdb, 'chats');
+            onValue(chatsDataTrackingReference, (snapshot) => {
+                activeChatThreadsListContainer.innerHTML = '';
+                const allDiscoveredThreadsDataPayload = snapshot.val();
 
-            // Check if active user session is exactly the master node admin profile
-            const isOwnerSession = auth.currentUser && auth.currentUser.email === OWNER_EMAIL_TARGET;
-
-            // ENFORCE SYSTEM CORES INTERCEPT SCREEN ROUTING LAYOUT RULES IF SESSION IS NOT THE OWNER
-            if (!isOwnerSession) {
-                if (activeDatabaseSystemStateValue === "shutdown") {
-                    document.getElementById('screen-shutdown').style.display = 'flex';
-                } else if (activeDatabaseSystemStateValue === "maintenance") {
-                    document.getElementById('screen-maintenance').style.display = 'flex';
-                }
-            } else {
-                console.log("Master Session Active Profile verified. Intercept screen bypassed cleanly.");
-            }
-        }
-
-        // Realtime Listener for the Global Application Metadata configuration space node path
-        const systemStatusDatabaseReference = ref(rtdb, 'system/status');
-        onValue(systemStatusDatabaseReference, (snapshot) => {
-            activeDatabaseSystemStateValue = snapshot.val() || "live";
-            console.log("Database Operational Synchronization Key Updated:", activeDatabaseSystemStateValue);
-            
-            // Re-evaluate intercept conditions
-            evaluateInterceptVisibilityState();
-
-            // Sync structural dashboard switches layout selection properties inside Owner View context
-            updateOwnerSwitchStateHighlights(activeDatabaseSystemStateValue);
-        });
-
-        // Realtime Listener for the Global Web Sockets Reset Broadcast Engine Trigger node path
-        const liveResetTelemetryBroadcastReference = ref(rtdb, 'system/global_refresh');
-        onValue(liveResetTelemetryBroadcastReference, (snapshot) => {
-            const serverBroadcastTimestampValue = snapshot.val();
-            if(serverBroadcastTimestampValue && serverBroadcastTimestampValue > localCacheInitializationTimestamp) {
-                console.log("Pipeline broadcast event caught. Executing clean local software interface refresh.");
-                window.location.reload();
-            }
-        });
-
-        // Manage active switch highlighting configurations inside panel interface layout
-        function updateOwnerSwitchStateHighlights(activeMode) {
-            const targetedControlSwitchRowElements = document.querySelectorAll('.industrial-switch-row');
-            targetedControlSwitchRowElements.forEach(row => row.classList.remove('active-row-state'));
-            
-            const targetActiveRowElement = document.getElementById(`sw-${activeMode}`);
-            if(targetActiveRowElement) {
-                targetActiveRowElement.classList.add('active-row-state');
-            }
-        }
-
-        // --- PROTECTED TERMINAL HANDLERS (OWNER VALIDATED PATHS) ---
-        window.updateGlobalPlatformState = function(targetStateValue) {
-            if(!auth.currentUser || auth.currentUser.email !== OWNER_EMAIL_TARGET) return;
-            set(ref(rtdb, 'system/status'), targetStateValue);
-        }
-
-        window.triggerGlobalLiveEngineReset = function() {
-            if(!auth.currentUser || auth.currentUser.email !== OWNER_EMAIL_TARGET) return;
-            set(ref(rtdb, 'system/global_refresh'), Date.now())
-            .then(() => { alert("Global socket pipeline soft reload signature broadcast deployed."); });
-        }
-
-        // Connect real-time list renderer engine loop to community feedback data nodes pathing
-        function initializeSuggestionsStreamCollectorEngine() {
-            const targetSuggestionsPathRef = ref(rtdb, 'suggestions');
-            onValue(targetSuggestionsPathRef, (snapshot) => {
-                feedbackRealtimeStreamContainer.innerHTML = '';
-                const collectionPayloadData = snapshot.val();
-
-                if(!collectionPayloadData) {
-                    feedbackRealtimeStreamContainer.innerHTML = `<div style="color: var(--text-muted); font-size: 0.8rem; padding: 20px; text-align: center;">No feedback metrics found inside /suggestions node registry branch.</div>`;
+                if(!allDiscoveredThreadsDataPayload) {
+                    activeChatThreadsListContainer.innerHTML = `<div style="color: var(--text-muted); font-size: 0.75rem; text-align: center; padding-top: 40px; text-transform: uppercase;">No active chat nodes found.</div>`;
                     return;
                 }
 
-                Object.keys(collectionPayloadData).reverse().forEach(keyId => {
-                    const dynamicItemNodeRecord = collectionPayloadData[keyId];
-                    const rawRowStringDomTemplate = `
-                        <div class="suggestion-data-row">
-                            <div class="suggestion-header-meta">
-                                <span>Source Node: ${dynamicItemNodeRecord.clientEmail || 'ANONYMOUS'}</span>
-                                <span>${dynamicItemNodeRecord.timestamp ? dynamicItemNodeRecord.timestamp.substring(11, 16) : '00:00'}</span>
+                Object.keys(allDiscoveredThreadsDataPayload).forEach(threadKeyId => {
+                    const threadDetailsItem = allDiscoveredThreadsDataPayload[threadKeyId];
+                    const presenceStatesArray = ['state-online', 'state-busy'];
+                    const pseudoRandomPresenceStateClass = presenceStatesArray[Math.floor(Math.random() * presenceStatesArray.length)];
+                    const initialCapsCharacterToken = threadDetailsItem.channelName ? threadDetailsItem.channelName.substring(0,2) : "W";
+
+                    const activeSelectionCssMarkerHighlight = (threadKeyId === selectedActiveThreadIdNode) ? 'active-thread-selected' : '';
+
+                    const structuredRowStringDomTemplate = `
+                        <div class="thread-row-item ${activeSelectionCssMarkerHighlight}" onclick="window.mountActiveChatViewportWindowPipeline('${threadKeyId}', '${threadDetailsItem.channelName}')">
+                            <div class="avatar-frame">
+                                ${initialCapsCharacterToken}
+                                <div class="presence-dot ${pseudoRandomPresenceStateClass}"></div>
                             </div>
-                            <div class="suggestion-text-payload">${dynamicItemNodeRecord.message || ''}</div>
+                            <div class="thread-meta-block">
+                                <span class="thread-title-text">${threadDetailsItem.channelName}</span>
+                                <span class="thread-preview-snippet">${threadDetailsItem.lastMessageSummarySnippet || ''}</span>
+                            </div>
                         </div>
                     `;
-                    feedbackRealtimeStreamContainer.insertAdjacentHTML('beforeend', rawRowStringDomTemplate);
+                    activeChatThreadsListContainer.insertAdjacentHTML('beforeend', structuredRowStringDomTemplate);
                 });
             });
         }
 
-        // --- SYSTEM PROFILE STATE CHANGE DISPATCH MONITOR ---
+        // Mount selected thread data streams context inside execution loop logs canvas
+        window.mountActiveChatViewportWindowPipeline = function(threadKeyId, channelDisplayNameString) {
+            selectedActiveThreadIdNode = threadKeyId;
+            
+            // Clean interface views viewport layouts triggers
+            chatFallbackPlaceholderScreen.style.display = 'none';
+            activeChatInterfaceWorkspaceFrame.style.display = 'flex';
+            activeThreadHeaderLabel.innerText = channelDisplayNameString;
+            chatStreamMessageLogViewport.innerHTML = '';
+
+            // Force refresh highlighters across the sidebar contact panel lists elements
+            initializeWorkspaceThreadsListenerEngine();
+
+            // Establish real-time websocket socket listener for messages path: /chats/{chatId}/messages
+            const activeMessageNodeDirectoryPathString = `chats/${threadKeyId}/messages`;
+            const activeMessageRefTarget = ref(rtdb, activeMessageNodeDirectoryPathString);
+
+            // Connect Firebase Child Added socket pipelines for instant message streaming injection
+            onChildAdded(activeMessageRefTarget, (snapshot) => {
+                const incomingMessageDataUnit = snapshot.val();
+                if(incomingMessageDataUnit) {
+                    injectSingleMessageBubbleIntoViewportDOM(incomingMessageDataUnit);
+                }
+            });
+        };
+
+        // Render sleek rounded pill-shaped elements onto the viewport scroll canvas logs layer
+        function injectSingleMessageBubbleIntoViewportDOM(msgDataBlock) {
+            const localSelfContextUserIdHash = auth.currentUser ? auth.currentUser.uid : "";
+            const isSentBySelfSessionUser = (msgDataBlock.senderIdHash === localSelfContextUserIdHash);
+
+            const rowLayoutClassType = isSentBySelfSessionUser ? 'layout-self' : 'layout-peer';
+            
+            const rawBubbleRowHtmlTemplate = `
+                <div class="message-row-wrapper ${rowLayoutClassType}">
+                    <span class="message-sender-tag">${msgDataBlock.senderDisplayNameString}</span>
+                    <div class="premium-message-bubble">
+                        ${msgDataBlock.messagePayloadBodyText}
+                    </div>
+                </div>
+            `;
+            
+            chatStreamMessageLogViewport.insertAdjacentHTML('beforeend', rawBubbleRowHtmlTemplate);
+            chatStreamMessageLogViewport.scrollTop = chatStreamMessageLogViewport.scrollHeight;
+        }
+
+        // Transmit text parameters over socket strings directory pathways using push() rules
+        window.transmitChatMessageEvent = function(event) {
+            event.preventDefault();
+            if(!selectedActiveThreadIdNode) return;
+
+            const messageStringText = chatPayloadInputField.value.trim();
+            if(!messageStringText) return;
+
+            const systemSessionSenderDisplayName = auth.currentUser.displayName || auth.currentUser.email.split('@')[0];
+
+            const messageDataPackagePayload = {
+                senderIdHash: auth.currentUser.uid,
+                senderDisplayNameString: systemSessionSenderDisplayName,
+                messagePayloadBodyText: messageStringText,
+                timestampDispatched: new Date().toISOString()
+            };
+
+            // Write tracking message structure records directly to the specific active directory path
+            const targetActiveMessagesPathString = `chats/${selectedActiveThreadIdNode}/messages`;
+            push(ref(rtdb, targetActiveMessagesPathString), messageDataPackagePayload)
+            .then(() => {
+                // Update conversation snippet summary overview metadata properties fields
+                set(ref(rtdb, `chats/${selectedActiveThreadIdNode}/lastMessageSummarySnippet`), `${systemSessionSenderDisplayName}: ${messageStringText}`);
+                
+                // Trigger Simulated Automated Notification Relay Event Pipeline Downstream
+                executeSimulatedBackgroundEmailNotificationDispatchRelay(messageStringText, systemSessionSenderDisplayName);
+                
+                chatPayloadInputField.value = '';
+            })
+            .catch(err => console.error("Message write transaction failed:", err));
+        };
+
+        // ==================================================================================== */
+        // 📧 🆕 ARCHITECTURE LOGIC: SIMULATED BACKEND EMAIL NOTIFICATION DISPATCH RELAY        */
+        // ==================================================================================== */
+        function executeSimulatedBackgroundEmailNotificationDispatchRelay(messagePayload, senderIdentity) {
+            console.group("%c📡 W-Suite Network Operations Dispatch Log", "color: #D4AF37; font-weight: bold;");
+            console.log(`Event Context: New core transmission pushed from [${senderIdentity}].`);
+            console.log("Evaluation parameters: User target presence evaluation node processing state -> OFFLINE");
+            console.log("Trigger Status: Message dispatch pipeline notification criteria matching threshold reached.");
+            console.log("%cTriggering Automated Cloud Function Email Notification Dispatch Relay Array...", "color: #3b82f6;");
+            
+            // Explicitly structured template output payload metrics simulated log tracking
+            console.log(`
+--------------------------------------------------
+Subject: [W-Suite Notification] New Core Update from Crew Member
+Body: You have unread transmissions waiting in your platform message stream.
+Message Payload Sample: "${messagePayload}"
+
+--------------------------------------------------
+🤖 This is an automatic email generated by the W-Suite Network Operations Command center. Please do not reply directly to this automated transmission node.
+--------------------------------------------------
+            `);
+            console.groupEnd();
+        }
+
+        // --- GLOBAL SESSION LISTENER ENFORCEMENT PARAMS MATRIX ---
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                const calculatedStringLabelIdentity = user.displayName || user.email.split('@')[0];
-                userDisplayIdentity.innerText = `Node: ${calculatedStringLabelIdentity}`;
-                workspaceUserProfileName.innerText = calculatedStringLabelIdentity;
-                
+                const accountIdentityTagString = user.displayName || user.email.split('@')[0];
+                userDisplayIdentity.innerText = `Node: ${accountIdentityTagString}`;
                 authGatewayTriggerButton.innerText = "Log Out Securely";
-
-                // RE-EVALUATE CLEARANCE OVERRIDES FOR ACTIVE RUNTIME INSTANCE
-                if(user.email === OWNER_EMAIL_TARGET) {
-                    tabOwner.style.display = 'inline-block';
-                    ownerAuthLockCard.style.display = 'none';
-                    ownerOperationalWorkspace.style.display = 'block';
-                    
-                    initializeSuggestionsStreamCollectorEngine();
-                } else {
-                    tabOwner.style.display = 'none';
-                    ownerAuthLockCard.style.display = 'block';
-                    ownerOperationalWorkspace.style.display = 'none';
+                
+                // Automatically re-initialize threads if actively viewing the channel component context workspace area
+                if (!messagesView.classList.contains('hidden-view')) {
+                    initializeWorkspaceThreadsListenerEngine();
                 }
             } else {
                 userDisplayIdentity.innerText = "Offline";
-                workspaceUserProfileName.innerText = "Goated Website";
                 authGatewayTriggerButton.innerText = "Login / Sign Up";
-                tabOwner.style.display = 'none';
                 
-                ownerAuthLockCard.style.display = 'block';
-                ownerOperationalWorkspace.style.display = 'none';
-                
-                if(!ownerView.classList.contains('hidden-view')) {
+                // 🔒 Dynamic Session Terminating Gate Check
+                // If a user logs out while actively viewing the messaging canvas layout, instantly drop view permission states
+                if (!messagesView.classList.contains('hidden-view')) {
+                    selectedActiveThreadIdNode = null;
+                    activeChatInterfaceWorkspaceFrame.style.display = 'none';
+                    chatFallbackPlaceholderScreen.style.display = 'flex';
                     showPage('home');
                 }
             }
-
-            // Always run intercept checks when login state finishes tracking calculation update steps
-            evaluateInterceptVisibilityState();
         });
     </script>
 </body>
