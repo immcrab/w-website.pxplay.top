@@ -191,10 +191,282 @@
         .tier-card p { color: var(--text-muted); margin-bottom: 30px; font-size: 0.9rem; line-height: 1.6; }
         .tier-card .price { font-size: 2.5rem; margin-bottom: 20px; font-weight: bold; }
 
-        /* --- PREVIEW SECTIONS (COMING SOON) --- */
+        /* --- TEXTING CHANNEL COMPONENT PLATFORM --- */
+        .messaging-platform-wrapper {
+            position: relative;
+            background: #06060a;
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            border-radius: 8px;
+            height: 550px;
+            display: flex;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+        }
+
+        /* Sub-Pane Sidebar */
+        .channel-sidebar {
+            width: 260px;
+            background: #0b0b10;
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            flex-direction: column;
+            padding: 20px 10px;
+        }
+
+        .pane-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--gold-accent);
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            padding-left: 10px;
+            font-weight: bold;
+        }
+
+        .channel-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .channel-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+            letter-spacing: 0.5px;
+        }
+
+        .channel-item:hover {
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--text-main);
+        }
+
+        .channel-item.active {
+            background: rgba(212, 175, 55, 0.08);
+            color: var(--text-main);
+            border-left: 3px solid var(--gold-accent);
+            font-weight: 500;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            background-color: #2ec4b6;
+            border-radius: 50%;
+            margin-right: 10px;
+            box-shadow: 0 0 8px #2ec4b6;
+        }
+
+        /* Main Viewport Workspace */
+        .chat-viewport {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: #030305;
+        }
+
+        .chat-header {
+            padding: 20px 25px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 1rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .chat-header span {
+            color: var(--gold-accent);
+            font-weight: bold;
+        }
+
+        .message-stream-area {
+            flex: 1;
+            padding: 25px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Dynamic Chat Nodes */
+        .message-node {
+            display: flex;
+            gap: 15px;
+            animation: fadeInNode 0.3s ease forward;
+        }
+
+        @keyframes fadeInNode {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .user-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(212, 175, 55, 0.15);
+            border: 1px solid var(--gold-accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold-accent);
+            font-weight: bold;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .node-content {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .node-meta {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .node-username {
+            font-weight: bold;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+        }
+
+        .node-timestamp {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .node-text {
+            color: #e0e0e5;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* Interactive Entry Bar */
+        .chat-input-wrapper {
+            padding: 20px 25px;
+            background: #030305;
+        }
+
+        .input-bar-container {
+            width: 100%;
+            background: #0b0b10;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            padding: 5px 10px 5px 20px;
+            transition: border-color 0.3s;
+        }
+
+        .input-bar-container:focus-within {
+            border-color: var(--gold-accent);
+        }
+
+        .chat-input-field {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--text-main);
+            font-size: 0.9rem;
+            padding: 10px 0;
+        }
+
+        .chat-input-field::placeholder {
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        .send-node-btn {
+            background: transparent;
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            color: var(--gold-accent);
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.2s ease;
+        }
+
+        .send-node-btn:hover {
+            background: var(--gold-accent);
+            color: #030305;
+            font-weight: bold;
+            box-shadow: var(--border-glow);
+        }
+
+        /* Coming Soon Frosted Glass Layer */
+        .coming-soon-blur-layer {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(3, 3, 5, 0.65);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            text-align: center;
+            transition: opacity 0.4s ease, visibility 0.4s;
+        }
+
+        .coming-soon-blur-layer.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .layer-title {
+            font-size: 1.8rem;
+            font-weight: 300;
+            letter-spacing: 5px;
+            color: var(--text-main);
+            margin-bottom: 12px;
+            text-shadow: 0 0 15px rgba(255,255,255,0.3);
+        }
+
+        .layer-tagline {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            max-width: 500px;
+            line-height: 1.6;
+            letter-spacing: 0.5px;
+            margin-bottom: 25px;
+        }
+
+        .bypass-btn {
+            background: transparent;
+            color: var(--gold-accent);
+            border: 1px solid var(--gold-accent);
+            padding: 8px 20px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+
+        .bypass-btn:hover {
+            background: rgba(212, 175, 55, 0.1);
+        }
+
+        /* --- PREVIEW SECTIONS (OTHER COMING SOON) --- */
         .preview-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
             gap: 30px;
         }
 
@@ -297,7 +569,11 @@
         @media (max-width: 768px) {
             header { padding: 15px 20px; top: 36px; }
             .credits-grid { grid-template-columns: 1fr; }
-            main { padding-top: 130px; }
+            main { padding-top: 130px; gap: 60px; }
+            .messaging-platform-wrapper { flex-direction: column; height: auto; }
+            .channel-sidebar { width: 100%; border-right: none; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+            .chat-viewport { height: 400px; }
+            .preview-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -346,15 +622,55 @@
             </div>
         </section>
 
+        <section id="texting-platform">
+            <h2 class="section-title">Texting Channel Platform</h2>
+            
+            <div class="messaging-platform-wrapper">
+                
+                <div class="coming-soon-blur-layer" id="comingSoonLayer">
+                    <div class="layer-title">TEXTING CHANNELS — COMING SOON</div>
+                    <div class="layer-tagline">Real-time communication framework powered by Firebase architecture. Access clearance protocol under development.</div>
+                    <button class="bypass-btn" onclick="bypassOverlay()">Bypass Overlay (Dev Mode)</button>
+                </div>
+
+                <div class="channel-sidebar">
+                    <div class="pane-title">Text Channels</div>
+                    <ul class="channel-list">
+                        <li class="channel-item active" onclick="switchChannel(this, '🌐-global-mainframe')">
+                            <div class="status-dot"></div># global-mainframe
+                        </li>
+                        <li class="channel-item" onclick="switchChannel(this, '📢-announcements')">
+                            <div class="status-dot"></div># announcements
+                        </li>
+                        <li class="channel-item" onclick="switchChannel(this, '💬-general-relay')">
+                            <div class="status-dot"></div># general-relay
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="chat-viewport">
+                    <div class="chat-header">
+                        Channel Workspace: <span id="activeChannelName"># 🌐-global-mainframe</span>
+                    </div>
+
+                    <div class="message-stream-area" id="messageStream">
+                        </div>
+
+                    <div class="chat-input-wrapper">
+                        <div class="input-bar-container">
+                            <input type="text" id="chatInputField" class="chat-input-field" placeholder="Secure communication node offline — Authorization required..." onkeydown="handleChatKeyPress(event)">
+                            <button class="send-node-btn" onclick="sendChatNode()">Send</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
         <section id="modules">
             <h2 class="section-title">Upcoming Modules</h2>
             <div class="preview-grid">
                 
-                <div class="preview-box">
-                    <div class="mock-ui"></div>
-                    <div class="coming-soon-badge">Texting Channel</div>
-                </div>
-
                 <div class="preview-box">
                     <div class="mock-ui"></div>
                     <div class="coming-soon-badge">Gaming Arena</div>
@@ -404,6 +720,17 @@
 
     <script>
         const modal = document.getElementById('loginModal');
+        const comingSoonLayer = document.getElementById('comingSoonLayer');
+        const chatInputField = document.getElementById('chatInputField');
+        const messageStream = document.getElementById('messageStream');
+        const activeChannelName = document.getElementById('activeChannelName');
+
+        // Storage Object to let you swap channels while retaining sent messages
+        const channelDataStore = {
+            '🌐-global-mainframe': [],
+            '📢-announcements': [],
+            '💬-general-relay': []
+        };
 
         function openModal() {
             modal.style.display = 'flex';
@@ -413,7 +740,6 @@
             modal.style.display = 'none';
         }
 
-        // Close modal if user clicks outside the box
         window.onclick = function(event) {
             if (event.target === modal) {
                 closeModal();
@@ -425,6 +751,91 @@
             alert("Secure Feedback Sent. Thank you for shaping the Wwebsite ecosystem.");
             event.target.reset(); 
         }
+
+        /* --- TEXTING CHANNEL INTERACTION CONTROLLERS --- */
+        function bypassOverlay() {
+            comingSoonLayer.classList.add('hidden');
+            chatInputField.placeholder = "Type an encrypted node broadcast transmission...";
+        }
+
+        function switchChannel(element, channelId) {
+            // Update active sidebar styling indicators
+            document.querySelectorAll('.channel-item').forEach(item => item.classList.remove('active'));
+            element.classList.add('active');
+            
+            // Adjust header display name
+            activeChannelName.innerText = `# ${channelId}`;
+            
+            // Re-render corresponding historical array stream data
+            renderChannelStream(channelId);
+        }
+
+        function handleChatKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendChatNode();
+            }
+        }
+
+        function sendChatNode() {
+            const currentChannel = activeChannelName.innerText.replace('# ', '').trim();
+            const textValue = chatInputField.value.trim();
+
+            if (textValue === '') return;
+
+            // Capture exact current system runtime clock stamp
+            const now = new Date();
+            const timeStamp = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+            // Generate clean node configuration object
+            const nodePayload = {
+                userInitials: "U",
+                userName: "Authorized User",
+                time: timeStamp,
+                text: textValue
+            };
+
+            // Push payload to designated memory track array
+            channelDataStore[currentChannel].push(nodePayload);
+            
+            // Wipe processing visual track fields and refresh display
+            chatInputField.value = '';
+            renderChannelStream(currentChannel);
+        }
+
+        function renderChannelStream(channelId) {
+            // Flush old DOM structural nodes
+            messageStream.innerHTML = '';
+            
+            const records = channelDataStore[channelId];
+
+            if (records.length === 0) {
+                messageStream.innerHTML = `<div style="color: var(--text-muted); text-align: center; margin: auto; font-size: 0.85rem; font-style: italic; letter-spacing: 0.5px;">No encrypted nodes processed in channel layout. Enter a payload string below.</div>`;
+                return;
+            }
+
+            // Loop and compile new message layout rows
+            records.forEach(node => {
+                const nodeDiv = document.createElement('div');
+                nodeDiv.className = 'message-node';
+                nodeDiv.innerHTML = `
+                    <div class="user-icon">${node.userInitials}</div>
+                    <div class="node-content">
+                        <div class="node-meta">
+                            <span class="node-username">${node.userName}</span>
+                            <span class="node-timestamp">${node.time}</span>
+                        </div>
+                        <div class="node-text">${node.text}</div>
+                    </div>
+                `;
+                messageStream.appendChild(nodeDiv);
+            });
+
+            // Automatically scroll container downward to lock view matrix on newest data arrays
+            messageStream.scrollTop = messageStream.scrollHeight;
+        }
+
+        // Initialize display configuration defaults
+        renderChannelStream('🌐-global-mainframe');
     </script>
 </body>
 </html>
