@@ -158,6 +158,30 @@
             gap: 80px;
         }
 
+        /* --- HERO INTRO SECTION --- */
+        .hero-branding {
+            text-align: center;
+            padding: 40px 0 10px;
+        }
+
+        .hero-logo {
+            font-size: 5rem;
+            font-weight: 900;
+            color: var(--gold-accent);
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+            letter-spacing: 4px;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+            font-weight: 300;
+            letter-spacing: 4px;
+            text-transform: lowercase;
+            color: var(--text-main);
+        }
+
         h2.section-title {
             text-align: center;
             font-weight: 300;
@@ -165,50 +189,6 @@
             margin-bottom: 40px;
             text-transform: uppercase;
             text-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
-        }
-
-        /* --- SUBSCRIPTION --- */
-        .tier-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-
-        .tier-card {
-            position: relative;
-            background: var(--card-bg);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 40px;
-            text-align: center;
-            overflow: hidden;
-        }
-
-        .tier-card h3 { color: var(--gold-accent); margin-bottom: 15px; font-size: 1.5rem; }
-        .tier-card p { color: var(--text-muted); margin-bottom: 30px; font-size: 0.9rem; line-height: 1.6; }
-        .tier-card .price { font-size: 2.5rem; margin-bottom: 20px; font-weight: bold; }
-
-        .tier-coming-soon {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(3, 3, 5, 0.8);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 5;
-        }
-
-        .tier-badge-text {
-            border: 1px solid var(--gold-accent);
-            color: var(--gold-accent);
-            padding: 12px 30px;
-            font-weight: bold;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            font-size: 0.9rem;
-            background: #030305;
-            box-shadow: var(--border-glow);
         }
 
         /* --- NON-DISCORD TEXTING PLATFORM (IMAGE MOCKUP PREVIEW) --- */
@@ -222,7 +202,7 @@
             box-shadow: 0 25px 50px rgba(0,0,0,0.7);
             user-select: none;
             -webkit-user-select: none;
-            pointer-events: none; /* Disables all internal clicks/inputs completely */
+            pointer-events: none; /* Disables all interaction completely */
         }
 
         .channel-sidebar {
@@ -335,7 +315,7 @@
             letter-spacing: 0.5px;
         }
 
-        /* Absolute Overlay Container (Handles pointer-events independently to remain visible) */
+        /* Absolute Preview Glass Mask Overlay */
         .coming-soon-blur-layer {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -522,31 +502,10 @@
     </div>
 
     <main>
-        <section id="premium">
-            <h2 class="section-title">Select Your Access</h2>
-            <div class="tier-grid">
-                
-                <div class="tier-card">
-                    <div class="tier-coming-soon">
-                        <div class="tier-badge-text">Coming Soon</div>
-                    </div>
-                    <h3>Free Tier</h3>
-                    <div class="price">$0<span style="font-size:1rem; color: var(--text-muted);">/mo</span></div>
-                    <p>Basic access to public features, standard network streaming, and general platform exploration.</p>
-                    <button class="login-btn" style="width: 100%;">Select Plan</button>
-                </div>
-
-                <div class="tier-card">
-                    <div class="tier-coming-soon">
-                        <div class="tier-badge-text">Coming Soon</div>
-                    </div>
-                    <h3>Premium</h3>
-                    <div class="price">$19<span style="font-size:1rem; color: var(--text-muted);">/mo</span></div>
-                    <p>Unrestricted platform bandwidth, verified badging, early module access, and zero advertisements.</p>
-                    <button class="login-btn" style="width: 100%; background: var(--gold-accent); color: black;">Select Plan</button>
-                </div>
-
-            </div>
+        
+        <section class="hero-branding">
+            <div class="hero-logo">W</div>
+            <h1 class="hero-title">w website</h1>
         </section>
 
         <section id="texting-platform">
