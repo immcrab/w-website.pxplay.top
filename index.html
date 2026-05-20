@@ -37,6 +37,14 @@
             overflow-x: hidden;
         }
 
+        /* --- GLOBAL SYSTEM OVERRIDES --- */
+        #system-override-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: #000000; color: #ffffff; z-index: 9999; justify-content: center; align-items: center;
+            text-align: center; padding: 20px; font-family: monospace;
+        }
+        .override-headline { font-size: 1.2rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
+
         /* --- NAVIGATION HEADER --- */
         #broadcast-banner {
             position: fixed; top: 0; left: 0; width: 100%;
@@ -117,6 +125,19 @@
         .coming-soon-sub { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); }
 
         /* ==================================================================================== */
+        /* 👑 OWNER CONTROL PANEL SPECIFICATIONS                                              */
+        /* ==================================================================================== */
+        .owner-panel-container {
+            background: #09090e; border: 1px dashed rgba(212, 175, 55, 0.3); padding: 30px; border-radius: 6px;
+        }
+        .owner-header-title { font-size: 1rem; text-transform: uppercase; letter-spacing: 2px; color: var(--gold-accent); margin-bottom: 15px; }
+        .owner-grid-controls { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 15px; margin-top: 20px; }
+        .owner-control-card { background: #030305; border: 1px solid var(--border-subtle); padding: 15px; }
+        .owner-control-card h5 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+        .owner-control-card p { font-size: 0.75rem; color: var(--text-muted); }
+        .owner-control-card select { width: 100%; background: #000; color: #fff; border: 1px solid var(--border-subtle); padding: 8px; font-size: 0.8rem; margin-top: 5px; outline: none; }
+
+        /* ==================================================================================== */
         /* 💬 PREMIUM W-MESSAGES WORKSPACE WITH INTEGRATED CONTACT ENGINE                    */
         /* ==================================================================================== */
         .messages-workspace-container {
@@ -149,7 +170,6 @@
 
         .threads-scroller { flex: 1; overflow-y: auto; padding: 10px 0; }
         
-        /* Unified List Rows for Chats and Contacts */
         .thread-row-item {
             display: flex; align-items: center; gap: 14px; padding: 14px 20px; cursor: pointer;
             border-bottom: 1px solid rgba(255,255,255,0.01); transition: all 0.2s;
@@ -192,7 +212,6 @@
 
         .message-sender-tag { font-size: 0.7rem; color: rgba(255,255,255,0.4); margin-bottom: 5px; padding: 0 4px; letter-spacing: 0.5px; }
         
-        /* Premium Rounded Pill Messaging Bubbles */
         .premium-message-bubble { padding: 12px 20px; border-radius: 24px; font-size: 0.88rem; line-height: 1.5; color: #f1f1f5; word-break: break-word; }
         .layout-self .premium-message-bubble {
             background: var(--bubble-self-gradient); border-bottom-right-radius: 4px;
@@ -224,8 +243,22 @@
         footer { border-top: 1px solid var(--border-subtle); padding: 40px 20px; text-align: center; background: #010102; margin-top: 60px; }
         footer p { color: var(--text-muted); font-size: 0.8rem; margin-bottom: 8px; letter-spacing: 0.5px;}
     </style>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function(){
+            // Replace with actual operational EmailJS public token key if active automated mail notifications are desired
+            emailjs.init({ publicKey: "YOUR_EMAILJS_PUBLIC_KEY" });
+        })();
+    </script>
 </head>
 <body>
+
+    <div id="system-override-overlay">
+        <div>
+            <div class="override-headline" id="override-title">System Intercept Active</div>
+            <p style="color: #a1a1aa; font-size: 0.9rem;" id="override-message">Establishing administrative context...</p>
+        </div>
+    </div>
 
     <div id="broadcast-banner">System Notice: Real-Time Communication Node Array Active [2026]</div>
 
@@ -239,6 +272,7 @@
             <li><button class="nav-tab" id="tab-messages" style="color: #60a5fa;" onclick="showPage('messages')">💬 Chats</button></li>
             <li><button class="nav-tab" id="tab-games" onclick="showPage('games')">🎮 Games</button></li>
             <li><button class="nav-tab" id="tab-social" onclick="showPage('social')">🌐 Social</button></li>
+            <li><button class="nav-tab" id="tab-owner" style="color: var(--gold-accent);" onclick="showPage('owner')">👑 Owner</button></li>
             <li><button class="nav-tab" id="tab-credits" onclick="showPage('credits')">Credits</button></li>
         </ul>
         <div class="right-actions">
@@ -250,7 +284,7 @@
     <div class="modal-overlay" id="loginModal">
         <div class="modal-box">
             <span class="close-modal" onclick="closeModal()">&times;</span>
-            <div id="authAlertBanner">Authentication Required — Please sign in to access your W-Messages secure terminal.</div>
+            <div id="authAlertBanner">Authentication Required — Please sign in to access your secure terminal.</div>
             <h2>Access Portal</h2>
             <input type="email" id="portalEmailField" placeholder="Secured Email Sequence">
             <input type="password" id="portalPasswordField" placeholder="Access Authentication Key">
@@ -298,6 +332,34 @@
             <div class="coming-soon-wrapper">
                 <div class="coming-soon-headline">W-Social Mesh Stream</div>
                 <div class="coming-soon-sub">Coming Soon &bull; System Architecture Offline</div>
+            </div>
+        </div>
+
+        <div id="page-owner-view" class="page-view hidden-view">
+            <div class="owner-panel-container" id="ownerSystemLockScreen" style="text-align: center; border-color: var(--color-error);">
+                <div class="owner-header-title" style="color: var(--color-error);">Access Denied</div>
+                <p style="color: var(--text-muted); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;">This control panel terminal is explicitly restricted to Brody Williams (Master Node Owner).</p>
+            </div>
+            <div class="owner-panel-container" id="ownerSystemActiveScreen" style="display: none;">
+                <div class="owner-header-title">👑 System Master Control Core</div>
+                <p style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;">Welcome back, Brody Williams. Database Node Status: <span style="color: var(--color-success);">Connected</span></p>
+                <div class="owner-grid-controls">
+                    <div class="owner-control-card">
+                        <h5>System Mode Matrix Override</h5>
+                        <p>Change global environmental mode intercepts instantly.</p>
+                        <select id="ownerSystemStatusSelect" onchange="updateGlobalSystemStatusMode(this.value)">
+                            <option value="OPERATIONAL">OPERATIONAL</option>
+                            <option value="TESTING">TESTING (Closed Beta Mode)</option>
+                            <option value="UPDATING">UPDATING (Maintenance Mode)</option>
+                            <option value="SHUTDOWN">SHUTDOWN (Termination Overrides)</option>
+                        </select>
+                    </div>
+                    <div class="owner-control-card">
+                        <h5>System Announcements</h5>
+                        <p>Push instant global text banners across top broadcast ribbons.</p>
+                        <button class="btn-pane-action" style="margin-top:10px; width:100%;" onclick="const msg = prompt('Enter text ribbon payload:'); if(msg) document.getElementById('broadcast-banner').innerText = msg;">Dispatch Banner</button>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -364,7 +426,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getDatabase, ref, push, set, onValue, onChildAdded, off } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { getDatabase, ref, push, set, update, onValue, onChildAdded, off, get } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyChx24EPK7w1f7SGVYraI993TkC89ZxiZo",
@@ -387,10 +449,15 @@
         const createContactModal = document.getElementById('createContactModal');
         const authAlertBanner = document.getElementById('authAlertBanner');
         
+        const systemOverrideOverlay = document.getElementById('system-override-overlay');
+        const overrideTitle = document.getElementById('override-title');
+        const overrideMessage = document.getElementById('override-message');
+
         const viewsMapping = {
             home: document.getElementById('page-home-view'),
             games: document.getElementById('page-games-view'),
             social: document.getElementById('page-social-view'),
+            owner: document.getElementById('page-owner-view'),
             credits: document.getElementById('page-credits-view'),
             messages: document.getElementById('page-messages-view')
         };
@@ -399,6 +466,7 @@
             home: document.getElementById('tab-home'),
             games: document.getElementById('tab-games'),
             social: document.getElementById('tab-social'),
+            owner: document.getElementById('tab-owner'),
             credits: document.getElementById('tab-credits'),
             messages: document.getElementById('tab-messages')
         };
@@ -414,8 +482,12 @@
         const paneSidebarSubHeadlineTitle = document.getElementById('paneSidebarSubHeadlineTitle');
         const sidebarPrimaryActionButtonElement = document.getElementById('sidebarPrimaryActionButtonElement');
 
+        const ownerSystemLockScreen = document.getElementById('ownerSystemLockScreen');
+        const ownerSystemActiveScreen = document.getElementById('ownerSystemActiveScreen');
+
         let selectedActiveThreadIdNode = null;
-        let activeSidebarNavigationContextTabMode = 'chats'; // Options: 'chats' or 'contacts'
+        let activeSidebarNavigationContextTabMode = 'chats'; 
+        let cachedSystemStatusValue = "OPERATIONAL";
 
         window.openModal = function(showAlertText = false) {
             if(auth.currentUser) { signOut(auth).catch((err) => { console.error(err); }); } 
@@ -428,9 +500,10 @@
         window.closeCreateContactModal = function() { createContactModal.style.display = 'none'; }
 
         window.showPage = function(pageId) {
-            if ((pageId === 'messages' || pageId === 'games' || pageId === 'social') && !auth.currentUser) {
+            if ((pageId === 'messages' || pageId === 'games' || pageId === 'social' || pageId === 'owner') && !auth.currentUser) {
                 showPage('home'); openModal(true); return;
             }
+            evalSystemStatusRedirectConstraints(cachedSystemStatusValue);
 
             Object.keys(viewsMapping).forEach(key => viewsMapping[key].classList.add('hidden-view'));
             Object.keys(tabsMapping).forEach(key => tabsMapping[key].classList.remove('active-tab'));
@@ -445,20 +518,109 @@
             }
         }
 
+        /* --- 👥 HOOK 1: AUTOMATIC DATA PROFILE PROVISIONING PROMPT --- */
+        function executeAutomaticUserProfileProvisioning(userInstance) {
+            if (!userInstance) return;
+            const fallbackIdent = userInstance.email ? userInstance.email.split('@')[0] : "Ident Node";
+            const userProfileDataPayload = {
+                name: userInstance.displayName || fallbackIdent,
+                email: userInstance.email,
+                status: "online",
+                lastActiveTimestamp: Date.now()
+            };
+            
+            // Set data dynamically using multi-path updates or targeted ref definitions
+            set(ref(rtdb, `users/${userInstance.uid}`), userProfileDataPayload)
+            .then(() => { console.log(`Profile registry synchronizer active for user node ID: ${userInstance.uid}`); })
+            .catch(err => { console.error("Profile registry update halted:", err); });
+        }
+
         window.executeGoogleIdentitySync = function() {
-            signInWithPopup(auth, googleProvider).then(() => { closeModal(); }).catch((err) => { alert(err.message); });
+            signInWithPopup(auth, googleProvider)
+            .then((result) => { executeAutomaticUserProfileProvisioning(result.user); closeModal(); })
+            .catch((err) => { alert(err.message); });
         }
         window.executeEmailPasswordLogin = function() {
             const email = document.getElementById('portalEmailField').value.trim();
             const password = document.getElementById('portalPasswordField').value;
             if(!email || !password) return;
-            signInWithEmailAndPassword(auth, email, password).then(() => { closeModal(); }).catch((err) => { alert(err.message); });
+            signInWithEmailAndPassword(auth, email, password)
+            .then((result) => { executeAutomaticUserProfileProvisioning(result.user); closeModal(); })
+            .catch((err) => { alert(err.message); });
         }
         window.executeEmailPasswordRegistration = function() {
             const email = document.getElementById('portalEmailField').value.trim();
             const password = document.getElementById('portalPasswordField').value;
             if(!email || !password) return;
-            createUserWithEmailAndPassword(auth, email, password).then(() => { closeModal(); }).catch((err) => { alert(err.message); });
+            createUserWithEmailAndPassword(auth, email, password)
+            .then((result) => { executeAutomaticUserProfileProvisioning(result.user); closeModal(); })
+            .catch((err) => { alert(err.message); });
+        }
+
+        /* --- 🛑 HOOK 2: REAL-TIME INTERCEPTOR FOR SYSTEM STATUS MODES --- */
+        function initSystemStatusGlobalInterceptorListener() {
+            const systemStatusTrackingReference = ref(rtdb, 'system/status');
+            onValue(systemStatusTrackingReference, (snapshot) => {
+                const statusValue = snapshot.val();
+                cachedSystemStatusValue = statusValue || "OPERATIONAL";
+                
+                // Populate selector inside administrative interface if currently mounted
+                const ownerSelectElement = document.getElementById('ownerSystemStatusSelect');
+                if (ownerSelectElement) { ownerSelectElement.value = cachedSystemStatusValue; }
+                
+                evalSystemStatusRedirectConstraints(cachedSystemStatusValue);
+            });
+        }
+
+        function evalSystemStatusRedirectConstraints(statusFlag) {
+            const currentUser = auth.currentUser;
+            const currentEmail = currentUser ? (currentUser.email || '').toLowerCase() : '';
+            
+            // Clear prior states
+            systemOverrideOverlay.style.display = 'none';
+
+            if (statusFlag === "SHUTDOWN") {
+                overrideTitle.innerText = "W-Suite System Offline";
+                overrideMessage.innerText = "Operations Temporarily Terminated.";
+                systemOverrideOverlay.style.display = 'flex';
+            } 
+            else if (statusFlag === "UPDATING") {
+                overrideTitle.innerText = "System Deployment Matrix Active";
+                overrideMessage.innerText = "Wwebsite is currently deploying an update. Please stand by.";
+                systemOverrideOverlay.style.display = 'flex';
+            } 
+            else if (statusFlag === "TESTING") {
+                if (currentEmail !== "brodywilliams0226@gmail.com" && currentEmail !== "brodywilliams2436@gmail.com") {
+                    overrideTitle.innerText = "Closed Beta Framework";
+                    overrideMessage.innerText = "Closed Beta Testing Environment — Authorization Required.";
+                    systemOverrideOverlay.style.display = 'flex';
+                }
+            }
+        }
+
+        window.updateGlobalSystemStatusMode = function(newStatusValue) {
+            set(ref(rtdb, 'system/status'), newStatusValue)
+            .then(() => { console.log(`System layout context updated successfully: ${newStatusValue}`); })
+            .catch(err => alert(err.message));
+        };
+
+        /* --- 📧 HOOK 3: CLIENT-SIDE MAIL ROUTING / NOTIFICATION ALERTS DISPATCH --- */
+        function dispatchOfflineNotificationMailAlert(recipientEmail, senderName, textPayloadMessage) {
+            // Evaluates presence constraints before routing trigger hooks execution profiles
+            if (!recipientEmail || recipientEmail === "public") return;
+            
+            console.log(`Executing transaction script pipeline: Dispatching mail notification parameters to ${recipientEmail}`);
+            
+            const standardTemplateParameters = {
+                to_email: recipientEmail,
+                from_name: senderName,
+                message: textPayloadMessage
+            };
+
+            // Dispatches structural parameters directly across linked transaction service endpoints
+            emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", standardTemplateParameters)
+            .then(() => { console.log(`Transactional push event resolved safely for: ${recipientEmail}`); })
+            .catch((error) => { console.warn("Mail routing transaction delayed or token key pending configuration:", error); });
         }
 
         /* --- CONTACT SELECTION & SIDEBAR TOGGLING CONTEXT ENGINE --- */
@@ -477,11 +639,11 @@
             }
         }
 
-        /* --- PERSISTENT CONTACT CREATION STORAGE ARCHITECTURE --- */
+        /* --- CONTACT DATABASE SYNCHRONIZATION --- */
         window.commitNewContactToRealtimeDatabase = function() {
             const cName = document.getElementById('contactNameInput').value.trim();
             const cEmail = document.getElementById('contactEmailInput').value.trim();
-            if(!cName || !cEmail) { alert("Please complete both validation sequence entry fields."); return; }
+            if(!cName || !cEmail) { alert("Please complete both validation fields."); return; }
 
             const userContactsSubPathRef = ref(rtdb, `users/${auth.currentUser.uid}/contacts`);
             const targetContactPushReference = push(userContactsSubPathRef);
@@ -506,7 +668,7 @@
                 const basePayload = snapshot.val();
 
                 if(!basePayload) {
-                    activeChatThreadsListContainer.innerHTML = `<div style="color:var(--text-muted); font-size:0.75rem; text-align:center; padding-top:40px;">No saved contact points found.</div>`;
+                    activeChatThreadsListContainer.innerHTML = `<div style="color:var(--text-muted); font-size:0.75rem; text-align:center; padding-top:40px;">No saved contacts found.</div>`;
                     return;
                 }
 
@@ -515,7 +677,7 @@
                     const initials = cData.contactFullName ? cData.contactFullName.substring(0,2) : "UN";
                     
                     const itemHtml = `
-                        <div class="thread-row-item" onclick="window.initializeDirectChatWithContact('${cData.contactFullName}')">
+                        <div class="thread-row-item" onclick="window.initializeDirectChatWithContact('${cData.contactFullName}', '${cData.contactAccountEmail}')">
                             <div class="avatar-frame">${initials}<div class="presence-dot"></div></div>
                             <div class="thread-meta-block">
                                 <span class="thread-title-text">${cData.contactFullName}</span>
@@ -528,15 +690,29 @@
             });
         }
 
-        window.initializeDirectChatWithContact = function(targetContactName) {
-            // Automatically switch sidebar context back to chats frame and generate room context instantly
+        window.initializeDirectChatWithContact = function(targetContactName, targetContactEmail) {
             activeSidebarNavigationContextTabMode = 'chats';
             document.getElementById('chatThreadNameInput').value = `Direct: ${targetContactName}`;
-            commitNewChatThreadToRealtimeDatabase();
-            toggleSidebarNavigationTabs('chats');
+            
+            const threadName = `Direct: ${targetContactName}`;
+            const targetNewThreadPushReference = push(ref(rtdb, 'chats'));
+            
+            const threadPayloadDataBlock = {
+                channelName: threadName,
+                timestampCreated: Date.now(),
+                creatorNodeIdHash: auth.currentUser.uid,
+                lastMessageSummarySnippet: "Channel space initialized safely.",
+                targetRoutingMailAddress: targetContactEmail || "public"
+            };
+
+            set(targetNewThreadPushReference, threadPayloadDataBlock).then(() => {
+                closeCreateChatModal();
+                document.getElementById('chatThreadNameInput').value = '';
+                toggleSidebarNavigationTabs('chats');
+            });
         }
 
-        /* --- ACTIVE CHAT ROOM ENGINE LIVE SYNCHRONIZATION --- */
+        /* --- ACTIVE CHAT ROOM LIVE TIMELINE ENGINE --- */
         window.commitNewChatThreadToRealtimeDatabase = function() {
             const threadName = document.getElementById('chatThreadNameInput').value.trim();
             if(!threadName) return;
@@ -545,7 +721,8 @@
                 channelName: threadName,
                 timestampCreated: Date.now(),
                 creatorNodeIdHash: auth.currentUser.uid,
-                lastMessageSummarySnippet: "Channel space initialized safely."
+                lastMessageSummarySnippet: "Channel space initialized safely.",
+                targetRoutingMailAddress: "public"
             };
 
             const targetNewThreadPushReference = push(ref(rtdb, 'chats'));
@@ -634,16 +811,39 @@
 
             push(ref(rtdb, `chats/${selectedActiveThreadIdNode}/messages`), messageDataPackagePayload).then(() => {
                 set(ref(rtdb, `chats/${selectedActiveThreadIdNode}/lastMessageSummarySnippet`), `${systemSessionSenderDisplayName}: ${messageStringText}`);
+                
+                // Intercept dynamic parameters to evaluate push notification dependencies safely
+                get(ref(rtdb, `chats/${selectedActiveThreadIdNode}`)).then((snapshot) => {
+                    const activeChannelDataBlock = snapshot.val();
+                    if(activeChannelDataBlock && activeChannelDataBlock.targetRoutingMailAddress && activeChannelDataBlock.targetRoutingMailAddress !== "public") {
+                        // Deliver transactional payload notification alert
+                        dispatchOfflineNotificationMailAlert(activeChannelDataBlock.targetRoutingMailAddress, systemSessionSenderDisplayName, messageStringText);
+                    }
+                });
+
                 chatPayloadInputField.value = '';
             });
         };
 
-        /* --- GLOBAL SECURITY GATE ROUTING AUTH COMPILATION SCRIPT --- */
+        /* --- IDENTITY MONITOR & MANAGEMENT FOR OWNER ACCESS SECURITY --- */
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 const accountIdentityTagString = user.displayName || user.email.split('@')[0];
                 userDisplayIdentity.innerText = `Node: ${accountIdentityTagString}`;
                 authGatewayTriggerButton.innerText = "Log Out Securely";
+                
+                // Administrative Privilege Filtering Checklist
+                const targetEmailStringNormalized = user.email.toLowerCase();
+                if(targetEmailStringNormalized === "brodywilliams2436@gmail.com" || targetEmailStringNormalized === "brodywilliams0226@gmail.com") {
+                    ownerSystemLockScreen.style.display = "none";
+                    ownerSystemActiveScreen.style.display = "block";
+                } else {
+                    ownerSystemLockScreen.style.display = "block";
+                    ownerSystemActiveScreen.style.display = "none";
+                }
+
+                evalSystemStatusRedirectConstraints(cachedSystemStatusValue);
+
                 if (!viewsMapping.messages.classList.contains('hidden-view')) {
                     toggleSidebarNavigationTabs(activeSidebarNavigationContextTabMode);
                 }
@@ -651,8 +851,12 @@
                 userDisplayIdentity.innerText = "Offline";
                 authGatewayTriggerButton.innerText = "Login / Sign Up";
                 
-                // Secure Authentication Guard: Instantly boot user back to overview loop if viewing locked modules
-                if (!viewsMapping.messages.classList.contains('hidden-view') || !viewsMapping.games.classList.contains('hidden-view') || !viewsMapping.social.classList.contains('hidden-view')) {
+                ownerSystemLockScreen.style.display = "block";
+                ownerSystemActiveScreen.style.display = "none";
+
+                evalSystemStatusRedirectConstraints(cachedSystemStatusValue);
+
+                if (!viewsMapping.messages.classList.contains('hidden-view') || !viewsMapping.games.classList.contains('hidden-view') || !viewsMapping.social.classList.contains('hidden-view') || !viewsMapping.owner.classList.contains('hidden-view')) {
                     selectedActiveThreadIdNode = null;
                     activeChatInterfaceWorkspaceFrame.style.display = 'none';
                     chatFallbackPlaceholderScreen.style.display = 'flex';
@@ -660,6 +864,9 @@
                 }
             }
         });
+
+        // Initialize Background Interceptors
+        initSystemStatusGlobalInterceptorListener();
     </script>
 </body>
 </html>
