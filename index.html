@@ -187,7 +187,6 @@
         .tier-card p { color: var(--text-muted); margin-bottom: 30px; font-size: 0.9rem; line-height: 1.6; }
         .tier-card .price { font-size: 2.5rem; margin-bottom: 20px; font-weight: bold; }
 
-        /* Subscriptions Coming Soon Overlay */
         .tier-coming-soon {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -212,7 +211,7 @@
             box-shadow: var(--border-glow);
         }
 
-        /* --- TEXTING PLATFORM DESIGN --- */
+        /* --- NON-DISCORD TEXTING PLATFORM (IMAGE MOCKUP PREVIEW) --- */
         .messaging-platform-wrapper {
             position: relative;
             background: #050508;
@@ -221,6 +220,9 @@
             display: grid;
             grid-template-columns: 240px 1fr;
             box-shadow: 0 25px 50px rgba(0,0,0,0.7);
+            user-select: none;
+            -webkit-user-select: none;
+            pointer-events: none; /* Disables all internal clicks/inputs completely */
         }
 
         .channel-sidebar {
@@ -229,6 +231,7 @@
             display: flex;
             flex-direction: column;
             padding: 25px 0;
+            opacity: 0.4;
         }
 
         .pane-title {
@@ -251,18 +254,11 @@
             display: flex;
             align-items: center;
             padding: 14px 25px;
-            cursor: pointer;
             color: var(--text-muted);
             font-size: 0.85rem;
-            transition: all 0.2s ease;
             letter-spacing: 1px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.02);
             text-transform: uppercase;
-        }
-
-        .channel-item:hover {
-            background: rgba(212, 175, 55, 0.03);
-            color: var(--text-main);
         }
 
         .channel-item.active {
@@ -285,6 +281,7 @@
             display: flex;
             flex-direction: column;
             background: #040407;
+            position: relative;
         }
 
         .chat-header {
@@ -295,67 +292,32 @@
             letter-spacing: 2px;
             color: var(--text-muted);
             background: #020204;
-        }
-
-        .chat-header span {
-            color: var(--text-main);
-            font-weight: bold;
+            opacity: 0.4;
         }
 
         .message-stream-area {
             flex: 1;
             padding: 30px;
-            overflow-y: auto;
             display: flex;
             flex-direction: column;
-            gap: 25px;
-        }
-
-        .message-node {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            border-left: 1px solid rgba(255, 255, 255, 0.05);
-            padding-left: 15px;
-            animation: fadeInNode 0.25s ease forwards;
-        }
-
-        @keyframes fadeInNode {
-            from { opacity: 0; transform: translateX(-5px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-
-        .node-meta {
-            display: flex;
+            justify-content: center;
             align-items: center;
-            gap: 12px;
         }
 
-        .node-username {
-            font-weight: bold;
-            font-size: 0.85rem;
+        .empty-stream-placeholder {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            font-style: italic;
             letter-spacing: 1px;
-            color: var(--gold-accent);
             text-transform: uppercase;
-        }
-
-        .node-timestamp {
-            font-size: 0.7rem;
-            color: rgba(255, 255, 255, 0.3);
-            letter-spacing: 0.5px;
-        }
-
-        .node-text {
-            color: #e2e2e8;
-            font-size: 0.9rem;
-            line-height: 1.6;
-            font-weight: 300;
+            opacity: 0.25;
         }
 
         .chat-input-wrapper {
             padding: 25px 30px;
             background: #020204;
             border-top: 1px solid rgba(255, 255, 255, 0.03);
+            opacity: 0.4;
         }
 
         .input-bar-container {
@@ -364,53 +326,22 @@
             border: 1px solid rgba(255, 255, 255, 0.08);
             display: flex;
             align-items: center;
-            padding: 5px 10px 5px 20px;
-            transition: border-color 0.3s;
+            padding: 16px 20px;
         }
 
-        .input-bar-container:focus-within {
-            border-color: var(--gold-accent);
-        }
-
-        .chat-input-field {
-            flex: 1;
-            background: transparent;
-            border: none;
-            outline: none;
-            color: var(--text-main);
+        .chat-input-placeholder-text {
+            color: rgba(255, 255, 255, 0.25);
             font-size: 0.85rem;
             letter-spacing: 0.5px;
-            padding: 12px 0;
         }
 
-        .chat-input-field::placeholder {
-            color: rgba(255, 255, 255, 0.25);
-        }
-
-        .send-node-btn {
-            background: transparent;
-            border: 1px solid var(--gold-accent);
-            color: var(--gold-accent);
-            padding: 8px 22px;
-            font-size: 0.75rem;
-            cursor: pointer;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.2s ease;
-        }
-
-        .send-node-btn:hover {
-            background: var(--gold-accent);
-            color: #030305;
-            font-weight: bold;
-        }
-
+        /* Absolute Overlay Container (Handles pointer-events independently to remain visible) */
         .coming-soon-blur-layer {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(3, 3, 5, 0.75);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
+            background: rgba(3, 3, 5, 0.65);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             z-index: 10;
             display: flex;
             flex-direction: column;
@@ -418,13 +349,19 @@
             align-items: center;
             padding: 40px;
             text-align: center;
-            transition: opacity 0.4s ease, visibility 0.4s;
         }
 
-        .coming-soon-blur-layer.hidden {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
+        .preview-badge {
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid var(--gold-accent);
+            color: var(--gold-accent);
+            padding: 6px 16px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            box-shadow: var(--border-glow);
         }
 
         .layer-title {
@@ -442,23 +379,6 @@
             max-width: 480px;
             line-height: 1.6;
             letter-spacing: 1px;
-            margin-bottom: 30px;
-        }
-
-        .bypass-btn {
-            background: transparent;
-            color: var(--gold-accent);
-            border: 1px solid var(--gold-accent);
-            padding: 10px 24px;
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .bypass-btn:hover {
-            background: rgba(212, 175, 55, 0.1);
         }
 
         /* --- PREVIEW SECTIONS (OTHER COMING SOON) --- */
@@ -634,22 +554,22 @@
             
             <div class="messaging-platform-wrapper">
                 
-                <div class="coming-soon-blur-layer" id="comingSoonLayer">
+                <div class="coming-soon-blur-layer">
+                    <div class="preview-badge">PREVIEW</div>
                     <div class="layer-title">TEXTING CHANNELS — COMING SOON</div>
                     <div class="layer-tagline">Real-time communication framework powered by Firebase architecture. Access clearance protocol under development.</div>
-                    <button class="bypass-btn" onclick="bypassOverlay()">Bypass Overlay (Dev Mode)</button>
                 </div>
 
                 <div class="channel-sidebar">
                     <div class="pane-title">Data Streams</div>
                     <ul class="channel-list">
-                        <li class="channel-item active" onclick="switchChannel(this, 'global-mainframe')">
+                        <li class="channel-item active">
                             <div class="status-dot"></div>global-mainframe
                         </li>
-                        <li class="channel-item" onclick="switchChannel(this, 'announcements')">
+                        <li class="channel-item">
                             <div class="status-dot"></div>announcements
                         </li>
-                        <li class="channel-item" onclick="switchChannel(this, 'general-relay')">
+                        <li class="channel-item">
                             <div class="status-dot"></div>general-relay
                         </li>
                     </ul>
@@ -657,16 +577,16 @@
 
                 <div class="chat-viewport">
                     <div class="chat-header">
-                        Active Terminal Node: <span id="activeChannelName">global-mainframe</span>
+                        Active Terminal Node: <span>global-mainframe</span>
                     </div>
 
-                    <div class="message-stream-area" id="messageStream">
-                        </div>
+                    <div class="message-stream-area">
+                        <div class="empty-stream-placeholder">No active stream payloads found.</div>
+                    </div>
 
                     <div class="chat-input-wrapper">
                         <div class="input-bar-container">
-                            <input type="text" id="chatInputField" class="chat-input-field" placeholder="Secure communication node offline — Authorization required..." onkeydown="handleChatKeyPress(event)">
-                            <button class="send-node-btn" onclick="sendChatNode()">Send Node</button>
+                            <div class="chat-input-placeholder-text">Secure communication node offline — Authorization required...</div>
                         </div>
                     </div>
                 </div>
@@ -727,17 +647,6 @@
 
     <script>
         const modal = document.getElementById('loginModal');
-        const comingSoonLayer = document.getElementById('comingSoonLayer');
-        const chatInputField = document.getElementById('chatInputField');
-        const messageStream = document.getElementById('messageStream');
-        const activeChannelName = document.getElementById('activeChannelName');
-
-        // Local State Tracking Store (Dynamic Chat Buffer)
-        const channelDataStore = {
-            'global-mainframe': [],
-            'announcements': [],
-            'general-relay': []
-        };
 
         function openModal() {
             modal.style.display = 'flex';
@@ -758,73 +667,6 @@
             alert("Secure Feedback Sent. Thank you for shaping the w website ecosystem.");
             event.target.reset(); 
         }
-
-        /* --- TEXTING CHANNEL INTERACTION CONTROLLERS --- */
-        function bypassOverlay() {
-            comingSoonLayer.classList.add('hidden');
-            chatInputField.placeholder = "Broadcast encrypted data payload node...";
-        }
-
-        function switchChannel(element, channelId) {
-            document.querySelectorAll('.channel-item').forEach(item => item.classList.remove('active'));
-            element.classList.add('active');
-            activeChannelName.innerText = channelId;
-            renderChannelStream(channelId);
-        }
-
-        function handleChatKeyPress(event) {
-            if (event.key === 'Enter') {
-                sendChatNode();
-            }
-        }
-
-        function sendChatNode() {
-            const currentChannel = activeChannelName.innerText.trim();
-            const textValue = chatInputField.value.trim();
-
-            if (textValue === '') return;
-
-            const now = new Date();
-            const timeStamp = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-            const nodePayload = {
-                userName: "NODE_CLIENT_AUTHORIZED",
-                time: timeStamp,
-                text: textValue
-            };
-
-            channelDataStore[currentChannel].push(nodePayload);
-            chatInputField.value = '';
-            renderChannelStream(currentChannel);
-        }
-
-        function renderChannelStream(channelId) {
-            messageStream.innerHTML = '';
-            const records = channelDataStore[channelId];
-
-            if (records.length === 0) {
-                messageStream.innerHTML = `<div style="color: var(--text-muted); text-align: center; margin: auto; font-size: 0.8rem; font-style: italic; letter-spacing: 1px; text-transform: uppercase;">No active stream payloads found. Enter a string sequence down below.</div>`;
-                return;
-            }
-
-            records.forEach(node => {
-                const nodeDiv = document.createElement('div');
-                nodeDiv.className = 'message-node';
-                nodeDiv.innerHTML = `
-                    <div class="node-meta">
-                        <span class="node-username">${node.userName}</span>
-                        <span class="node-timestamp">${node.time}</span>
-                    </div>
-                    <div class="node-text">${node.text}</div>
-                `;
-                messageStream.appendChild(nodeDiv);
-            });
-
-            messageStream.scrollTop = messageStream.scrollHeight;
-        }
-
-        // Run Initial Render State Configuration
-        renderChannelStream('global-mainframe');
     </script>
 </body>
 </html>
