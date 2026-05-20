@@ -192,7 +192,7 @@
         .credit-card p { font-size: 0.75rem; color: var(--gold-accent); text-transform: uppercase; letter-spacing: 1px; }
 
         /* ==================================================================================== */
-        /* 🎛️ NEW ARCHITECTURE MODULE: INDUSTRIAL INDUSTRIAL OWNER CONTROL PANEL             */
+        /* 🎛️ OWNER CONTROL PANEL INTERFACE STRUCTURE                                         */
         /* ==================================================================================== */
         .owner-grid-framework {
             display: grid;
@@ -221,7 +221,6 @@
             font-weight: bold;
         }
 
-        /* Grouped Industrial Matrix Switch Controls */
         .switch-vertical-stack {
             display: flex;
             flex-direction: column;
@@ -271,7 +270,6 @@
         .active-row-state[data-mode="testing"] .status-pill-indicator { background: var(--color-testing); color: white; }
         .active-row-state[data-mode="live"] .status-pill-indicator { background: var(--color-success); color: black; }
 
-        /* Global Reset Elements */
         .heavy-action-container {
             display: flex;
             flex-direction: column;
@@ -304,7 +302,6 @@
             border-color: white;
         }
 
-        /* Stream Monitor Scroller Panels */
         .stream-scroller-box {
             height: 280px;
             overflow-y: auto;
@@ -333,7 +330,6 @@
             line-height: 1.4;
         }
 
-        /* Telemetry Data Grid Display */
         .telemetry-text-matrix {
             display: flex;
             flex-direction: column;
@@ -350,7 +346,6 @@
         .telemetry-value-indicator { font-weight: bold; font-size: 0.8rem; text-transform: uppercase; }
         .telemetry-value-indicator.state-green { color: var(--color-success); }
 
-        /* Exception Cards Warnings */
         .exception-protocol-card {
             max-width: 500px;
             margin: 40px auto;
@@ -362,7 +357,7 @@
         .exception-headline { color: var(--color-error); font-size: 1rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; font-weight: bold; }
         .exception-body { color: var(--text-muted); font-size: 0.85rem; line-height: 1.6; }
 
-        /* --- FOOTER REGION --- */
+        /* --- FOOTER --- */
         footer { border-top: 1px solid var(--border-subtle); padding: 40px 20px; text-align: center; background: #010102; margin-top: 60px; }
         footer p { color: var(--text-muted); font-size: 0.8rem; margin-bottom: 8px; letter-spacing: 0.5px;}
         footer a { color: var(--text-main); text-decoration: none; font-weight: bold; }
@@ -382,7 +377,7 @@
     <div class="system-intercept-screen" id="screen-shutdown">
         <div class="intercept-card">
             <div class="intercept-title" style="color: var(--color-error);">System Offline</div>
-            <div class="intercept-desc">The platform core engine has been temporarily taken offline by administration modules. Standby for reconnection logs.</div>
+            <div class="intercept-desc">The platform core engine has been taken offline by administration modules. Standby for connection logs.</div>
         </div>
     </div>
 
@@ -506,7 +501,7 @@
             
             <div id="owner-auth-lock-card" class="exception-protocol-card" style="display: block;">
                 <div class="exception-headline">Clearance Level 4 Protocol Exception</div>
-                <div class="exception-body">Access Denied. Your current active cryptographic context contains insufficient signature validation properties. This environment routing sequence is restricted exclusively to the Master Operations Profile.</div>
+                <div class="exception-body">Access Denied. Your current active token context contains insufficient signature properties. This routing space is restricted exclusively to the Master Profile.</div>
             </div>
 
             <div id="owner-operational-workspace" style="display: none;">
@@ -565,7 +560,7 @@
                     <div class="owner-card-panel">
                         <div class="panel-header-title">Live Community Feedback Monitor (/suggestions)</div>
                         <div class="stream-scroller-box" id="feedbackRealtimeStreamContainer">
-                            <div style="color: var(--text-muted); font-size: 0.8rem; padding: 20px; text-align: center;">Awaiting incoming feedback database synchronization...</div>
+                            <div style="color: var(--text-muted); font-size: 0.8rem; padding: 20px; text-align: center;">Awaiting database synchronization pipeline logs...</div>
                         </div>
                     </div>
 
@@ -616,7 +611,6 @@
         } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         import { getDatabase, ref, push, set, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-        // Operational hardware network parameters mapping
         const firebaseConfig = {
             apiKey: "AIzaSyChx24EPK7w1f7SGVYraI993TkC89ZxiZo",
             authDomain: "wwebsite-ae20b.firebaseapp.com",
@@ -628,13 +622,13 @@
             measurementId: "G-HK8S5YRG4J"
         };
 
-        // Initialize connections
+        // Network Layer Core Spin-up
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const rtdb = getDatabase(app);
         const googleProvider = new GoogleAuthProvider();
 
-        // DOM Mapping Node Declarations
+        // Interface DOM Nodes Mapping
         const modal = document.getElementById('loginModal');
         const homeView = document.getElementById('page-home-view');
         const creditsView = document.getElementById('page-credits-view');
@@ -650,19 +644,18 @@
         const feedbackPayloadTextarea = document.getElementById('feedbackPayloadTextarea');
         const workspaceUserProfileName = document.getElementById('workspaceUserProfileName');
         
-        // Owner Specific DOM Selectors
         const ownerAuthLockCard = document.getElementById('owner-auth-lock-card');
         const ownerOperationalWorkspace = document.getElementById('owner-operational-workspace');
         const feedbackRealtimeStreamContainer = document.getElementById('feedbackRealtimeStreamContainer');
 
-        // Target System Operations Parameters
         const OWNER_EMAIL_TARGET = "brodywilliams0226@gmail.com";
         let localCacheInitializationTimestamp = Date.now();
+        let activeDatabaseSystemStateValue = "live";
 
-        // --- GLOBAL INTERACTIVE MODAL ROUTINES ---
+        // --- AUTHENTICATION MODAL LAYOUT HANDLERS ---
         window.openModal = function() {
             if(auth.currentUser) {
-                signOut(auth).then(() => { alert("Session terminated securely."); }).catch((err) => { console.error(err); });
+                signOut(auth).then(() => { alert("Session terminated safely."); }).catch((err) => { console.error(err); });
             } else {
                 modal.style.display = 'flex';
             }
@@ -670,7 +663,7 @@
         window.closeModal = function() { modal.style.display = 'none'; }
         window.onclick = function(e) { if(e.target === modal) closeModal(); }
 
-        // --- PLATFORM EXECUTIVE ROUTER ---
+        // --- SPA ENGINE LAYER CORE ROUTER ---
         window.showPage = function(pageId) {
             homeView.classList.add('hidden-view');
             creditsView.classList.add('hidden-view');
@@ -692,31 +685,31 @@
             window.scrollTo(0,0);
         }
 
-        // --- FIREBASE SECURITY AUTHENTICATION PROCESSORS ---
+        // --- FIREBASE SECURITY GATEWAY AUTHENTICATION FLOWS ---
         window.executeGoogleIdentitySync = function() {
             signInWithPopup(auth, googleProvider)
             .then(() => { closeModal(); })
-            .catch((err) => { alert(`Identity verification tracking breakdown: ${err.message}`); });
+            .catch((err) => { alert(`Identity popup failure execution logs: ${err.message}`); });
         }
 
         window.executeEmailPasswordLogin = function() {
             const email = document.getElementById('portalEmailField').value.trim();
             const password = document.getElementById('portalPasswordField').value;
-            if(!email || !password) { alert("Missing execution fields."); return; }
+            if(!email || !password) { alert("Execution halted: Missing tracking text values."); return; }
             
             signInWithEmailAndPassword(auth, email, password)
             .then(() => { closeModal(); clearAuthInputs(); })
-            .catch((err) => { alert(`Access denied: ${err.message}`); });
+            .catch((err) => { alert(`Authentication error signature: ${err.message}`); });
         }
 
         window.executeEmailPasswordRegistration = function() {
             const email = document.getElementById('portalEmailField').value.trim();
             const password = document.getElementById('portalPasswordField').value;
-            if(!email || !password) { alert("Missing execution fields."); return; }
+            if(!email || !password) { alert("Execution halted: Missing tracking text values."); return; }
             
             createUserWithEmailAndPassword(auth, email, password)
             .then(() => { closeModal(); clearAuthInputs(); })
-            .catch((err) => { alert(`Node generated: ${err.message}`); });
+            .catch((err) => { alert(`Account registry registration warning: ${err.message}`); });
         }
 
         function clearAuthInputs() {
@@ -724,7 +717,7 @@
             document.getElementById('portalPasswordField').value = '';
         }
 
-        // --- PUBLIC DATA SUBMISSION ROUTING ENGINE ---
+        // --- DATA SUBMISSION ROUTER PIPELINE GENERATOR (/suggestions) ---
         feedbackRelayDataForm.addEventListener('submit', function(e) {
             e.preventDefault();
             const payload = feedbackPayloadTextarea.value.trim();
@@ -738,54 +731,61 @@
                 clientEmail: activeUser ? activeUser.email : "unverified@node.identity"
             };
 
-            // Transmit parameters to the critical tracking node: /suggestions
             set(push(ref(rtdb, 'suggestions')), packagePayload)
             .then(() => {
-                alert("Data payload transmission confirmed.");
+                alert("Data matrix confirmation: Stream telemetry path recorded.");
                 feedbackRelayDataForm.reset();
             })
-            .catch((err) => { alert(`Uplink fault: ${err.message}`); });
+            .catch((err) => { alert(`Uplink transmission block: ${err.message}`); });
         });
 
         // ==================================================================================== */
-        // 🛠️ ACTIVE REALTIME SYNCHRONIZATION PIPELINE LISTENERS                                */
+        // 🛠️ ACTIVE SYNC PIPELINE INTERCEPT RE-EVALUATION LOGIC                              */
         // ==================================================================================== */
-        
-        // Listen to global metadata system configurations branch matrix
-        const systemStatusDatabaseReference = ref(rtdb, 'system/status');
-        onValue(systemStatusDatabaseReference, (snapshot) => {
-            const systemStateValue = snapshot.val() || "live";
-            
-            // Re-evaluate client intercept screen structural parameters layout visibility
+        function evaluateInterceptVisibilityState() {
+            // Default reset view profiles
             document.getElementById('screen-shutdown').style.display = 'none';
             document.getElementById('screen-maintenance').style.display = 'none';
 
-            // Filter out developer master admin overrides bypass validation metrics inside intercept screens
+            // Check if active user session is exactly the master node admin profile
             const isOwnerSession = auth.currentUser && auth.currentUser.email === OWNER_EMAIL_TARGET;
 
-            if(!isOwnerSession) {
-                if (systemStateValue === "shutdown") {
+            // ENFORCE SYSTEM CORES INTERCEPT SCREEN ROUTING LAYOUT RULES IF SESSION IS NOT THE OWNER
+            if (!isOwnerSession) {
+                if (activeDatabaseSystemStateValue === "shutdown") {
                     document.getElementById('screen-shutdown').style.display = 'flex';
-                } else if (systemStateValue === "maintenance") {
+                } else if (activeDatabaseSystemStateValue === "maintenance") {
                     document.getElementById('screen-maintenance').style.display = 'flex';
                 }
+            } else {
+                console.log("Master Session Active Profile verified. Intercept screen bypassed cleanly.");
             }
+        }
 
-            // Sync visual button state matrix selection properties in Owner Control dashboard
-            updateOwnerSwitchStateHighlights(systemStateValue);
+        // Realtime Listener for the Global Application Metadata configuration space node path
+        const systemStatusDatabaseReference = ref(rtdb, 'system/status');
+        onValue(systemStatusDatabaseReference, (snapshot) => {
+            activeDatabaseSystemStateValue = snapshot.val() || "live";
+            console.log("Database Operational Synchronization Key Updated:", activeDatabaseSystemStateValue);
+            
+            // Re-evaluate intercept conditions
+            evaluateInterceptVisibilityState();
+
+            // Sync structural dashboard switches layout selection properties inside Owner View context
+            updateOwnerSwitchStateHighlights(activeDatabaseSystemStateValue);
         });
 
-        // Listen to live system broadcast sockets network reset tracking triggers
+        // Realtime Listener for the Global Web Sockets Reset Broadcast Engine Trigger node path
         const liveResetTelemetryBroadcastReference = ref(rtdb, 'system/global_refresh');
         onValue(liveResetTelemetryBroadcastReference, (snapshot) => {
             const serverBroadcastTimestampValue = snapshot.val();
             if(serverBroadcastTimestampValue && serverBroadcastTimestampValue > localCacheInitializationTimestamp) {
-                // Soft refresh execution caught down stream inside running instance sockets pipelines
+                console.log("Pipeline broadcast event caught. Executing clean local software interface refresh.");
                 window.location.reload();
             }
         });
 
-        // Dynamic updates for dashboard UI button highlights
+        // Manage active switch highlighting configurations inside panel interface layout
         function updateOwnerSwitchStateHighlights(activeMode) {
             const targetedControlSwitchRowElements = document.querySelectorAll('.industrial-switch-row');
             targetedControlSwitchRowElements.forEach(row => row.classList.remove('active-row-state'));
@@ -796,7 +796,7 @@
             }
         }
 
-        // --- CONTROLLER HANDLERS FOR PROTECTED ACTION TRIGGERS ---
+        // --- PROTECTED TERMINAL HANDLERS (OWNER VALIDATED PATHS) ---
         window.updateGlobalPlatformState = function(targetStateValue) {
             if(!auth.currentUser || auth.currentUser.email !== OWNER_EMAIL_TARGET) return;
             set(ref(rtdb, 'system/status'), targetStateValue);
@@ -805,10 +805,10 @@
         window.triggerGlobalLiveEngineReset = function() {
             if(!auth.currentUser || auth.currentUser.email !== OWNER_EMAIL_TARGET) return;
             set(ref(rtdb, 'system/global_refresh'), Date.now())
-            .then(() => { alert("Global soft socket reset broadcast command deployed successfully."); });
+            .then(() => { alert("Global socket pipeline soft reload signature broadcast deployed."); });
         }
 
-        // Initialize real-time feed updates loop for suggestion node tree pathing tracking analytics
+        // Connect real-time list renderer engine loop to community feedback data nodes pathing
         function initializeSuggestionsStreamCollectorEngine() {
             const targetSuggestionsPathRef = ref(rtdb, 'suggestions');
             onValue(targetSuggestionsPathRef, (snapshot) => {
@@ -816,17 +816,16 @@
                 const collectionPayloadData = snapshot.val();
 
                 if(!collectionPayloadData) {
-                    feedbackRealtimeStreamContainer.innerHTML = `<div style="color: var(--text-muted); font-size: 0.8rem; padding: 20px; text-align: center;">No feedback data strings discovered in /suggestions branch node matrix.</div>`;
+                    feedbackRealtimeStreamContainer.innerHTML = `<div style="color: var(--text-muted); font-size: 0.8rem; padding: 20px; text-align: center;">No feedback metrics found inside /suggestions node registry branch.</div>`;
                     return;
                 }
 
-                // Process payloads backwards to view incoming metrics inside scrolling matrix
                 Object.keys(collectionPayloadData).reverse().forEach(keyId => {
                     const dynamicItemNodeRecord = collectionPayloadData[keyId];
                     const rawRowStringDomTemplate = `
                         <div class="suggestion-data-row">
                             <div class="suggestion-header-meta">
-                                <span>Identity: ${dynamicItemNodeRecord.clientEmail || 'ANONYMOUS'}</span>
+                                <span>Source Node: ${dynamicItemNodeRecord.clientEmail || 'ANONYMOUS'}</span>
                                 <span>${dynamicItemNodeRecord.timestamp ? dynamicItemNodeRecord.timestamp.substring(11, 16) : '00:00'}</span>
                             </div>
                             <div class="suggestion-text-payload">${dynamicItemNodeRecord.message || ''}</div>
@@ -837,7 +836,7 @@
             });
         }
 
-        // --- GLOBAL SESSION LISTENER IDENTITY DISPATCHER MATRIX ---
+        // --- SYSTEM PROFILE STATE CHANGE DISPATCH MONITOR ---
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 const calculatedStringLabelIdentity = user.displayName || user.email.split('@')[0];
@@ -846,13 +845,12 @@
                 
                 authGatewayTriggerButton.innerText = "Log Out Securely";
 
-                // Validation tracking configuration parameters: Owner Level Evaluation
+                // RE-EVALUATE CLEARANCE OVERRIDES FOR ACTIVE RUNTIME INSTANCE
                 if(user.email === OWNER_EMAIL_TARGET) {
                     tabOwner.style.display = 'inline-block';
                     ownerAuthLockCard.style.display = 'none';
                     ownerOperationalWorkspace.style.display = 'block';
                     
-                    // Activate live data streams
                     initializeSuggestionsStreamCollectorEngine();
                 } else {
                     tabOwner.style.display = 'none';
@@ -868,11 +866,13 @@
                 ownerAuthLockCard.style.display = 'block';
                 ownerOperationalWorkspace.style.display = 'none';
                 
-                // If user context logs out while on protected view layer paths, fall back to home routing maps
                 if(!ownerView.classList.contains('hidden-view')) {
                     showPage('home');
                 }
             }
+
+            // Always run intercept checks when login state finishes tracking calculation update steps
+            evaluateInterceptVisibilityState();
         });
     </script>
 </body>
