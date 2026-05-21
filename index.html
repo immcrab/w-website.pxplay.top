@@ -124,7 +124,7 @@
         }
         
         .user-profile {
-            display: none; /* Toggled by JS */
+            display: none;
             align-items: center;
             gap: 12px;
             cursor: pointer;
@@ -174,7 +174,6 @@
             overflow: hidden; display: flex; justify-content: center; align-items: center;
             background: linear-gradient(135deg, #0c0c12 0%, #030305 100%);
         }
-        /* Faux blurred chat background */
         .teaser-bg {
             position: absolute; top:0; left:0; width:100%; height:100%; filter: blur(8px); opacity: 0.4;
             display: flex; flex-direction: column; gap: 20px; padding: 40px; pointer-events: none;
@@ -237,8 +236,7 @@
     </div>
 
     <div id="system-overlay">
-        <div id="overlay-content" class="overlay-card">
-            </div>
+        <div id="overlay-content" class="overlay-card"></div>
     </div>
 
     <header>
@@ -315,21 +313,14 @@
                     <div class="roster-icon">⚙️</div>
                     <div class="roster-info">
                         <h3>Infrastructure & Backend Operations</h3>
-                        <p>Jase (Co-Founder / Database Architect)</p>
-                    </div>
-                </div>
-                <div class="roster-card">
-                    <div class="roster-icon">🛡️</div>
-                    <div class="roster-info">
-                        <h3>Content Security & Moderation Staff</h3>
-                        <p>Ammar, Brayden, DJ</p>
+                        <p>Jase Peaslee (Co-Founder / Database Architect)</p>
                     </div>
                 </div>
                 <div class="roster-card">
                     <div class="roster-icon">🎨</div>
                     <div class="roster-info">
-                        <h3>Creative Design & Interactive Mechanics Team</h3>
-                        <p>Jullian, Owen, Isaac P, Wesley, Henry</p>
+                        <h3>Creative Infrastructure & Interactive Design</h3>
+                        <p>Owen Lee</p>
                     </div>
                 </div>
             </div>
@@ -344,9 +335,8 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getDatabase, ref, push, onValue, get } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-        // DEVELOPER NOTE: Replace with Version 25 production keys
         const firebaseConfig = {
             apiKey: "AIzaSy_MOCK_KEY_FOR_W_WEBSITE",
             authDomain: "wwebsite-v25.firebaseapp.com",
@@ -359,7 +349,6 @@
         const rtdb = getDatabase(app);
         const provider = new GoogleAuthProvider();
 
-        // --- ROUTING ENGINE ---
         window.navigate = function(targetView) {
             document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.center-nav a').forEach(el => el.classList.remove('active'));
@@ -369,11 +358,8 @@
             window.scrollTo(0,0);
         }
 
-        // --- AUTHENTICATION FLOW ---
         window.triggerLoginModal = function() {
-            signInWithPopup(auth, provider).catch(error => {
-                console.error("Auth Exception:", error.message);
-            });
+            signInWithPopup(auth, provider).catch(error => console.error("Auth Exception:", error.message));
         }
 
         window.triggerLogout = function() { signOut(auth); }
@@ -393,7 +379,6 @@
             }
         });
 
-        // --- DATABASE WRITES: FEEDBACK MODULE ---
         window.submitSuggestion = function() {
             const inputEl = document.getElementById('suggestion-input');
             const successMsg = document.getElementById('feedback-success');
@@ -412,22 +397,12 @@
             }).catch(err => alert('Transmission failed.'));
         }
 
-        // --- GLOBAL INTERCEPTOR HOOKS ---
         let initialLoad = true;
-
-        // 1. Listen for Global Reset
         onValue(ref(rtdb, 'system/globalReset'), (snapshot) => {
-            if (initialLoad) {
-                initialLoad = false; 
-                return;
-            }
-            if (snapshot.exists()) {
-                console.warn("GLOBAL RESET TRIGGERED BY COMMAND. Flushing cache...");
-                window.location.reload();
-            }
+            if (initialLoad) { initialLoad = false; return; }
+            if (snapshot.exists()) { window.location.reload(); }
         });
 
-        // 2. Listen for System Status Overrides
         onValue(ref(rtdb, 'system/status'), (snapshot) => {
             const status = snapshot.val();
             const overlay = document.getElementById('system-overlay');
