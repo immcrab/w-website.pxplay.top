@@ -1,240 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Under Construction</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet"/>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --bg: #0b0c10; --fg: #f0ece2; --accent: #c8a96e;
-      --muted: #5a5750; --line: rgba(200,169,110,0.25);
-    }
-    body {
-      background: var(--bg); color: var(--fg);
-      font-family: 'DM Mono', monospace;
-      min-height: 100vh; display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      overflow: hidden; position: relative;
-    }
-    body::before {
-      content: ''; position: fixed; inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-      opacity: 0.4; pointer-events: none; z-index: 0;
-    }
-    .rule-top, .rule-bottom {
-      position: fixed; left: 0; right: 0; height: 1px;
-      background: linear-gradient(90deg, transparent, var(--accent), transparent); opacity: 0.4;
-    }
-    .rule-top { top: 48px; } .rule-bottom { bottom: 48px; }
-    .corner { position: fixed; width: 24px; height: 24px; border-color: var(--accent); border-style: solid; opacity: 0.5; }
-    .corner.tl { top: 32px; left: 32px; border-width: 1px 0 0 1px; }
-    .corner.tr { top: 32px; right: 32px; border-width: 1px 1px 0 0; }
-    .corner.bl { bottom: 32px; left: 32px; border-width: 0 0 1px 1px; }
-    .corner.br { bottom: 32px; right: 32px; border-width: 0 1px 1px 0; }
-    .container {
-      position: relative; z-index: 1; text-align: center;
-      padding: 2rem; max-width: 680px;
-      animation: fadeUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
-    }
-    .label {
-      font-size: 0.65rem; letter-spacing: 0.35em; text-transform: uppercase;
-      color: var(--accent); margin-bottom: 2.5rem; animation: fadeUp 1s 0.1s both;
-    }
-    h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2.8rem, 7vw, 5rem); font-weight: 400;
-      line-height: 1.1; letter-spacing: -0.01em; margin-bottom: 0.2em;
-      animation: fadeUp 1s 0.2s both;
-    }
-    h1 em { font-style: italic; color: var(--accent); }
-    .divider { width: 48px; height: 1px; background: var(--accent); margin: 2rem auto; animation: expandWidth 1s 0.4s both; }
-    .message {
-      font-size: 0.8rem; letter-spacing: 0.08em; color: var(--muted);
-      line-height: 2; margin-bottom: 1.5rem; animation: fadeUp 1s 0.5s both;
-    }
-    /* Countdown */
-    .countdown-wrap {
-      display: flex; justify-content: center; align-items: flex-start;
-      gap: 1.4rem; margin: 0 0 2rem; animation: fadeUp 1s 0.55s both;
-    }
-    .time-block { display: flex; flex-direction: column; align-items: center; gap: 0.4rem; }
-    .time-digits {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2.2rem, 5vw, 3.4rem); font-weight: 700;
-      color: var(--fg); line-height: 1; min-width: 2ch; text-align: center;
-      transition: color 0.4s;
-    }
-    .time-digits.urgent { color: var(--accent); }
-    .time-label { font-size: 0.52rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--muted); }
-    .sep {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2.2rem, 5vw, 3.4rem); color: var(--muted);
-      line-height: 1; opacity: 0.35; margin-top: 0;
-    }
-    /* Progress */
-    .progress-wrap {
-      margin: 0 auto 2rem; width: 220px; height: 1px;
-      background: var(--line); overflow: visible; position: relative;
-      animation: fadeUp 1s 0.6s both;
-    }
-    .progress-bar {
-      height: 1px; background: linear-gradient(90deg, var(--accent), #e8d5a3);
-      width: 0%; transition: width 1s linear; position: relative;
-    }
-    .progress-bar::after {
-      content: ''; position: absolute; right: 0; top: 50%;
-      transform: translateY(-50%); width: 5px; height: 5px;
-      border-radius: 50%; background: #e8d5a3;
-      box-shadow: 0 0 8px 2px rgba(200,169,110,0.6);
-    }
-    /* Status */
-    .status {
-      display: inline-flex; align-items: center; gap: 0.6rem;
-      font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase;
-      color: var(--muted); animation: fadeUp 1s 0.7s both;
-    }
-    .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); animation: pulse 2s ease-in-out infinite; }
-    /* Geo */
-    .geo { position: fixed; border: 1px solid var(--line); border-radius: 50%; pointer-events: none; }
-    .geo-1 { width: 380px; height: 380px; top: -140px; right: -120px; animation: rotateSlow 40s linear infinite; }
-    .geo-2 { width: 200px; height: 200px; bottom: -60px; left: -60px; animation: rotateSlow 28s linear infinite reverse; }
-    /* Live screen */
-    #live-screen {
-      display: none; position: fixed; inset: 0; z-index: 100;
-      background: var(--bg); flex-direction: column; align-items: center;
-      justify-content: center; text-align: center; padding: 2rem;
-    }
-    #live-screen.show { display: flex; animation: fadeUp 1.4s cubic-bezier(0.16,1,0.3,1) both; }
-    #live-screen .live-label { font-size: 0.65rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--accent); margin-bottom: 2rem; }
-    #live-screen h2 { font-family: 'Playfair Display', serif; font-size: clamp(2.8rem, 7vw, 5rem); font-weight: 400; line-height: 1.1; }
-    #live-screen h2 em { font-style: italic; color: var(--accent); }
-    #live-screen .live-divider { width: 48px; height: 1px; background: var(--accent); margin: 2rem auto; }
-    #live-screen .live-msg { font-size: 0.8rem; letter-spacing: 0.08em; color: var(--muted); line-height: 2; }
-    /* Keyframes */
-    @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes expandWidth { from { width: 0; opacity: 0; } to { width: 48px; opacity: 1; } }
-    @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.7); } }
-    @keyframes rotateSlow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Temporarily Unavailable</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #0b0f19;
+            color: #f3f4f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 550px;
+            width: 100%;
+            background-color: #111827;
+            border: 1px solid #1f2937;
+            border-top: 4px solid #ef4444;
+            border-radius: 8px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+        }
+
+        .icon-wrapper {
+            width: 64px;
+            height: 64px;
+            background-color: rgba(239, 68, 68, 0.1);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 24px auto;
+        }
+
+        .icon {
+            width: 32px;
+            height: 32px;
+            color: #ef4444;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #ffffff;
+            letter-spacing: -0.025em;
+        }
+
+        p {
+            font-size: 15px;
+            line-height: 1.6;
+            color: #9ca3af;
+            margin-bottom: 24px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            background-color: rgba(245, 158, 11, 0.1);
+            color: #f59e0b;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 16px;
+        }
+
+        .footer {
+            margin-top: 32px;
+            padding-top: 20px;
+            border-top: 1px solid #1f2937;
+            font-size: 13px;
+            color: #6b7280;
+        }
+    </style>
 </head>
 <body>
 
-  <div class="rule-top"></div>
-  <div class="rule-bottom"></div>
-  <div class="corner tl"></div>
-  <div class="corner tr"></div>
-  <div class="corner bl"></div>
-  <div class="corner br"></div>
-  <div class="geo geo-1"></div>
-  <div class="geo geo-2"></div>
+    <div class="container">
+        <div class="icon-wrapper">
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+        </div>
+        
+        <div class="status-badge">Emergency Maintenance</div>
+        
+        <h1>Website Temporarily Offline</h1>
+        
+        <p>
+            This website has been temporarily shut down following detected unauthorized access and malicious hack attempts. 
+            We have proactively taken all systems offline to secure data integrity and safeguard our infrastructure.
+        </p>
+        
+        <p>
+            Our security team is actively investigating the incident, assessing vulnerabilities, and implementing hardened security measures before restoring services.
+        </p>
 
-  <!-- Maintenance screen -->
-  <div class="container" id="maintenance-screen">
-    <p class="label">System Notice</p>
-    <h1>We're <em>updating</em><br>our website</h1>
-    <div class="divider"></div>
-    <p class="message">
-      Our team is currently making improvements.<br>
-      We'll be back online shortly — thank you for your patience. (Sorry for the leak)
-    </p>
-
-    <div class="countdown-wrap">
-      <div class="time-block">
-        <span class="time-digits" id="cd-h">00</span>
-        <span class="time-label">Hours</span>
-      </div>
-      <span class="sep">:</span>
-      <div class="time-block">
-        <span class="time-digits" id="cd-m">00</span>
-        <span class="time-label">Minutes</span>
-      </div>
-      <span class="sep">:</span>
-      <div class="time-block">
-        <span class="time-digits" id="cd-s">00</span>
-        <span class="time-label">Seconds</span>
-      </div>
+        <div class="footer">
+            System Administrators • Incident ID: SEC-RECOVERY-01
+        </div>
     </div>
 
-    <div class="progress-wrap">
-      <div class="progress-bar" id="progress-bar"></div>
-    </div>
-
-    <span class="status">
-      <span class="dot"></span>
-      Update in progress
-    </span>
-  </div>
-
-  <!-- Live screen -->
-  <div id="live-screen">
-    <p class="live-label">We're Live</p>
-    <h2>Welcome <em>back</em> —<br>we're open!</h2>
-    <div class="live-divider"></div>
-    <p class="live-msg">
-      The update is complete.<br>
-      Thank you for your patience — enjoy the new experience.
-    </p>
-  </div>
-
-  <script>
-    // TARGET: May 21 2026, 2:00 PM Central Daylight Time = 19:00 UTC
-    // Hard-coded — cannot be overridden or reset by the user.
-    const TARGET_MS = Date.UTC(2026, 4, 21, 19, 0, 0);
-
-    // Progress bar start reference: midnight CDT = 05:00 UTC same day
-    const START_MS = Date.UTC(2026, 4, 21, 5, 0, 0);
-    const TOTAL_DURATION = TARGET_MS - START_MS;
-
-    const hEl = document.getElementById('cd-h');
-    const mEl = document.getElementById('cd-m');
-    const sEl = document.getElementById('cd-s');
-    const bar = document.getElementById('progress-bar');
-    const liveScreen = document.getElementById('live-screen');
-    const mainScreen = document.getElementById('maintenance-screen');
-
-    function pad(n) { return String(Math.max(0, n)).padStart(2, '0'); }
-
-    function goLive() {
-      mainScreen.style.display = 'none';
-      liveScreen.classList.add('show');
-    }
-
-    function tick() {
-      const now = Date.now();
-      const diff = TARGET_MS - now;
-
-      if (diff <= 0) {
-        hEl.textContent = mEl.textContent = sEl.textContent = '00';
-        bar.style.width = '100%';
-        goLive();
-        return;
-      }
-
-      const totalSecs = Math.floor(diff / 1000);
-      hEl.textContent = pad(Math.floor(totalSecs / 3600));
-      mEl.textContent = pad(Math.floor((totalSecs % 3600) / 60));
-      sEl.textContent = pad(totalSecs % 60);
-
-      // Turn accent color when under 10 minutes
-      const urgent = diff < 10 * 60 * 1000;
-      [hEl, mEl, sEl].forEach(el => el.classList.toggle('urgent', urgent));
-
-      // Progress bar
-      const elapsed = now - START_MS;
-      const pct = Math.min(100, Math.max(0, (elapsed / TOTAL_DURATION) * 100));
-      bar.style.width = pct + '%';
-
-      setTimeout(tick, 1000);
-    }
-
-    // Check immediately in case timer already expired
-    if (Date.now() >= TARGET_MS) {
-      goLive();
-    } else {
-      tick();
-    }
-  </script>
 </body>
 </html>
