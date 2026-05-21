@@ -3,30 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>W-SUITE // VERSION 25</title>
+    <title>Wwebsite // VERSION 2.1</title>
     <style>
         /* =========================================================
-           W-SUITE V25 :: DESIGN SYSTEM TOKENS
+           ADVANCED DESIGN SYSTEM TOKENS & VARIABLE ARCHITECTURE
            ========================================================= */
         :root {
-            /* Core Canvas */
+            /* Color Canvas & Surface Layouts */
             --bg-canvas: #030305;
             --bg-panel: #0c0c12;
+            --bg-panel-elevated: #12121a;
             --border-thin: #1a1a26;
+            --border-glow: #2e2e42;
             
-            /* Typography */
+            /* High-Fidelity Typography Tokens */
             --text-main: #ffffff;
+            --text-secondary: #e2e2e9;
             --text-muted: #8a8a9e;
+            --text-dark: #4c4c5e;
             
-            /* Accents */
+            /* Status Indicators & Branding Overlays */
             --accent-gold: #d4af37;
             --accent-purple: #7e22ce;
+            --accent-purple-glow: rgba(126, 34, 206, 0.4);
             --accent-green: #10b981;
             --accent-red: #ef4444;
-            --glass-bg: rgba(12, 12, 18, 0.6);
+            --glass-bg: rgba(12, 12, 18, 0.75);
+            --blur-radius: 16px;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+        /* Global Reset & Base Canvas Elements */
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; 
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
 
         body {
             background-color: var(--bg-canvas);
@@ -37,17 +51,24 @@
             flex-direction: column;
         }
 
+        /* Custom Scrollbar Architecture for High-Density Screens */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg-canvas); }
+        ::-webkit-scrollbar-thumb { background: var(--border-thin); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--border-glow); }
+
         /* =========================================================
-           1. THE PERFECT SPACIOUS FLEX HEADER
+           APPLICATION NAVIGATION HEADER
            ========================================================= */
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 2rem 4rem;
+            padding: 1.75rem 4rem;
             width: 100%;
             box-sizing: border-box;
-            background: var(--bg-canvas);
+            background: rgba(3, 3, 5, 0.8);
+            backdrop-filter: blur(var(--blur-radius));
             border-bottom: 1px solid var(--border-thin);
             position: sticky;
             top: 0;
@@ -57,166 +78,439 @@
         .logo-block {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
+            cursor: pointer;
+            user-select: none;
         }
         .logo-w {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             font-weight: 900;
             letter-spacing: -1px;
-            background: linear-gradient(to right, #fff, var(--text-muted));
+            background: linear-gradient(135deg, #ffffff 0%, var(--text-muted) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .logo-text { font-size: 1.1rem; font-weight: 400; letter-spacing: 4px; text-transform: uppercase; }
+        .logo-text { 
+            font-size: 1rem; 
+            font-weight: 500; 
+            letter-spacing: 5px; 
+            text-transform: uppercase; 
+            color: var(--text-main);
+        }
 
-        /* Auth UI */
+        nav.center-nav { 
+            display: flex; 
+            gap: 3.5rem; 
+        }
+        nav.center-nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            transition: color 0.3s cubic-bezier(0.16, 1, 0.3, 1), text-shadow 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        nav.center-nav a:hover, nav.center-nav a.active {
+            color: var(--text-main);
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+        }
+
+        /* Identity Authentication Controls */
         .auth-block { position: relative; }
         .btn-login {
             background: transparent;
             color: var(--text-main);
             border: 1px solid var(--border-thin);
-            padding: 10px 24px;
-            font-size: 0.85rem;
-            letter-spacing: 1px;
+            padding: 12px 28px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .btn-login:hover {
             border-color: var(--text-main);
-            background: rgba(255,255,255,0.05);
+            background: rgba(255, 255, 255, 0.04);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
         }
         
         .user-profile {
             display: none;
             align-items: center;
-            gap: 12px;
+            gap: 14px;
             cursor: pointer;
+            padding: 4px;
         }
-        .avatar { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--accent-purple); background: var(--bg-panel); display: flex; justify-content: center; align-items: center; font-weight: bold; }
+        .avatar { 
+            width: 38px; 
+            height: 38px; 
+            border-radius: 50%; 
+            border: 1px solid var(--accent-purple); 
+            background: var(--bg-panel-elevated); 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--text-main);
+            box-shadow: 0 0 10px var(--accent-purple-glow);
+        }
         .dropdown {
             display: none;
             position: absolute;
-            top: 50px;
+            top: 55px;
             right: 0;
             background: var(--bg-panel);
             border: 1px solid var(--border-thin);
-            width: 200px;
+            width: 220px;
             border-radius: 4px;
-            padding: 10px 0;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            padding: 8px 0;
+            box-shadow: 0 16px 40px rgba(0,0,0,0.8);
+            animation: dropdownFade 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
+        @keyframes dropdownFade { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
         .user-profile:hover .dropdown { display: block; }
-        .dropdown-item { padding: 12px 20px; color: var(--text-muted); font-size: 0.85rem; text-decoration: none; display: block; transition: 0.2s; }
-        .dropdown-item:hover { color: var(--text-main); background: rgba(255,255,255,0.02); }
+        .dropdown-item { 
+            padding: 12px 20px; 
+            color: var(--text-muted); 
+            font-size: 0.8rem; 
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            text-decoration: none; 
+            display: block; 
+            transition: all 0.2s ease; 
+        }
+        .dropdown-item:hover { 
+            color: var(--text-main); 
+            background: rgba(255, 255, 255, 0.03); 
+        }
 
         /* =========================================================
-           CORE LAYOUT CONTAINERS
+           CORE ROUTING LAYOUT CONTAINER
            ========================================================= */
-        main { flex: 1; padding: 3rem 4rem 4rem 4rem; max-width: 1400px; margin: 0 auto; width: 100%; display: flex; flex-direction: column; }
+        main { 
+            flex: 1; 
+            padding: 4rem 4rem 8rem 4rem; 
+            max-width: 1400px; 
+            margin: 0 auto; 
+            width: 100%; 
+        }
+        .view-section { display: none; }
+        .view-section.active { display: block; animation: sectionViewIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        @keyframes sectionViewIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* PREMIUM W-MESSAGES INTERFACE */
+        /* =========================================================
+           INDEX VIEW ARCHITECTURE (HOMEPAGE)
+           ========================================================= */
+        .hero-module { 
+            text-align: center; 
+            margin-bottom: 5rem; 
+            padding: 3rem 0; 
+        }
+        .hero-module h1 { 
+            font-size: 4.5rem; 
+            font-weight: 200; 
+            letter-spacing: 16px; 
+            margin-bottom: 1.25rem;
+            text-transform: uppercase;
+            line-height: 1.1;
+        }
+        .hero-module p { 
+            font-size: 1.15rem; 
+            color: var(--text-muted); 
+            letter-spacing: 1.5px; 
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* ADVANCED MESSAGING INTERACTIVE CONSOLE */
         .chat-container {
             background: var(--bg-panel);
             border: 1px solid var(--border-thin);
-            flex: 1;
-            min-height: 600px;
+            height: 600px;
             display: flex;
             flex-direction: column;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            margin-bottom: 5rem;
+            box-shadow: 0 30px 70px rgba(0,0,0,0.6);
             position: relative;
         }
         .chat-header {
-            padding: 1.5rem 2rem;
+            padding: 1.75rem 2.5rem;
             border-bottom: 1px solid var(--border-thin);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(255,255,255,0.01);
+            background: linear-gradient(to bottom, rgba(255,255,255,0.01), transparent);
         }
-        .chat-title-area h2 { font-size: 1.1rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; }
-        .chat-title-area p { font-size: 0.8rem; color: var(--text-muted); margin-top: 2px; }
-        .status-pill { background: rgba(16, 185, 129, 0.1); border: 1px solid var(--accent-green); color: var(--accent-green); padding: 4px 12px; font-size: 0.7rem; letter-spacing: 1px; text-transform: uppercase; border-radius: 2px; }
+        .chat-title-area h2 { 
+            font-size: 1.05rem; 
+            letter-spacing: 2px; 
+            text-transform: uppercase; 
+            font-weight: 600; 
+        }
+        .chat-title-area p { 
+            font-size: 0.75rem; 
+            color: var(--text-muted); 
+            margin-top: 4px; 
+            letter-spacing: 0.5px;
+        }
+        .status-pill { 
+            background: rgba(16, 185, 129, 0.08); 
+            border: 1px solid var(--accent-green); 
+            color: var(--accent-green); 
+            padding: 6px 14px; 
+            font-size: 0.65rem; 
+            font-weight: 700;
+            letter-spacing: 1.5px; 
+            text-transform: uppercase; 
+            border-radius: 2px; 
+        }
         
         .chat-messages {
             flex: 1;
-            padding: 2rem;
+            padding: 2.5rem;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
-            gap: 1.5rem;
-            background: radial-gradient(circle at top right, rgba(126, 34, 206, 0.03), transparent);
+            gap: 1.75rem;
+            background: radial-gradient(circle at 90% 10%, rgba(126, 34, 206, 0.02), transparent 40%);
+            scroll-behavior: smooth;
         }
-        .message-wrapper { display: flex; flex-direction: column; max-width: 70%; gap: 4px; }
+        
+        /* Advanced Message Bubble Architecture */
+        .message-wrapper { 
+            display: flex; 
+            flex-direction: column; 
+            max-width: 65%; 
+            gap: 6px; 
+            animation: msgBubbleIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes msgBubbleIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
         .message-wrapper.self { align-self: flex-end; }
-        .msg-meta { font-size: 0.75rem; color: var(--text-muted); letter-spacing: 0.5px; }
+        
+        .msg-meta { 
+            font-size: 0.7rem; 
+            color: var(--text-muted); 
+            letter-spacing: 0.5px; 
+            font-weight: 500;
+        }
         .message-wrapper.self .msg-meta { align-self: flex-end; }
+        
         .msg-bubble {
-            background: #12121a;
+            background: var(--bg-panel-elevated);
             border: 1px solid var(--border-thin);
-            padding: 14px 20px;
+            padding: 15px 22px;
             font-size: 0.95rem;
-            line-height: 1.5;
-            color: #e2e2e9;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            border-radius: 2px;
+            word-wrap: break-word;
         }
         .message-wrapper.self .msg-bubble {
             background: var(--accent-purple);
             border-color: transparent;
             color: #ffffff;
+            box-shadow: 0 4px 20px rgba(126, 34, 206, 0.2);
         }
 
+        /* Message Composition Panel */
         .chat-input-area {
-            padding: 1.5rem 2rem;
+            padding: 1.5rem 2.5rem;
             border-top: 1px solid var(--border-thin);
             display: flex;
-            gap: 15px;
-            background: rgba(0,0,0,0.2);
+            gap: 16px;
+            background: rgba(0, 0, 0, 0.25);
+            align-items: center;
         }
         .chat-input-area input {
             flex: 1;
             background: var(--bg-canvas);
             border: 1px solid var(--border-thin);
             color: #fff;
-            padding: 15px 20px;
+            padding: 16px 22px;
             font-size: 0.95rem;
             outline: none;
-            transition: border-color 0.3s;
+            transition: all 0.25s ease;
+            border-radius: 2px;
         }
-        .chat-input-area input:focus { border-color: var(--accent-purple); }
+        .chat-input-area input:focus { 
+            border-color: var(--border-glow); 
+            box-shadow: 0 0 15px rgba(255,255,255,0.02);
+        }
         .btn-chat-send {
             background: var(--text-main);
             color: var(--bg-canvas);
             border: none;
-            padding: 0 35px;
+            padding: 0 38px;
+            height: 53px;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 0.85rem;
+            letter-spacing: 1.5px;
+            font-size: 0.8rem;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.2s ease;
+            border-radius: 2px;
         }
-        .btn-chat-send:hover { background: var(--accent-purple); color: #fff; }
+        .btn-chat-send:hover { 
+            background: var(--accent-purple); 
+            color: #fff; 
+            box-shadow: 0 0 20px var(--accent-purple-glow);
+        }
         
+        /* Protection Access Gates */
         .auth-gate-overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(3, 3, 5, 0.95); backdrop-filter: blur(12px);
+            background: rgba(3, 3, 5, 0.96); backdrop-filter: blur(12px);
             z-index: 10; display: flex; justify-content: center; align-items: center;
-            text-align: center; font-size: 1rem; color: var(--text-muted);
-            letter-spacing: 2px; text-transform: uppercase;
+            text-align: center; font-size: 0.9rem; color: var(--text-muted);
+            letter-spacing: 3px; text-transform: uppercase; font-weight: 500;
+        }
+
+        /* Community Input Modules */
+        .feedback-module { 
+            background: var(--bg-panel); 
+            border: 1px solid var(--border-thin); 
+            padding: 4.5rem 2rem; 
+            text-align: center; 
+            margin-bottom: 4rem; 
+        }
+        .feedback-module h2 { 
+            font-size: 1.4rem; 
+            letter-spacing: 3px; 
+            text-transform: uppercase; 
+            margin-bottom: 2.25rem; 
+            font-weight: 400;
+        }
+        .input-group { 
+            display: flex; 
+            max-width: 650px; 
+            margin: 0 auto; 
+            gap: 12px; 
+        }
+        .input-group input {
+            flex: 1; 
+            background: var(--bg-canvas); 
+            border: 1px solid var(--border-thin);
+            color: #fff; 
+            padding: 16px 24px; 
+            font-size: 0.95rem; 
+            outline: none; 
+            transition: border 0.3s ease;
+            border-radius: 2px;
+        }
+        .input-group input:focus { border-color: var(--border-glow); }
+        .btn-submit { 
+            background: var(--text-main); 
+            color: var(--bg-canvas); 
+            border: none; 
+            padding: 0 35px; 
+            font-weight: 700; 
+            text-transform: uppercase; 
+            letter-spacing: 1px;
+            font-size: 0.8rem;
+            cursor: pointer; 
+            transition: all 0.3s ease; 
+            border-radius: 2px;
+        }
+        .btn-submit:hover { background: var(--accent-green); color: #fff; }
+        #feedback-success { 
+            display: none; 
+            color: var(--accent-green); 
+            margin-top: 20px; 
+            font-size: 0.85rem; 
+            letter-spacing: 1px; 
+            font-weight: 500;
         }
 
         /* =========================================================
-           SYSTEM INTERCEPTOR OVERLAYS
+           CREDITS RENDER CONTEXT
+           ========================================================= */
+        .credits-header { text-align: center; margin-bottom: 5rem; }
+        .credits-header h1 { 
+            font-size: 2.4rem; 
+            font-weight: 300; 
+            letter-spacing: 8px; 
+            text-transform: uppercase; 
+            margin-bottom: 1.25rem; 
+        }
+        .credits-header p { 
+            color: var(--text-muted); 
+            font-size: 1.05rem; 
+            letter-spacing: 0.5px;
+        }
+
+        .roster-matrix { 
+            display: grid; 
+            grid-template-columns: 1fr; 
+            gap: 1.75rem; 
+            margin-bottom: 5rem; 
+        }
+        .roster-card { 
+            background: var(--bg-panel); 
+            border: 1px solid var(--border-thin); 
+            padding: 2.25rem 3rem; 
+            display: flex; 
+            align-items: center; 
+            gap: 2.5rem; 
+        }
+        .roster-icon { 
+            font-size: 2.2rem; 
+            background: var(--bg-canvas); 
+            width: 76px; 
+            height: 76px; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            border-radius: 50%; 
+            border: 1px solid var(--border-thin); 
+        }
+        .roster-info h3 { 
+            color: var(--text-muted); 
+            font-size: 0.75rem; 
+            letter-spacing: 2px; 
+            text-transform: uppercase; 
+            margin-bottom: 0.5rem; 
+            font-weight: 600;
+        }
+        .roster-info p { 
+            font-size: 1.35rem; 
+            font-weight: 400; 
+            color: var(--text-secondary);
+        }
+
+        .support-node { 
+            text-align: center; 
+            padding: 2.5rem; 
+            border-top: 1px solid var(--border-thin); 
+            color: var(--text-dark); 
+            font-size: 0.85rem; 
+            letter-spacing: 1.5px; 
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        /* =========================================================
+           FAIL-SAFE INTERCEPTOR SYSTEM OVERLAYS
            ========================================================= */
         #system-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             z-index: 99999; justify-content: center; align-items: center; flex-direction: column; text-align: center;
+            padding: 20px;
         }
         .overlay-card {
-            background: var(--bg-panel); border: 1px solid var(--accent-red); padding: 4rem;
-            max-width: 600px; box-shadow: 0 0 50px rgba(239, 68, 68, 0.1);
+            background: var(--bg-panel); border: 1px solid var(--accent-red); padding: 4.5rem;
+            max-width: 650px; box-shadow: 0 0 60px rgba(239, 68, 68, 0.08);
+            border-radius: 2px;
         }
-        .overlay-card h2 { font-weight: 300; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 1rem; }
+        .overlay-card h2 { font-weight: 300; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 1.25rem; font-size: 1.8rem; }
+        .overlay-card p { color: var(--text-muted); font-size: 1rem; line-height: 1.6; }
     </style>
 </head>
 <body>
@@ -226,10 +520,15 @@
     </div>
 
     <header>
-        <div class="logo-block">
+        <div class="logo-block" onclick="navigate('home')">
             <span class="logo-w">W</span>
-            <span class="logo-text">Wwebsite // V25</span>
+            <span class="logo-text">Wwebsite</span>
         </div>
+        
+        <nav class="center-nav">
+            <a onclick="navigate('home')" id="nav-home" class="active">🏠 Home</a>
+            <a onclick="navigate('credits')" id="nav-credits">👥 Credits</a>
+        </nav>
 
         <div class="auth-block">
             <button class="btn-login" id="login-btn" onclick="triggerLoginModal()">Login / Sign Up</button>
@@ -245,56 +544,135 @@
     </header>
 
     <main>
-        <section class="chat-container">
+        <div id="view-home" class="view-section active">
             
-            <div id="chat-auth-gate" class="auth-gate-overlay">
-                <div>Authenticate your session above to access transmissions</div>
-            </div>
+            <section class="hero-module">
+                <h1>Wwebsite // 2.1</h1>
+                <p>The Next Generation Infrastructure for Gaming and Community Systems.</p>
+            </section>
 
-            <div class="chat-header">
-                <div class="chat-title-area">
-                    <h2>W-Messages // Core Grid</h2>
-                    <p id="chat-notification-indicator">Realtime communication stream active.</p>
-                </div>
-                <div class="status-pill">Encrypted Connection</div>
-            </div>
-
-            <div class="chat-messages" id="chat-display">
+            <h3 style="letter-spacing: 2px; text-transform: uppercase; font-size: 0.8rem; color: var(--text-dark); margin-bottom: 1.25rem; font-weight: 700;">// SYSTEM MESSAGING FREQUENCY CONSOLE</h3>
+            <section class="chat-container">
+                
+                <div id="chat-auth-gate" class="auth-gate-overlay">
+                    <div>Authenticate your session above to unlock live transmissions</div>
                 </div>
 
-            <div class="chat-input-area">
-                <input type="text" id="chat-input-field" placeholder="Transmit a message to the master channel..." onkeydown="if(event.key === 'Enter') broadcastMessage()">
-                <button class="btn-chat-send" onclick="broadcastMessage()">Send</button>
+                <div class="chat-header">
+                    <div class="chat-title-area">
+                        <h2>Messages // Core Grid</h2>
+                        <p id="chat-notification-indicator">System tracking unread traffic instantly.</p>
+                    </div>
+                    <div class="status-pill">Encrypted Stream</div>
+                </div>
+
+                <div class="chat-messages" id="chat-display">
+                    </div>
+
+                <div class="chat-input-area">
+                    <input type="text" id="chat-input-field" placeholder="Transmit a message to the master channel..." onkeydown="if(event.key === 'Enter') broadcastMessage()">
+                    <button class="btn-chat-send" onclick="broadcastMessage()">Send</button>
+                </div>
+            </section>
+
+            <section class="feedback-module">
+                <h2>Community Suggestion Console</h2>
+                <div class="input-group">
+                    <input type="text" id="suggestion-input" placeholder="What features should the crew build next for version 2.1?">
+                    <button class="btn-submit" onclick="submitSuggestion()">Submit</button>
+                </div>
+                <div id="feedback-success">✓ Transmission received by command server.</div>
+            </section>
+
+        </div>
+
+        <div id="view-credits" class="view-section">
+            
+            <div class="credits-header">
+                <h1>Engineering & Operations Command</h1>
+                <p>The core developmental infrastructure roster behind the Wwebsite 2.1 network.</p>
             </div>
-        </section>
+
+            <div class="roster-matrix">
+                <div class="roster-card">
+                    <div class="roster-icon">👑</div>
+                    <div class="roster-info">
+                        <h3>Executive / Master Command</h3>
+                        <p>Brody Williams (Lead Architect & System Owner)</p>
+                    </div>
+                </div>
+                <div class="roster-card">
+                    <div class="roster-icon">⚙️</div>
+                    <div class="roster-info">
+                        <h3>Infrastructure & Backend Operations</h3>
+                        <p>Jase Peaslee (Co-Founder / Database Architect)</p>
+                    </div>
+                </div>
+                <div class="roster-card">
+                    <div class="roster-icon">🎨</div>
+                    <div class="roster-info">
+                        <h3>Creative Infrastructure & Interactive Design</h3>
+                        <p>Owen Lee</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="support-node">
+                OFFICIAL SUPPORT PIPELINE: wwebsiteofficial@outlook.com
+            </div>
+
+        </div>
     </main>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         import { getDatabase, ref, push, onValue, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
+        // Verified application configuration parameters
         const firebaseConfig = {
-            apiKey: "AIzaSy_MOCK_KEY_FOR_W_WEBSITE",
-            authDomain: "wwebsite-v25.firebaseapp.com",
-            databaseURL: "https://wwebsite-v25-default-rtdb.firebaseio.com",
-            projectId: "wwebsite-v25"
+            apiKey: "AIzaSyChx24EPK7w1f7SGVYraI993TkC89ZxiZo",
+            authDomain: "wwebsite-ae20b.firebaseapp.com",
+            databaseURL: "https://wwebsite-ae20b-default-rtdb.firebaseio.com",
+            projectId: "wwebsite-ae20b",
+            storageBucket: "wwebsite-ae20b.firebasestorage.app",
+            messagingSenderId: "1073638981689",
+            appId: "1:1073638981689:web:1fceb547ed3704b782cde8",
+            measurementId: "G-HK8S5YRG4J"
         };
 
+        // Initialize Native Core Subsystems
         const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
         const auth = getAuth(app);
         const rtdb = getDatabase(app);
         const provider = new GoogleAuthProvider();
 
         let currentSessionUser = null;
 
+        // Reactive Application Routing Framework
+        window.navigate = function(targetView) {
+            document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.center-nav a').forEach(el => el.classList.remove('active'));
+            
+            const activeSection = document.getElementById('view-' + targetView);
+            const activeTab = document.getElementById('nav-' + targetView);
+            
+            if (activeSection && activeTab) {
+                activeSection.classList.add('active');
+                activeTab.classList.add('active');
+            }
+            window.scrollTo(0, 0);
+        }
+
         window.triggerLoginModal = function() {
-            signInWithPopup(auth, provider).catch(error => console.error("Auth Exception:", error.message));
+            signInWithPopup(auth, provider).catch(error => console.error("Identity Core Exception:", error.message));
         }
 
         window.triggerLogout = function() { signOut(auth); }
 
-        // --- AUTHENTICATION & MESSAGING ACCESS CONTEXT ---
+        // --- IDENTITY AUTHENTICATION MONITORING ENGINE ---
         onAuthStateChanged(auth, (user) => {
             const loginBtn = document.getElementById('login-btn');
             const profileUI = document.getElementById('user-profile-ui');
@@ -306,24 +684,26 @@
                 loginBtn.style.display = 'none';
                 profileUI.style.display = 'flex';
                 avatarTxt.innerText = (user.displayName || user.email || 'U').charAt(0).toUpperCase();
-                authGate.style.display = 'none'; 
+                authGate.style.display = 'none'; // Grant pipeline access
                 
+                // Log execution parameters into session metrics table
                 set(ref(rtdb, `users/${user.uid}/lastActive`), Date.now());
                 set(ref(rtdb, `users/${user.uid}/email`), user.email);
             } else {
                 currentSessionUser = null;
                 loginBtn.style.display = 'block';
                 profileUI.style.display = 'none';
-                authGate.style.display = 'flex'; 
+                authGate.style.display = 'flex'; // Enforce interface lockout
             }
         });
 
-        // --- W-MESSAGES ENGINE SYSTEM ---
+        // --- SYSTEM COMMUNICATION CORE PIPELINES ---
         window.broadcastMessage = function() {
             const inputField = document.getElementById('chat-input-field');
             const text = inputField.value.trim();
             if (!text || !currentSessionUser) return;
 
+            // Atomic payload delivery to real-time message tables
             push(ref(rtdb, 'messages'), {
                 senderId: currentSessionUser.uid,
                 senderName: currentSessionUser.displayName || currentSessionUser.email,
@@ -333,6 +713,7 @@
             }).then(() => {
                 inputField.value = '';
                 
+                // Queues tracking logs for external email delivery processing platforms
                 push(ref(rtdb, 'notification_queue/unread_logs'), {
                     recipientTrigger: "all-network",
                     senderEmail: currentSessionUser.email,
@@ -343,6 +724,7 @@
             });
         }
 
+        // Real-Time Query Listener & DOM Stream Syncing
         onValue(ref(rtdb, 'messages'), (snapshot) => {
             const display = document.getElementById('chat-display');
             display.innerHTML = '';
@@ -364,11 +746,30 @@
                 });
                 display.scrollTop = display.scrollHeight;
             } else {
-                display.innerHTML = '<div style="color:var(--text-muted); text-align:center; padding-top:4rem; font-size:0.85rem; letter-spacing:1px;">GRID TIMELINE CLEAR — TRANSMIT NEXT GENERATION FREQUENCY</div>';
+                display.innerHTML = '<div style="color:var(--text-dark); text-align:center; padding-top:6rem; font-size:0.8rem; letter-spacing:2px; font-weight:700;">GRID TIMELINE CLEAR // TRANSMIT AIRWAVES</div>';
             }
         });
 
-        // --- GLOBAL SECURITY INTERCEPTORS ---
+        // --- ATOMIC SUGGESTION COLLECTION CONSOLE ---
+        window.submitSuggestion = function() {
+            const inputEl = document.getElementById('suggestion-input');
+            const successMsg = document.getElementById('feedback-success');
+            const val = inputEl.value.trim();
+            
+            if(!val) return;
+
+            push(ref(rtdb, 'suggestions'), {
+                text: val,
+                timestamp: Date.now(),
+                user: auth.currentUser ? auth.currentUser.uid : 'anonymous'
+            }).then(() => {
+                inputEl.value = '';
+                successMsg.style.display = 'block';
+                setTimeout(() => { successMsg.style.display = 'none'; }, 4000);
+            }).catch(err => console.error('Feedback delivery breakdown:', err));
+        }
+
+        // --- GLOBAL OVERRIDE SYSTEM INTERCEPTORS ---
         let initialLoad = true;
         onValue(ref(rtdb, 'system/globalReset'), (snapshot) => {
             if (initialLoad) { initialLoad = false; return; }
@@ -381,19 +782,19 @@
             const content = document.getElementById('overlay-content');
 
             overlay.style.display = 'none';
-            overlay.style.background = 'rgba(0,0,0,0.95)';
+            overlay.style.background = 'rgba(3,3,5,0.98)';
             content.style.borderColor = 'var(--border-thin)';
 
             if (status === "SHUTDOWN") {
                 overlay.style.display = 'flex';
                 overlay.style.background = '#000000'; 
                 content.style.borderColor = 'var(--accent-red)';
-                content.innerHTML = `<h2 style="color:var(--accent-red)">System Offline</h2><p>W-Suite System Offline — Operations Terminated by Executive Command.</p>`;
+                content.innerHTML = `<h2 style="color:var(--accent-red)">System Offline</h2><p>Core systems are offline. System operations terminated by executive command.</p>`;
             } 
             else if (status === "UPDATING") {
                 overlay.style.display = 'flex';
                 content.style.borderColor = 'var(--accent-gold)';
-                content.innerHTML = `<h2 style="color:var(--accent-gold)">Maintenance Node Active</h2><p>Wwebsite is currently updating platform dependencies. Please stand by.</p>`;
+                content.innerHTML = `<h2 style="color:var(--accent-gold)">Maintenance Node Active</h2><p>Wwebsite is updating component architecture dependencies. Please stand by.</p>`;
             } 
             else if (status === "TESTING") {
                 setTimeout(() => {
@@ -401,7 +802,7 @@
                     if (!currentUser || currentUser.email !== "brodywilliams0226@gmail.com") {
                         overlay.style.display = 'flex';
                         content.style.borderColor = 'var(--accent-purple)';
-                        content.innerHTML = `<h2 style="color:var(--accent-purple)">Restricted Access</h2><p>Closed Staging Beta. Master Command authorization required.</p>`;
+                        content.innerHTML = `<h2 style="color:var(--accent-purple)">Restricted Access</h2><p>Closed development node. Master Command structural credentials required.</p>`;
                     }
                 }, 1000); 
             }
