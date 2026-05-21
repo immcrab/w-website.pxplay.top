@@ -177,12 +177,12 @@
   </div>
 
   <script>
-    // TARGET: May 21 2026, 2:20 PM Central Daylight Time = 19:20 UTC
-    // Hard-coded — cannot be overridden or reset by the user.
-    const TARGET_MS = Date.UTC(2026, 4, 21, 19, 20, 0);
+    // TARGET: May 21 2026, 2:20 PM Saint Paul time (CDT)
+    const TARGET_MS = new Date('2026-05-21T14:20:00-05:00').getTime();
 
-    // Progress bar start reference: midnight CDT = 05:00 UTC same day
-    const START_MS = Date.UTC(2026, 4, 21, 5, 0, 0);
+    // Progress bar start reference: midnight Saint Paul time (CDT)
+    const START_MS = new Date('2026-05-21T00:00:00-05:00').getTime();
+    
     const TOTAL_DURATION = TARGET_MS - START_MS;
 
     const hEl = document.getElementById('cd-h');
@@ -226,6 +226,14 @@
 
       setTimeout(tick, 1000);
     }
+
+    // Global refresh: reloads the page every 20 seconds (20000ms) 
+    // to sync state, but only if the target time hasn't passed yet.
+    setTimeout(() => {
+      if (Date.now() < TARGET_MS) {
+        window.location.reload();
+      }
+    }, 20000);
 
     // Check immediately in case timer already expired
     if (Date.now() >= TARGET_MS) {
