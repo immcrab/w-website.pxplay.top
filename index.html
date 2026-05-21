@@ -1,240 +1,1185 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Under Construction</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet"/>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --bg: #0b0c10; --fg: #f0ece2; --accent: #c8a96e;
-      --muted: #5a5750; --line: rgba(200,169,110,0.25);
-    }
-    body {
-      background: var(--bg); color: var(--fg);
-      font-family: 'DM Mono', monospace;
-      min-height: 100vh; display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      overflow: hidden; position: relative;
-    }
-    body::before {
-      content: ''; position: fixed; inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-      opacity: 0.4; pointer-events: none; z-index: 0;
-    }
-    .rule-top, .rule-bottom {
-      position: fixed; left: 0; right: 0; height: 1px;
-      background: linear-gradient(90deg, transparent, var(--accent), transparent); opacity: 0.4;
-    }
-    .rule-top { top: 48px; } .rule-bottom { bottom: 48px; }
-    .corner { position: fixed; width: 24px; height: 24px; border-color: var(--accent); border-style: solid; opacity: 0.5; }
-    .corner.tl { top: 32px; left: 32px; border-width: 1px 0 0 1px; }
-    .corner.tr { top: 32px; right: 32px; border-width: 1px 1px 0 0; }
-    .corner.bl { bottom: 32px; left: 32px; border-width: 0 0 1px 1px; }
-    .corner.br { bottom: 32px; right: 32px; border-width: 0 1px 1px 0; }
-    .container {
-      position: relative; z-index: 1; text-align: center;
-      padding: 2rem; max-width: 680px;
-      animation: fadeUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
-    }
-    .label {
-      font-size: 0.65rem; letter-spacing: 0.35em; text-transform: uppercase;
-      color: var(--accent); margin-bottom: 2.5rem; animation: fadeUp 1s 0.1s both;
-    }
-    h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2.8rem, 7vw, 5rem); font-weight: 400;
-      line-height: 1.1; letter-spacing: -0.01em; margin-bottom: 0.2em;
-      animation: fadeUp 1s 0.2s both;
-    }
-    h1 em { font-style: italic; color: var(--accent); }
-    .divider { width: 48px; height: 1px; background: var(--accent); margin: 2rem auto; animation: expandWidth 1s 0.4s both; }
-    .message {
-      font-size: 0.8rem; letter-spacing: 0.08em; color: var(--muted);
-      line-height: 2; margin-bottom: 1.5rem; animation: fadeUp 1s 0.5s both;
-    }
-    /* Countdown */
-    .countdown-wrap {
-      display: flex; justify-content: center; align-items: flex-start;
-      gap: 1.4rem; margin: 0 0 2rem; animation: fadeUp 1s 0.55s both;
-    }
-    .time-block { display: flex; flex-direction: column; align-items: center; gap: 0.4rem; }
-    .time-digits {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2.2rem, 5vw, 3.4rem); font-weight: 700;
-      color: var(--fg); line-height: 1; min-width: 2ch; text-align: center;
-      transition: color 0.4s;
-    }
-    .time-digits.urgent { color: var(--accent); }
-    .time-label { font-size: 0.52rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--muted); }
-    .sep {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2.2rem, 5vw, 3.4rem); color: var(--muted);
-      line-height: 1; opacity: 0.35; margin-top: 0;
-    }
-    /* Progress */
-    .progress-wrap {
-      margin: 0 auto 2rem; width: 220px; height: 1px;
-      background: var(--line); overflow: visible; position: relative;
-      animation: fadeUp 1s 0.6s both;
-    }
-    .progress-bar {
-      height: 1px; background: linear-gradient(90deg, var(--accent), #e8d5a3);
-      width: 0%; transition: width 1s linear; position: relative;
-    }
-    .progress-bar::after {
-      content: ''; position: absolute; right: 0; top: 50%;
-      transform: translateY(-50%); width: 5px; height: 5px;
-      border-radius: 50%; background: #e8d5a3;
-      box-shadow: 0 0 8px 2px rgba(200,169,110,0.6);
-    }
-    /* Status */
-    .status {
-      display: inline-flex; align-items: center; gap: 0.6rem;
-      font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase;
-      color: var(--muted); animation: fadeUp 1s 0.7s both;
-    }
-    .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); animation: pulse 2s ease-in-out infinite; }
-    /* Geo */
-    .geo { position: fixed; border: 1px solid var(--line); border-radius: 50%; pointer-events: none; }
-    .geo-1 { width: 380px; height: 380px; top: -140px; right: -120px; animation: rotateSlow 40s linear infinite; }
-    .geo-2 { width: 200px; height: 200px; bottom: -60px; left: -60px; animation: rotateSlow 28s linear infinite reverse; }
-    /* Live screen */
-    #live-screen {
-      display: none; position: fixed; inset: 0; z-index: 100;
-      background: var(--bg); flex-direction: column; align-items: center;
-      justify-content: center; text-align: center; padding: 2rem;
-    }
-    #live-screen.show { display: flex; animation: fadeUp 1.4s cubic-bezier(0.16,1,0.3,1) both; }
-    #live-screen .live-label { font-size: 0.65rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--accent); margin-bottom: 2rem; }
-    #live-screen h2 { font-family: 'Playfair Display', serif; font-size: clamp(2.8rem, 7vw, 5rem); font-weight: 400; line-height: 1.1; }
-    #live-screen h2 em { font-style: italic; color: var(--accent); }
-    #live-screen .live-divider { width: 48px; height: 1px; background: var(--accent); margin: 2rem auto; }
-    #live-screen .live-msg { font-size: 0.8rem; letter-spacing: 0.08em; color: var(--muted); line-height: 2; }
-    /* Keyframes */
-    @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes expandWidth { from { width: 0; opacity: 0; } to { width: 48px; opacity: 1; } }
-    @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.7); } }
-    @keyframes rotateSlow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wwebsite // Version 25</title>
+    <style>
+        /* --- INDUSTRIAL SYSTEM DESIGN SPECIFICATIONS --- */
+        :root {
+            --bg-canvas: #030305;
+            --bg-panel: #0c0c12;
+            --bg-panel-secondary: #13131f;
+            --border-primary: #1a1a26;
+            --border-accent: rgba(212, 175, 55, 0.2);
+            --text-main: #ffffff;
+            --text-muted: #6e6e7d;
+            
+            /* Status Indicators */
+            --color-gold: #d4af37;
+            --color-purple: #4a2b72;
+            --color-blue: #1d4ed8;
+            --color-green: #10b981;
+            --color-red: #ef4444;
+            
+            /* Chat Gradients */
+            --gradient-self: linear-gradient(135deg, #4a2b72 0%, #1e113a 100%);
+            --gradient-peer: linear-gradient(135deg, #0c0c12 0%, #161622 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-canvas);
+            color: var(--text-main);
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- GLOBAL SYSTEM INTERCEPT OVERLAYS --- */
+        #global-intercept-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #000000;
+            color: #ffffff;
+            z-index: 99999;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-family: monospace;
+            padding: 40px;
+        }
+        .intercept-card h1 { font-size: 2rem; letter-spacing: 2px; margin-bottom: 20px; text-transform: uppercase; }
+        .intercept-card p { color: var(--text-muted); font-size: 1.1rem; }
+
+        /* --- NAVIGATION HEADER MECHANICS --- */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.5rem 3rem;
+            background: rgba(3, 3, 5, 0.95);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-primary);
+            z-index: 10000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .brand-block {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+        }
+        .brand-logo {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--color-gold);
+            letter-spacing: -1px;
+        }
+        .brand-text {
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .nav-links-hub {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+        .nav-link-item {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: color 0.2s ease, text-shadow 0.2s ease;
+        }
+        .nav-link-item:hover, .nav-link-item.active-route {
+            color: var(--text-main);
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+        }
+        .nav-link-item.active-route {
+            border-bottom: 2px solid var(--color-gold);
+            padding-bottom: 4px;
+        }
+        
+        .auth-interactive-zone { position: relative; }
+        .btn-flat-auth {
+            background: transparent;
+            color: var(--text-main);
+            border: 1px solid var(--border-primary);
+            padding: 0.6rem 1.5rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .btn-flat-auth:hover {
+            border-color: var(--color-gold);
+            box-shadow: 0 0 12px var(--border-accent);
+        }
+
+        /* Profile Dropdown Component */
+        .profile-menu-trigger {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            background: transparent;
+            border: none;
+            color: #fff;
+        }
+        .user-avatar-frame {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--bg-panel-secondary);
+            border: 1px solid var(--color-gold);
+            object-fit: cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.85rem;
+            overflow: hidden;
+        }
+        .user-avatar-frame img { width: 100%; height: 100%; object-fit: cover; }
+        .profile-dropdown-list {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 12px;
+            background: var(--bg-panel);
+            border: 1px solid var(--border-primary);
+            width: 200px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.8);
+            z-index: 1001;
+        }
+        .dropdown-row-action {
+            width: 100%;
+            padding: 12px 20px;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            text-align: left;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .dropdown-row-action:hover {
+            background: var(--bg-panel-secondary);
+            color: var(--text-main);
+        }
+
+        /* --- STRUCTURAL VIEW CONTAINERS --- */
+        main {
+            margin-top: 80px;
+            padding: 40px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            max-width: 1400px;
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .app-route-canvas { display: flex; flex-direction: column; gap: 80px; width: 100%; }
+        .hidden-view { display: none !important; }
+
+        /* --- HOMEPAGE ARCHITECTURE --- */
+        .hero-framework {
+            text-align: center;
+            padding: 60px 0;
+            border-bottom: 1px solid var(--border-primary);
+        }
+        .hero-framework h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            letter-spacing: 6px;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(255,255,255,0.1);
+        }
+        .btn-launch-dashboard {
+            background: #ffffff;
+            color: #000000;
+            border: none;
+            padding: 1rem 2.5rem;
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .btn-launch-dashboard:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255,255,255,0.2);
+        }
+
+        .section-headline {
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--color-gold);
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .subscription-matrix {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+        }
+        .matrix-tier-card {
+            background: var(--bg-panel);
+            border: 1px solid var(--border-primary);
+            padding: 30px;
+            border-radius: 4px;
+            transition: border-color 0.3s;
+        }
+        .matrix-tier-card:hover { border-color: var(--color-purple); }
+        .matrix-tier-card.tier-highlight { border-color: var(--color-gold); }
+        .matrix-tier-card h3 { font-size: 1.2rem; margin-bottom: 10px; letter-spacing: 1px; }
+        .matrix-tier-card .price { font-size: 1.8rem; font-weight: bold; margin-bottom: 20px; }
+        .matrix-tier-card ul { list-style: none; color: var(--text-muted); font-size: 0.85rem; display: flex; flex-direction: column; gap: 10px; }
+
+        .glass-preview-box {
+            position: relative;
+            background: linear-gradient(135deg, rgba(12,12,18,0.6) 0%, rgba(3,3,5,0.8) 100%);
+            border: 1px solid var(--border-primary);
+            padding: 40px;
+            border-radius: 8px;
+            filter: blur(0.4px);
+            overflow: hidden;
+            height: 220px;
+        }
+        .glass-blur-layer {
+            position: absolute; width: 100%; height: 100%; top:0; left:0;
+            background: rgba(3,3,5,0.4); backdrop-filter: blur(6px);
+            display: flex; justify-content: center; align-items: center; z-index: 2;
+        }
+        .restriction-badge {
+            background: #000;
+            border: 1px solid var(--color-red);
+            color: var(--color-red);
+            padding: 10px 20px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .live-feedback-module {
+            background: var(--bg-panel);
+            border: 1px solid var(--border-primary);
+            padding: 40px;
+            max-width: 600px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        .feedback-input-group { display: flex; gap: 12px; margin-top: 20px; }
+        .input-panel-text {
+            flex: 1; background: #000; border: 1px solid var(--border-primary);
+            padding: 14px; color: #fff; font-size: 0.9rem; outline: none;
+        }
+        .input-panel-text:focus { border-color: var(--color-purple); }
+        .btn-panel-action {
+            background: var(--bg-panel-secondary); color: #fff; border: 1px solid var(--border-primary);
+            padding: 0 24px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; cursor: pointer;
+        }
+        .btn-panel-action:hover { border-color: var(--color-gold); color: var(--color-gold); }
+        #feedback-confirmation { display: none; margin-top: 15px; color: var(--color-green); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* --- SECURE MESSAGING SYSTEM --- */
+        .workspace-messaging-grid {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            background: var(--bg-panel);
+            border: 1px solid var(--border-primary);
+            height: 700px;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        .sidebar-contacts-pane {
+            background: #09090f;
+            border-right: 1px solid var(--border-primary);
+            display: flex;
+            flex-direction: column;
+        }
+        .sidebar-pane-header { padding: 24px; border-bottom: 1px solid var(--border-primary); }
+        .sidebar-pane-header h2 { font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; }
+        .btn-action-initialize {
+            width: 100%; background: transparent; color: var(--color-gold); border: 1px dashed var(--border-accent);
+            padding: 10px; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; font-weight: bold;
+        }
+        .btn-action-initialize:hover { background: rgba(212,175,55,0.03); border-style: solid; }
+        .contacts-scroller-list { flex: 1; overflow-y: auto; display: flex; flex-direction: column; }
+        
+        .contact-row-node {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 16px 24px; border-bottom: 1px solid rgba(255,255,255,0.02);
+            cursor: pointer; transition: background 0.2s;
+        }
+        .contact-row-node:hover, .contact-row-node.active-chat-node { background: rgba(255,255,255,0.02); }
+        .contact-meta-info { display: flex; flex-direction: column; gap: 4px; }
+        .contact-name-label { font-size: 0.9rem; font-weight: 600; }
+        .contact-email-sub { font-size: 0.75rem; color: var(--text-muted); }
+        .btn-node-purge {
+            background: transparent; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.85rem; padding: 4px;
+        }
+        .btn-node-purge:hover { color: var(--color-red); }
+
+        .chat-viewport-canvas { display: flex; flex-direction: column; background: #030305; height: 100%; }
+        .viewport-fallback-empty {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            height: 100%; color: var(--text-muted); font-size: 0.85rem; letter-spacing: 1px; text-transform: uppercase;
+        }
+        
+        .active-chat-header {
+            padding: 20px 30px; border-bottom: 1px solid var(--border-primary);
+            background: var(--bg-panel); display: flex; justify-content: space-between; align-items: center;
+        }
+        .active-chat-header h3 { font-size: 0.95rem; font-weight: 600; letter-spacing: 0.5px; }
+        
+        .timeline-stream-log { flex: 1; overflow-y: auto; padding: 30px; display: flex; flex-direction: column; gap: 20px; }
+        
+        .message-bubble-wrapper { display: flex; flex-direction: column; max-width: 65%; position: relative; }
+        .message-bubble-wrapper.layout-self { align-self: flex-end; align-items: flex-end; }
+        .message-bubble-wrapper.layout-peer { align-self: flex-start; align-items: flex-start; }
+        
+        .message-author-tag { font-size: 0.7rem; color: var(--text-muted); margin-bottom: 4px; padding: 0 6px; }
+        
+        .bubble-interactive-container { display: flex; align-items: center; gap: 10px; width: 100%; position: relative; }
+        .layout-self .bubble-interaction-container { flex-direction: row-reverse; }
+        
+        .pill-message-bubble {
+            padding: 12px 20px; border-radius: 20px; font-size: 0.88rem; line-height: 1.45; color: #fff; word-break: break-word;
+        }
+        .layout-self .pill-message-bubble { background: var(--gradient-self); border-bottom-right-radius: 4px; border: 1px solid rgba(74,43,114,0.4); }
+        .layout-peer .pill-message-bubble { background: var(--gradient-peer); border-bottom-left-radius: 4px; border: 1px solid var(--border-primary); }
+        
+        .btn-live-retract {
+            opacity: 0; background: transparent; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.8rem; transition: opacity 0.2s, color 0.2s;
+        }
+        .message-bubble-wrapper:hover .btn-live-retract { opacity: 1; }
+        .btn-live-retract:hover { color: var(--color-red); }
+
+        .chat-input-action-dock { padding: 20px 30px; border-top: 1px solid var(--border-primary); background: var(--bg-panel); }
+        .dock-input-row { display: flex; gap: 16px; }
+        .input-dock-field {
+            flex: 1; background: #000; border: 1px solid var(--border-primary); color: #fff; padding: 14px 20px; border-radius: 4px; outline: none; font-size: 0.88rem;
+        }
+
+        /* --- EXECUTIVE CONTROL CORE PANEL --- */
+        .owner-control-matrix { display: flex; flex-direction: column; gap: 32px; }
+        .metrics-engine-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px;
+        }
+        .metric-data-card {
+            background: var(--bg-panel); border: 1px solid var(--border-primary); padding: 24px; border-radius: 4px;
+        }
+        .metric-data-card h4 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 10px; }
+        .metric-data-card .value { font-size: 2rem; font-weight: bold; font-family: monospace; color: var(--color-gold); }
+        
+        .telemetry-diagnostic-row {
+            background: var(--bg-panel); border: 1px solid var(--border-primary); padding: 20px 30px; display: flex; gap: 40px; align-items: center;
+        }
+        .telemetry-node { display: flex; align-items: center; gap: 10px; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
+        .status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+        .status-dot.active-green { background: var(--color-green); box-shadow: 0 0 8px var(--color-green); }
+
+        .switchboard-control-row {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;
+        }
+        .btn-switchboard-state {
+            padding: 16px; border: 1px solid var(--border-primary); background: var(--bg-panel); color: #fff;
+            text-transform: uppercase; font-size: 0.8rem; font-weight: bold; letter-spacing: 1px; cursor: pointer; transition: all 0.2s;
+        }
+        .btn-switchboard-state:hover { background: var(--bg-panel-secondary); border-color: var(--color-gold); }
+        
+        .btn-global-refresh-override {
+            width: 100%; padding: 20px; background: transparent; border: 1px dashed var(--color-red); color: var(--color-red);
+            font-weight: 900; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; margin-top: 10px; transition: all 0.2s;
+        }
+        .btn-global-refresh-override:hover { background: rgba(239,68,68,0.05); border-style: solid; }
+
+        .scrolling-feed-box {
+            background: #000; border: 1px solid var(--border-primary); max-height: 250px; overflow-y: auto; display: flex; flex-direction: column;
+        }
+        .feed-row-item { padding: 14px 20px; border-bottom: 1px solid var(--border-primary); font-size: 0.85rem; display: flex; justify-content: space-between; }
+        .feed-row-text { color: #f1f1f1; }
+        .feed-row-timestamp { color: var(--text-muted); font-family: monospace; }
+
+        /* --- ACCOUNT SETTINGS DESIGN MATRIX --- */
+        .account-settings-container {
+            background: var(--bg-panel); border: 1px solid var(--border-primary); padding: 40px; max-width: 700px; margin: 0 auto; width: 100%;
+            display: flex; flex-direction: column; gap: 40px;
+        }
+        .uploader-flex-layout { display: flex; align-items: center; gap: 30px; border-bottom: 1px solid var(--border-primary); padding-bottom: 30px; }
+        .avatar-uploader-circle {
+            width: 90px; height: 90px; border-radius: 50%; background: #000; border: 2px dashed var(--border-primary);
+            display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: bold; color: var(--color-gold); overflow: hidden;
+        }
+        .avatar-uploader-circle img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .profile-input-form { display: flex; flex-direction: column; gap: 20px; }
+        .input-field-block { display: flex; flex-direction: column; gap: 8px; }
+        .input-field-block label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); }
+
+        /* --- POPUP WINDOW MODAL CANVAS --- */
+        .modal-overlay-frame {
+            display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.9); backdrop-filter: blur(8px); z-index: 50000; justify-content: center; align-items: center;
+        }
+        .modal-body-box {
+            background: var(--bg-panel); border: 1px solid var(--border-primary); padding: 40px; width: 100%; max-width: 400px; position: relative;
+        }
+        .btn-close-modal { position: absolute; top: 15px; right: 20px; background: transparent; border: none; color: var(--text-muted); font-size: 1.5rem; cursor: pointer; }
+        .modal-body-box h2 { font-size: 1.1rem; text-transform: uppercase; letter-spacing: 2px; text-align: center; margin-bottom: 25px; }
+        .modal-body-box input { width: 100%; padding: 12px; margin-bottom: 12px; background: #000; border: 1px solid var(--border-primary); color: #fff; outline: none; }
+        .modal-body-box .btn-submit { width: 100%; padding: 12px; background: #fff; color: #000; border: none; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; margin-bottom: 10px; }
+
+        /* --- SYSTEM ARCHITECTURE FOOTER --- */
+        footer {
+            margin-top: auto; border-top: 1px solid var(--border-primary); padding: 40px 3rem; background: #010103; display: flex; justify-content: space-between; align-items: flex-start;
+        }
+        .footer-left-meta p { font-size: 0.8rem; color: var(--text-muted); margin-top: 6px; }
+        .footer-roles-grid { display: flex; gap: 40px; }
+        .role-column h5 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--color-gold); margin-bottom: 8px; }
+        .role-column p { font-size: 0.8rem; color: #fff; line-height: 1.5; }
+    </style>
 </head>
 <body>
 
-  <div class="rule-top"></div>
-  <div class="rule-bottom"></div>
-  <div class="corner tl"></div>
-  <div class="corner tr"></div>
-  <div class="corner bl"></div>
-  <div class="corner br"></div>
-  <div class="geo geo-1"></div>
-  <div class="geo geo-2"></div>
-
-  <!-- Maintenance screen -->
-  <div class="container" id="maintenance-screen">
-    <p class="label">System Notice</p>
-    <h1>We're <em>updating</em><br>our website</h1>
-    <div class="divider"></div>
-    <p class="message">
-      Our team is currently making improvements.<br>
-      We'll be back online shortly — thank you for your patience.
-    </p>
-
-    <div class="countdown-wrap">
-      <div class="time-block">
-        <span class="time-digits" id="cd-h">00</span>
-        <span class="time-label">Hours</span>
-      </div>
-      <span class="sep">:</span>
-      <div class="time-block">
-        <span class="time-digits" id="cd-m">00</span>
-        <span class="time-label">Minutes</span>
-      </div>
-      <span class="sep">:</span>
-      <div class="time-block">
-        <span class="time-digits" id="cd-s">00</span>
-        <span class="time-label">Seconds</span>
-      </div>
+    <div id="global-intercept-overlay">
+        <div class="intercept-card">
+            <h1 id="intercept-title">System Intercept Status</h1>
+            <p id="intercept-message">Environmental runtime check ongoing...</p>
+        </div>
     </div>
 
-    <div class="progress-wrap">
-      <div class="progress-bar" id="progress-bar"></div>
+    <header>
+        <div class="brand-block" onclick="navigateToSystemRoute('home')">
+            <span class="brand-logo">W</span>
+            <span class="brand-text">Wwebsite</span>
+        </div>
+        <ul class="nav-links-hub">
+            <li><button class="nav-link-item active-route" id="tab-home" onclick="navigateToSystemRoute('home')">Home</button></li>
+            <li><button class="nav-link-item" id="tab-messages" onclick="navigateToSystemRoute('messages')">Games</button></li>
+            <li><button class="nav-link-item" id="tab-owner" style="color: var(--color-gold);" onclick="navigateToSystemRoute('owner')">Status</button></li>
+        </ul>
+        <div class="auth-interactive-zone">
+            <button class="btn-flat-auth" id="navigationAuthActionButton" onclick="toggleDisplayModal('authModal', true)">Login / Sign Up</button>
+            
+            <div id="profileDropdownContainer" style="display: none;">
+                <button class="profile-menu-trigger" onclick="toggleDropdownMenuMenu()">
+                    <div class="user-avatar-frame" id="headerAvatarFrameContainer">??</div>
+                </button>
+                <div class="profile-dropdown-list" id="profileDropdownMenuList">
+                    <button class="dropdown-row-action" onclick="navigateToSystemRoute('settings')">⚙️ Account</button>
+                    <button class="dropdown-row-action" style="color: var(--color-red);" onclick="executeSessionTermination()">Sign Out</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="modal-overlay-frame" id="authModal">
+        <div class="modal-body-box">
+            <button class="btn-close-modal" onclick="toggleDisplayModal('authModal', false)">&times;</button>
+            <h2>Access Portal</h2>
+            <input type="email" id="authEmailInputNode" placeholder="Security Email Registry">
+            <input type="password" id="authPasswordInputNode" placeholder="Authentication Key">
+            <button class="btn-submit" onclick="executeEmailAuthValidation('login')">Authenticate Identity</button>
+            <button class="btn-submit" style="background: transparent; color: #fff; border: 1px solid var(--border-primary);" onclick="executeEmailAuthValidation('register')">Register Node</button>
+            <button class="btn-submit" style="background: #1c1c24; color: #fff; border: 1px solid #2d2d3d;" onclick="executeGoogleIdentityMapping()">Sync Google Identity</button>
+        </div>
     </div>
 
-    <span class="status">
-      <span class="dot"></span>
-      Update in progress
-    </span>
-  </div>
+    <div class="modal-overlay-frame" id="createChatModal">
+        <div class="modal-body-box">
+            <button class="btn-close-modal" onclick="toggleDisplayModal('createChatModal', false)">&times;</button>
+            <h2>Initialize Secure Channel</h2>
+            <input type="email" id="targetContactSearchEmail" placeholder="Participant Email Registry">
+            <button class="btn-submit" onclick="commitSecureChatChannelLink()">Compile Channel Stream</button>
+        </div>
+    </div>
 
-  <!-- Live screen -->
-  <div id="live-screen">
-    <p class="live-label">We're Live</p>
-    <h2>Welcome <em>back</em> —<br>we're open!</h2>
-    <div class="live-divider"></div>
-    <p class="live-msg">
-      The update is complete.<br>
-      Thank you for your patience — enjoy the new experience.
-    </p>
-  </div>
+    <main>
+        <div class="app-route-canvas">
+            
+            <div id="route-home-view">
+                <section class="hero-framework">
+                    <h1>W-SUITE // VERSION 25</h1>
+                    <button class="btn-launch-dashboard" onclick="navigateToSystemRoute('messages')">Launch Dashboard</button>
+                </section>
 
-  <script>
-    // TARGET: May 21 2026, 2:00 PM Central Daylight Time = 19:00 UTC
-    // Hard-coded — cannot be overridden or reset by the user.
-    const TARGET_MS = Date.UTC(2026, 4, 21, 19, 0, 0);
+                <h2 class="section-headline">// SUBSCRIPTION ACCESS MATRIX</h2>
+                <section class="subscription-matrix">
+                    <div class="matrix-tier-card">
+                        <h3>Public Access</h3>
+                        <div class="price">$0<span style="font-size: 0.8rem; color: var(--text-muted);">/mo</span></div>
+                        <ul>
+                            <li>&bull; standard system telemetry access</li>
+                            <li>&bull; standard global channel view</li>
+                            <li>&bull; core workspace features</li>
+                        </ul>
+                    </div>
+                    <div class="matrix-tier-card tier-highlight">
+                        <h3>Elite Tier</h3>
+                        <div class="price">$49<span style="font-size: 0.8rem; color: var(--text-muted);">/mo</span></div>
+                        <ul>
+                            <li>&bull; high-priority asset sync pipeline</li>
+                            <li>&bull; real-time execution logging access</li>
+                            <li>&bull; early beta access modules</li>
+                        </ul>
+                    </div>
+                    <div class="matrix-tier-card">
+                        <h3>Phantom Tier</h3>
+                        <div class="price">$149<span style="font-size: 0.8rem; color: var(--text-muted);">/mo</span></div>
+                        <ul>
+                            <li>&bull; complete transmission level encryption</li>
+                            <li>&bull; dedicated storage partition clusters</li>
+                            <li>&bull; architectural level support</li>
+                        </ul>
+                    </div>
+                    <div class="matrix-tier-card">
+                        <h3>Cosmos Tier</h3>
+                        <div class="price">$499<span style="font-size: 0.8rem; color: var(--text-muted);">/mo</span></div>
+                        <ul>
+                            <li>&bull; isolated platform environment</li>
+                            <li>&bull; dedicated master node links</li>
+                            <li>&bull; unlimited algorithmic pipelines</li>
+                        </ul>
+                    </div>
+                </section>
 
-    // Progress bar start reference: midnight CDT = 05:00 UTC same day
-    const START_MS = Date.UTC(2026, 4, 21, 5, 0, 0);
-    const TOTAL_DURATION = TARGET_MS - START_MS;
+                <h2 class="section-headline">// CHANNELS LIVE PREVIEW</h2>
+                <section class="glass-preview-box">
+                    <div class="glass-blur-layer">
+                        <div class="restriction-badge">W-MESSAGES — SECURE BETA ACCESS</div>
+                    </div>
+                    <div style="opacity: 0.15; display:flex; flex-direction:column; gap:15px;">
+                        <div style="background:#fff; height:16px; width:40%; border-radius:10px;"></div>
+                        <div style="background:#fff; height:16px; width:60%; border-radius:10px;"></div>
+                        <div style="background:#fff; height:16px; width:30%; border-radius:10px;"></div>
+                    </div>
+                </section>
 
-    const hEl = document.getElementById('cd-h');
-    const mEl = document.getElementById('cd-m');
-    const sEl = document.getElementById('cd-s');
-    const bar = document.getElementById('progress-bar');
-    const liveScreen = document.getElementById('live-screen');
-    const mainScreen = document.getElementById('maintenance-screen');
+                <h2 class="section-headline">// LIVE PLATFORM FEEDBACK FEED</h2>
+                <section class="live-feedback-module">
+                    <p style="font-size:0.85rem; text-transform:uppercase; color:var(--text-muted); text-align:center;">What do you want to see next on Wwebsite?</p>
+                    <div class="feedback-input-group">
+                        <input type="text" id="suggestionInputFieldPayload" class="input-panel-text" placeholder="Input developmental payload parameters...">
+                        <button class="btn-panel-action" onclick="commitPlatformSuggestionPayload()">Submit</button>
+                    </div>
+                    <div id="feedback-confirmation">Payload successfully merged into main developer review node.</div>
+                </section>
+            </div>
 
-    function pad(n) { return String(Math.max(0, n)).padStart(2, '0'); }
+            <div id="route-messages-view" class="hidden-view">
+                <div class="workspace-messaging-grid">
+                    <div class="sidebar-contacts-pane">
+                        <div class="sidebar-pane-header">
+                            <h2>W-Messages</h2>
+                            <button class="btn-action-initialize" onclick="toggleDisplayModal('createChatModal', true)">➕ Create Chat</button>
+                        </div>
+                        <div class="contacts-scroller-list" id="chatChannelsListDOMContainer"></div>
+                    </div>
+                    <div class="chat-viewport-canvas">
+                        <div class="viewport-fallback-empty" id="chatViewportFallbackScreen">
+                            <p>No Active Session Pipeline Initialized</p>
+                        </div>
+                        <div id="chatInterfaceLayoutFrame" style="display: none; flex-direction: column; height: 100%;">
+                            <div class="active-chat-header">
+                                <h3 id="activeChannelHeaderDisplayTitle">Secure Communication Pipeline</h3>
+                            </div>
+                            <div class="timeline-stream-log" id="chatMessageLogStreamContainer"></div>
+                            <div class="chat-input-action-dock">
+                                <form id="chatMessageSubmissionForm" onsubmit="transmitChatMessageDataPayload(event)" class="dock-input-row">
+                                    <input type="text" id="chatPayloadMessageInputField" class="input-dock-field" placeholder="Transmit encryption parameters down the selected stream pipeline..." autocomplete="off">
+                                    <button type="submit" class="btn-panel-action">Send</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-    function goLive() {
-      mainScreen.style.display = 'none';
-      liveScreen.classList.add('show');
-    }
+            <div id="route-owner-view" class="hidden-view">
+                <div class="owner-panel-container" id="ownerLockdownDenialScreen" style="display: block;">
+                    <div style="background: var(--bg-panel); border: 1px dashed var(--color-red); padding: 40px; text-align: center;">
+                        <h2 style="color: var(--color-red); margin-bottom: 10px;">ACCESS DENIED</h2>
+                        <p style="text-transform: uppercase; font-size: 0.85rem; color: var(--text-muted); letter-spacing: 1px;">Clearance Level 4 Required. Identity verification parameters unmapped.</p>
+                    </div>
+                </div>
+                <div class="owner-control-matrix" id="ownerSystemActiveDashboardScreen" style="display: none;">
+                    <h2 class="section-headline" style="text-align: left; margin-bottom: 0;">👑 EXECUTIVE MANAGEMENT MATRIX CORE</h2>
+                    
+                    <div class="telemetry-diagnostic-row">
+                        <div class="telemetry-node"><span class="status-dot active-green"></span>Database Node: ONLINE</div>
+                        <div class="telemetry-node"><span class="status-dot active-green"></span>Auth Relays: OPERATIONAL</div>
+                        <div class="telemetry-node" style="color: var(--color-gold);"><span class="status-dot" style="background: var(--color-gold);"></span>Latency: &lt;12ms</div>
+                    </div>
 
-    function tick() {
-      const now = Date.now();
-      const diff = TARGET_MS - now;
+                    <div class="metrics-engine-grid">
+                        <div class="metric-data-card"><h4>Total Logged Accounts</h4><div class="value" id="metricTotalUsersCountDisplay">0</div></div>
+                        <div class="metric-data-card"><h4>Active Message Bundles</h4><div class="value" id="metricTotalMessagesCountDisplay">0</div></div>
+                        <div class="metric-data-card"><h4>Isolated Banned Nodes</h4><div class="value" style="color: var(--color-red);">0</div></div>
+                        <div class="metric-data-card"><h4>Active Premium Nodes</h4><div class="value" style="color: var(--color-green);">4</div></div>
+                    </div>
 
-      if (diff <= 0) {
-        hEl.textContent = mEl.textContent = sEl.textContent = '00';
-        bar.style.width = '100%';
-        goLive();
-        return;
-      }
+                    <div class="switchboard-control-row">
+                        <button class="btn-switchboard-state" style="border-color: var(--color-red);" onclick="updateGlobalSystemStatusMode('SHUTDOWN')">🔴 Shutdown System</button>
+                        <button class="btn-switchboard-state" style="border-color: var(--color-gold);" onclick="updateGlobalSystemStatusMode('UPDATING')">🟡 Trigger Maintenance</button>
+                        <button class="btn-switchboard-state" style="border-color: var(--color-blue);" onclick="updateGlobalSystemStatusMode('TESTING')">🔵 Deploy Closed Staging</button>
+                        <button class="btn-switchboard-state" style="border-color: var(--color-green);" onclick="updateGlobalSystemStatusMode('LIVE')">🟢 Force Live Run</button>
+                    </div>
 
-      const totalSecs = Math.floor(diff / 1000);
-      hEl.textContent = pad(Math.floor(totalSecs / 3600));
-      mEl.textContent = pad(Math.floor((totalSecs % 3600) / 60));
-      sEl.textContent = pad(totalSecs % 60);
+                    <div>
+                        <h3 style="font-size:0.8rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:12px; color:var(--text-muted);">Global Core Hardware Invalidation</h3>
+                        <button class="btn-global-refresh-override" onclick="executeGlobalClientWindowInvalidation()">Refresh Everything Globally</button>
+                    </div>
 
-      // Turn accent color when under 10 minutes
-      const urgent = diff < 10 * 60 * 1000;
-      [hEl, mEl, sEl].forEach(el => el.classList.toggle('urgent', urgent));
+                    <div>
+                        <h3 style="font-size:0.8rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:12px; color:var(--text-muted);">Incoming Live User Suggestions Stream</h3>
+                        <div class="scrolling-feed-box" id="adminSuggestionsDisplayScroller"></div>
+                    </div>
+                </div>
+            </div>
 
-      // Progress bar
-      const elapsed = now - START_MS;
-      const pct = Math.min(100, Math.max(0, (elapsed / TOTAL_DURATION) * 100));
-      bar.style.width = pct + '%';
+            <div id="route-settings-view" class="hidden-view">
+                <div class="account-settings-container">
+                    <h2 style="font-size:1.1rem; text-transform:uppercase; letter-spacing:1px;">⚙️ Platform Registry Settings</h2>
+                    
+                    <div class="uploader-flex-layout">
+                        <div class="avatar-uploader-circle" id="settingsAvatarPreviewFrameCircle">??</div>
+                        <div>
+                            <h4 style="font-size:0.85rem; margin-bottom:6px;">Profile Image Configuration</h4>
+                            <p style="font-size:0.75rem; color:var(--text-muted); margin-bottom:12px;">Supported extensions: PNG, JPG, WEBP. Destination path: storage/avatars</p>
+                            <input type="file" id="binaryAvatarFileSelectionNode" accept="image/*" style="display: none;" onchange="executeAvatarBinaryUploadPipeline(event)">
+                            <button class="btn-panel-action" style="padding:10px 16px; font-size:0.75rem;" onclick="document.getElementById('binaryAvatarFileSelectionNode').click()">📷 Upload New Image</button>
+                        </div>
+                    </div>
 
-      setTimeout(tick, 1000);
-    }
+                    <div class="profile-input-form">
+                        <div class="input-field-block">
+                            <label>Workspace Handle Identity (DisplayName)</label>
+                            <input type="text" id="settingsFormDisplayNameInputField" class="input-panel-text">
+                        </div>
+                        <div class="input-field-block">
+                            <label>Presence Configuration</label>
+                            <input type="text" id="settingsFormPresenceInputField" class="input-panel-text" placeholder="e.g. Online, Busy, Automated Pipeline Engine">
+                        </div>
+                        <button class="btn-panel-action" style="padding:15px; border-color:var(--color-gold); color:var(--color-gold);" onclick="commitProfileCustomizationsToRealtimeDatabase()">💾 Save Profile Changes</button>
+                    </div>
+                </div>
+            </div>
 
-    // Check immediately in case timer already expired
-    if (Date.now() >= TARGET_MS) {
-      goLive();
-    } else {
-      tick();
-    }
-  </script>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-left-meta">
+            <span class="brand-text" style="font-size:0.9rem;">Wwebsite System Matrix</span>
+            <p>Ecosystem Architecture &copy; 2026. All Rights Reserved.</p>
+            <p style="color: var(--color-gold); font-family:monospace; font-size:0.75rem; margin-top:15px;">Node Terminal Contact: wwebsiteofficial@outlook.com</p>
+        </div>
+        <div class="footer-roles-grid">
+            <div class="role-column">
+                <h5>Executive Command</h5>
+                <p>Brody Williams</p>
+            </div>
+            <div class="role-column">
+                <h5>Infrastructure Operations</h5>
+                <p>Jase</p>
+            </div>
+            <div class="role-column">
+                <h5>Development Matrix Core</h5>
+                <p>Owen &bull; Jullian<br>Isaac P &bull; Wesley<br>Henry</p>
+            </div>
+        </div>
+    </footer>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getDatabase, ref, push, set, remove, update, onValue, onChildAdded, onChildRemoved, off, get } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
+
+        // --- PRODUCTION CREDENTIALS PAYLOAD MATRIX ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyChx24EPK7w1f7SGVYraI993TkC89ZxiZo",
+            authDomain: "wwebsite-ae20b.firebaseapp.com",
+            databaseURL: "https://wwebsite-ae20b-default-rtdb.firebaseio.com",
+            projectId: "wwebsite-ae20b",
+            storageBucket: "wwebsite-ae20b.firebasestorage.app",
+            messagingSenderId: "1073638981689",
+            appId: "1:1073638981689:web:1fceb547ed3704b782cde8",
+            measurementId: "G-HK8S5YRG4J"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const rtdb = getDatabase(app);
+        const storage = getStorage(app);
+        const googleProvider = new GoogleAuthProvider();
+
+        // ROUTING RENDERING NODES MAPPING
+        const routesMapping = {
+            home: document.getElementById('route-home-view'),
+            messages: document.getElementById('route-messages-view'),
+            owner: document.getElementById('route-owner-view'),
+            settings: document.getElementById('route-settings-view')
+        };
+        const navigationTabsMapping = {
+            home: document.getElementById('tab-home'),
+            messages: document.getElementById('tab-messages'),
+            owner: document.getElementById('tab-owner')
+        };
+
+        let selectedActiveChatIdNode = null;
+        let cachedSystemStatusModeString = "LIVE";
+        let activeSystemGlobalResetTimestampSeed = null;
+
+        /* --- NAVIGATION ROUTING LAYER INTERCEPT MANAGERS --- */
+        window.navigateToSystemRoute = function(targetViewRouteId) {
+            if ((targetViewRouteId === 'messages' || targetViewRouteId === 'settings' || targetViewRouteId === 'owner') && !auth.currentUser) {
+                navigateToSystemRoute('home');
+                toggleDisplayModal('authModal', true);
+                return;
+            }
+            evalSystemStatusRedirectConstraints(cachedSystemStatusModeString);
+
+            Object.keys(routesMapping).forEach(key => routesMapping[key].classList.add('hidden-view'));
+            Object.keys(navigationTabsMapping).forEach(key => { if(navigationTabsMapping[key]) navigationTabsMapping[key].classList.remove('active-route'); });
+
+            if (routesMapping[targetViewRouteId]) {
+                routesMapping[targetViewRouteId].classList.remove('hidden-view');
+                if(navigationTabsMapping[targetViewRouteId]) navigationTabsMapping[targetViewRouteId].classList.add('active-route');
+            }
+
+            if(targetViewRouteId === 'messages') { initializeUserChatPaneEngine(); }
+            if(targetViewRouteId === 'owner') { initializeExecutiveDashboardCounters(); }
+            document.getElementById('profileDropdownMenuList').style.display = 'none';
+        }
+
+        window.toggleDisplayModal = function(targetModalIdElement, setVisibleFlag) {
+            document.getElementById(targetModalIdElement).style.display = setVisibleFlag ? 'flex' : 'none';
+        }
+        window.toggleDropdownMenuMenu = function() {
+            const el = document.getElementById('profileDropdownMenuList');
+            el.style.display = el.style.display === 'block' ? 'none' : 'block';
+        }
+
+        /* --- AUTHENTICATION PIPELINE ENGINE RESOLVERS --- */
+        window.executeEmailAuthValidation = function(methodActionTypeString) {
+            const email = document.getElementById('authEmailInputNode').value.trim();
+            const password = document.getElementById('authPasswordInputNode').value;
+            if(!email || !password) return;
+
+            const targetAuthPromise = (methodActionTypeString === 'login') 
+                ? signInWithEmailAndPassword(auth, email, password)
+                : createUserWithEmailAndPassword(auth, email, password);
+
+            targetAuthPromise.then((result) => {
+                provisionUserProfileRecordEntry(result.user);
+                toggleDisplayModal('authModal', false);
+            }).catch(err => alert(err.message));
+        }
+
+        window.executeGoogleIdentityMapping = function() {
+            signInWithPopup(auth, googleProvider).then((result) => {
+                provisionUserProfileRecordEntry(result.user);
+                toggleDisplayModal('authModal', false);
+            }).catch(err => alert(err.message));
+        }
+
+        window.executeSessionTermination = function() {
+            signOut(auth).then(() => { navigateToSystemRoute('home'); }).catch(err => console.error(err));
+        }
+
+        function provisionUserProfileRecordEntry(authenticatedUserInstance) {
+            if (!authenticatedUserInstance) return;
+            const fallbackGeneratedIdentityString = authenticatedUserInstance.email ? authenticatedUserInstance.email.split('@')[0] : "Anonymous Developer Node";
+            const targetRef = ref(rtdb, `users/${authenticatedUserInstance.uid}`);
+            
+            get(targetRef).then((snapshot) => {
+                const existingData = snapshot.val() || {};
+                const compilationProfilePayload = {
+                    uid: authenticatedUserInstance.uid,
+                    displayName: existingData.displayName || authenticatedUserInstance.displayName || fallbackGeneratedIdentityString,
+                    email: authenticatedUserInstance.email,
+                    presenceStatus: existingData.presenceStatus || "Operational Runtime Node Active",
+                    avatarUrl: existingData.avatarUrl || ""
+                };
+                set(targetRef, compilationProfilePayload);
+            });
+        }
+
+        /* --- GLOBAL PLATFORM OVERRIDE SWITCHBOARD WATCHERS --- */
+        function attachGlobalSystemOverridesListeners() {
+            onValue(ref(rtdb, 'system/status'), (snapshot) => {
+                cachedSystemStatusModeString = snapshot.val() || "LIVE";
+                evalSystemStatusRedirectConstraints(cachedSystemStatusModeString);
+            });
+
+            onValue(ref(rtdb, 'system/globalReset'), (snapshot) => {
+                const incomingTimestamp = snapshot.val();
+                if (activeSystemGlobalResetTimestampSeed !== null && incomingTimestamp !== activeSystemGlobalResetTimestampSeed) {
+                    window.location.reload();
+                }
+                activeSystemGlobalResetTimestampSeed = incomingTimestamp;
+            });
+        }
+
+        function evalSystemStatusRedirectConstraints(statusFlagValue) {
+            const currentConnectedUser = auth.currentUser;
+            const contextEmailString = currentConnectedUser ? (currentConnectedUser.email || '').toLowerCase() : '';
+            const masterOverlayDOMNode = document.getElementById('global-intercept-overlay');
+            const overlayTitleNode = document.getElementById('intercept-title');
+            const overlayMessageNode = document.getElementById('intercept-message');
+
+            masterOverlayDOMNode.style.display = 'none';
+
+            if (statusFlagValue === "SHUTDOWN") {
+                overlayTitleNode.innerText = "W-Suite System Offline";
+                overlayMessageNode.innerText = "Operations Temporarily Terminated.";
+                masterOverlayDOMNode.style.display = 'flex';
+            } else if (statusFlagValue === "UPDATING") {
+                overlayTitleNode.innerText = "System Deployment Matrix Active";
+                overlayMessageNode.innerText = "Wwebsite is currently updating platform dependencies. Please stand by.";
+                masterOverlayDOMNode.style.display = 'flex';
+            } else if (statusFlagValue === "TESTING") {
+                if (contextEmailString !== "brodywilliams0226@gmail.com") {
+                    overlayTitleNode.innerText = "Closed Staging Environment";
+                    overlayMessageNode.innerText = "Access Limited exclusively to Master Verification Nodes.";
+                    masterOverlayDOMNode.style.display = 'flex';
+                }
+            }
+        }
+
+        window.updateGlobalSystemStatusMode = function(targetStateString) {
+            set(ref(rtdb, 'system/status'), targetStateString).catch(err => alert(err.message));
+        }
+
+        window.executeGlobalClientWindowInvalidation = function() {
+            set(ref(rtdb, 'system/globalReset'), Date.now()).catch(err => alert(err.message));
+        }
+
+        /* --- LIVE PLATFORM SUGGESTIONS ENGINE LOOP --- */
+        window.commitPlatformSuggestionPayload = function() {
+            const fieldNode = document.getElementById('suggestionInputFieldPayload');
+            const stringText = fieldNode.value.trim();
+            if(!stringText) return;
+
+            push(ref(rtdb, 'suggestions'), {
+                text: stringText,
+                timestamp: Date.now()
+            }).then(() => {
+                fieldNode.value = '';
+                const conf = document.getElementById('feedback-confirmation');
+                conf.style.display = 'block';
+                setTimeout(() => { conf.style.display = 'none'; }, 4000);
+            });
+        }
+
+        /* --- 💬 SECURE CHAT & REAL-TIME RETRACTION ENGINE ROUTINES --- */
+        window.commitSecureChatChannelLink = function() {
+            const targetSearchEmail = document.getElementById('targetContactSearchEmail').value.trim().toLowerCase();
+            if(!targetSearchEmail) return;
+
+            get(ref(rtdb, 'users')).then((snapshot) => {
+                const allUsersRecordBlock = snapshot.val() || {};
+                let targetUserFoundInstance = null;
+
+                Object.keys(allUsersRecordBlock).forEach(uid => {
+                    if(allUsersRecordBlock[uid].email && allUsersRecordBlock[uid].email.toLowerCase() === targetSearchEmail) {
+                        targetUserFoundInstance = allUsersRecordBlock[uid];
+                    }
+                });
+
+                if(!targetUserFoundInstance) { alert("Target verification parameter failed: Email unmapped."); return; }
+                if(targetUserFoundInstance.uid === auth.currentUser.uid) { alert("Self-link mapping aborted."); return; }
+
+                const unifiedChatIdStringHash = [auth.currentUser.uid, targetUserFoundInstance.uid].sort().join("_");
+                
+                // Write participant cross-reference links directly
+                set(ref(rtdb, `users/${auth.currentUser.uid}/activeChats/${unifiedChatIdStringHash}`), { targetUid: targetUserFoundInstance.uid, targetEmail: targetUserFoundInstance.email, targetName: targetUserFoundInstance.displayName });
+                set(ref(rtdb, `users/${targetUserFoundInstance.uid}/activeChats/${unifiedChatIdStringHash}`), { targetUid: auth.currentUser.uid, targetEmail: auth.currentUser.email, targetName: auth.currentUser.displayName });
+                
+                toggleDisplayModal('createChatModal', false);
+                document.getElementById('targetContactSearchEmail').value = '';
+            });
+        }
+
+        function initializeUserChatPaneEngine() {
+            if(!auth.currentUser) return;
+            onValue(ref(rtdb, `users/${auth.currentUser.uid}/activeChats`), (snapshot) => {
+                const scrollerContainer = document.getElementById('chatChannelsListDOMContainer');
+                scrollerContainer.innerHTML = '';
+                const baseChatsMap = snapshot.val();
+
+                if(!baseChatsMap) {
+                    scrollerContainer.innerHTML = `<div style="color:var(--text-muted);font-size:0.75rem;padding:30px;text-align:center;">No secure pipelines mapped.</div>`;
+                    return;
+                }
+
+                Object.keys(baseChatsMap).forEach(chatId => {
+                    const metaDetails = baseChatsMap[chatId];
+                    const trackingClassHighlight = (chatId === selectedActiveChatIdNode) ? 'active-chat-node' : '';
+                    
+                    const elementDOMStringTemplate = `
+                        <div class="contact-row-node ${trackingClassHighlight}" onclick="window.mountActiveChatStreamViewportPipeline('${chatId}', '${metaDetails.targetName}')">
+                            <div class="contact-meta-info">
+                                <span class="contact-name-label">${metaDetails.targetName}</span>
+                                <span class="contact-email-sub">${metaDetails.targetEmail}</span>
+                            </div>
+                            <button class="btn-node-purge" onclick="window.purgeContactListRecordNode(event, '${chatId}')">&times;</button>
+                        </div>
+                    `;
+                    scrollerContainer.insertAdjacentHTML('beforeend', elementDOMStringTemplate);
+                });
+            });
+        }
+
+        window.purgeContactListRecordNode = function(eventInstance, targetChatIdNodeLink) {
+            eventInstance.stopPropagation();
+            if(!confirm("Sever link with this communication endpoint?")) return;
+            if(selectedActiveChatIdNode === targetChatIdNodeLink) {
+                document.getElementById('chatInterfaceLayoutFrame').style.display = 'none';
+                document.getElementById('chatViewportFallbackScreen').style.display = 'flex';
+                selectedActiveChatIdNode = null;
+            }
+            remove(ref(rtdb, `users/${auth.currentUser.uid}/activeChats/${targetChatIdNodeLink}`));
+        }
+
+        window.mountActiveChatStreamViewportPipeline = function(chatIdNodeLink, targetParticipantDisplayName) {
+            if(selectedActiveChatIdNode) {
+                off(ref(rtdb, `chats/${selectedActiveChatIdNode}/messages`), 'child_added');
+                off(ref(rtdb, `chats/${selectedActiveChatIdNode}/messages`), 'child_removed');
+            }
+
+            selectedActiveChatIdNode = chatIdNodeLink;
+            document.getElementById('chatViewportFallbackScreen').style.display = 'none';
+            document.getElementById('chatInterfaceLayoutFrame').style.display = 'flex';
+            document.getElementById('activeChannelHeaderDisplayTitle').innerText = `Secure Stream Context: ${targetParticipantDisplayName}`;
+            
+            const messageLogContainer = document.getElementById('chatMessageLogStreamContainer');
+            messageLogContainer.innerHTML = '';
+
+            const activeStreamQueryNodeRef = ref(rtdb, `chats/${chatIdNodeLink}/messages`);
+            
+            onChildAdded(activeStreamQueryNodeRef, (snapshot) => {
+                injectSingleMessageBubbleIntoViewportDOM(snapshot.key, snapshot.val());
+            });
+            onChildRemoved(activeStreamQueryNodeRef, (snapshot) => {
+                const targetBubbleDOMNode = document.getElementById(`msg-bubble-node-${snapshot.key}`);
+                if (targetBubbleDOMNode) targetBubbleDOMNode.remove();
+            });
+
+            initializeUserChatPaneEngine();
+        }
+
+        window.purgeSingleTextMessageEvent = function(targetMessageIdKey) {
+            if(!selectedActiveChatIdNode) return;
+            remove(ref(rtdb, `chats/${selectedActiveChatIdNode}/messages/${targetMessageIdKey}`))
+                .catch(err => console.error("Real-time retraction failed execution constraints:", err));
+        }
+
+        function injectSingleMessageBubbleIntoViewportDOM(msgIdKey, dataPayloadBlock) {
+            if(!dataPayloadBlock) return;
+            const logContainer = document.getElementById('chatMessageLogStreamContainer');
+            const runtimeSelfIdHash = auth.currentUser ? auth.currentUser.uid : "";
+            const isDispatchedBySelfSessionUser = (dataPayloadBlock.senderId === runtimeSelfIdHash);
+            const classLayoutMarker = isDispatchedBySelfSessionUser ? 'layout-self' : 'layout-peer';
+
+            const retractionMarkupBtn = isDispatchedBySelfSessionUser
+                ? `<button class="btn-live-retract" onclick="window.purgeSingleTextMessageEvent('${msgIdKey}')">🗑️</button>`
+                : '';
+
+            const rawBubbleRowHtmlTemplate = `
+                <div class="message-bubble-wrapper ${classLayoutMarker}" id="msg-bubble-node-${msgIdKey}">
+                    <span class="message-author-tag">${dataPayloadBlock.senderName}</span>
+                    <div class="bubble-interaction-container">
+                        <div class="pill-message-bubble">${dataPayloadBlock.text}</div>
+                        ${retractionMarkupBtn}
+                    </div>
+                </div>
+            `;
+            logContainer.insertAdjacentHTML('beforeend', rawBubbleRowHtmlTemplate);
+            logContainer.scrollTop = logContainer.scrollHeight;
+        }
+
+        window.transmitChatMessageDataPayload = function(eventInstance) {
+            eventInstance.preventDefault();
+            if(!selectedActiveChatIdNode) return;
+
+            const inputField = document.getElementById('chatPayloadMessageInputField');
+            const messagePayloadStringText = inputField.value.trim();
+            if(!messagePayloadStringText) return;
+
+            get(ref(rtdb, `users/${auth.currentUser.uid}`)).then((snapshot) => {
+                const userProfileDataRecord = snapshot.val() || {};
+                const compilationPackagePayload = {
+                    senderId: auth.currentUser.uid,
+                    senderName: userProfileDataRecord.displayName || auth.currentUser.email.split('@')[0],
+                    text: messagePayloadStringText,
+                    timestamp: Date.now()
+                };
+
+                push(ref(rtdb, `chats/${selectedActiveChatIdNode}/messages`), compilationPackagePayload).then(() => {
+                    inputField.value = '';
+                });
+            });
+        }
+
+        /* --- 👑 EXECUTIVE MANAGEMENT HUB CONTROL ARCHITECTURE --- */
+        function initializeExecutiveDashboardCounters() {
+            onValue(ref(rtdb, 'users'), (snapshot) => {
+                document.getElementById('metricTotalUsersCountDisplay').innerText = snapshot.exists() ? Object.keys(snapshot.val()).length : 0;
+            });
+            onValue(ref(rtdb, 'chats'), (snapshot) => {
+                let trackingTotalMessagesCountAccumulator = 0;
+                if(snapshot.exists()) {
+                    const allChatsMapBlock = snapshot.val();
+                    Object.keys(allChatsMapBlock).forEach(cid => {
+                        if(allChatsMapBlock[cid].messages) {
+                            trackingTotalMessagesCountAccumulator += Object.keys(allChatsMapBlock[cid].messages).length;
+                        }
+                    });
+                }
+                document.getElementById('metricTotalMessagesCountDisplay').innerText = trackingTotalMessagesCountAccumulator;
+            });
+            onValue(ref(rtdb, 'suggestions'), (snapshot) => {
+                const streamScrollerBoxContainer = document.getElementById('adminSuggestionsDisplayScroller');
+                streamScrollerBoxContainer.innerHTML = '';
+                const incomingSuggestionsPayloadDataMap = snapshot.val();
+
+                if(!incomingSuggestionsPayloadDataMap) {
+                    streamScrollerBoxContainer.innerHTML = `<div style="color:var(--text-muted); font-size:0.8rem; padding:20px; text-align:center;">No feedback payloads written to memory yet.</div>`;
+                    return;
+                }
+
+                Object.keys(incomingSuggestionsPayloadDataMap).forEach(key => {
+                    const rowDataObj = incomingSuggestionsPayloadDataMap[key];
+                    const convertedTimeString = new Date(rowDataObj.timestamp).toLocaleTimeString();
+                    const markupTemplate = `
+                        <div class="feed-row-item">
+                            <span class="feed-row-text">${rowDataObj.text}</span>
+                            <span class="feed-row-timestamp">[${convertedTimeString}]</span>
+                        </div>
+                    `;
+                    streamScrollerBoxContainer.insertAdjacentHTML('afterbegin', markupTemplate);
+                });
+            });
+        }
+
+        /* --- ⚙️ USER CUSTOMIZATION PROFILE SETTINGS CONTROLLERS --- */
+        window.commitProfileCustomizationsToRealtimeDatabase = function() {
+            if(!auth.currentUser) return;
+            const updatedHandleIdentity = document.getElementById('settingsFormDisplayNameInputField').value.trim();
+            const updatedPresenceStatus = document.getElementById('settingsFormPresenceInputField').value.trim();
+
+            if(!updatedHandleIdentity) { alert("Handle field identity parameters cannot execute null declarations."); return; }
+
+            update(ref(rtdb, `users/${auth.currentUser.uid}`), {
+                displayName: updatedHandleIdentity,
+                presenceStatus: updatedPresenceStatus
+            }).then(() => { alert("Platform configuration nodes successfully modernized."); });
+        }
+
+        window.executeAvatarBinaryUploadPipeline = function(eventInstance) {
+            const rawTargetFileDescriptor = eventInstance.target.files[0];
+            if (!rawTargetFileDescriptor || !auth.currentUser) return;
+
+            const customBinaryTargetStorageRef = storageRef(storage, `avatars/${auth.currentUser.uid}`);
+            
+            uploadBytes(customBinaryTargetStorageRef, rawTargetFileDescriptor).then((snapshot) => {
+                getDownloadURL(snapshot.ref).then((finalResolvedSecureUrlString) => {
+                    update(ref(rtdb, `users/${auth.currentUser.uid}`), { avatarUrl: finalResolvedSecureUrlString }).then(() => {
+                        syncPlatformIdentityDisplayElements(auth.currentUser);
+                    });
+                });
+            }).catch(err => alert(`Binary upload execution abort: ${err.message}`));
+        }
+
+        function syncPlatformIdentityDisplayElements(userInstanceNode) {
+            if (userInstanceNode) {
+                document.getElementById('navigationAuthActionButton').style.display = 'none';
+                document.getElementById('profileDropdownContainer').style.display = 'block';
+                
+                get(ref(rtdb, `users/${userInstanceNode.uid}`)).then((snapshot) => {
+                    const profileData = snapshot.val() || {};
+                    const fallbackInitials = profileData.displayName ? profileData.displayName.substring(0, 2).toUpperCase() : "??";
+                    
+                    const headerContainer = document.getElementById('headerAvatarFrameContainer');
+                    const settingsContainer = document.getElementById('settingsAvatarPreviewFrameCircle');
+                    
+                    // Assign text elements dynamically into inputs
+                    document.getElementById('settingsFormDisplayNameInputField').value = profileData.displayName || "";
+                    document.getElementById('settingsFormPresenceInputField').value = profileData.presenceStatus || "";
+
+                    if (profileData.avatarUrl && profileData.avatarUrl !== "") {
+                        headerContainer.innerHTML = `<img src="${profileData.avatarUrl}" alt="Avatar">`;
+                        if(settingsContainer) settingsContainer.innerHTML = `<img src="${profileData.avatarUrl}" alt="Avatar">`;
+                    } else {
+                        headerContainer.innerText = fallbackInitials;
+                        if(settingsContainer) settingsContainer.innerText = fallbackInitials;
+                    }
+                });
+            } else {
+                document.getElementById('navigationAuthActionButton').style.display = 'block';
+                document.getElementById('profileDropdownContainer').style.display = 'none';
+            }
+        }
+
+        /* --- CORE APPLICATION RENDER SECURITY LISTENERS --- */
+        onAuthStateChanged(auth, (userSessionNodeInstance) => {
+            syncPlatformIdentityDisplayElements(userSessionNodeInstance);
+            evalSystemStatusRedirectConstraints(cachedSystemStatusModeString);
+
+            if (userSessionNodeInstance) {
+                const normalizedEmailString = (userSessionNodeInstance.email || '').toLowerCase();
+                if (normalizedEmailString === "brodywilliams0226@gmail.com") {
+                    document.getElementById('ownerLockdownDenialScreen').style.display = 'none';
+                    document.getElementById('ownerSystemActiveDashboardScreen').style.display = 'block';
+                } else {
+                    document.getElementById('ownerLockdownDenialScreen').style.display = 'block';
+                    document.getElementById('ownerSystemActiveDashboardScreen').style.display = 'none';
+                }
+            } else {
+                document.getElementById('ownerLockdownDenialScreen').style.display = 'block';
+                document.getElementById('ownerSystemActiveDashboardScreen').style.display = 'none';
+                selectedActiveChatIdNode = null;
+                document.getElementById('chatInterfaceLayoutFrame').style.display = 'none';
+                document.getElementById('chatViewportFallbackScreen').style.display = 'flex';
+                navigateToSystemRoute('home');
+            }
+        });
+
+        // Initialize Core Routines
+        attachGlobalSystemOverridesListeners();
+    </script>
 </body>
 </html>
