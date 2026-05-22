@@ -76,7 +76,7 @@
     .sep {
       font-family: 'Playfair Display', serif;
       font-size: clamp(2.2rem, 5vw, 3.4rem); color: var(--muted);
-      line-height: 1; opacity: 0.35; margin-top: 0;
+      line-height: 1; opacity: 0.35;
     }
     /* Progress */
     .progress-wrap {
@@ -94,14 +94,12 @@
       border-radius: 50%; background: #e8d5a3;
       box-shadow: 0 0 8px 2px rgba(200,169,110,0.6);
     }
-    /* Status */
     .status {
       display: inline-flex; align-items: center; gap: 0.6rem;
       font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase;
       color: var(--muted); animation: fadeUp 1s 0.7s both;
     }
     .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); animation: pulse 2s ease-in-out infinite; }
-    /* Geo */
     .geo { position: fixed; border: 1px solid var(--line); border-radius: 50%; pointer-events: none; }
     .geo-1 { width: 380px; height: 380px; top: -140px; right: -120px; animation: rotateSlow 40s linear infinite; }
     .geo-2 { width: 200px; height: 200px; bottom: -60px; left: -60px; animation: rotateSlow 28s linear infinite reverse; }
@@ -112,12 +110,25 @@
       justify-content: center; text-align: center; padding: 2rem;
     }
     #live-screen.show { display: flex; animation: fadeUp 1.4s cubic-bezier(0.16,1,0.3,1) both; }
-    #live-screen .live-label { font-size: 0.65rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--accent); margin-bottom: 2rem; }
-    #live-screen h2 { font-family: 'Playfair Display', serif; font-size: clamp(2.8rem, 7vw, 5rem); font-weight: 400; line-height: 1.1; }
+    #live-screen .live-label {
+      font-size: 1.6rem; margin-bottom: 1.5rem;
+    }
+    #live-screen h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 7vw, 5rem); font-weight: 400; line-height: 1.1;
+    }
     #live-screen h2 em { font-style: italic; color: var(--accent); }
     #live-screen .live-divider { width: 48px; height: 1px; background: var(--accent); margin: 2rem auto; }
-    #live-screen .live-msg { font-size: 0.8rem; letter-spacing: 0.08em; color: var(--muted); line-height: 2; }
-    /* Keyframes */
+    #live-screen .live-msg {
+      font-size: 0.82rem; letter-spacing: 0.08em; color: var(--muted);
+      line-height: 2.2;
+    }
+    #live-screen .live-msg strong { color: var(--accent); font-weight: normal; font-style: italic; }
+    /* Confetti canvas */
+    #confetti-canvas {
+      position: fixed; inset: 0; width: 100%; height: 100%;
+      pointer-events: none; z-index: 101;
+    }
     @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes expandWidth { from { width: 0; opacity: 0; } to { width: 48px; opacity: 1; } }
     @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.7); } }
@@ -134,6 +145,8 @@
   <div class="corner br"></div>
   <div class="geo geo-1"></div>
   <div class="geo geo-2"></div>
+
+  <canvas id="confetti-canvas"></canvas>
 
   <!-- Maintenance screen -->
   <div class="container" id="maintenance-screen">
@@ -177,22 +190,20 @@
 
   <!-- Live screen -->
   <div id="live-screen">
-    <p class="live-label">We're Live</p>
-    <h2>Welcome <em>back</em> —<br>we're open!</h2>
+    <p class="live-label">🎉</p>
+    <h2>We're <em>almost</em><br>ready!</h2>
     <div class="live-divider"></div>
     <p class="live-msg">
-      The update is complete.<br>
-      Thank you for your patience — enjoy the new experience.
+      The timer's up — we're wrapping up the final changes right now!<br>
+      The full site will be updated <strong>very soon.</strong><br><br>
+      Please hang tight — we really appreciate your patience! 🙏
     </p>
   </div>
 
   <script>
-    // TARGET: May 23 2026, 1:00 PM Central Daylight Time (Saint Paul) = 18:00 UTC
-    // Hard-coded — cannot be overridden or reset by the user.
+    // TARGET: May 23 2026, 1:00 PM CDT (Saint Paul) = 18:00 UTC
     const TARGET_MS = Date.UTC(2026, 4, 23, 18, 0, 0);
-
-    // Progress bar start reference: midnight CDT May 23 = 05:00 UTC
-    const START_MS = Date.UTC(2026, 4, 23, 5, 0, 0);
+    const START_MS  = Date.UTC(2026, 4, 23, 5, 0, 0);
     const TOTAL_DURATION = TARGET_MS - START_MS;
 
     const hEl = document.getElementById('cd-h');
@@ -201,48 +212,107 @@
     const bar = document.getElementById('progress-bar');
     const liveScreen = document.getElementById('live-screen');
     const mainScreen = document.getElementById('maintenance-screen');
+    const canvas = document.getElementById('confetti-canvas');
+    const ctx = canvas.getContext('2d');
 
+    // ── Confetti ──────────────────────────────────────────────
+    const COLORS = ['#c8a96e','#e8d5a3','#f0ece2','#7ec8e3','#ff6b6b','#6bff9e','#ff9ef5','#ffe66b'];
+    let pieces = [];
+    let confettiRunning = false;
+
+    function resizeCanvas() {
+      canvas.width  = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    function spawnBurst() {
+      for (let i = 0; i < 180; i++) {
+        pieces.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height * 0.4 - 20,
+          w: Math.random() * 10 + 5,
+          h: Math.random() * 5 + 3,
+          color: COLORS[Math.floor(Math.random() * COLORS.length)],
+          vx: (Math.random() - 0.5) * 6,
+          vy: Math.random() * 4 + 1,
+          angle: Math.random() * Math.PI * 2,
+          spin: (Math.random() - 0.5) * 0.3,
+          gravity: 0.12 + Math.random() * 0.08,
+          alpha: 1,
+          fade: 0.004 + Math.random() * 0.003
+        });
+      }
+    }
+
+    function animateConfetti() {
+      if (!confettiRunning) return;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      pieces = pieces.filter(p => p.alpha > 0);
+      for (const p of pieces) {
+        p.x  += p.vx;
+        p.y  += p.vy;
+        p.vy += p.gravity;
+        p.angle += p.spin;
+        p.alpha -= p.fade;
+        ctx.save();
+        ctx.globalAlpha = Math.max(0, p.alpha);
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.angle);
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+        ctx.restore();
+      }
+      // Keep spawning for 4 seconds
+      requestAnimationFrame(animateConfetti);
+    }
+
+    function startConfetti() {
+      confettiRunning = true;
+      resizeCanvas();
+      spawnBurst();
+      animateConfetti();
+      // Second burst for drama
+      setTimeout(spawnBurst, 600);
+      setTimeout(spawnBurst, 1300);
+      // Stop spawning after 5s, let remaining pieces fall
+      setTimeout(() => { confettiRunning = false; }, 5000);
+    }
+
+    // ── Timer ──────────────────────────────────────────────────
     function pad(n) { return String(Math.max(0, n)).padStart(2, '0'); }
 
     function goLive() {
       mainScreen.style.display = 'none';
       liveScreen.classList.add('show');
+      startConfetti();
     }
 
     function tick() {
-      const now = Date.now();
+      const now  = Date.now();
       const diff = TARGET_MS - now;
-
       if (diff <= 0) {
         hEl.textContent = mEl.textContent = sEl.textContent = '00';
         bar.style.width = '100%';
         goLive();
         return;
       }
-
       const totalSecs = Math.floor(diff / 1000);
       hEl.textContent = pad(Math.floor(totalSecs / 3600));
       mEl.textContent = pad(Math.floor((totalSecs % 3600) / 60));
       sEl.textContent = pad(totalSecs % 60);
-
-      // Turn accent color when under 10 minutes
       const urgent = diff < 10 * 60 * 1000;
       [hEl, mEl, sEl].forEach(el => el.classList.toggle('urgent', urgent));
-
-      // Progress bar
       const elapsed = now - START_MS;
       const pct = Math.min(100, Math.max(0, (elapsed / TOTAL_DURATION) * 100));
       bar.style.width = pct + '%';
-
       setTimeout(tick, 1000);
     }
 
-    // Auto-refresh every 5 seconds (stops once live)
-    setInterval(() => {
-      if (Date.now() < TARGET_MS) location.reload();
-    }, 5000);
+    // Auto-refresh every 5 seconds while still counting down
+    setInterval(() => { if (Date.now() < TARGET_MS) location.reload(); }, 5000);
 
-    // Check immediately in case timer already expired
     if (Date.now() >= TARGET_MS) {
       goLive();
     } else {
