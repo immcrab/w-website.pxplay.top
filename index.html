@@ -3,321 +3,787 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Under Construction</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+  <title>Wwebsite // W-WEBSITE V2.1</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  
   <style>
+    /* ─────────────────────────────────────────────────────────
+       1. GLOBAL ARCHITECTURE & UTILITIES
+       ───────────────────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --bg: #0b0c10; --fg: #f0ece2; --accent: #c8a96e;
-      --muted: #5a5750; --line: rgba(200,169,110,0.25);
+      --bg: #030305;
+      --card-bg: #0c0c12;
+      --fg: #f0ece2;
+      --accent-purple: #6200EE;
+      --accent-gold: #FFD700;
+      --accent-green: #00E676;
+      --accent-red: #CF6679;
+      --border-charcoal: #1a1a26;
+      --muted-gray: #8e8a80;
+      --font-sans: 'Inter', sans-serif;
+      --font-mono: 'DM Mono', monospace;
+      --font-serif: 'Playfair Display', serif;
     }
+    
     body {
-      background: var(--bg); color: var(--fg);
-      font-family: 'DM Mono', monospace;
-      min-height: 100vh; display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      overflow: hidden; position: relative;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
     }
+
     body::before {
       content: ''; position: fixed; inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-      opacity: 0.4; pointer-events: none; z-index: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      opacity: 0.3; pointer-events: none; z-index: 9999;
+    }
+
+    .section-title {
+      font-family: var(--font-serif);
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 400;
+      text-align: center;
+      letter-spacing: -0.01em;
+      margin-bottom: 1rem;
+    }
+    .section-title em { font-style: italic; color: var(--accent-gold); }
+    .section-subtitle {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--muted-gray);
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      margin-bottom: 4rem;
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       2. GLOBAL HEADER (FIXED NAVIGATION)
+       ───────────────────────────────────────────────────────── */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 2.5rem 5rem;
+      width: 100%;
+      top: 0;
+      position: fixed;
+      box-sizing: border-box;
+      background: rgba(3, 3, 5, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(26, 26, 38, 0.5);
+      z-index: 1000;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--fg);
+    }
+    .brand-logo {
+      font-family: var(--font-serif);
+      font-weight: 700;
+      font-size: 1.8rem;
+      color: var(--accent-purple);
+      text-shadow: 0 0 10px rgba(98, 0, 238, 0.3);
+    }
+    .brand-text {
+      font-family: var(--font-sans);
+      font-weight: 600;
+      font-size: 0.95rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 3rem;
+    }
+    nav ul li a {
+      color: var(--muted-gray);
+      text-decoration: none;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      transition: color 0.3s ease;
+      cursor: pointer;
+    }
+    nav ul li a:hover, nav ul li a.active {
+      color: var(--fg);
+    }
+
+    .auth-trigger-container { position: relative; }
+    .btn-login {
+      background: transparent;
+      color: var(--fg);
+      border: 1px solid var(--border-charcoal);
+      padding: 0.75rem 1.75rem;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: border-color 0.3s ease;
+    }
+    .btn-login:hover { border-color: var(--fg); }
+
+    .user-avatar {
+      width: 42px; height: 42px; border-radius: 50%;
+      background: var(--accent-purple); color: var(--fg);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-mono); font-weight: 600; font-size: 0.9rem;
+      cursor: pointer; border: 1px solid var(--border-charcoal);
+      background-size: cover; background-position: center;
+    }
+    .avatar-dropdown {
+      display: none; position: absolute; right: 0; top: calc(100% + 1rem);
+      background: var(--card-bg); border: 1px solid var(--border-charcoal);
+      width: 200px; padding: 0.5rem 0; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    .avatar-dropdown.show { display: block; }
+    .avatar-dropdown button {
+      width: 100%; background: transparent; border: none; color: var(--muted-gray);
+      text-align: left; padding: 0.75rem 1.5rem; font-family: var(--font-sans);
+      font-size: 0.85rem; cursor: pointer; transition: color 0.2s;
+    }
+    .avatar-dropdown button:hover { color: var(--fg); background: rgba(26,26,38,0.3); }
+
+    /* ─────────────────────────────────────────────────────────
+       3. STATE A: SYSTEM PRODUCTION HOMEPAGE CANVAS
+       ───────────────────────────────────────────────────────── */
+    #production-canvas {
+      display: none;
+      padding-top: 12rem;
+      width: 100%;
+      flex-direction: column;
+    }
+
+    .hero-panel {
+      display: flex; flex-direction: column; align-items: center;
+      text-align: center; padding: 6rem 2rem; margin-bottom: 7rem;
+    }
+    .hero-panel h1 {
+      font-family: var(--font-serif); font-size: clamp(3.5rem, 9vw, 6.5rem);
+      font-weight: 700; letter-spacing: 0.15em; line-height: 1.1; margin-bottom: 1.5rem;
+    }
+    .hero-panel p {
+      font-family: var(--font-sans); font-size: 1.1rem; color: var(--muted-gray);
+      max-width: 600px; line-height: 1.8; margin-bottom: 3.5rem;
+    }
+
+    /* Secure Channel Terminal Block (Locked Access Profile) */
+    .teaser-panel { padding: 0 5rem; max-width: 1200px; margin: 0 auto 7rem auto; width: 100%; }
+    .teaser-glass {
+      background: linear-gradient(135deg, rgba(12,12,18,0.6) 0%, rgba(3,3,5,0.8) 100%);
+      border: 1px solid var(--border-charcoal); padding: 6rem 2rem; text-align: center; position: relative;
+    }
+    .teaser-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      border: 1px solid rgba(207, 102, 121, 0.4); background: rgba(207, 102, 121, 0.05);
+      color: var(--accent-red); font-family: var(--font-mono); font-size: 0.7rem;
+      padding: 0.4rem 1rem; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 2rem;
+    }
+    .teaser-glass h3 { font-family: var(--font-serif); font-size: 2.2rem; font-weight: 400; margin-bottom: 1rem; }
+    .teaser-glass p { font-size: 0.9rem; color: var(--muted-gray); font-family: var(--font-mono); margin-bottom: 2rem; }
+    
+    .lock-shield-icon {
+      font-size: 2.5rem; color: var(--accent-red); margin-bottom: 1rem; opacity: 0.8;
+    }
+
+    /* Live Interacting Console Panel */
+    .console-panel { padding: 0 5rem; max-width: 800px; margin: 0 auto 7rem auto; width: 100%; }
+    .console-box { background: var(--card-bg); border: 1px solid var(--border-charcoal); padding: 3rem; }
+    .console-box textarea {
+      width: 100%; height: 130px; background: #030305; border: 1px solid var(--border-charcoal);
+      padding: 1.25rem; color: var(--fg); font-family: var(--font-mono); font-size: 0.85rem;
+      resize: none; margin-bottom: 1.5rem; line-height: 1.6;
+    }
+    .console-box textarea:focus { outline: 1px solid var(--accent-purple); }
+    .console-action-row { display: flex; justify-content: space-between; align-items: center; }
+    .console-btn {
+      background: var(--fg); color: var(--bg); border: none; padding: 1rem 2rem;
+      font-family: var(--font-mono); font-size: 0.8rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer;
+    }
+    .console-success-toast {
+      font-family: var(--font-mono); font-size: 0.8rem; color: var(--accent-green);
+      display: none; align-items: center; gap: 0.5rem;
+    }
+    .console-success-toast.show { display: flex; }
+
+    /* ─────────────────────────────────────────────────────────
+       4. STATE B: CREDITS & OPERATIONS ROSTER CANVAS
+       ───────────────────────────────────────────────────────── */
+    #credits-canvas {
+      display: none;
+      padding-top: 12rem;
+      width: 100%;
+      flex-direction: column;
+    }
+    .roster-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;
+      padding: 0 5rem; max-width: 1200px; margin: 0 auto 7rem auto; width: 100%;
+    }
+    .roster-card { background: var(--card-bg); border: 1px solid var(--border-charcoal); padding: 3.5rem 2rem; text-align: center; }
+    .roster-card .role-badge {
+      font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent-gold);
+      border: 1px solid rgba(255, 215, 0, 0.2); padding: 0.25rem 0.75rem;
+      display: inline-block; margin-bottom: 1.5rem; letter-spacing: 0.1em; text-transform: uppercase;
+    }
+    .roster-card h4 { font-family: var(--font-serif); font-size: 1.8rem; font-weight: 400; margin-bottom: 0.5rem; }
+    .roster-card p { font-family: var(--font-sans); font-size: 0.85rem; color: var(--muted-gray); }
+
+    /* ─────────────────────────────────────────────────────────
+       5. STATE C: UPDATE & LOCKDOWN TERMINAL OVERLAY
+       ───────────────────────────────────────────────────────── */
+    #maintenance-overlay {
+      display: flex; position: fixed; inset: 0; background: var(--bg); z-index: 99999;
+      flex-direction: column; align-items: center; justify-content: center; overflow: hidden;
     }
     .rule-top, .rule-bottom {
-      position: fixed; left: 0; right: 0; height: 1px;
-      background: linear-gradient(90deg, transparent, var(--accent), transparent); opacity: 0.4;
+      position: absolute; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(200,169,110,0.15), transparent);
     }
     .rule-top { top: 48px; } .rule-bottom { bottom: 48px; }
-    .corner { position: fixed; width: 24px; height: 24px; border-color: var(--accent); border-style: solid; opacity: 0.5; }
-    .corner.tl { top: 32px; left: 32px; border-width: 1px 0 0 1px; }
-    .corner.tr { top: 32px; right: 32px; border-width: 1px 1px 0 0; }
-    .corner.bl { bottom: 32px; left: 32px; border-width: 0 0 1px 1px; }
-    .corner.br { bottom: 32px; right: 32px; border-width: 0 1px 1px 0; }
-    .container {
-      position: relative; z-index: 1; text-align: center;
-      padding: 2rem; max-width: 680px;
-      animation: fadeUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+    
+    .overlay-container { text-align: center; padding: 2rem; max-width: 680px; position: relative; z-index: 10; }
+    .overlay-container h2 { font-family: var(--font-serif); font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 400; line-height: 1.1; margin-bottom: 0.5em; }
+    .overlay-container h2 em { font-style: italic; color: var(--accent-gold); }
+    .overlay-divider { width: 48px; height: 1px; background: var(--accent-gold); margin: 2rem auto; opacity: 0.4; }
+    .overlay-message { font-size: 0.85rem; letter-spacing: 0.08em; color: var(--muted-gray); line-height: 2; margin-bottom: 2rem; font-family: var(--font-mono); }
+    .overlay-row-text { font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent-gold); margin-bottom: 2rem; font-family: var(--font-mono); }
+    
+    #countdown-ui-block { display: block; }
+    .clock-flex { display: flex; justify-content: center; align-items: center; gap: 1.5rem; margin-bottom: 2.5rem; }
+    .clock-digits { font-family: var(--font-serif); font-size: clamp(2.5rem, 5vw, 4.2rem); font-weight: 700; color: var(--fg); min-width: 2ch; }
+    .clock-sep { font-family: var(--font-serif); font-size: clamp(2.5rem, 5vw, 4.2rem); color: var(--border-charcoal); }
+    .clock-lbl { font-family: var(--font-mono); font-size: 0.55rem; text-transform: uppercase; color: var(--muted-gray); letter-spacing: 0.2em; margin-top: 0.25rem; }
+    
+    .progress-bar-wrap { margin: 0 auto 2.5rem auto; width: 220px; height: 1px; background: rgba(26,26,38,0.8); position: relative; }
+    .progress-bar-fill { height: 1px; background: var(--accent-gold); width: 0%; transition: width 1s linear; }
+
+    .bottom-status-badge { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--font-mono); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.25em; color: var(--muted-gray); }
+    .status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent-purple); }
+    .status-dot.active-green { background: var(--accent-green); box-shadow: 0 0 8px var(--accent-green); }
+    .status-dot.active-orange { background: #FF9800; box-shadow: 0 0 8px #FF9800; }
+    .status-dot.active-red { background: var(--accent-red); box-shadow: 0 0 8px var(--accent-red); }
+
+    #live-wrapup-frame {
+      display: none; position: absolute; inset: 0; background: var(--bg);
+      flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 2rem; z-index: 20;
     }
-    .label {
-      font-size: 0.65rem; letter-spacing: 0.35em; text-transform: uppercase;
-      color: var(--accent); margin-bottom: 2.5rem; animation: fadeUp 1s 0.1s both;
+    #live-wrapup-frame.show { display: flex; }
+    #live-wrapup-frame h2 { font-family: var(--font-serif); font-size: 3.5rem; font-weight: 400; margin-bottom: 1rem; }
+    #live-wrapup-frame p { font-family: var(--font-mono); font-size: 0.85rem; color: var(--muted-gray); line-height: 2; }
+
+    /* ─────────────────────────────────────────────────────────
+       6. STATE D: ISOLATED STAGE TESTING PANEL
+       ───────────────────────────────────────────────────────── */
+    #testing-mode-frame {
+      display: none; position: absolute; inset: 0; background: #050508;
+      flex-direction: column; align-items: center; justify-content: center; text-align: center; z-index: 30; padding: 2rem;
     }
-    h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2.8rem, 7vw, 5rem); font-weight: 400;
-      line-height: 1.1; letter-spacing: -0.01em; margin-bottom: 0.2em;
-      animation: fadeUp 1s 0.2s both;
+    #testing-mode-frame.show { display: flex; }
+    .terminal-card {
+      background: #0d0d16; border: 1px dashed var(--accent-purple); padding: 4rem; max-width: 600px; width: 100%;
     }
-    h1 em { font-style: italic; color: var(--accent); }
-    .divider { width: 48px; height: 1px; background: var(--accent); margin: 2rem auto; animation: expandWidth 1s 0.4s both; }
-    .message {
-      font-size: 0.8rem; letter-spacing: 0.08em; color: var(--muted);
-      line-height: 2; margin-bottom: 1.5rem; animation: fadeUp 1s 0.5s both;
+    .terminal-header { font-family: var(--font-mono); color: var(--accent-purple); font-size: 0.75rem; letter-spacing: 0.2em; margin-bottom: 1.5rem; }
+    .terminal-card h2 { font-family: var(--font-serif); font-weight: 400; font-size: 2.5rem; margin-bottom: 1rem; }
+
+    /* ─────────────────────────────────────────────────────────
+       7. STATE E: PREMIUM SYSTEM SHUTDOWN SYSTEM ERROR OVERLAY
+       ───────────────────────────────────────────────────────── */
+    #shutdown-mode-frame {
+      display: none; position: fixed; inset: 0; background: #050508; z-index: 100000;
+      flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 2rem;
     }
-    .launch-time {
-      font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase;
-      color: var(--accent); margin-bottom: 1.5rem; opacity: 0.85;
-      animation: fadeUp 1s 0.52s both;
+    #shutdown-mode-frame.show { display: flex; }
+    
+    .error-card {
+      background: #0c0c12;
+      border: 1px solid rgba(207, 102, 121, 0.3);
+      padding: 5rem 3rem;
+      max-width: 650px;
+      width: 100%;
+      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.8);
+      position: relative;
     }
-    /* Countdown */
-    .countdown-wrap {
-      display: flex; justify-content: center; align-items: flex-start;
-      gap: 1.4rem; margin: 0 0 2rem; animation: fadeUp 1s 0.55s both;
+    .error-card::before {
+      content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: var(--accent-red);
     }
-    .time-block { display: flex; flex-direction: column; align-items: center; gap: 0.4rem; }
-    .time-digits {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2.2rem, 5vw, 3.4rem); font-weight: 700;
-      color: var(--fg); line-height: 1; min-width: 2ch; text-align: center;
-      transition: color 0.4s;
+    .error-icon {
+      font-size: 3rem; margin-bottom: 1.5rem; color: var(--accent-red); opacity: 0.9;
     }
-    .time-digits.urgent { color: var(--accent); }
-    .time-label { font-size: 0.52rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--muted); }
-    .sep {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2.2rem, 5vw, 3.4rem); color: var(--muted);
-      line-height: 1; opacity: 0.35;
+    .error-card h2 {
+      font-family: var(--font-serif); font-weight: 400; font-size: 2.5rem; color: #f0ece2; margin-bottom: 1.5rem; letter-spacing: -0.02em;
     }
-    /* Progress */
-    .progress-wrap {
-      margin: 0 auto 2rem; width: 220px; height: 1px;
-      background: var(--line); overflow: visible; position: relative;
-      animation: fadeUp 1s 0.6s both;
+    .error-card h2 em {
+      font-style: italic; color: var(--accent-red);
     }
-    .progress-bar {
-      height: 1px; background: linear-gradient(90deg, var(--accent), #e8d5a3);
-      width: 0%; transition: width 1s linear; position: relative;
+    .error-divider {
+      width: 40px; height: 1px; background: rgba(207, 102, 121, 0.4); margin: 1.5rem auto;
     }
-    .progress-bar::after {
-      content: ''; position: absolute; right: 0; top: 50%;
-      transform: translateY(-50%); width: 5px; height: 5px;
-      border-radius: 50%; background: #e8d5a3;
-      box-shadow: 0 0 8px 2px rgba(200,169,110,0.6);
+    .error-log-box {
+      background: #030305; border: 1px solid #1a1a26; padding: 1.5rem; text-align: left;
+      font-family: var(--font-mono); font-size: 0.8rem; color: var(--muted-gray); line-height: 1.8; margin-top: 2rem;
     }
-    .status {
-      display: inline-flex; align-items: center; gap: 0.6rem;
-      font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase;
-      color: var(--muted); animation: fadeUp 1s 0.7s both;
+    .error-log-line {
+      display: flex; gap: 0.75rem;
     }
-    .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); animation: pulse 2s ease-in-out infinite; }
-    .geo { position: fixed; border: 1px solid var(--line); border-radius: 50%; pointer-events: none; }
-    .geo-1 { width: 380px; height: 380px; top: -140px; right: -120px; animation: rotateSlow 40s linear infinite; }
-    .geo-2 { width: 200px; height: 200px; bottom: -60px; left: -60px; animation: rotateSlow 28s linear infinite reverse; }
-    /* Live screen */
-    #live-screen {
-      display: none; position: fixed; inset: 0; z-index: 100;
-      background: var(--bg); flex-direction: column; align-items: center;
-      justify-content: center; text-align: center; padding: 2rem;
+    .error-log-tag { color: var(--accent-red); font-weight: 600; }
+
+    #confetti-layer { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 15; }
+    footer.global-footer {
+      width: 100%; text-align: center; padding: 4rem; border-top: 1px solid var(--border-charcoal);
+      font-family: var(--font-mono); font-size: 0.75rem; color: var(--muted-gray); background: #030305;
     }
-    #live-screen.show { display: flex; animation: fadeUp 1.4s cubic-bezier(0.16,1,0.3,1) both; }
-    #live-screen .live-label {
-      font-size: 1.6rem; margin-bottom: 1.5rem;
-    }
-    #live-screen h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2.8rem, 7vw, 5rem); font-weight: 400; line-height: 1.1;
-    }
-    #live-screen h2 em { font-style: italic; color: var(--accent); }
-    #live-screen .live-divider { width: 48px; height: 1px; background: var(--accent); margin: 2rem auto; }
-    #live-screen .live-msg {
-      font-size: 0.82rem; letter-spacing: 0.08em; color: var(--muted);
-      line-height: 2.2;
-    }
-    #live-screen .live-msg strong { color: var(--accent); font-weight: normal; font-style: italic; }
-    /* Confetti canvas */
-    #confetti-canvas {
-      position: fixed; inset: 0; width: 100%; height: 100%;
-      pointer-events: none; z-index: 101;
-    }
-    @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes expandWidth { from { width: 0; opacity: 0; } to { width: 48px; opacity: 1; } }
-    @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.7); } }
-    @keyframes rotateSlow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
   </style>
 </head>
 <body>
 
-  <div class="rule-top"></div>
-  <div class="rule-bottom"></div>
-  <div class="corner tl"></div>
-  <div class="corner tr"></div>
-  <div class="corner bl"></div>
-  <div class="corner br"></div>
-  <div class="geo geo-1"></div>
-  <div class="geo geo-2"></div>
-
-  <canvas id="confetti-canvas"></canvas>
-
-  <!-- Maintenance screen -->
-  <div class="container" id="maintenance-screen">
-    <p class="label">System Notice</p>
-    <h1>We're <em>updating</em><br>our website</h1>
-    <div class="divider"></div>
-    <p class="message">
-      We published a little early and need to fix a few bugs.<br>
-      Our team is on it now — we'll be back up and running shortly.<br>
-      Thanks for bearing with us! We are now working on it! Thank you for your paitence!
-    </p>
-
-    <p class="launch-time">Back online Saturday, May 23 at 1:00 PM CDT</p>
-
-    <div class="countdown-wrap">
-      <div class="time-block">
-        <span class="time-digits" id="cd-h">00</span>
-        <span class="time-label">Hours</span>
+  <header>
+    <a href="#" class="brand" id="nav-logo-home-trigger">
+      <span class="brand-logo">W</span>
+      <span class="brand-text">Wwebsite</span>
+    </a>
+    <nav>
+      <ul>
+        <li><a id="tab-home-trigger" class="active">🏠 Home</a></li>
+        <li><a id="tab-credits-trigger">👥 Credits</a></li>
+      </ul>
+    </nav>
+    <div class="auth-trigger-container">
+      <button class="btn-login" id="auth-gate-trigger">Login with Google</button>
+      <div class="user-avatar" id="auth-profile-avatar" style="display: none;"></div>
+      <div class="avatar-dropdown" id="profile-dropdown-box">
+        <button id="dropdown-signout">🚪 Sign Out</button>
       </div>
-      <span class="sep">:</span>
-      <div class="time-block">
-        <span class="time-digits" id="cd-m">00</span>
-        <span class="time-label">Minutes</span>
+    </div>
+  </header>
+
+  <div id="production-canvas">
+    <section class="hero-panel">
+      <h1>W-WEBSITE // V2.0</h1>
+      <p>The next-generation digital infrastructure for community management.</p>
+    </section>
+
+    <section class="teaser-panel">
+      <div class="teaser-glass">
+        <div class="lock-shield-icon"></div>
+        <div class="teaser-badge">🔒 W-MESSAGES — </div>
+        <h3>COMING SOON</h3>
+        <p>(Coming Soon)</p>
       </div>
-      <span class="sep">:</span>
-      <div class="time-block">
-        <span class="time-digits" id="cd-s">00</span>
-        <span class="time-label">Seconds</span>
+    </section>
+
+    <section class="console-panel">
+      <h3 class="section-title">Suggestion <em>Console</em></h3>
+      <p class="section-subtitle">Shape the future of V2.0. Push your feature ideas to the development crew.</p>
+      
+      <div class="console-box">
+        <textarea id="console-terminal-input" placeholder="Type transmission to terminal..."></textarea>
+        <div class="console-action-row">
+          <button class="console-btn" id="console-push-trigger">Push to Terminal</button>
+          <div class="console-success-toast" id="console-success-notification">
+            <span>✓</span> Node transmission pushed securely.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="global-footer">
+      &copy; 2026 W-SUITE // V2.1 Operational Infrastructure Interface.
+    </footer>
+  </div>
+
+  <div id="credits-canvas">
+    <h3 class="section-title">Wwebsite Engineering & <em>Operations Command</em></h3>
+    <p class="section-subtitle">The core developmental infrastructure roster behind the W-WEBSITE // V2.0 network.</p>
+    
+    <div class="roster-grid">
+      <div class="roster-card">
+        <span class="role-badge">Owner</span>
+        <h4>Brody Williams</h4>
+        <p>Strategic Infrastructure Lead</p>
+      </div>
+      <div class="roster-card">
+        <span class="role-badge">Co-Owner</span>
+        <h4>Jase Peaslee</h4>
+        <p>Operations Operations Manager</p>
+      </div>
+      <div class="roster-card">
+        <span class="role-badge">Coder</span>
+        <h4>Owen</h4>
+        <p>Systems Software Architect</p>
       </div>
     </div>
 
-    <div class="progress-wrap">
-      <div class="progress-bar" id="progress-bar"></div>
+    <footer class="global-footer">
+      &copy; 2026 W-WEBSITE // V2.0 Operational Infrastructure Interface.
+    </footer>
+  </div>
+
+  <div id="maintenance-overlay">
+    <div class="rule-top"></div><div class="rule-bottom"></div>
+
+    <canvas id="confetti-layer"></canvas>
+
+    <div class="overlay-container" id="overlay-dashboard-panel">
+      <h2>We're <em>updating</em><br>our website</h2>
+      <div class="overlay-divider"></div>
+      
+      <p class="overlay-message" id="overlay-dynamic-msg">Synchronizing terminal connectivity references...</p>
+      <p class="overlay-row-text" id="overlay-date-row-label"></p>
+
+      <div id="countdown-ui-block">
+        <div class="clock-flex">
+          <div><div class="clock-digits" id="timer-node-h">00</div><div class="clock-lbl">Hours</div></div>
+          <span class="clock-sep">:</span>
+          <div><div class="clock-digits" id="timer-node-m">00</div><div class="clock-lbl">Minutes</div></div>
+          <span class="clock-sep">:</span>
+          <div><div class="clock-digits" id="timer-node-s">00</div><div class="clock-lbl">Seconds</div></div>
+        </div>
+        <div class="progress-bar-wrap">
+          <div class="progress-bar-fill" id="timer-progress-fill"></div>
+        </div>
+      </div>
+
+      <div class="bottom-status-badge">
+        <div class="status-dot" id="system-pulse-dot"></div>
+        <span id="system-status-indicator-text">Syncing Connection</span>
+      </div>
     </div>
 
-    <span class="status">
-      <span class="dot"></span>
-      Update in progress
-    </span>
+    <div id="live-wrapup-frame">
+      <h2>We're <em>almost</em> ready!</h2>
+      <div class="overlay-divider"></div>
+      <p>The countdown sequence has fully resolved. System parameters are<br>deploying across active channels. Realtime access online momentarily.</p>
+    </div>
+
+    <div id="testing-mode-frame">
+      <div class="terminal-card">
+        <div class="terminal-header">// STAGE TESTING STATE TERMINAL</div>
+        <h2>Validation In Progress</h2>
+        <div class="overlay-divider" style="background: var(--accent-purple);"></div>
+        <p style="font-family: var(--font-mono); font-size: 0.85rem; color: var(--muted-gray); line-height: 1.8;">
+          W-SUITE Core V2.1 sandbox controls are active.<br>
+          Engineering evaluation is taking place live.
+        </p>
+      </div>
+    </div>
   </div>
 
-  <!-- Live screen -->
-  <div id="live-screen">
-    <p class="live-label">🎉</p>
-    <h2>We're <em>almost</em><br>ready!</h2>
-    <div class="live-divider"></div>
-    <p class="live-msg">
-      The timer's up — we're wrapping up the final changes right now!<br>
-      The full site will be updated <strong>very soon.</strong><br><br>
-      Please hang tight — we really appreciate your patience! 🙏
-    </p>
+  <div id="shutdown-mode-frame">
+    <div class="error-card">
+      <div class="error-icon">⚠️</div>
+      <h2>System <em>Shutdown</em></h2>
+      <div class="error-divider"></div>
+      <p style="color: #e4e0d5; font-size: 0.95rem; max-width: 500px; margin: 0 auto; line-height: 1.7;">
+        This platform interface has been intentionally taken offline by administrative authority. Active service connections have been systematically dissolved.
+      </p>
+      
+      <div class="error-log-box">
+        <div class="error-log-line">
+          <span class="error-log-tag">[STATUS]</span>
+          <span>TERMINATED_BY_ADMINISTRATION</span>
+        </div>
+        <div class="error-log-line">
+          <span class="error-log-tag">[CODE]</span>
+          <span>ERR_W_SUITE_LINK_BROKEN_503</span>
+        </div>
+        <div class="error-log-line">
+          <span class="error-log-tag">[INFO]</span>
+          <span>Core assets locked. Global route distribution suspended indefinitely.</span>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <script>
-    // TARGET: May 23 2026, 1:00 PM CDT (Saint Paul) = 18:00 UTC
-    const TARGET_MS = Date.UTC(2026, 4, 23, 18, 0, 0);
-    const START_MS  = Date.UTC(2026, 4, 23, 5, 0, 0);
-    const TOTAL_DURATION = TARGET_MS - START_MS;
 
-    const hEl = document.getElementById('cd-h');
-    const mEl = document.getElementById('cd-m');
-    const sEl = document.getElementById('cd-s');
-    const bar = document.getElementById('progress-bar');
-    const liveScreen = document.getElementById('live-screen');
-    const mainScreen = document.getElementById('maintenance-screen');
-    const canvas = document.getElementById('confetti-canvas');
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getDatabase, ref, onValue, push } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+    import { getAuth, onAuthStateChanged, signInWithPopup, GoogleAuthProvider, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyChx24EPK7w1f7SGVYraI993TkC89ZxiZo",
+      authDomain: "wwebsite-ae20b.firebaseapp.com",
+      databaseURL: "https://wwebsite-ae20b-default-rtdb.firebaseio.com",
+      projectId: "wwebsite-ae20b",
+      storageBucket: "wwebsite-ae20b.firebasestorage.app",
+      messagingSenderId: "1073638981689",
+      appId: "1:1073638981689:web:1fceb547ed3704b782cde8"
+    };
+
+    // Initialize Connection Frameworks
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const auth = getAuth(app);
+    const googleProvider = new GoogleAuthProvider();
+
+    let TARGET_MS = 0;
+    let START_MS = 0;
+    let TOTAL_DURATION = 0;
+    let clockLoopId = null;
+    let timerStateIsActive = false;
+    let activeUserInstance = null;
+
+    const maintenanceOverlay = document.getElementById('maintenance-overlay');
+    const productionCanvas = document.getElementById('production-canvas');
+    const creditsCanvas = document.getElementById('credits-canvas');
+    
+    const hEl = document.getElementById('timer-node-h');
+    const mEl = document.getElementById('timer-node-m');
+    const sEl = document.getElementById('timer-node-s');
+    const progressFill = document.getElementById('timer-progress-fill');
+    const countdownUiBlock = document.getElementById('countdown-ui-block');
+    
+    const statusTextEl = document.getElementById('system-status-indicator-text');
+    const statusDotEl = document.getElementById('system-pulse-dot');
+    const overlayMsgEl = document.getElementById('overlay-dynamic-msg');
+    const overlayDateLabel = document.getElementById('overlay-date-row-label');
+    const liveWrapupFrame = document.getElementById('live-wrapup-frame');
+    const testingModeFrame = document.getElementById('testing-mode-frame');
+    const shutdownModeFrame = document.getElementById('shutdown-mode-frame');
+    
+    const tabHome = document.getElementById('tab-home-trigger');
+    const tabCredits = document.getElementById('tab-credits-trigger');
+    const navLogoHome = document.getElementById('nav-logo-home-trigger');
+
+    const canvas = document.getElementById('confetti-layer');
     const ctx = canvas.getContext('2d');
-
-    // ── Confetti ──────────────────────────────────────────────
-    const COLORS = ['#c8a96e','#e8d5a3','#f0ece2','#7ec8e3','#ff6b6b','#6bff9e','#ff9ef5','#ffe66b'];
     let pieces = [];
     let confettiRunning = false;
 
-    function resizeCanvas() {
-      canvas.width  = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
+    function resizeConfettiContext() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    window.addEventListener('resize', resizeConfettiContext);
 
-    function spawnBurst() {
-      for (let i = 0; i < 180; i++) {
+    function triggerConfettiBurst() {
+      for (let i = 0; i < 120; i++) {
         pieces.push({
-          x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height * 0.4 - 20,
-          w: Math.random() * 10 + 5,
-          h: Math.random() * 5 + 3,
-          color: COLORS[Math.floor(Math.random() * COLORS.length)],
-          vx: (Math.random() - 0.5) * 6,
-          vy: Math.random() * 4 + 1,
-          angle: Math.random() * Math.PI * 2,
-          spin: (Math.random() - 0.5) * 0.3,
-          gravity: 0.12 + Math.random() * 0.08,
-          alpha: 1,
-          fade: 0.004 + Math.random() * 0.003
+          x: Math.random() * canvas.width, y: Math.random() * canvas.height * 0.3 - 20,
+          w: Math.random() * 8 + 4, h: Math.random() * 4 + 2,
+          color: ['#6200EE', '#FFD700', '#00E676', '#f0ece2'][Math.floor(Math.random() * 4)],
+          vx: (Math.random() - 0.5) * 5, vy: Math.random() * 3 + 1,
+          angle: Math.random() * Math.PI * 2, spin: (Math.random() - 0.5) * 0.2,
+          gravity: 0.1, alpha: 1, fade: 0.006
         });
       }
     }
 
-    function animateConfetti() {
+    function runConfettiRenderLoop() {
       if (!confettiRunning) return;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       pieces = pieces.filter(p => p.alpha > 0);
       for (const p of pieces) {
-        p.x  += p.vx;
-        p.y  += p.vy;
-        p.vy += p.gravity;
-        p.angle += p.spin;
-        p.alpha -= p.fade;
-        ctx.save();
-        ctx.globalAlpha = Math.max(0, p.alpha);
-        ctx.translate(p.x, p.y);
-        ctx.rotate(p.angle);
-        ctx.fillStyle = p.color;
-        ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
-        ctx.restore();
+        p.x += p.vx; p.y += p.vy; p.vy += p.gravity; p.angle += p.spin; p.alpha -= p.fade;
+        ctx.save(); ctx.globalAlpha = Math.max(0, p.alpha); ctx.translate(p.x, p.y); ctx.rotate(p.angle);
+        ctx.fillStyle = p.color; ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h); ctx.restore();
       }
-      // Keep spawning for 4 seconds
-      requestAnimationFrame(animateConfetti);
+      requestAnimationFrame(runConfettiRenderLoop);
     }
 
-    function startConfetti() {
-      confettiRunning = true;
-      resizeCanvas();
-      spawnBurst();
-      animateConfetti();
-      // Second burst for drama
-      setTimeout(spawnBurst, 600);
-      setTimeout(spawnBurst, 1300);
-      // Stop spawning after 5s, let remaining pieces fall
-      setTimeout(() => { confettiRunning = false; }, 5000);
+    function initiateConfettiAnimation() {
+      if (confettiRunning) return; confettiRunning = true; resizeConfettiContext(); triggerConfettiBurst(); runConfettiRenderLoop();
     }
 
-    // ── Timer ──────────────────────────────────────────────────
-    function pad(n) { return String(Math.max(0, n)).padStart(2, '0'); }
+    function padZero(num) { return String(Math.max(0, num)).padStart(2, '0'); }
 
-    function goLive() {
-      mainScreen.style.display = 'none';
-      liveScreen.classList.add('show');
-      startConfetti();
-    }
+    function clockTickExecutor() {
+      if (!timerStateIsActive) return;
+      const now = Date.now();
+      const difference = TARGET_MS - now;
 
-    function tick() {
-      const now  = Date.now();
-      const diff = TARGET_MS - now;
-      if (diff <= 0) {
+      if (difference <= 0) {
         hEl.textContent = mEl.textContent = sEl.textContent = '00';
-        bar.style.width = '100%';
-        goLive();
+        progressFill.style.width = '100%';
+        document.getElementById('overlay-dashboard-panel').style.display = 'none';
+        liveWrapupFrame.classList.add('show');
+        testingModeFrame.classList.remove('show');
+        initiateConfettiAnimation();
         return;
       }
-      const totalSecs = Math.floor(diff / 1000);
-      hEl.textContent = pad(Math.floor(totalSecs / 3600));
-      mEl.textContent = pad(Math.floor((totalSecs % 3600) / 60));
-      sEl.textContent = pad(totalSecs % 60);
-      const urgent = diff < 10 * 60 * 1000;
-      [hEl, mEl, sEl].forEach(el => el.classList.toggle('urgent', urgent));
-      const elapsed = now - START_MS;
-      const pct = Math.min(100, Math.max(0, (elapsed / TOTAL_DURATION) * 100));
-      bar.style.width = pct + '%';
-      setTimeout(tick, 1000);
+
+      liveWrapupFrame.classList.remove('show');
+      document.getElementById('overlay-dashboard-panel').style.display = 'block';
+
+      const totalSeconds = Math.floor(difference / 1000);
+      hEl.textContent = padZero(Math.floor(totalSeconds / 3600));
+      mEl.textContent = padZero(Math.floor((totalSeconds % 3600) / 60));
+      sEl.textContent = padZero(totalSeconds % 60);
+
+      const computedElapsed = now - START_MS;
+      const progressPercentage = Math.min(100, Math.max(0, (computedElapsed / TOTAL_DURATION) * 100));
+      progressFill.style.width = progressPercentage + '%';
+
+      clockLoopId = setTimeout(clockTickExecutor, 1000);
     }
 
-    // Auto-refresh every 5 seconds while still counting down
-    setInterval(() => { if (Date.now() < TARGET_MS) location.reload(); }, 5000);
+    // ── DATABASE ROUTING MODULE 1: INTERACTION CONFIG PARSER ──
+    const countdownConfigRef = ref(db, 'countdownSettings');
+    onValue(countdownConfigRef, (snapshot) => {
+      const dataValues = snapshot.val();
+      if (dataValues) {
+        overlayDateLabel.textContent = dataValues.displayText || "";
+        overlayMsgEl.innerHTML = dataValues.customMessage ? dataValues.customMessage.replace(/\n/g, '<br>') : "";
 
-    if (Date.now() >= TARGET_MS) {
-      goLive();
-    } else {
-      tick();
+        if (dataValues.targetTime && dataValues.targetTime.trim() !== "" && dataValues.targetTime !== "none") {
+          TARGET_MS = new Date(dataValues.targetTime).getTime();
+          START_MS = new Date(dataValues.startTime).getTime();
+          TOTAL_DURATION = TARGET_MS - START_MS;
+
+          if (!isNaN(TARGET_MS) && !isNaN(START_MS) && TARGET_MS > Date.now()) {
+            timerStateIsActive = true;
+            countdownUiBlock.style.display = 'block';
+            if (clockLoopId) clearTimeout(clockLoopId);
+            clockTickExecutor();
+            return;
+          }
+        }
+
+        timerStateIsActive = false;
+        countdownUiBlock.style.display = 'none';
+        liveWrapupFrame.classList.remove('show');
+        if (clockLoopId) clearTimeout(clockLoopId);
+      }
+    });
+
+    // ── DATABASE ROUTING MODULE 2: SYSTEM GATEKEEPER ──
+    const systemStatusRef = ref(db, 'system');
+    onValue(systemStatusRef, (snapshot) => {
+      const sysData = snapshot.val();
+      if (sysData && sysData.status) {
+        const dynamicStatusToken = sysData.status.toUpperCase();
+        statusTextEl.textContent = sysData.status;
+
+        // Reset overlays visibility conditions cleanly
+        shutdownModeFrame.classList.remove('show');
+
+        if (dynamicStatusToken === "SHUTDOWN") {
+          // Absolute Premium Administrative System Lock
+          shutdownModeFrame.classList.add('show');
+          productionCanvas.style.display = 'none';
+          creditsCanvas.style.display = 'none';
+          if (clockLoopId) clearTimeout(clockLoopId);
+        } else if (dynamicStatusToken === "ONLINE") {
+          statusDotEl.className = "status-dot active-green";
+          maintenanceOverlay.style.display = 'none';
+          productionCanvas.style.display = 'flex';
+          testingModeFrame.classList.remove('show');
+          if (clockLoopId) clearTimeout(clockLoopId);
+        } else if (dynamicStatusToken === "TESTING") {
+          statusDotEl.className = "status-dot active-orange";
+          maintenanceOverlay.style.display = 'flex';
+          productionCanvas.style.display = 'none';
+          creditsCanvas.style.display = 'none';
+          testingModeFrame.classList.add('show');
+          if (clockLoopId) clearTimeout(clockLoopId);
+        } else {
+          // Standard Update / Maintenance layout mode handler
+          statusDotEl.className = "status-dot active-red";
+          maintenanceOverlay.style.display = 'flex';
+          productionCanvas.style.display = 'none';
+          creditsCanvas.style.display = 'none';
+          testingModeFrame.classList.remove('show');
+        }
+      }
+    });
+
+    // ── NAVIGATION HEADER DISPLAY TAB STATE INTERACTION ENGINE ──
+    function displayTabSurface(targetTabString) {
+      document.querySelectorAll('nav ul li a').forEach(a => a.classList.remove('active'));
+      
+      if (targetTabString === "HOME") {
+        tabHome.classList.add('active');
+        productionCanvas.style.display = 'flex';
+        creditsCanvas.style.display = 'none';
+      } else if (targetTabString === "CREDITS") {
+        tabCredits.classList.add('active');
+        productionCanvas.style.display = 'none';
+        creditsCanvas.style.display = 'flex';
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+
+    tabHome.addEventListener('click', () => displayTabSurface("HOME"));
+    navLogoHome.addEventListener('click', (e) => { e.preventDefault(); displayTabSurface("HOME"); });
+    tabCredits.addEventListener('click', () => displayTabSurface("CREDITS"));
+
+    // ── DATA INGESTION HOOK: COMMUNITY SUGGESTION ROUTINE ──
+    const pushActionButton = document.getElementById('console-push-trigger');
+    const inputAreaField = document.getElementById('console-terminal-input');
+    const toastMessageBanner = document.getElementById('console-success-notification');
+
+    pushActionButton.addEventListener('click', async () => {
+      const textCapture = inputAreaField.value.trim();
+      if (!textCapture) {
+        alert("Transmission sequence verification failure: Payload empty.");
+        return;
+      }
+
+      try {
+        const structuralRecordPathRef = ref(db, 'suggestions');
+        await push(structuralRecordPathRef, {
+          text: textCapture,
+          timestamp: Date.now(),
+          userId: (activeUserInstance && activeUserInstance.uid) ? activeUserInstance.uid : 'guest'
+        });
+
+        inputAreaField.value = "";
+        toastMessageBanner.classList.add('show');
+        setTimeout(() => { toastMessageBanner.classList.remove('show'); }, 3000);
+      } catch (error) {
+        alert("Transaction routing exception thrown: " + error.message);
+      }
+    });
+
+    // ── MODERN FIREBASE GOOGLE OAUTH SECURITY MODULE ──
+    const authGateButton = document.getElementById('auth-gate-trigger');
+    const profileAvatarNode = document.getElementById('auth-profile-avatar');
+    const profileDropdownContainer = document.getElementById('profile-dropdown-box');
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        activeUserInstance = user;
+        authGateButton.style.display = 'none';
+        profileAvatarNode.style.display = 'flex';
+        
+        if (user.photoURL) {
+          profileAvatarNode.style.backgroundImage = `url('${user.photoURL}')`;
+          profileAvatarNode.textContent = "";
+        } else {
+          profileAvatarNode.style.backgroundImage = 'none';
+          profileAvatarNode.textContent = user.displayName ? user.displayName.charAt(0).toUpperCase() : 'W';
+        }
+      } else {
+        activeUserInstance = null;
+        authGateButton.style.display = 'block';
+        profileAvatarNode.style.display = 'none';
+        profileDropdownContainer.classList.remove('show');
+      }
+    });
+
+    authGateButton.addEventListener('click', async () => {
+      try {
+        await signInWithPopup(auth, googleProvider);
+      } catch (authError) {
+        alert("Google authentication handshake failure: " + authError.message);
+      }
+    });
+    
+    profileAvatarNode.addEventListener('click', (e) => {
+      e.stopPropagation();
+      profileDropdownContainer.classList.toggle('show');
+    });
+    document.addEventListener('click', () => { profileDropdownContainer.classList.remove('show'); });
+    document.getElementById('dropdown-signout').addEventListener('click', () => { signOut(auth); });
   </script>
 </body>
 </html>
