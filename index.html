@@ -3,630 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>System Hub & Communications Platform</title>
+    <title>SYSTEM CRITICAL - ACCESS DENIED</title>
     <style>
-        :root {
-            --primary: #007bff;
-            --primary-hover: #0056b3;
-            --success: #28a745;
-            --danger: #dc3545;
-            --dark: #1a1a1a;
-            --light: #f8f9fa;
-            --border: #e0e0e0;
-        }
-
         * {
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        }
-
-        body {
             margin: 0;
             padding: 0;
-            background-color: #f0f2f5;
-            color: #333;
+        }
+        body {
+            background-color: #050505;
+            color: #00ff33;
+            font-family: 'Courier New', Courier, monospace;
             display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        /* Top Credit Banner */
-        .credit-banner {
-            background-color: var(--dark);
-            color: #aaaaaa;
-            font-size: 0.85rem;
-            padding: 8px 20px;
-            text-align: center;
-            border-bottom: 1px solid #333;
-        }
-        .credit-banner strong {
-            color: #ffffff;
-        }
-
-        /* Main Navigation Navbar */
-        .navbar {
-            background-color: #ffffff;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
-            padding: 10px 20px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .navbar .brand {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--dark);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 10px;
-        }
-
-        .nav-btn {
-            background: none;
-            border: none;
-            padding: 8px 16px;
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: #666;
-            cursor: pointer;
-            border-radius: 4px;
-            transition: all 0.2s ease;
-        }
-
-        .nav-btn:hover {
-            background-color: var(--light);
-            color: var(--dark);
-        }
-
-        .nav-btn.active {
-            background-color: var(--primary);
-            color: #ffffff;
-        }
-
-        /* Main Content Layout */
-        .container {
-            max-width: 1000px;
-            width: 100%;
-            margin: 20px auto;
-            padding: 0 20px;
-            flex: 1;
-        }
-
-        .app-page {
-            display: none;
-            background: #ffffff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        }
-
-        .app-page.active {
-            display: block;
-        }
-
-        h2 {
-            margin-top: 0;
-            margin-bottom: 20px;
-            font-size: 1.5rem;
-            color: var(--dark);
-            border-bottom: 2px solid var(--light);
-            padding-bottom: 10px;
-        }
-
-        /* Forms & Inputs */
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        input[type="text"], input[type="email"], select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 0.95rem;
-        }
-
-        .btn {
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            font-size: 0.95rem;
-            font-weight: 600;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background 0.2s ease;
-        }
-
-        .btn:hover {
-            background-color: var(--primary-hover);
-        }
-
-        .btn-danger { background-color: var(--danger); }
-        .btn-danger:hover { background-color: #bd2130; }
-        .btn-success { background-color: var(--success); }
-        .btn-success:hover { background-color: #218838; }
-
-        /* Auth Gate Notice */
-        .auth-gate-notice {
-            background-color: #fff3cd;
-            color: #856404;
-            padding: 15px;
-            border-radius: 4px;
-            border: 1px solid #ffeeba;
-            margin-bottom: 20px;
-            font-weight: 500;
-        }
-
-        /* Split Screen for Communications Area */
-        .comm-layout {
-            display: grid;
-            grid-template-columns: 250px 1fr;
-            gap: 20px;
-            height: 500px;
-            border: 1px solid var(--border);
-            border-radius: 6px;
+            height: 100vh;
             overflow: hidden;
-        }
-
-        .comm-sidebar {
-            background-color: var(--light);
-            border-right: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
-        }
-
-        .sidebar-header {
-            padding: 15px;
-            font-weight: bold;
-            background-color: #eee;
-            border-bottom: 1px solid var(--border);
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .list-container {
-            flex: 1;
-            overflow-y: auto;
-        }
-
-        .list-item {
-            padding: 12px 15px;
-            cursor: pointer;
-            border-bottom: 1px solid var(--border);
-            font-size: 0.95rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: background 0.2s;
-        }
-
-        .list-item:hover {
-            background-color: #e9ecef;
-        }
-
-        .list-item.selected {
-            background-color: #e2e6ea;
-            font-weight: bold;
-        }
-
-        .chat-window {
-            display: flex;
-            flex-direction: column;
-            background-color: #ffffff;
-        }
-
-        .chat-header {
-            padding: 15px;
-            background-color: var(--light);
-            border-bottom: 1px solid var(--border);
-            font-weight: 600;
-        }
-
-        .message-history {
-            flex: 1;
             padding: 20px;
-            overflow-y: auto;
-            background-color: #f4f6f9;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
         }
-
-        .msg-bubble {
-            max-width: 70%;
-            padding: 10px 14px;
-            border-radius: 6px;
-            font-size: 0.95rem;
-            line-height: 1.4;
+        .container {
+            max-width: 700px;
+            width: 100%;
+            border: 2px solid #00ff33;
+            background-color: #0a0a0a;
+            padding: 40px;
+            box-shadow: 0 0 20px rgba(0, 255, 51, 0.2);
+            position: relative;
         }
-
-        .msg-bubble.incoming {
-            background-color: #ffffff;
-            align-self: flex-start;
-            border: 1px solid var(--border);
-        }
-
-        .msg-bubble.outgoing {
-            background-color: #007bff;
-            color: white;
-            align-self: flex-end;
-        }
-
-        .msg-meta {
-            font-size: 0.75rem;
-            margin-bottom: 4px;
-            color: #666;
+        .container::before {
+            content: " ";
             display: block;
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 2;
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
         }
-
-        .chat-input-area {
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px dashed #00ff33;
+            padding-bottom: 20px;
+        }
+        h1 {
+            font-size: 2rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            animation: blink 1.5s infinite;
+        }
+        .warning-sign {
+            font-size: 4rem;
+            color: #ff3333;
+            margin-bottom: 10px;
+        }
+        .content {
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        p {
+            margin-bottom: 20px;
+        }
+        .status-box {
+            background-color: #141414;
+            border-left: 4px solid #ff3333;
             padding: 15px;
-            border-top: 1px solid var(--border);
-            display: flex;
-            gap: 10px;
+            margin: 25px 0;
+            font-family: monospace;
         }
-
-        /* Item Grid/List Layouts */
-        .data-list {
-            margin-top: 20px;
+        .status-line {
+            margin-bottom: 5px;
         }
-        .data-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px;
-            background: var(--light);
-            margin-bottom: 8px;
-            border-radius: 4px;
-            border: 1px solid var(--border);
+        .status-label {
+            color: #888;
+        }
+        .status-value {
+            color: #ff3333;
+            font-weight: bold;
+        }
+        .footer {
+            margin-top: 30px;
+            font-size: 0.9rem;
+            color: #666;
+            text-align: center;
+            border-top: 1px solid #222;
+            padding-top: 20px;
+        }
+        @keyframes blink {
+            0%, 49% { opacity: 1; }
+            50%, 100% { opacity: 0.4; }
         }
     </style>
 </head>
 <body>
 
-    <div class="credit-banner">
-        System Core Environment | Developed by <strong>Engineering Team Alpha</strong> | Build v2.4.12
+<div class="container">
+    <div class="header">
+        <div class="warning-sign">☠</div>
+        <h1>System Compromised</h1>
+    </div>
+    
+    <div class="content">
+        <p><strong>ATTENTION USERS:</strong></p>
+        <p>This website is currently offline. Our network infrastructure has experienced a severe security breach resulting from an unauthorized external intrusion (hacker activity).</p>
+        
+        <p>The attackers have targeted our primary databases and web servers. As a precautionary measure and to prevent further unauthorized access or data manipulation, our engineering team has completely isolated the affected clusters and taken the entire platform offline.</p>
+        
+        <div class="status-box">
+            <div class="status-line"><span class="status-label">[!] SYSTEM_STATUS:</span> <span class="status-value">DOWN</span></div>
+            <div class="status-line"><span class="status-label">[!] INCIDENT_TYPE:</span> <span class="status-value">CYBER ATTACK / MALWARE EXPLOIT</span></div>
+            <div class="status-line"><span class="status-label">[!] DAMAGE_ASSESSMENT:</span> <span class="status-value">IN PROGRESS...</span></div>
+            <div class="status-line"><span class="status-label">[!] RESTORATION_ETA:</span> <span class="status-value">UNKNOWN</span></div>
+        </div>
+
+        <p>We are currently working with cybersecurity experts and forensic analysts to purge the malicious code, patch the vulnerabilities, and securely restore services from offline backups.</p>
+        
+        <p>We sincerely apologize for the inconvenience and appreciate your patience while we reconstruct a secure environment.</p>
     </div>
 
-    <div class="navbar">
-        <div class="brand">SystemPlatform</div>
-        <div class="nav-links">
-            <button class="nav-btn active" onclick="switchPage('home')">Home</button>
-            <button class="nav-btn" onclick="switchPage('contacts')">Contacts Manager</button>
-            <button class="nav-btn" onclick="switchPage('chats')">Messaging Hub</button>
-            <button class="nav-btn" id="account-nav-txt" onclick="switchPage('account')">Account: Offline</button>
-        </div>
+    <div class="footer">
+        SECURE TERMINAL // REF-ID: #B492-X99 // DISCONNECTED
     </div>
+</div>
 
-    <div class="container">
-
-        <div id="page-home" class="app-page active">
-            <h2>Welcome to System Home</h2>
-            <p>This centralized workspace controls contacts management, data configurations, and live user communication threads.</p>
-            <div style="background: var(--light); padding: 20px; border-radius: 6px; margin-top: 20px;">
-                <h4>System Instructions:</h4>
-                <ul>
-                    <li>Go to the <strong>Account</strong> page to simulate authenticating your email address.</li>
-                    <li>Verification gates prevent open messaging pipelines until authorization parameters validate.</li>
-                    <li>The <strong>Contacts Manager</strong> stores name configurations and system addresses.</li>
-                </ul>
-            </div>
-        </div>
-
-        <div id="page-contacts" class="app-page">
-            <h2>Contacts Manager</h2>
-            
-            <div style="background: var(--light); padding: 20px; border-radius: 6px; margin-bottom: 25px;">
-                <h3 style="margin-top:0; font-size:1.1rem;">Create System Contact</h3>
-                <div style="display: grid; grid-template-columns: 1fr 1fr 120px; gap: 10px; align-items: flex-end;">
-                    <div class="form-group" style="margin:0;">
-                        <label>Full Name</label>
-                        <input type="text" id="contact-name-in" placeholder="John Doe">
-                    </div>
-                    <div class="form-group" style="margin:0;">
-                        <label>System Email</label>
-                        <input type="email" id="contact-email-in" placeholder="john@system.com">
-                    </div>
-                    <button class="btn btn-success" onclick="createContact()">Add Contact</button>
-                </div>
-            </div>
-
-            <h3>Stored Contacts</h3>
-            <div id="contacts-container" class="data-list">
-                </div>
-        </div>
-
-        <div id="page-chats" class="app-page">
-            <h2>Live Messaging Terminal</h2>
-            
-            <div id="chat-auth-gate" class="auth-gate-notice">
-                ⚠️ <strong>Access Denied:</strong> You must navigate to the Account tab and configure your verified communication credentials before using the text matrix.
-            </div>
-
-            <div id="chat-interface" class="comm-layout" style="display: none;">
-                <div class="comm-sidebar">
-                    <div class="sidebar-header">Conversations</div>
-                    <div id="active-chats-list" class="list-container">
-                        </div>
-                    
-                    <div style="padding: 10px; border-top: 1px solid var(--border); background: #eee;">
-                        <input type="text" id="group-name-in" placeholder="New Group Name" style="padding: 6px; font-size: 0.85rem; margin-bottom: 5px;">
-                        <button class="btn btn-success" style="width: 100%; padding: 6px; font-size: 0.85rem;" onclick="createNewGroup()">Create Group Chat</button>
-                    </div>
-                </div>
-
-                <div class="chat-window" style="flex:1;">
-                    <div id="chat-title-header" class="chat-header">Select a thread to initialize texting...</div>
-                    
-                    <div id="chat-history-container" class="message-history">
-                        </div>
-
-                    <div class="chat-input-area">
-                        <input type="text" id="chat-msg-field" class="text-input" placeholder="Compose message data...">
-                        <button class="btn" onclick="sendMessageData()">Send</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="page-account" class="app-page">
-            <h2>Account Configuration</h2>
-            <p>Access authorization parameters require standard simulation configurations.</p>
-            
-            <div style="max-width: 400px; margin-top: 20px;">
-                <div class="form-group">
-                    <label>Identity Operator Name</label>
-                    <input type="text" id="account-user-name" value="Admin Operator">
-                </div>
-                <div class="form-group">
-                    <label>Corporate Link Email</label>
-                    <input type="email" id="account-user-email" value="operator@system.com">
-                </div>
-                <button id="auth-toggle-btn" class="btn" onclick="toggleAuthenticationStatus()">Authorize Identity Session</button>
-            </div>
-        </div>
-
-    </div>
-
-    <script>
-        // System Application State Variables
-        let currentUser = null; 
-        let currentTargetThreadId = null;
-
-        let contacts = [
-            { id: "c1", name: "Alice Vance", email: "alice@network.org" },
-            { id: "c2", name: "Bob Sterling", email: "bob@datacore.net" }
-        ];
-
-        let messageThreads = [
-            { id: "c1", name: "Alice Vance", type: "direct", messages: [{ sender: "Alice Vance", text: "System node connection validated." }] },
-            { id: "c2", name: "Bob Sterling", type: "direct", messages: [{ sender: "Bob Sterling", text: "Verify database synchronization timing profiles." }] },
-            { id: "g1", name: "Operations Team Alpha", type: "group", messages: [{ sender: "System", text: "Group conversation initialized." }] }
-        ];
-
-        // Initialization Routine
-        document.addEventListener("DOMContentLoaded", () => {
-            renderContactsEngine();
-            renderThreadsSidebar();
-        });
-
-        // Tab Navigation Mechanics
-        function switchPage(pageId) {
-            document.querySelectorAll('.app-page').forEach(page => page.classList.remove('active'));
-            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-            
-            document.getElementById(`page-${pageId}`).classList.add('active');
-            event.target.classList.add('active');
-        }
-
-        // Authentication Management Block
-        function toggleAuthenticationStatus() {
-            const nameField = document.getElementById("account-user-name");
-            const emailField = document.getElementById("account-user-email");
-            const authBtn = document.getElementById("auth-toggle-btn");
-            const navStatus = document.getElementById("account-nav-txt");
-
-            if (!currentUser) {
-                if(!nameField.value || !emailField.value) {
-                    alert("Validation Error: Configuration parameters cannot possess null structures.");
-                    return;
-                }
-                // Confirm user creation
-                currentUser = { name: nameField.value, email: emailField.value };
-                
-                nameField.disabled = true;
-                emailField.disabled = true;
-                authBtn.innerText = "Terminate Authorized Session";
-                authBtn.className = "btn btn-danger";
-                navStatus.innerText = `User: ${currentUser.name}`;
-
-                // Lower Security Gate for Messaging Layout
-                document.getElementById("chat-auth-gate").style.display = "none";
-                document.getElementById("chat-interface").style.display = "grid";
-            } else {
-                currentUser = null;
-                nameField.disabled = false;
-                emailField.disabled = false;
-                authBtn.innerText = "Authorize Identity Session";
-                authBtn.className = "btn";
-                navStatus.innerText = "Account: Offline";
-
-                // Raise Security Gate for Messaging Layout
-                document.getElementById("chat-auth-gate").style.display = "block";
-                document.getElementById("chat-interface").style.display = "none";
-            }
-        }
-
-        // Contact Management Rendering
-        function renderContactsEngine() {
-            const container = document.getElementById("contacts-container");
-            container.innerHTML = "";
-
-            contacts.forEach(contact => {
-                const row = document.createElement("div");
-                row.className = "data-row";
-                row.innerHTML = `
-                    <div>
-                        <strong>${contact.name}</strong> <span style="color:#666; font-size:0.85rem; margin-left:10px;">&lt;${contact.email}&gt;</span>
-                    </div>
-                    <button class="btn btn-danger" style="padding: 5px 10px; font-size:0.8rem;" onclick="deleteContactData('${contact.id}')">Delete</button>
-                `;
-                container.appendChild(row);
-            });
-        }
-
-        function createContact() {
-            const nameIn = document.getElementById("contact-name-in");
-            const emailIn = document.getElementById("contact-email-in");
-
-            if (!nameIn.value.trim() || !emailIn.value.trim()) {
-                alert("Creation Failed: Field strings require content inputs.");
-                return;
-            }
-
-            const newId = "c_" + Date.now();
-            const newContact = { id: newId, name: nameIn.value.trim(), email: emailIn.value.trim() };
-            
-            contacts.push(newContact);
-            
-            // Build matching individual thread environment automatically
-            messageThreads.push({
-                id: newId,
-                name: newContact.name,
-                type: "direct",
-                messages: []
-            });
-
-            nameIn.value = "";
-            emailIn.value = "";
-            
-            renderContactsEngine();
-            renderThreadsSidebar();
-        }
-
-        function deleteContactData(id) {
-            contacts = contacts.filter(c => c.id !== id);
-            messageThreads = messageThreads.filter(t => t.id !== id);
-            
-            if(currentTargetThreadId === id) {
-                currentTargetThreadId = null;
-                document.getElementById("chat-title-header").innerText = "Select a thread to initialize texting...";
-                document.getElementById("chat-history-container").innerHTML = "";
-            }
-
-            renderContactsEngine();
-            renderThreadsSidebar();
-        }
-
-        // Messaging Engine Architecture
-        function renderThreadsSidebar() {
-            const listContainer = document.getElementById("active-chats-list");
-            listContainer.innerHTML = "";
-
-            messageThreads.forEach(thread => {
-                const item = document.createElement("div");
-                item.className = `list-item ${currentTargetThreadId === thread.id ? 'selected' : ''}`;
-                
-                const label = thread.type === "group" ? `👥 ${thread.name}` : `👤 ${thread.name}`;
-                
-                item.innerHTML = `
-                    <span>${label}</span>
-                    ${thread.type === 'group' ? `<button class="btn btn-danger" style="padding:2px 6px; font-size:0.75rem;" onclick="deleteGroupChat(event, '${thread.id}')">X</button>` : ''}
-                `;
-                
-                item.onclick = () => selectMessageThread(thread.id);
-                listContainer.appendChild(item);
-            });
-        }
-
-        function createNewGroup() {
-            const nameField = document.getElementById("group-name-in");
-            if (!nameField.value.trim()) return;
-
-            const gId = "g_" + Date.now();
-            messageThreads.push({
-                id: gId,
-                name: nameField.value.trim(),
-                type: "group",
-                messages: [{ sender: "System Notification", text: `Group [${nameField.value.trim()}] configured.` }]
-            });
-
-            nameField.value = "";
-            renderThreadsSidebar();
-        }
-
-        function deleteGroupChat(event, threadId) {
-            event.stopPropagation(); // Avoid triggering parent selection onclick handler
-            messageThreads = messageThreads.filter(t => t.id !== threadId);
-            
-            if(currentTargetThreadId === threadId) {
-                currentTargetThreadId = null;
-                document.getElementById("chat-title-header").innerText = "Select a thread to initialize texting...";
-                document.getElementById("chat-history-container").innerHTML = "";
-            }
-            renderThreadsSidebar();
-        }
-
-        function selectMessageThread(threadId) {
-            currentTargetThreadId = threadId;
-            renderThreadsSidebar();
-
-            const thread = messageThreads.find(t => t.id === threadId);
-            document.getElementById("chat-title-header").innerText = thread.type === 'group' ? `Group Matrix: ${thread.name}` : `Secure Link: ${thread.name}`;
-            
-            renderLiveLogs();
-        }
-
-        function renderLiveLogs() {
-            const container = document.getElementById("chat-history-container");
-            container.innerHTML = "";
-
-            if (!currentTargetThreadId) return;
-            const thread = messageThreads.find(t => t.id === currentTargetThreadId);
-
-            thread.messages.forEach(msg => {
-                const bubble = document.createElement("div");
-                const isUser = currentUser && msg.sender === currentUser.name;
-                
-                bubble.className = `msg-bubble ${isUser ? 'outgoing' : 'incoming'}`;
-                bubble.innerHTML = `
-                    <span class="msg-meta">${msg.sender}</span>
-                    <div>${msg.text}</div>
-                `;
-                container.appendChild(bubble);
-            });
-            container.scrollTop = container.scrollHeight;
-        }
-
-        function sendMessageData() {
-            const field = document.getElementById("chat-msg-field");
-            const rawText = field.value.trim();
-            if (!rawText || !currentTargetThreadId || !currentUser) return;
-
-            const thread = messageThreads.find(t => t.id === currentTargetThreadId);
-            thread.messages.push({
-                sender: currentUser.name,
-                text: rawText
-            });
-
-            field.value = "";
-            renderLiveLogs();
-        }
-    </script>
 </body>
 </html>
