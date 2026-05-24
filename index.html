@@ -3,198 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>System Standby | Shutdown Mode</title>
+    <title>System Management Console</title>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
         body {
-            background-color: #0b0c10;
-            color: #c5c6c7;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #f8f9fa;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            overflow: hidden;
-            transition: background-color 2s ease;
+            height: 100vh;
+            margin: 0;
         }
-
-        /* Ambient background glow */
-        .glow-overlay {
-            position: absolute;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(102, 252, 241, 0.05) 0%, rgba(0,0,0,0) 70%);
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        .container {
-            text-align: center;
-            z-index: 2;
-            padding: 2rem;
-        }
-
-        /* Power Icon & Animation */
-        .power-wrapper {
-            position: relative;
-            width: 100px;
-            height: 100px;
-            margin: 0 auto 2rem;
-            cursor: pointer;
-        }
-
-        .power-ring {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: 4px solid #1f2833;
-            border-radius: 50%;
-            transition: all 0.5s ease;
-        }
-
-        .power-wrapper:hover .power-ring {
-            border-color: #66fcf1;
-            box-shadow: 0 0 20px rgba(102, 252, 241, 0.4);
-            transform: scale(1.05);
-        }
-
-        .power-icon {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 30px;
-            height: 30px;
-            fill: #45f3ff;
-            transition: fill 0.5s ease;
-        }
-
-        /* Typography */
-        h1 {
-            font-size: 1.8rem;
-            font-weight: 400;
-            letter-spacing: 2px;
-            color: #fff;
-            margin-bottom: 0.5rem;
-            transition: opacity 1s;
-        }
-
-        p {
-            font-size: 1rem;
-            color: #66fcf1;
-            opacity: 0.8;
-            margin-bottom: 2rem;
-            transition: opacity 1s;
-        }
-
-        /* System Logs / Status Box */
-        .status-box {
-            background: rgba(31, 40, 51, 0.4);
-            border: 1px solid rgba(102, 252, 241, 0.1);
+        .console-container {
+            background: #ffffff;
+            padding: 30px;
             border-radius: 8px;
-            padding: 1rem;
-            max-width: 300px;
-            margin: 0 auto;
-            font-family: monospace;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 450px;
+            width: 100%;
+        }
+        h2 {
+            color: #333333;
+            margin-top: 0;
+        }
+        hr {
+            border: 0;
+            height: 1px;
+            background: #e0e0e0;
+            margin: 20px 0;
+        }
+        .timer-section {
+            margin: 20px 0;
+        }
+        .timer-label {
+            font-size: 0.9rem;
+            color: #666666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        #countdown-display {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #dc3545;
+            letter-spacing: 2px;
+            margin-top: 5px;
+        }
+        /* System Messaging / Texting Box */
+        .message-stream {
+            background-color: #1e1e1e;
+            color: #00ff00;
+            font-family: "Courier New", Courier, monospace;
             font-size: 0.85rem;
             text-align: left;
-            color: #858585;
+            padding: 15px;
+            border-radius: 5px;
+            height: 120px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            border: 1px solid #333;
         }
-
-        .status-line {
-            margin-bottom: 0.25rem;
-            display: flex;
-            justify-content: space-between;
+        .message-line {
+            margin-bottom: 6px;
+            line-height: 1.2;
         }
-
-        .status-line span.done {
-            color: #66fcf1;
+        .timestamp {
+            color: #888888;
+            margin-right: 8px;
         }
-
-        /* Triggered Shutdown State */
-        body.is-shutting-down {
-            background-color: #000;
+        .action-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.2s ease;
         }
-
-        body.is-shutting-down .power-ring {
-            animation: pulse 1s infinite alternate;
-            border-color: #ff4d4d;
-            box-shadow: 0 0 25px rgba(255, 77, 77, 0.6);
+        .action-btn:hover {
+            background-color: #0056b3;
         }
-
-        body.is-shutting-down .power-icon {
-            fill: #ff4d4d;
-        }
-
-        @keyframes pulse {
-            from { transform: scale(1); opacity: 1; }
-            to { transform: scale(1.1); opacity: 0.6; }
+        .action-btn:disabled {
+            background-color: #6c757d;
+            cursor: not-allowed;
         }
     </style>
 </head>
 <body>
 
-    <div class="glow-overlay"></div>
-
-    <div class="container">
-        <!-- Clickable Power Button -->
-        <div class="power-wrapper" id="powerBtn" onclick="initiateShutdown()">
-            <div class="power-ring"></div>
-            <!-- SVG Power Icon -->
-            <svg class="power-icon" viewBox="0 0 24 24">
-                <path d="M16.56,5.44L15.11,6.89C16.84,7.94 18,9.83 18,12A6,6 0 0,1 12,18A6,6 0 0,1 6,12C6,9.83 7.16,7.94 8.88,6.88L7.44,5.44C5.18,7.17 3.6,9.9 3.6,13A8.4,8.4 0 0,0 12,21.4A8.4,8.4 0 0,0 20.4,13C20.4,9.9 18.82,7.17 16.56,5.44M11,3H13V13H11V3Z" />
-            </svg>
+    <div class="console-container">
+        <h2>System Control Panel</h2>
+        <hr>
+        
+        <div class="timer-section">
+            <div class="timer-label">Time Remaining Until 1:00 PM Shutdown</div>
+            <div id="countdown-display">Calculating...</div>
         </div>
 
-        <h1 id="headline">SYSTEM READY</h1>
-        <p id="subline">Click power to initiate shutdown mode</p>
+        <hr>
 
-        <!-- Status Check List -->
-        <div class="status-box" id="statusBox">
-            <div class="status-line">User session... <span class="done">ACTIVE</span></div>
-            <div class="status-line">Background tasks... <span class="done">IDLE</span></div>
-            <div class="status-line">Network cache... <span class="done">READY</span></div>
-        </div>
+        <div class="timer-label" style="text-align: left; margin-bottom: 5px;">System Alerts & Logs</div>
+        <div id="system-messages" class="message-stream">
+            <div class="message-line"><span class="timestamp">[11:35:01]</span>System initialized.</div>
+            <div class="message-line"><span class="timestamp">[11:35:02]</span>Awaiting manual synchronization hook...</div>
+            </div>
+
+        <button id="shutdown-trigger" class="action-btn">
+            Apply 1:00 PM Switch Rule
+        </button>
     </div>
 
-    <script>
-        function initiateShutdown() {
-            const body = document.body;
-            const headline = document.getElementById('headline');
-            const subline = document.getElementById('subline');
-            const statusBox = document.getElementById('statusBox');
-            
-            // Add shutdown class to trigger animations
-            body.classList.add('is-shutting-down');
-            
-            // Dynamic text updates
-            headline.textContent = "SHUTTING DOWN";
-            subline.textContent = "Safely closing processes...";
-            subline.style.color = "#ff4d4d";
-
-            // Simulate updating terminal logs
-            statusBox.innerHTML = `
-                <div class="status-line">Saving user state... <span style="color: #ff4d4d;">SAVED</span></div>
-                <div class="status-line">Terminating daemons... <span style="color: #ff4d4d;">OK</span></div>
-                <div class="status-line">Clearing system VRAM... <span style="color: #ff4d4d;">100%</span></div>
-            `;
-
-            // Fade completely to black after 2.5 seconds
-            setTimeout(() => {
-                document.querySelector('.container').style.opacity = '0';
-                document.querySelector('.glow-overlay').style.opacity = '0';
-            }, 2500);
-        }
-    </script>
+    <script src="app.js"></script>
 </body>
 </html>
