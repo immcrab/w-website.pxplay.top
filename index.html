@@ -1,130 +1,311 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SYSTEM CRITICAL - ACCESS DENIED</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        body {
-            background-color: #050505;
-            color: #00ff33;
-            font-family: 'Courier New', Courier, monospace;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            overflow: hidden;
-            padding: 20px;
-        }
-        .container {
-            max-width: 700px;
-            width: 100%;
-            border: 2px solid #00ff33;
-            background-color: #0a0a0a;
-            padding: 40px;
-            box-shadow: 0 0 20px rgba(0, 255, 51, 0.2);
-            position: relative;
-        }
-        .container::before {
-            content: " ";
-            display: block;
-            position: absolute;
-            top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            z-index: 2;
-            background-size: 100% 2px, 3px 100%;
-            pointer-events: none;
-        }
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            border-bottom: 2px dashed #00ff33;
-            padding-bottom: 20px;
-        }
-        h1 {
-            font-size: 2rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            animation: blink 1.5s infinite;
-        }
-        .warning-sign {
-            font-size: 4rem;
-            color: #ff3333;
-            margin-bottom: 10px;
-        }
-        .content {
-            font-size: 1.1rem;
-            line-height: 1.6;
-        }
-        p {
-            margin-bottom: 20px;
-        }
-        .status-box {
-            background-color: #141414;
-            border-left: 4px solid #ff3333;
-            padding: 15px;
-            margin: 25px 0;
-            font-family: monospace;
-        }
-        .status-line {
-            margin-bottom: 5px;
-        }
-        .status-label {
-            color: #888;
-        }
-        .status-value {
-            color: #ff3333;
-            font-weight: bold;
-        }
-        .footer {
-            margin-top: 30px;
-            font-size: 0.9rem;
-            color: #666;
-            text-align: center;
-            border-top: 1px solid #222;
-            padding-top: 20px;
-        }
-        @keyframes blink {
-            0%, 49% { opacity: 1; }
-            50%, 100% { opacity: 0.4; }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>We're Updating</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0a;
+      --fg: #f0ece4;
+      --accent: #e8c547;
+      --dim: #555;
+      --bar-bg: #1c1c1c;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Grain overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.04;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    /* Ambient glow */
+    .glow {
+      position: fixed;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(232,197,71,0.08) 0%, transparent 70%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation: pulse 5s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+    }
+
+    /* Grid lines */
+    .grid-lines {
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+    }
+
+    /* Main container */
+    .container {
+      position: relative;
+      z-index: 2;
+      max-width: 780px;
+      width: 90%;
+      padding: 0 1rem;
+      animation: fadeUp 1s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Tag */
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bar-bg);
+      border: 1px solid #2a2a2a;
+      color: var(--accent);
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 2px;
+      margin-bottom: 2rem;
+      animation: fadeUp 1s 0.15s ease both;
+    }
+
+    .dot {
+      width: 7px;
+      height: 7px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: blink 1.4s ease-in-out infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.2; }
+    }
+
+    /* Headline */
+    h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(4rem, 11vw, 8.5rem);
+      line-height: 0.92;
+      letter-spacing: 0.01em;
+      color: var(--fg);
+      animation: fadeUp 1s 0.25s ease both;
+    }
+
+    h1 span {
+      color: var(--accent);
+      display: block;
+    }
+
+    /* Subtext */
+    .sub {
+      margin-top: 2rem;
+      font-size: clamp(0.95rem, 2vw, 1.1rem);
+      color: #9a9590;
+      font-weight: 300;
+      line-height: 1.7;
+      max-width: 480px;
+      animation: fadeUp 1s 0.35s ease both;
+    }
+
+    /* Divider */
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(to right, #2a2a2a, var(--accent), #2a2a2a);
+      margin: 2.5rem 0;
+      animation: fadeUp 1s 0.45s ease both;
+    }
+
+    /* Progress */
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.6rem;
+      animation: fadeUp 1s 0.5s ease both;
+    }
+
+    .progress-label span {
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--dim);
+    }
+
+    .progress-label strong {
+      font-size: 0.85rem;
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    .bar-track {
+      width: 100%;
+      height: 3px;
+      background: var(--bar-bg);
+      border-radius: 2px;
+      overflow: hidden;
+      animation: fadeUp 1s 0.55s ease both;
+    }
+
+    .bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(to right, #b8962e, var(--accent));
+      border-radius: 2px;
+      animation: loadBar 2.5s 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    @keyframes loadBar {
+      to { width: 73%; }
+    }
+
+    /* Checklist */
+    .items {
+      list-style: none;
+      margin-top: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+      animation: fadeUp 1s 0.65s ease both;
+    }
+
+    .items li {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.9rem;
+      color: #888;
+      font-weight: 300;
+    }
+
+    .items li.done { color: var(--fg); }
+
+    .check {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 1px solid var(--dim);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 0.6rem;
+    }
+
+    .done .check {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #000;
+    }
+
+    .active .check {
+      border-color: var(--accent);
+      animation: spin-ring 1.5s linear infinite;
+    }
+
+    @keyframes spin-ring {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Footer note */
+    .footer-note {
+      margin-top: 3rem;
+      font-size: 0.78rem;
+      color: var(--dim);
+      letter-spacing: 0.04em;
+      animation: fadeUp 1s 0.75s ease both;
+    }
+
+    .footer-note a {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(232,197,71,0.3);
+      padding-bottom: 1px;
+      transition: border-color 0.2s;
+    }
+
+    .footer-note a:hover { border-color: var(--accent); }
+  </style>
 </head>
 <body>
+  <div class="glow"></div>
+  <div class="grid-lines"></div>
 
-<div class="container">
-    <div class="header">
-        <div class="warning-sign">☠</div>
-        <h1>System Compromised</h1>
+  <div class="container">
+    <div class="tag"><span class="dot"></span> Site Maintenance</div>
+
+    <h1>We're<span>Updating.</span></h1>
+
+    <p class="sub">
+      We're making some improvements behind the scenes — tweaking things, fixing stuff, and polishing the experience. We'll be back before you know it.
+    </p>
+
+    <div class="divider"></div>
+
+    <div class="progress-label">
+      <span>Overall progress</span>
+      <strong>73%</strong>
     </div>
-    
-    <div class="content">
-        <p><strong>ATTENTION USERS:</strong></p>
-        <p>This website is currently offline. Our network infrastructure has experienced a severe security breach resulting from an unauthorized external intrusion (hacker activity).</p>
-        
-        <p>The attackers have targeted our primary databases and web servers. As a precautionary measure and to prevent further unauthorized access or data manipulation, our engineering team has completely isolated the affected clusters and taken the entire platform offline.</p>
-        
-        <div class="status-box">
-            <div class="status-line"><span class="status-label">[!] SYSTEM_STATUS:</span> <span class="status-value">DOWN</span></div>
-            <div class="status-line"><span class="status-label">[!] INCIDENT_TYPE:</span> <span class="status-value">CYBER ATTACK / MALWARE EXPLOIT</span></div>
-            <div class="status-line"><span class="status-label">[!] DAMAGE_ASSESSMENT:</span> <span class="status-value">IN PROGRESS...</span></div>
-            <div class="status-line"><span class="status-label">[!] RESTORATION_ETA:</span> <span class="status-value">UNKNOWN</span></div>
-        </div>
-
-        <p>We are currently working with cybersecurity experts and forensic analysts to purge the malicious code, patch the vulnerabilities, and securely restore services from offline backups.</p>
-        
-        <p>We sincerely apologize for the inconvenience and appreciate your patience while we reconstruct a secure environment.</p>
+    <div class="bar-track">
+      <div class="bar-fill"></div>
     </div>
 
-    <div class="footer">
-        SECURE TERMINAL // REF-ID: #B492-X99 // DISCONNECTED
-    </div>
-</div>
+    <ul class="items">
+      <li class="done">
+        <span class="check">✓</span>
+        Design overhaul &amp; new layout
+      </li>
+      <li class="done">
+        <span class="check">✓</span>
+        Performance optimizations
+      </li>
+      <li class="active">
+        <span class="check">◌</span>
+        Content updates &amp; new pages
+      </li>
+      <li>
+        <span class="check"></span>
+        Final testing &amp; QA review
+      </li>
+    </ul>
 
+    <p class="footer-note">
+      Questions? Drop us a line at <a href="mailto:hello@example.com">hello@example.com</a>
+    </p>
+  </div>
 </body>
 </html>
