@@ -3,309 +3,345 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>We're Updating</title>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <title>Nexus Web Development — Coming Soon</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Syne:wght@400;500;600&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #0a0a0a;
-      --fg: #f0ece4;
-      --accent: #e8c547;
-      --dim: #555;
-      --bar-bg: #1c1c1c;
+      --bg: #050810;
+      --surface: #0b1120;
+      --accent: #00e5ff;
+      --accent2: #7b2fff;
+      --text: #e8eaf6;
+      --muted: #6b7aaa;
+      --glow: 0 0 30px rgba(0, 229, 255, 0.35);
     }
 
-    body {
+    html, body {
+      height: 100%;
       background: var(--bg);
-      color: var(--fg);
-      font-family: 'DM Sans', sans-serif;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      position: relative;
+      color: var(--text);
+      font-family: 'Syne', sans-serif;
+      overflow-x: hidden;
     }
 
-    /* Grain overlay */
+    /* Animated grid background */
     body::before {
       content: '';
       position: fixed;
       inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-      opacity: 0.04;
-      pointer-events: none;
-      z-index: 10;
-    }
-
-    /* Ambient glow */
-    .glow {
-      position: fixed;
-      width: 600px;
-      height: 600px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(232,197,71,0.08) 0%, transparent 70%);
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      animation: pulse 5s ease-in-out infinite;
-      pointer-events: none;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
-      50% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
-    }
-
-    /* Grid lines */
-    .grid-lines {
-      position: fixed;
-      inset: 0;
       background-image:
-        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+        linear-gradient(rgba(0,229,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,229,255,0.04) 1px, transparent 1px);
       background-size: 60px 60px;
+      animation: gridDrift 20s linear infinite;
       pointer-events: none;
+      z-index: 0;
     }
 
-    /* Main container */
+    @keyframes gridDrift {
+      0% { background-position: 0 0; }
+      100% { background-position: 60px 60px; }
+    }
+
+    /* Radial glow blobs */
+    .blob {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.18;
+      pointer-events: none;
+      z-index: 0;
+      animation: blobFloat 8s ease-in-out infinite alternate;
+    }
+    .blob-1 { width: 600px; height: 600px; background: var(--accent2); top: -150px; left: -150px; }
+    .blob-2 { width: 500px; height: 500px; background: var(--accent); bottom: -120px; right: -120px; animation-delay: -4s; }
+
+    @keyframes blobFloat {
+      from { transform: translate(0, 0) scale(1); }
+      to   { transform: translate(30px, 20px) scale(1.08); }
+    }
+
+    /* Main layout */
     .container {
       position: relative;
-      z-index: 2;
-      max-width: 780px;
-      width: 90%;
-      padding: 0 1rem;
-      animation: fadeUp 1s ease both;
-    }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Tag */
-    .tag {
-      display: inline-flex;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 8px;
-      background: var(--bar-bg);
-      border: 1px solid #2a2a2a;
-      color: var(--accent);
-      font-size: 0.72rem;
-      font-weight: 500;
+      justify-content: center;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    /* Logo / wordmark */
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 3rem;
+      animation: fadeDown 0.9s ease both;
+    }
+
+    .logo-icon {
+      width: 52px;
+      height: 52px;
+      position: relative;
+    }
+
+    .logo-icon svg {
+      width: 100%;
+      height: 100%;
+      filter: drop-shadow(0 0 10px var(--accent));
+    }
+
+    .logo-text {
+      font-family: 'Orbitron', monospace;
+      font-size: 1.5rem;
+      font-weight: 900;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      padding: 6px 14px;
-      border-radius: 2px;
-      margin-bottom: 2rem;
-      animation: fadeUp 1s 0.15s ease both;
-    }
-
-    .dot {
-      width: 7px;
-      height: 7px;
-      background: var(--accent);
-      border-radius: 50%;
-      animation: blink 1.4s ease-in-out infinite;
-    }
-
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.2; }
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
     /* Headline */
-    h1 {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(4rem, 11vw, 8.5rem);
-      line-height: 0.92;
-      letter-spacing: 0.01em;
-      color: var(--fg);
-      animation: fadeUp 1s 0.25s ease both;
+    .headline {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(2.4rem, 7vw, 5.5rem);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      margin-bottom: 1.5rem;
+      animation: fadeDown 0.9s ease 0.15s both;
     }
 
-    h1 span {
-      color: var(--accent);
+    .headline .line-1 { display: block; color: var(--text); }
+    .headline .line-2 {
       display: block;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
-    /* Subtext */
-    .sub {
-      margin-top: 2rem;
-      font-size: clamp(0.95rem, 2vw, 1.1rem);
-      color: #9a9590;
-      font-weight: 300;
-      line-height: 1.7;
-      max-width: 480px;
-      animation: fadeUp 1s 0.35s ease both;
-    }
-
-    /* Divider */
-    .divider {
-      width: 100%;
-      height: 1px;
-      background: linear-gradient(to right, #2a2a2a, var(--accent), #2a2a2a);
-      margin: 2.5rem 0;
-      animation: fadeUp 1s 0.45s ease both;
-    }
-
-    /* Progress */
-    .progress-label {
-      display: flex;
-      justify-content: space-between;
+    /* Status badge */
+    .badge {
+      display: inline-flex;
       align-items: center;
-      margin-bottom: 0.6rem;
-      animation: fadeUp 1s 0.5s ease both;
-    }
-
-    .progress-label span {
-      font-size: 0.75rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--dim);
-    }
-
-    .progress-label strong {
-      font-size: 0.85rem;
-      color: var(--accent);
-      font-weight: 500;
-    }
-
-    .bar-track {
-      width: 100%;
-      height: 3px;
-      background: var(--bar-bg);
-      border-radius: 2px;
-      overflow: hidden;
-      animation: fadeUp 1s 0.55s ease both;
-    }
-
-    .bar-fill {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(to right, #b8962e, var(--accent));
-      border-radius: 2px;
-      animation: loadBar 2.5s 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-    }
-
-    @keyframes loadBar {
-      to { width: 73%; }
-    }
-
-    /* Checklist */
-    .items {
-      list-style: none;
-      margin-top: 2rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.9rem;
-      animation: fadeUp 1s 0.65s ease both;
-    }
-
-    .items li {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 0.9rem;
-      color: #888;
-      font-weight: 300;
-    }
-
-    .items li.done { color: var(--fg); }
-
-    .check {
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      border: 1px solid var(--dim);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      font-size: 0.6rem;
-    }
-
-    .done .check {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #000;
-    }
-
-    .active .check {
-      border-color: var(--accent);
-      animation: spin-ring 1.5s linear infinite;
-    }
-
-    @keyframes spin-ring {
-      to { transform: rotate(360deg); }
-    }
-
-    /* Footer note */
-    .footer-note {
-      margin-top: 3rem;
+      gap: 8px;
+      background: rgba(0,229,255,0.08);
+      border: 1px solid rgba(0,229,255,0.25);
+      border-radius: 100px;
+      padding: 0.4rem 1.1rem;
       font-size: 0.78rem;
-      color: var(--dim);
-      letter-spacing: 0.04em;
-      animation: fadeUp 1s 0.75s ease both;
-    }
-
-    .footer-note a {
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
       color: var(--accent);
-      text-decoration: none;
-      border-bottom: 1px solid rgba(232,197,71,0.3);
-      padding-bottom: 1px;
-      transition: border-color 0.2s;
+      margin-bottom: 3rem;
+      animation: fadeDown 0.9s ease 0.05s both;
     }
 
-    .footer-note a:hover { border-color: var(--accent); }
+    .badge-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 8px var(--accent);
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.4; transform: scale(0.8); }
+    }
+
+    /* Description card */
+    .card {
+      background: rgba(11, 17, 32, 0.75);
+      border: 1px solid rgba(0,229,255,0.12);
+      border-radius: 20px;
+      padding: 2.5rem 3rem;
+      max-width: 680px;
+      width: 100%;
+      backdrop-filter: blur(12px);
+      animation: fadeUp 0.9s ease 0.3s both;
+      box-shadow: 0 0 60px rgba(0,229,255,0.06), 0 20px 60px rgba(0,0,0,0.4);
+    }
+
+    .card p {
+      font-size: 1.05rem;
+      line-height: 1.75;
+      color: #b0bcd8;
+      margin-bottom: 1.1rem;
+    }
+
+    .card p:last-child { margin-bottom: 0; }
+
+    .card strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .highlight {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    /* Feature pills */
+    .features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem;
+      justify-content: center;
+      margin-top: 2rem;
+      animation: fadeUp 0.9s ease 0.45s both;
+    }
+
+    .pill {
+      background: rgba(123,47,255,0.12);
+      border: 1px solid rgba(123,47,255,0.3);
+      border-radius: 100px;
+      padding: 0.4rem 1rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #c4b5fd;
+      letter-spacing: 0.04em;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .pill:hover {
+      background: rgba(123,47,255,0.25);
+      border-color: rgba(123,47,255,0.6);
+    }
+
+    /* Link coming soon line */
+    .coming-link {
+      margin-top: 2.5rem;
+      font-size: 0.9rem;
+      color: var(--muted);
+      animation: fadeUp 0.9s ease 0.55s both;
+      letter-spacing: 0.03em;
+    }
+
+    .coming-link span {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    /* Footer */
+    footer {
+      position: relative;
+      z-index: 1;
+      padding: 1.5rem;
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      animation: fadeUp 0.9s ease 0.65s both;
+    }
+
+    /* Animations */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Scanline overlay */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 3px,
+        rgba(0,0,0,0.07) 3px,
+        rgba(0,0,0,0.07) 4px
+      );
+      pointer-events: none;
+      z-index: 999;
+    }
   </style>
 </head>
 <body>
-  <div class="glow"></div>
-  <div class="grid-lines"></div>
+
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
 
   <div class="container">
-    <div class="tag"><span class="dot"></span> Site Maintenance</div>
 
-    <h1>We're<span>Updating.</span></h1>
-
-    <p class="sub">
-      We're making some improvements behind the scenes — tweaking things, fixing stuff, and polishing the experience. We'll be back before you know it.
-    </p>
-
-    <div class="divider"></div>
-
-    <div class="progress-label">
-      <span>Overall progress</span>
-      <strong>73%</strong>
-    </div>
-    <div class="bar-track">
-      <div class="bar-fill"></div>
+    <div class="badge">
+      <span class="badge-dot"></span>
+      Something big is coming
     </div>
 
-    <ul class="items">
-      <li class="done">
-        <span class="check">✓</span>
-        Design overhaul &amp; new layout
-      </li>
-      <li class="done">
-        <span class="check">✓</span>
-        Performance optimizations
-      </li>
-      <li class="active">
-        <span class="check">◌</span>
-        Content updates &amp; new pages
-      </li>
-      <li>
-        <span class="check"></span>
-        Final testing &amp; QA review
-      </li>
-    </ul>
+    <div class="logo">
+      <div class="logo-icon">
+        <svg viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="26,4 48,16 48,36 26,48 4,36 4,16" stroke="#00e5ff" stroke-width="2" fill="rgba(0,229,255,0.06)"/>
+          <polygon points="26,12 40,20 40,32 26,40 12,32 12,20" stroke="#7b2fff" stroke-width="1.5" fill="rgba(123,47,255,0.08)"/>
+          <circle cx="26" cy="26" r="6" fill="#00e5ff" opacity="0.9"/>
+          <line x1="26" y1="4"  x2="26" y2="20" stroke="#00e5ff" stroke-width="1.2" opacity="0.5"/>
+          <line x1="26" y1="32" x2="26" y2="48" stroke="#00e5ff" stroke-width="1.2" opacity="0.5"/>
+          <line x1="4"  y1="16" x2="18" y2="22" stroke="#00e5ff" stroke-width="1.2" opacity="0.5"/>
+          <line x1="34" y1="30" x2="48" y2="36" stroke="#00e5ff" stroke-width="1.2" opacity="0.5"/>
+          <line x1="48" y1="16" x2="34" y2="22" stroke="#00e5ff" stroke-width="1.2" opacity="0.5"/>
+          <line x1="18" y1="30" x2="4"  y2="36" stroke="#00e5ff" stroke-width="1.2" opacity="0.5"/>
+        </svg>
+      </div>
+      <span class="logo-text">Nexus Web Dev</span>
+    </div>
 
-    <p class="footer-note">
-      Questions? Drop us a line at <a href="mailto:hello@example.com">wwebsiteofficial@outlook.com</a>
+    <h1 class="headline">
+      <span class="line-1">We're Taking a</span>
+      <span class="line-2">New Direction.</span>
+    </h1>
+
+    <div class="card">
+      <p>
+        This website is currently on <strong>pause</strong> — and for a great reason.
+        With school officially wrapped up, we're channeling all our energy into something
+        much bigger: <span class="highlight">Nexus Web Development</span>.
+      </p>
+      <p>
+        Nexus is our brand-new venture — a full web app builder where you can create
+        stunning websites and applications <strong>without needing credits just to get started</strong>.
+        Think the power of platforms like Base44 and Lovable, but more accessible from day one.
+      </p>
+      <p>
+        We'll also be <strong>building custom websites for clients</strong> — so whether you need
+        a landing page, a portfolio, or a full product, we've got you covered.
+      </p>
+    </div>
+
+    <div class="features">
+      <span class="pill">⚡ No upfront credits</span>
+      <span class="pill">🚀 Full web app builder</span>
+      <span class="pill">🎨 Custom website design</span>
+      <span class="pill">🔗 Client websites</span>
+      <span class="pill">✨ Built for everyone</span>
+    </div>
+
+    <p class="coming-link">
+      🔗 The link to our new website is <span>coming very soon</span> — stay tuned.
     </p>
+
   </div>
+
+  <footer>
+    &copy; 2025 Nexus Web Development &nbsp;·&nbsp; Big things take time.
+  </footer>
+
 </body>
 </html>
