@@ -450,46 +450,78 @@
 
   <script>
     function updateCountdown() {
-      // Create a target time at 2:00 PM Central Time (Saint Paul) today
-      const now = new Date();
-      
-      // Convert to Central Time
-      const centralTime = new Date(now.toLocaleString('en-US', { timeZone: 'America/Chicago' }));
-      
-      // Set target to 2:00 PM today (14:00)
-      const target = new Date(centralTime);
-      target.setHours(14, 0, 0, 0);
-      
-      // If 2 PM has already passed, set target for tomorrow
-      if (centralTime > target) {
-        target.setDate(target.getDate() + 1);
-      }
-      
-      // Calculate time difference
-      const diff = target - centralTime;
-      
-      if (diff > 0) {
-        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-        const minutes = Math.floor((diff / (1000 * 60)) % 60);
-        const seconds = Math.floor((diff / 1000) % 60);
+      try {
+        // Get current time in Central Time
+        const formatter = new Intl.DateTimeFormat('en-US', {
+          timeZone: 'America/Chicago',
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: false
+        });
         
-        // Update display with leading zeros
-        document.getElementById('hours').textContent = String(hours).padStart(2, '0');
-        document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
-        document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
-      } else {
-        // Time's up!
-        document.getElementById('hours').textContent = '00';
-        document.getElementById('minutes').textContent = '00';
-        document.getElementById('seconds').textContent = '00';
+        const parts = formatter.formatToParts(new Date());
+        const partsObj = {};
+        parts.forEach(part => {
+          partsObj[part.type] = part.value;
+        });
+        
+        const year = parseInt(partsObj.year);
+        const month = parseInt(partsObj.month) - 1;
+        const day = parseInt(partsObj.day);
+        const hour = parseInt(partsObj.hour);
+        const minute = parseInt(partsObj.minute);
+        const second = parseInt(partsObj.second);
+        
+        // Create current time in CT
+        const now = new Date(year, month, day, hour, minute, second);
+        
+        // Create target: 2:00 PM CT today
+        let target = new Date(year, month, day, 14, 0, 0);
+        
+        // If 2 PM has passed, target is tomorrow at 2 PM
+        if (now > target) {
+          target = new Date(year, month, day + 1, 14, 0, 0);
+        }
+        
+        const diff = target - now;
+        
+        if (diff > 0) {
+          const totalSeconds = Math.floor(diff / 1000);
+          const hours = Math.floor(totalSeconds / 3600);
+          const minutes = Math.floor((totalSeconds % 3600) / 60);
+          const seconds = totalSeconds % 60;
+          
+          const hoursEl = document.getElementById('hours');
+          const minutesEl = document.getElementById('minutes');
+          const secondsEl = document.getElementById('seconds');
+          
+          if (hoursEl) hoursEl.textContent = String(hours).padStart(2, '0');
+          if (minutesEl) minutesEl.textContent = String(minutes).padStart(2, '0');
+          if (secondsEl) secondsEl.textContent = String(seconds).padStart(2, '0');
+        } else {
+          document.getElementById('hours').textContent = '00';
+          document.getElementById('minutes').textContent = '00';
+          document.getElementById('seconds').textContent = '00';
+        }
+      } catch (e) {
+        console.error('Timer error:', e);
       }
     }
     
-    // Update immediately on load
-    updateCountdown();
-    
-    // Update every 10 seconds
-    setInterval(updateCountdown, 10000);
+    // Ensure DOM is ready before updating
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() {
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+      });
+    } else {
+      updateCountdown();
+      setInterval(updateCountdown, 1000);
+    }
   </script>
 
 </body>
