@@ -306,6 +306,39 @@
       to   { opacity: 1; transform: translateY(0); }
     }
 
+    /* Broadcast banner */
+    .broadcast {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(90deg, rgba(123,47,255,0.15), rgba(0,229,255,0.15));
+      border-bottom: 2px solid rgba(123,47,255,0.4);
+      padding: 0.9rem 1.5rem;
+      text-align: center;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #c4b5fd;
+      letter-spacing: 0.08em;
+      z-index: 998;
+      animation: slideDown 0.8s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .broadcast span {
+      color: var(--accent);
+    }
+
+    @keyframes slideDown {
+      from { transform: translateY(-100%); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    /* Adjust container to account for broadcast */
+    .container {
+      padding-top: 5rem;
+    }
+
     /* Scanline overlay */
     body::after {
       content: '';
@@ -324,6 +357,10 @@
   </style>
 </head>
 <body>
+
+  <div class="broadcast">
+    ⚠️ <span>HEADS UP:</span> Website may contain bugs at launch — we're working hard to make it smooth!
+  </div>
 
   <div class="blob blob-1"></div>
   <div class="blob blob-2"></div>
@@ -451,8 +488,8 @@
     // Update immediately on load
     updateCountdown();
     
-    // Update every second
-    setInterval(updateCountdown, 1000);
+    // Update every 10 seconds
+    setInterval(updateCountdown, 10000);
   </script>
 
 </body>
