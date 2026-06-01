@@ -109,6 +109,55 @@
       background-clip: text;
     }
 
+    /* Countdown timer */
+    .timer-section {
+      margin-bottom: 2rem;
+      animation: fadeDown 0.9s ease 0.1s both;
+    }
+
+    .timer-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.8rem;
+    }
+
+    .timer-display {
+      display: flex;
+      gap: 1.2rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .timer-unit {
+      background: rgba(0,229,255,0.08);
+      border: 1px solid rgba(0,229,255,0.25);
+      border-radius: 12px;
+      padding: 1rem 1.5rem;
+      min-width: 90px;
+      box-shadow: 0 0 20px rgba(0,229,255,0.08);
+    }
+
+    .timer-value {
+      font-family: 'Orbitron', monospace;
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--accent);
+      line-height: 1;
+      text-shadow: 0 0 10px rgba(0,229,255,0.5);
+    }
+
+    .timer-label-small {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 0.5rem;
+    }
+
     /* Headline */
     .headline {
       font-family: 'Orbitron', monospace;
@@ -303,6 +352,25 @@
       <span class="logo-text">Nexus Web Dev</span>
     </div>
 
+    <!-- Countdown Timer -->
+    <div class="timer-section">
+      <div class="timer-label">Launching in</div>
+      <div class="timer-display">
+        <div class="timer-unit">
+          <div class="timer-value" id="hours">00</div>
+          <div class="timer-label-small">Hours</div>
+        </div>
+        <div class="timer-unit">
+          <div class="timer-value" id="minutes">00</div>
+          <div class="timer-label-small">Minutes</div>
+        </div>
+        <div class="timer-unit">
+          <div class="timer-value" id="seconds">00</div>
+          <div class="timer-label-small">Seconds</div>
+        </div>
+      </div>
+    </div>
+
     <h1 class="headline">
       <span class="line-1">We're Taking a</span>
       <span class="line-2">New Direction.</span>
@@ -342,6 +410,50 @@
   <footer>
     &copy; 2026 Nexus Web Development &nbsp;·&nbsp; Big things take time.
   </footer>
+
+  <script>
+    function updateCountdown() {
+      // Create a target time at 2:00 PM Central Time (Saint Paul) today
+      const now = new Date();
+      
+      // Convert to Central Time
+      const centralTime = new Date(now.toLocaleString('en-US', { timeZone: 'America/Chicago' }));
+      
+      // Set target to 2:00 PM today (14:00)
+      const target = new Date(centralTime);
+      target.setHours(14, 0, 0, 0);
+      
+      // If 2 PM has already passed, set target for tomorrow
+      if (centralTime > target) {
+        target.setDate(target.getDate() + 1);
+      }
+      
+      // Calculate time difference
+      const diff = target - centralTime;
+      
+      if (diff > 0) {
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((diff / (1000 * 60)) % 60);
+        const seconds = Math.floor((diff / 1000) % 60);
+        
+        // Update display with leading zeros
+        document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+        document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+        document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+      } else {
+        // Time's up!
+        document.getElementById('hours').textContent = '00';
+        document.getElementById('minutes').textContent = '00';
+        document.getElementById('seconds').textContent = '00';
+      }
+    }
+    
+    // Update immediately on load
+    updateCountdown();
+    
+    // Update every second
+    setInterval(updateCountdown, 1000);
+  </script>
 
 </body>
 </html>
