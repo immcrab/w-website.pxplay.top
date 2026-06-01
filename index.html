@@ -1,528 +1,320 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Nexus Web Development — Coming Soon</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Syne:wght@400;500;600&display=swap" rel="stylesheet"/>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Under Maintenance</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    :root {
-      --bg: #050810;
-      --surface: #0b1120;
-      --accent: #00e5ff;
-      --accent2: #7b2fff;
-      --text: #e8eaf6;
-      --muted: #6b7aaa;
-      --glow: 0 0 30px rgba(0, 229, 255, 0.35);
-    }
+        html, body {
+            height: 100%;
+            width: 100%;
+        }
 
-    html, body {
-      height: 100%;
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Syne', sans-serif;
-      overflow-x: hidden;
-    }
+        body {
+            font-family: 'Segoe UI', Trebuchet MS, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 50%, #16213e 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            color: #fff;
+            overflow: hidden;
+        }
 
-    /* Animated grid background */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(0,229,255,0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,229,255,0.04) 1px, transparent 1px);
-      background-size: 60px 60px;
-      animation: gridDrift 20s linear infinite;
-      pointer-events: none;
-      z-index: 0;
-    }
+        /* Animated background elements */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
 
-    @keyframes gridDrift {
-      0% { background-position: 0 0; }
-      100% { background-position: 60px 60px; }
-    }
+        .floating-shape {
+            position: absolute;
+            opacity: 0.1;
+            animation: float 20s infinite ease-in-out;
+        }
 
-    /* Radial glow blobs */
-    .blob {
-      position: fixed;
-      border-radius: 50%;
-      filter: blur(120px);
-      opacity: 0.18;
-      pointer-events: none;
-      z-index: 0;
-      animation: blobFloat 8s ease-in-out infinite alternate;
-    }
-    .blob-1 { width: 600px; height: 600px; background: var(--accent2); top: -150px; left: -150px; }
-    .blob-2 { width: 500px; height: 500px; background: var(--accent); bottom: -120px; right: -120px; animation-delay: -4s; }
+        .shape-1 {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, #00d4ff, transparent);
+            border-radius: 50%;
+            top: -100px;
+            left: -100px;
+            animation-delay: 0s;
+        }
 
-    @keyframes blobFloat {
-      from { transform: translate(0, 0) scale(1); }
-      to   { transform: translate(30px, 20px) scale(1.08); }
-    }
+        .shape-2 {
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, #ff006e, transparent);
+            border-radius: 50%;
+            bottom: -80px;
+            right: -80px;
+            animation-delay: 2s;
+        }
 
-    /* Main layout */
-    .container {
-      position: relative;
-      z-index: 1;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem;
-      text-align: center;
-    }
+        .shape-3 {
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, #00d4ff, transparent);
+            border-radius: 50%;
+            top: 50%;
+            right: 5%;
+            animation-delay: 4s;
+        }
 
-    /* Logo / wordmark */
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 3rem;
-      animation: fadeDown 0.9s ease both;
-    }
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) translateX(0px);
+            }
+            50% {
+                transform: translateY(30px) translateX(20px);
+            }
+        }
 
-    .logo-icon {
-      width: 52px;
-      height: 52px;
-      position: relative;
-    }
+        /* Main content */
+        .container {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 20px;
+            max-width: 700px;
+            animation: fadeInUp 0.8s ease-out;
+        }
 
-    .logo-icon svg {
-      width: 100%;
-      height: 100%;
-      filter: drop-shadow(0 0 10px var(--accent));
-    }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-    .logo-text {
-      font-family: 'Orbitron', monospace;
-      font-size: 1.5rem;
-      font-weight: 900;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
+        .icon {
+            font-size: 80px;
+            margin-bottom: 30px;
+            animation: pulse 2s infinite;
+        }
 
-    /* Countdown timer */
-    .timer-section {
-      margin-bottom: 2rem;
-      animation: fadeDown 0.9s ease 0.1s both;
-    }
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.05);
+                opacity: 0.8;
+            }
+        }
 
-    .timer-label {
-      font-size: 0.85rem;
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 0.8rem;
-    }
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #00d4ff, #ff006e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -2px;
+        }
 
-    .timer-display {
-      display: flex;
-      gap: 1.2rem;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
+        .subtitle {
+            font-size: 1.3rem;
+            color: #b8bfff;
+            margin-bottom: 40px;
+            font-weight: 300;
+            line-height: 1.6;
+        }
 
-    .timer-unit {
-      background: rgba(0,229,255,0.08);
-      border: 1px solid rgba(0,229,255,0.25);
-      border-radius: 12px;
-      padding: 1rem 1.5rem;
-      min-width: 90px;
-      box-shadow: 0 0 20px rgba(0,229,255,0.08);
-    }
+        .status-bar {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 40px 0;
+            backdrop-filter: blur(10px);
+        }
 
-    .timer-value {
-      font-family: 'Orbitron', monospace;
-      font-size: 2rem;
-      font-weight: 900;
-      color: var(--accent);
-      line-height: 1;
-      text-shadow: 0 0 10px rgba(0,229,255,0.5);
-    }
+        .status-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 15px 0;
+            font-size: 0.95rem;
+        }
 
-    .timer-label-small {
-      font-size: 0.65rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-top: 0.5rem;
-    }
+        .status-label {
+            color: #b8bfff;
+        }
 
-    /* Headline */
-    .headline {
-      font-family: 'Orbitron', monospace;
-      font-size: clamp(2.4rem, 7vw, 5.5rem);
-      font-weight: 900;
-      line-height: 1.05;
-      letter-spacing: -0.01em;
-      margin-bottom: 1.5rem;
-      animation: fadeDown 0.9s ease 0.15s both;
-    }
+        .status-dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #00d4ff;
+            animation: blink 2s infinite;
+            margin-right: 8px;
+        }
 
-    .headline .line-1 { display: block; color: var(--text); }
-    .headline .line-2 {
-      display: block;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
+        @keyframes blink {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.3;
+            }
+        }
 
-    /* Status badge */
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(0,229,255,0.08);
-      border: 1px solid rgba(0,229,255,0.25);
-      border-radius: 100px;
-      padding: 0.4rem 1.1rem;
-      font-size: 0.78rem;
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 3rem;
-      animation: fadeDown 0.9s ease 0.05s both;
-    }
+        .cta-section {
+            margin-top: 50px;
+        }
 
-    .badge-dot {
-      width: 7px; height: 7px;
-      border-radius: 50%;
-      background: var(--accent);
-      box-shadow: 0 0 8px var(--accent);
-      animation: pulse 1.5s ease-in-out infinite;
-    }
+        .email-input {
+            display: flex;
+            gap: 10px;
+            max-width: 400px;
+            margin: 0 auto 20px;
+        }
 
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50%       { opacity: 0.4; transform: scale(0.8); }
-    }
+        input[type="email"] {
+            flex: 1;
+            padding: 12px 16px;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
 
-    /* Description card */
-    .card {
-      background: rgba(11, 17, 32, 0.75);
-      border: 1px solid rgba(0,229,255,0.12);
-      border-radius: 20px;
-      padding: 2.5rem 3rem;
-      max-width: 680px;
-      width: 100%;
-      backdrop-filter: blur(12px);
-      animation: fadeUp 0.9s ease 0.3s both;
-      box-shadow: 0 0 60px rgba(0,229,255,0.06), 0 20px 60px rgba(0,0,0,0.4);
-    }
+        input[type="email"]::placeholder {
+            color: rgba(184, 191, 255, 0.5);
+        }
 
-    .card p {
-      font-size: 1.05rem;
-      line-height: 1.75;
-      color: #b0bcd8;
-      margin-bottom: 1.1rem;
-    }
+        input[type="email"]:focus {
+            outline: none;
+            border-color: #00d4ff;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
+            background: rgba(255, 255, 255, 0.08);
+        }
 
-    .card p:last-child { margin-bottom: 0; }
+        button {
+            padding: 12px 28px;
+            background: linear-gradient(135deg, #00d4ff, #0099cc);
+            color: #1a1a2e;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+        }
 
-    .card strong {
-      color: var(--text);
-      font-weight: 600;
-    }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(0, 212, 255, 0.4);
+        }
 
-    .highlight {
-      color: var(--accent);
-      font-weight: 600;
-    }
+        button:active {
+            transform: translateY(0);
+        }
 
-    /* Feature pills */
-    .features {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.65rem;
-      justify-content: center;
-      margin-top: 2rem;
-      animation: fadeUp 0.9s ease 0.45s both;
-    }
+        .info-text {
+            font-size: 0.85rem;
+            color: #888;
+            margin-top: 20px;
+        }
 
-    .pill {
-      background: rgba(123,47,255,0.12);
-      border: 1px solid rgba(123,47,255,0.3);
-      border-radius: 100px;
-      padding: 0.4rem 1rem;
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: #c4b5fd;
-      letter-spacing: 0.04em;
-      transition: background 0.2s, border-color 0.2s;
-    }
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
 
-    .pill:hover {
-      background: rgba(123,47,255,0.25);
-      border-color: rgba(123,47,255,0.6);
-    }
+            .subtitle {
+                font-size: 1.1rem;
+            }
 
-    /* Link coming soon line */
-    .coming-link {
-      margin-top: 2.5rem;
-      font-size: 0.9rem;
-      color: var(--muted);
-      animation: fadeUp 0.9s ease 0.55s both;
-      letter-spacing: 0.03em;
-    }
+            .icon {
+                font-size: 60px;
+            }
 
-    .coming-link span {
-      color: var(--accent);
-      font-weight: 600;
-    }
-
-    /* Footer */
-    footer {
-      position: relative;
-      z-index: 1;
-      padding: 1.5rem;
-      text-align: center;
-      font-size: 0.75rem;
-      color: var(--muted);
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      animation: fadeUp 0.9s ease 0.65s both;
-    }
-
-    /* Animations */
-    @keyframes fadeDown {
-      from { opacity: 0; transform: translateY(-22px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(22px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Broadcast banner */
-    .broadcast {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      background: linear-gradient(90deg, rgba(123,47,255,0.15), rgba(0,229,255,0.15));
-      border-bottom: 2px solid rgba(123,47,255,0.4);
-      padding: 0.9rem 1.5rem;
-      text-align: center;
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: #c4b5fd;
-      letter-spacing: 0.08em;
-      z-index: 998;
-      animation: slideDown 0.8s ease;
-      backdrop-filter: blur(10px);
-    }
-
-    .broadcast span {
-      color: var(--accent);
-    }
-
-    @keyframes slideDown {
-      from { transform: translateY(-100%); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-
-    /* Adjust container to account for broadcast */
-    .container {
-      padding-top: 5rem;
-    }
-
-    /* Scanline overlay */
-    body::after {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background: repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 3px,
-        rgba(0,0,0,0.07) 3px,
-        rgba(0,0,0,0.07) 4px
-      );
-      pointer-events: none;
-      z-index: 999;
-    }
-  </style>
+            .email-input {
+                flex-direction: column;
+            }
+        }
+    </style>
 </head>
 <body>
-
-  <div class="broadcast">
-    ⚠️ <span>HEADS UP:</span> Website may contain bugs at launch — we're working hard to make it smooth!
-  </div>
-
-  <div class="blob blob-1"></div>
-  <div class="blob blob-2"></div>
-
-  <div class="container">
-
-    <div class="badge">
-      <span class="badge-dot"></span>
-      Something big is coming soon!
+    <div class="bg-animation">
+        <div class="floating-shape shape-1"></div>
+        <div class="floating-shape shape-2"></div>
+        <div class="floating-shape shape-3"></div>
     </div>
 
-    <div class="logo">
-      <div class="logo-icon">
-        <svg viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <polygon points="26,4 48,16 48,36 26,48 4,36 4,16" stroke="#00e5ff" stroke-width="2" fill="rgba(0,229,255,0.06)"/>
-          <polygon points="26,12 40,20 40,32 26,40 12,32 12,20" stroke="#7b2fff" stroke-width="1.5" fill="rgba(123,47,255,0.08)"/>
-          <circle cx="26" cy="26" r="6" fill="#00e5ff" opacity="0.9"/>
-          <line x1="26" y1="4"  x2="26" y2="20" stroke="#00e5ff" stroke-width="1.2" opacity="0.5"/>
-          <line x1="26" y1="32" x2="26" y2="48" stroke="#00e5ff" stroke-width="1.2" opacity="0.5"/>
-          <line x1="4"  y1="16" x2="18" y2="22" stroke="#00e5ff" stroke-width="1.2" opacity="0.5"/>
-          <line x1="34" y1="30" x2="48" y2="36" stroke="#00e5ff" stroke-width="1.2" opacity="0.5"/>
-          <line x1="48" y1="16" x2="34" y2="22" stroke="#00e5ff" stroke-width="1.2" opacity="0.5"/>
-          <line x1="18" y1="30" x2="4"  y2="36" stroke="#00e5ff" stroke-width="1.2" opacity="0.5"/>
-        </svg>
-      </div>
-      <span class="logo-text">Nexus Web Dev</span>
-    </div>
+    <div class="container">
+        <div class="icon">🔧</div>
+        <h1>We're Updating</h1>
+        <p class="subtitle">Our website is currently under maintenance. We'll be back online shortly with some exciting improvements.</p>
 
-    <!-- Countdown Timer -->
-    <div class="timer-section">
-      <div class="timer-label">Launching in</div>
-      <div class="timer-display">
-        <div class="timer-unit">
-          <div class="timer-value" id="hours">00</div>
-          <div class="timer-label-small">Hours</div>
+        <div class="status-bar">
+            <div class="status-item">
+                <span class="status-label">Status:</span>
+                <span><span class="status-dot"></span>In Progress</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Expected Time:</span>
+                <span>A few hours</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Last Update:</span>
+                <span id="update-time">Just now</span>
+            </div>
         </div>
-        <div class="timer-unit">
-          <div class="timer-value" id="minutes">00</div>
-          <div class="timer-label-small">Minutes</div>
+
+        <div class="cta-section">
+            <p style="margin-bottom: 20px; color: #b8bfff;">Get notified when we're back</p>
+            <form class="email-input" action="https://formspree.io/f/xyzpaqno" method="POST">
+                <input type="email" name="email" placeholder="your@email.com" required>
+                <button type="submit">Notify Me</button>
+            </form>
+            <p class="info-text">Notifications will be sent to: <strong>wwebsiteofficial@outlook.com</strong></p>
         </div>
-        <div class="timer-unit">
-          <div class="timer-value" id="seconds">00</div>
-          <div class="timer-label-small">Seconds</div>
-        </div>
-      </div>
     </div>
 
-    <h1 class="headline">
-      <span class="line-1">We're Taking a</span>
-      <span class="line-2">New Direction.</span>
-    </h1>
-
-    <div class="card">
-      <p>
-        This website is currently on <strong>pause</strong> — and for a great reason.
-        With school officially wrapped up, we're channeling all our energy into something
-        much bigger: <span class="highlight">Nexus Web Development</span>.
-      </p>
-      <p>
-        Nexus is our brand-new venture — a full web app builder where you can create
-        stunning websites and applications <strong>without needing credits just to get started</strong>.
-        Also this website will turn back to wwebsite. We will add this website in wwebsite games section. Official day of realease 06/26/2026
-      </p>
-      <p>
-        We'll also be <strong>building custom websites for clients</strong> — so whether you need
-        a landing page, a portfolio, or a full product, we've got you covered.
-      </p>
-    </div>
-
-    <div class="features">
-      <span class="pill">⚡ No upfront credits</span>
-      <span class="pill">🚀 Full web app builder</span>
-      <span class="pill">🎨 Custom website design</span>
-      <span class="pill">🔗 Client websites</span>
-      <span class="pill">✨ Built for everyone</span>
-    </div>
-
-    <p class="coming-link">
-    If you would like to contact us about what we should add please email us at <span>nexuswebdevelopment@outlook.com</span> — We will try to respond as quick as possible!
-    </p>
-
-  </div>
-
-  <footer>
-    &copy; 2026 Nexus Web Development &nbsp;·&nbsp; Big things take time.
-  </footer>
-
-  <script>
-    function updateCountdown() {
-      try {
-        // Get current time in Central Time
-        const formatter = new Intl.DateTimeFormat('en-US', {
-          timeZone: 'America/Chicago',
-          year: 'numeric',
-          month: '2-digit',
-          day: '2-digit',
-          hour: '2-digit',
-          minute: '2-digit',
-          second: '2-digit',
-          hour12: false
-        });
-        
-        const parts = formatter.formatToParts(new Date());
-        const partsObj = {};
-        parts.forEach(part => {
-          partsObj[part.type] = part.value;
-        });
-        
-        const year = parseInt(partsObj.year);
-        const month = parseInt(partsObj.month) - 1;
-        const day = parseInt(partsObj.day);
-        const hour = parseInt(partsObj.hour);
-        const minute = parseInt(partsObj.minute);
-        const second = parseInt(partsObj.second);
-        
-        // Create current time in CT
-        const now = new Date(year, month, day, hour, minute, second);
-        
-        // Create target: 2:00 PM CT today
-        let target = new Date(year, month, day, 14, 0, 0);
-        
-        // If 2 PM has passed, target is tomorrow at 2 PM
-        if (now > target) {
-          target = new Date(year, month, day + 1, 14, 0, 0);
+    <script>
+        function handleSubmit(event) {
+            event.preventDefault();
+            alert('Thank you! We\'ll notify you when we\'re back online.');
+            event.target.reset();
         }
-        
-        const diff = target - now;
-        
-        if (diff > 0) {
-          const totalSeconds = Math.floor(diff / 1000);
-          const hours = Math.floor(totalSeconds / 3600);
-          const minutes = Math.floor((totalSeconds % 3600) / 60);
-          const seconds = totalSeconds % 60;
-          
-          const hoursEl = document.getElementById('hours');
-          const minutesEl = document.getElementById('minutes');
-          const secondsEl = document.getElementById('seconds');
-          
-          if (hoursEl) hoursEl.textContent = String(hours).padStart(2, '0');
-          if (minutesEl) minutesEl.textContent = String(minutes).padStart(2, '0');
-          if (secondsEl) secondsEl.textContent = String(seconds).padStart(2, '0');
-        } else {
-          document.getElementById('hours').textContent = '00';
-          document.getElementById('minutes').textContent = '00';
-          document.getElementById('seconds').textContent = '00';
-        }
-      } catch (e) {
-        console.error('Timer error:', e);
-      }
-    }
-    
-    // Ensure DOM is ready before updating
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', function() {
-        updateCountdown();
-        setInterval(updateCountdown, 1000);
-      });
-    } else {
-      updateCountdown();
-      setInterval(updateCountdown, 1000);
-    }
-  </script>
 
+        // Update the "last update" time
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            document.getElementById('update-time').textContent = timeString;
+        }
+
+        updateTime();
+        setInterval(updateTime, 60000);
+    </script>
 </body>
 </html>
