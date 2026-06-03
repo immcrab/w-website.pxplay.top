@@ -6,16 +6,18 @@
     <title>Textnexus × Scribble AI - The Collaboration Begins</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #ff006e;
-            --secondary: #00f5ff;
-            --accent: #7209b7;
-            --dark-bg: #0a0e27;
-            --card-bg: rgba(15, 15, 35, 0.8);
+            --primary: #ff1b6d;
+            --secondary: #00f0ff;
+            --accent: #8b5cf6;
+            --dark-bg: #0f0f1e;
+            --card-bg: rgba(20, 20, 40, 0.6);
             --text-primary: #ffffff;
-            --text-secondary: #b0b0d0;
+            --text-secondary: #a8aac5;
+            --glow-primary: rgba(255, 27, 109, 0.25);
+            --glow-secondary: rgba(0, 240, 255, 0.25);
         }
 
         * {
@@ -29,8 +31,8 @@
         }
 
         body {
-            font-family: 'Syne', sans-serif;
-            background: linear-gradient(135deg, var(--dark-bg) 0%, #1a0f35 50%, #2d1b4e 100%);
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, var(--dark-bg) 0%, #1a1530 50%, #0f1f35 100%);
             background-attachment: fixed;
             min-height: 100vh;
             color: var(--text-primary);
@@ -38,6 +40,7 @@
             position: relative;
         }
 
+        /* Animated gradient background */
         body::before {
             content: '';
             position: fixed;
@@ -46,8 +49,34 @@
             width: 100%;
             height: 100%;
             background: 
-                radial-gradient(circle at 20% 80%, rgba(255, 0, 110, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(2, 245, 255, 0.1) 0%, transparent 50%);
+                radial-gradient(circle at 15% 50%, var(--glow-primary) 0%, transparent 40%),
+                radial-gradient(circle at 85% 50%, var(--glow-secondary) 0%, transparent 40%);
+            pointer-events: none;
+            z-index: 0;
+            animation: gradientShift 8s ease-in-out infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% {
+                opacity: 0.8;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+
+        /* Grid background pattern */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
             pointer-events: none;
             z-index: 0;
         }
@@ -55,145 +84,184 @@
         .container {
             position: relative;
             z-index: 1;
-            max-width: 1200px;
+            max-width: 1300px;
             margin: 0 auto;
-            padding: 60px 40px;
+            padding: 80px 40px;
         }
 
         /* Header Section */
         .header {
             text-align: center;
-            margin-bottom: 120px;
-            animation: fadeInDown 1s ease;
-            padding: 40px 0;
-        }
-
-        .logo-wrapper {
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0;
-            flex-wrap: wrap;
+            margin-bottom: 100px;
+            animation: slideInDown 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
         .product-name {
-            font-family: 'Space Mono', monospace;
-            font-size: 4rem;
-            font-weight: 700;
-            letter-spacing: 3px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 5.5rem;
+            font-weight: 800;
+            letter-spacing: -2px;
             display: flex;
             align-items: center;
-            gap: 30px;
-            flex-wrap: wrap;
             justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            line-height: 1.1;
         }
 
         .textnexus {
-            background: linear-gradient(135deg, var(--secondary) 0%, #00d4ff 100%);
+            background: linear-gradient(135deg, var(--secondary) 0%, #00e8ff 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            filter: drop-shadow(0 0 20px rgba(0, 240, 255, 0.3));
         }
 
         .scribble {
-            background: linear-gradient(135deg, var(--primary) 0%, #ff3d82 100%);
+            background: linear-gradient(135deg, var(--primary) 0%, #ff4d7f 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            filter: drop-shadow(0 0 20px rgba(255, 27, 109, 0.3));
         }
 
         .x-symbol {
-            font-size: 3.5rem;
-            color: rgba(255, 255, 255, 0.4);
-            font-weight: 800;
-            opacity: 0.6;
+            font-size: 3rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            opacity: 0.7;
+            letter-spacing: 8px;
         }
 
         .tagline {
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             color: var(--text-secondary);
-            margin-top: 40px;
-            letter-spacing: 3px;
-            font-weight: 400;
+            letter-spacing: 2px;
+            font-weight: 500;
             text-transform: uppercase;
+            margin-top: 10px;
         }
 
+        /* URL Display Section */
+        .url-display {
+            background: linear-gradient(135deg, var(--card-bg) 0%, rgba(20, 20, 40, 0.4) 100%);
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            border-radius: 12px;
+            padding: 28px 35px;
+            margin: 50px auto 0;
+            max-width: 600px;
+            backdrop-filter: blur(20px);
+            animation: slideInUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
 
+        .url-display::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .url-display:hover {
+            border-color: rgba(0, 240, 255, 0.4);
+            background: linear-gradient(135deg, rgba(20, 20, 40, 0.8) 0%, rgba(20, 20, 40, 0.6) 100%);
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.2);
+            transform: translateY(-4px);
+        }
+
+        .url-display:hover::before {
+            left: 100%;
+        }
+
+        .url-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+            position: relative;
+            z-index: 1;
+        }
+
+        .url-text {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.05rem;
+            color: var(--secondary);
+            font-weight: 600;
+            position: relative;
+            z-index: 1;
+            letter-spacing: 0.5px;
+        }
+
+        .copy-indicator {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .copy-indicator.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
         /* Countdown Section */
         .countdown-section {
-            background: transparent;
-            border: none;
-            border-radius: 0;
-            padding: 100px 40px;
+            margin-top: 120px;
             margin-bottom: 120px;
-            backdrop-filter: none;
-            animation: fadeInUp 1s ease 0.3s both;
-            position: relative;
-            overflow: visible;
-        }
-
-        .countdown-section::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 800px;
-            height: 800px;
-            background: radial-gradient(circle, rgba(2, 245, 255, 0.08) 0%, transparent 70%);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .countdown-section::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 600px;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, rgba(2, 245, 255, 0.3), transparent);
-            pointer-events: none;
-            z-index: 0;
+            animation: slideInUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s both;
         }
 
         .countdown-title {
-            font-size: 0.85rem;
-            margin-bottom: 80px;
+            font-size: 0.95rem;
+            margin-bottom: 60px;
             text-transform: uppercase;
-            letter-spacing: 4px;
+            letter-spacing: 3px;
             text-align: center;
             color: var(--text-secondary);
-            position: relative;
-            z-index: 1;
-            font-weight: 400;
+            font-weight: 600;
         }
 
         .countdown {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            position: relative;
-            z-index: 1;
-            margin-bottom: 0;
-            max-width: 900px;
-            margin-left: auto;
-            margin-right: auto;
+            gap: 16px;
+            max-width: 1000px;
+            margin: 0 auto;
         }
 
         .time-unit {
-            background: linear-gradient(135deg, rgba(2, 245, 255, 0.06) 0%, rgba(255, 0, 110, 0.02) 100%);
-            border: 1px solid rgba(2, 245, 255, 0.15);
-            border-radius: 8px;
-            padding: 45px 30px;
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.08) 0%, rgba(255, 27, 109, 0.04) 100%);
+            border: 1px solid rgba(0, 240, 255, 0.15);
+            border-radius: 16px;
+            padding: 50px 30px;
             text-align: center;
-            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
             position: relative;
             overflow: hidden;
+            backdrop-filter: blur(10px);
         }
 
         .time-unit::before {
@@ -203,85 +271,72 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(135deg, rgba(2, 245, 255, 0.1) 0%, transparent 100%);
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.08) 0%, transparent 100%);
             opacity: 0;
-            transition: opacity 0.5s ease;
-            z-index: 0;
-        }
-
-        .time-unit::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--secondary), transparent);
-            opacity: 0;
-            transition: opacity 0.5s ease;
+            transition: opacity 0.4s ease;
             z-index: 0;
         }
 
         .time-unit:hover {
             transform: translateY(-8px);
-            border-color: rgba(2, 245, 255, 0.35);
-            background: linear-gradient(135deg, rgba(2, 245, 255, 0.12) 0%, rgba(255, 0, 110, 0.05) 100%);
-            box-shadow: 0 20px 60px rgba(2, 245, 255, 0.15);
+            border-color: rgba(0, 240, 255, 0.3);
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.12) 0%, rgba(255, 27, 109, 0.06) 100%);
+            box-shadow: 0 20px 60px rgba(0, 240, 255, 0.15);
         }
 
         .time-unit:hover::before {
             opacity: 1;
         }
 
-        .time-unit:hover::after {
-            opacity: 1;
-        }
-
         .time-value {
-            font-family: 'Space Mono', monospace;
-            font-size: 4rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 4.5rem;
             font-weight: 700;
             display: block;
             line-height: 0.9;
-            background: linear-gradient(135deg, var(--secondary) 0%, #00e0ff 50%, var(--primary) 100%);
+            background: linear-gradient(135deg, var(--secondary) 0%, #00e8ff 50%, var(--accent) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             position: relative;
             z-index: 1;
-            letter-spacing: 3px;
+            letter-spacing: 4px;
             margin-bottom: 15px;
         }
 
         .time-label {
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             text-transform: uppercase;
-            letter-spacing: 3px;
+            letter-spacing: 2px;
             color: var(--text-secondary);
             position: relative;
             z-index: 1;
-            font-weight: 400;
-            word-spacing: 100vw;
+            font-weight: 600;
         }
 
         .launch-message {
             display: none;
             text-align: center;
-            font-size: 2.5rem;
+            font-size: 3rem;
             font-weight: 800;
             animation: pulse-launch 1.5s ease-in-out infinite;
             position: relative;
             z-index: 1;
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 20px rgba(0, 240, 255, 0.3));
         }
 
         /* Email Section */
         .email-section {
-            background: transparent;
-            border: 1px solid rgba(2, 245, 255, 0.15);
-            border-radius: 2px;
-            padding: 80px 40px;
-            backdrop-filter: blur(10px);
-            animation: fadeInUp 1s ease 0.5s both;
+            background: linear-gradient(135deg, rgba(20, 20, 40, 0.7) 0%, rgba(20, 20, 40, 0.5) 100%);
+            border: 1px solid rgba(0, 240, 255, 0.15);
+            border-radius: 20px;
+            padding: 80px 50px;
+            backdrop-filter: blur(20px);
+            animation: slideInUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s both;
             position: relative;
             overflow: hidden;
         }
@@ -289,24 +344,36 @@
         .email-section::before {
             content: '';
             position: absolute;
-            top: 0;
-            right: 0;
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(255, 0, 110, 0.05) 0%, transparent 70%);
+            top: 50%;
+            right: -150px;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, var(--glow-primary) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .email-section::after {
+            content: '';
+            position: absolute;
+            top: -150px;
+            left: -150px;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, var(--glow-secondary) 0%, transparent 70%);
             border-radius: 50%;
             pointer-events: none;
         }
 
         .email-title {
-            font-size: 0.9rem;
+            font-size: 1rem;
             margin-bottom: 12px;
             text-align: center;
             color: var(--secondary);
-            letter-spacing: 3px;
+            letter-spacing: 2px;
             position: relative;
             z-index: 1;
-            font-weight: 400;
+            font-weight: 700;
             text-transform: uppercase;
         }
 
@@ -314,11 +381,11 @@
             text-align: center;
             color: var(--text-secondary);
             margin-bottom: 45px;
-            font-size: 0.95rem;
+            font-size: 1rem;
             position: relative;
             z-index: 1;
             font-weight: 300;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
         }
 
         #email-form {
@@ -332,16 +399,17 @@
 
         #email-form input[type="email"] {
             flex: 1;
-            padding: 18px 24px;
-            border: 1px solid rgba(2, 245, 255, 0.2);
-            border-radius: 2px;
-            background: rgba(255, 255, 255, 0.02);
+            padding: 16px 24px;
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.04);
             color: var(--text-primary);
             font-size: 0.95rem;
-            font-family: 'Syne', sans-serif;
-            transition: all 0.4s ease;
+            font-family: 'Outfit', sans-serif;
+            transition: all 0.3s ease;
             backdrop-filter: blur(10px);
             letter-spacing: 0.5px;
+            font-weight: 400;
         }
 
         #email-form input[type="email"]::placeholder {
@@ -351,25 +419,26 @@
         #email-form input[type="email"]:focus {
             outline: none;
             border-color: var(--secondary);
-            background: rgba(2, 245, 255, 0.05);
-            box-shadow: inset 0 0 20px rgba(2, 245, 255, 0.1);
+            background: rgba(0, 240, 255, 0.08);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.15);
         }
 
         #email-form button {
-            padding: 18px 40px;
-            background: linear-gradient(135deg, var(--secondary) 0%, #00d4ff 100%);
+            padding: 16px 45px;
+            background: linear-gradient(135deg, var(--secondary) 0%, #00d9ff 100%);
             border: none;
-            border-radius: 2px;
+            border-radius: 10px;
             color: var(--dark-bg);
-            font-weight: 600;
+            font-weight: 700;
             font-size: 0.9rem;
             cursor: pointer;
-            transition: all 0.4s ease;
-            font-family: 'Syne', sans-serif;
-            letter-spacing: 1.5px;
+            transition: all 0.3s ease;
+            font-family: 'Outfit', sans-serif;
+            letter-spacing: 1px;
             position: relative;
             overflow: hidden;
             text-transform: uppercase;
+            box-shadow: 0 10px 30px rgba(0, 240, 255, 0.2);
         }
 
         #email-form button::before {
@@ -379,8 +448,8 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: rgba(255,255,255,0.2);
-            transition: left 0.6s ease;
+            background: rgba(255, 255, 255, 0.15);
+            transition: left 0.5s ease;
         }
 
         #email-form button:hover::before {
@@ -388,8 +457,8 @@
         }
 
         #email-form button:hover:not(:disabled) {
-            transform: translateY(-1px);
-            box-shadow: 0 20px 50px rgba(2, 245, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(0, 240, 255, 0.3);
         }
 
         #email-form button:disabled {
@@ -399,7 +468,7 @@
 
         [data-fs-error] {
             color: #ff6b6b;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             display: none;
             position: relative;
             z-index: 1;
@@ -413,11 +482,11 @@
 
         [data-fs-success] {
             background: linear-gradient(135deg, rgba(76, 175, 80, 0.15) 0%, rgba(56, 142, 60, 0.1) 100%);
-            border: 2px solid rgba(76, 175, 80, 0.4);
+            border: 1px solid rgba(76, 175, 80, 0.4);
             color: #4CAF50;
-            padding: 20px 25px;
-            border-radius: 12px;
-            font-weight: 700;
+            padding: 16px 24px;
+            border-radius: 10px;
+            font-weight: 600;
             display: none;
             animation: slideIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
             position: relative;
@@ -426,6 +495,7 @@
             margin: 0 auto;
             text-align: center;
             backdrop-filter: blur(10px);
+            font-size: 0.95rem;
         }
 
         [data-fs-success]:not(:empty) {
@@ -433,10 +503,10 @@
         }
 
         /* Animations */
-        @keyframes fadeInDown {
+        @keyframes slideInDown {
             from {
                 opacity: 0;
-                transform: translateY(-30px);
+                transform: translateY(-40px);
             }
             to {
                 opacity: 1;
@@ -444,34 +514,14 @@
             }
         }
 
-        @keyframes fadeInUp {
+        @keyframes slideInUp {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(40px);
             }
             to {
                 opacity: 1;
                 transform: translateY(0);
-            }
-        }
-
-        @keyframes glitch {
-            0%, 100% {
-                filter: brightness(1);
-            }
-            50% {
-                filter: brightness(1.05);
-            }
-        }
-
-        @keyframes pulse-glow {
-            0%, 100% {
-                text-shadow: none;
-                transform: scale(1);
-            }
-            50% {
-                text-shadow: none;
-                transform: scale(1);
             }
         }
 
@@ -492,53 +542,44 @@
                 transform: scale(1);
             }
             50% {
-                opacity: 0.8;
-                transform: scale(1.05);
+                opacity: 0.85;
+                transform: scale(1.08);
             }
         }
 
         /* Responsive */
         @media (max-width: 768px) {
             .container {
-                padding: 40px 20px;
-            }
-
-            .header {
-                margin-bottom: 80px;
-                padding: 20px 0;
+                padding: 50px 20px;
             }
 
             .product-name {
-                font-size: 2.5rem;
-                gap: 15px;
+                font-size: 2.8rem;
+                gap: 12px;
+                letter-spacing: -1px;
             }
 
             .countdown {
                 grid-template-columns: repeat(2, 1fr);
-                gap: 15px;
+                gap: 12px;
             }
 
             .time-value {
-                font-size: 2.8rem;
-                margin-bottom: 12px;
+                font-size: 3rem;
+                margin-bottom: 10px;
             }
 
             .time-unit {
-                padding: 35px 25px;
+                padding: 35px 20px;
             }
 
             .countdown-section {
-                padding: 70px 25px;
+                margin-top: 80px;
                 margin-bottom: 80px;
             }
 
-            .countdown-section::before {
-                width: 500px;
-                height: 500px;
-            }
-
             .email-section {
-                padding: 60px 25px;
+                padding: 60px 30px;
             }
 
             #email-form {
@@ -546,38 +587,35 @@
                 gap: 12px;
             }
 
-            .tagline {
-                font-size: 0.85rem;
+            #email-form input[type="email"],
+            #email-form button {
+                width: 100%;
+            }
+
+            .url-display {
+                padding: 20px 25px;
+                max-width: 90%;
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .url-text {
+                font-size: 0.9rem;
             }
 
             .launch-message {
-                font-size: 1.8rem;
-            }
-
-            .x-symbol {
-                font-size: 2.5rem;
+                font-size: 2rem;
             }
 
             .countdown-title {
                 font-size: 0.85rem;
-                margin-bottom: 50px;
-            }
-
-            .email-title {
-                font-size: 0.85rem;
-            }
-
-            .time-label {
-                font-size: 0.65rem;
-                letter-spacing: 2px;
             }
         }
 
         @media (max-width: 480px) {
             .product-name {
                 font-size: 1.8rem;
-                gap: 10px;
-                letter-spacing: 2px;
+                gap: 8px;
             }
 
             .countdown {
@@ -590,52 +628,41 @@
             }
 
             .time-value {
-                font-size: 2rem;
+                font-size: 2.2rem;
                 margin-bottom: 8px;
             }
 
             .time-label {
-                font-size: 0.6rem;
-                letter-spacing: 1px;
+                font-size: 0.65rem;
             }
 
-            .countdown-title {
-                font-size: 0.8rem;
-                letter-spacing: 2px;
-                margin-bottom: 35px;
+            .countdown-section {
+                margin-top: 60px;
+                margin-bottom: 60px;
             }
 
-            .email-title {
-                font-size: 0.8rem;
+            .email-section {
+                padding: 50px 20px;
+            }
+
+            .url-display {
+                padding: 18px 20px;
+                font-size: 0.9rem;
+            }
+
+            .url-text {
+                font-size: 0.85rem;
             }
 
             .tagline {
                 font-size: 0.8rem;
-                margin-top: 30px;
             }
 
-            .x-symbol {
-                font-size: 1.8rem;
-            }
-
-            .countdown-section {
-                padding: 50px 15px;
-                margin-bottom: 60px;
-            }
-
-            .countdown-section::before {
-                width: 300px;
-                height: 300px;
-            }
-
-            .email-section {
-                padding: 50px 15px;
-            }
-
-            #email-form input[type="email"],
-            #email-form button {
-                font-size: 0.85rem;
-                padding: 16px 20px;
+            .copy-indicator {
+                top: 20px;
+                right: 20px;
+                font-size: 0.75rem;
+                padding: 10px 16px;
             }
         }
     </style>
@@ -644,19 +671,23 @@
     <div class="container">
         <!-- Header -->
         <div class="header">
-            <div class="logo-wrapper">
-                <div class="product-name">
-                    <span class="textnexus">Textnexus</span>
-                    <span class="x-symbol">×</span>
-                    <span class="scribble">Scribble AI</span>
-                </div>
+            <div class="product-name">
+                <span class="textnexus">Textnexus</span>
+                <span class="x-symbol">×</span>
+                <span class="scribble">Scribble AI</span>
             </div>
             <p class="tagline">Launching Soon</p>
+            
+            <!-- URL Display -->
+            <div class="url-display" onclick="copyURL()">
+                <span class="url-label">🚀 Live at</span>
+                <span class="url-text">nexus.web.dev.pxplay.top</span>
+            </div>
         </div>
 
         <!-- Countdown Section -->
         <div class="countdown-section">
-            <h2 class="countdown-title">Launching In</h2>
+            <h2 class="countdown-title">Time Until Launch</h2>
             <div class="countdown" id="countdown">
                 <div class="time-unit">
                     <span class="time-value" id="days">00</span>
@@ -683,7 +714,7 @@
         <!-- Email Signup Section -->
         <div class="email-section">
             <h2 class="email-title">Get Early Access</h2>
-            <p class="email-subtitle">Be first in line for the revolution</p>
+            <p class="email-subtitle">Be the first to experience the revolution</p>
             <div data-fs-success>✨ Success! Check your inbox for exclusive early-access details.</div>
             <form id="email-form">
                 <input 
@@ -700,7 +731,28 @@
         </div>
     </div>
 
+    <!-- Copy Indicator Toast -->
+    <div class="copy-indicator" id="copyIndicator">
+        ✓ URL copied to clipboard!
+    </div>
+
     <script>
+        // ========== EASY-TO-UPDATE CONFIG ==========
+        // Change this URL when you get a new one
+        const launchURL = 'https://nexus.web.dev.pxplay.top';
+        // ==========================================
+
+        // Copy URL to clipboard function
+        function copyURL() {
+            navigator.clipboard.writeText('nexus.web.dev.pxplay.top').then(() => {
+                const indicator = document.getElementById('copyIndicator');
+                indicator.classList.add('show');
+                setTimeout(() => {
+                    indicator.classList.remove('show');
+                }, 2000);
+            });
+        }
+
         // Set the target date: June 17, 2026 at 1:00 PM (13:00)
         const targetDate = new Date('June 17, 2026 13:00:00').getTime();
 
@@ -708,10 +760,16 @@
             const now = new Date().getTime();
             const distance = targetDate - now;
 
-            // If countdown is finished
+            // If countdown is finished - redirect to launch URL
             if (distance < 0) {
                 document.getElementById('countdown').style.display = 'none';
                 document.getElementById('launchMessage').style.display = 'block';
+                
+                // Redirect to the launch URL after showing the message briefly
+                setTimeout(() => {
+                    window.location.href = launchURL;
+                }, 2000); // 2 second delay to show the message
+                
                 return;
             }
 
